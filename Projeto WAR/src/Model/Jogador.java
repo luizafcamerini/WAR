@@ -2,27 +2,24 @@ package Model;
 import java.util.ArrayList;
 
 abstract class Jogador {
-    enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO }; //cores disponiveis
+    enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
     private ArrayList <Territorio> paises;
-    private int cor; //cor do jogador
-    public int qtdExe;
-    Territorio listaPAises[];
+    private Objetivos objetivo;
+    private int cor;
+    //vai ter cartas de troca?
 
-    public Jogador(int cor, int qtdExe){
+    public Jogador(int cor, ArrayList <Territorio> paisesIniciais, Objetivos obj){
         this.cor = cor;
-        this.qtdExe = qtdExe;
-    }
-    
-    public int getCor(){
-        return this.cor;
+        this.paises = paisesIniciais;
+        this.objetivo = obj;
     }
 
-    public void addPais(Territorio pais){
-        paises.add(pais);
-    }
+    //acoes do jogador:
+    //atacar
+    //defender
+    //mover as pecas (territorio origem -> territorio destino)
 
-    public void atacar(Territorio paisOri, Territorio paisDest){
-
-    }
-    
+    //efeitos sobre o jogador:
+    //perde um territorio => nao tem mais territorio, perde o jogo
+    //perde um exercito
 }
