@@ -16,6 +16,20 @@ public class Jogador {
         //ele ja eh adicionado na lista de jogadores do jogo
     }
 
+    public String getNome(){
+        return this.nome;
+    }
+
+    public Territorio getPais(String nomePais){
+        /** Funcao que retorna um pais pertencente ao jogador. */
+        for (int i=0; i<paises.size(); i++){
+            if (paises.get(i).nome == nomePais){
+                return paises.get(i);
+            }
+        }
+        return null;
+    }
+
     //acoes do jogador:
     //atacar
     //defender

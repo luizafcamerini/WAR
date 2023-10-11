@@ -21,4 +21,8 @@ abstract class Jogo {
         int i = rand.nextInt(tamLista); //escolhe entre 0 e tamLista-1
         return 0;
     }
+
+    private void distribuiCartas(){
+        /** Funcao que distribui as cartas para os jogadores e preenche o mapa com os exercitos */
+    }
 }
