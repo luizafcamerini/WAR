@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 class Jogador {
     public enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
-    private ArrayList <Territorio> paises;
+    public ArrayList <Territorio> paises = new ArrayList<Territorio>();
     private String nome;
     //private Objetivos objetivo;
     private Cores cor;
@@ -28,6 +28,10 @@ class Jogador {
             }
         }
         return null;
+    }
+
+    public void addPais(Territorio pais){
+        this.paises.add(pais);
     }
 
     //acoes do jogador:

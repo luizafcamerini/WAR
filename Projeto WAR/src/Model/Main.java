@@ -4,17 +4,18 @@ import Model.Jogador.Cores;
 
 public class Main {
     public static void main(String[] args) {
+        Jogo jogo = new Jogo();
+        
         Jogador jogador0 = new Jogador(Cores.BRANCO, "LUIZA");
         Jogador jogador1 = new Jogador(Cores.VERMELHO, "THOMAS");
         Jogador jogador2 = new Jogador(Cores.VERDE, "JERONIMO");
+        
+        jogo.rodada();
 
-        Mapa mapa = new Mapa();
-
-        //testando o mapa:
-        for (int i =0; i<mapa.paises.size(); i++){
-            System.out.printf("\n%s\n",mapa.paises.get(i).nome);
-            for (int j = 0; j<mapa.paises.get(i).vizinhos.size();j++){
-                System.out.println(mapa.paises.get(i).vizinhos.get(j).nome);
+        for (int i =0; i<Jogo.jogadores.size(); i++){
+            System.out.printf("\n%s\n",Jogo.jogadores.get(i).getNome());
+            for (int j=0; j<Jogo.jogadores.get(i).paises.size();j++){
+                System.out.printf("%s\n", Jogo.jogadores.get(i).paises.get(j).nome);
             }
         }
     }

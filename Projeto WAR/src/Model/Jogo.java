@@ -1,9 +1,11 @@
 package Model;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class Jogo {
     static ArrayList <Jogador> jogadores = new ArrayList<Jogador>();
+    Mapa mapa = new Mapa();
     
     public void rodada(){
         /** Funcao que estabelece o jogador atual da rodada e circula dentre os jogadores */
@@ -14,6 +16,7 @@ class Jogo {
             int jogador_atual = i % jogadores.size();
             //... o jogo fica rolando por aqui, ate alguem ganhar -> break;
             i++;
+            break;
         }
     }
 
@@ -26,6 +29,10 @@ class Jogo {
 
     private void distribuiCartas(int jogador){
         /** Funcao que distribui as cartas e preenche o mapa com os exercitos. Recebe o indice da lista de jogadores. */
-        
+        Collections.shuffle(mapa.paises); //embaralhar os paises para distribuir
+        //^^^ o metodo shuffle substitui a lista por uma embaralhada
+        for (int i = 0; i< mapa.paises.size(); i++){
+            jogadores.get(i%jogadores.size()).addPais(mapa.paises.get(i));
+        }
     }
 }
