@@ -8,6 +8,7 @@ abstract class Jogo {
     public void rodada(){
         /** Funcao que estabelece o jogador atual da rodada e circula dentre os jogadores */
         int i = escolheJogador(jogadores.size());
+        System.out.println("O jogador " + jogadores.get(i).getNome() + " começa distribuindo as cartas.");
         while (true){
             int jogador_atual = i % jogadores.size();
             //... o jogo fica rolando por aqui, ate alguem ganhar -> break;
@@ -19,7 +20,7 @@ abstract class Jogo {
         /** Funcao que escolhe um indice aleatorio na lista de jogadores. */
         Random rand = new Random();
         int i = rand.nextInt(tamLista); //escolhe entre 0 e tamLista-1
-        return 0;
+        return i; // pelo q entendi retorna o índice do jogador que vai começar distribuindo as cartas.
     }
 
     private void distribuiCartas(){

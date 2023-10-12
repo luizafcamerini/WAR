@@ -2,14 +2,14 @@ package Model;
 import java.util.ArrayList;
 
 public class Jogador {
-    enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
+    public enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
     private ArrayList <Territorio> paises;
     private String nome;
     //private Objetivos objetivo;
-    private int cor;
+    private Cores cor;
     //vai ter cartas de troca?
 
-    public Jogador(int cor, String nome){
+    public Jogador(Cores cor, String nome){
         this.cor = cor;
         this.nome = nome;
         Jogo.jogadores.add(this); //depois da construcao do jogador, 
