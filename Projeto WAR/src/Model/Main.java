@@ -15,7 +15,7 @@ public class Main {
         for (int i =0; i<Jogo.jogadores.size(); i++){
             System.out.printf("\n%s\n",Jogo.jogadores.get(i).getNome());
             for (int j=0; j<Jogo.jogadores.get(i).paises.size();j++){
-                System.out.printf("%s\n", Jogo.jogadores.get(i).paises.get(j).nome);
+                System.out.printf("%s: %s\n", Jogo.jogadores.get(i).paises.get(j).nome, Jogo.jogadores.get(i).paises.get(j).dono.getNome());
             }
         }
     }
