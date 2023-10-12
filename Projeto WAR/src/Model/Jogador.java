@@ -1,7 +1,7 @@
 package Model;
 import java.util.ArrayList;
 
-public class Jogador {
+class Jogador {
     public enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
     private ArrayList <Territorio> paises;
     private String nome;
