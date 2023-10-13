@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 class Jogador {
     public enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
-    public ArrayList <Territorio> paises = new ArrayList<Territorio>();
+    public ArrayList <Territorio> paises = new ArrayList<Territorio>(); //Trocar para private
     private String nome;
     //private Objetivos objetivo;
     private Cores cor;
-    //vai ter cartas de troca?
+    //vai ter cartas de troca? Vai sim.
 
     public Jogador(Cores cor, String nome){
         this.cor = cor;
@@ -17,7 +17,7 @@ class Jogador {
     }
 
     public String getNome(){
-        return this.nome;
+        return nome;
     }
 
     public Territorio getPais(String nomePais){
@@ -30,8 +30,9 @@ class Jogador {
         return null;
     }
 
-    public void addPais(Territorio pais){
-        this.paises.add(pais);
+    public void addPais(Territorio pais, int qtdExe){
+        paises.add(pais);
+        pais.trocaDono(this, qtdExe);
     }
 
     //acoes do jogador:

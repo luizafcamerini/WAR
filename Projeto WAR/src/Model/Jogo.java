@@ -5,10 +5,14 @@ import java.util.Collections;
 
 class Jogo {
     private ArrayList <Jogador> jogadores = new ArrayList<Jogador>();
-    private int iterador;
-    Mapa mapa = new Mapa();
+    private int iterador; // Usado para iterar na lista jogadores (iterador%jogadores.size())
+    private Baralho cartas;
+    private Baralho cartasUsadas;
+//    Mapa mapa = new Mapa(); // desnecessário
     
-    public Jogo() {	
+    public Jogo() {
+    	cartas = Territorio.montaMapa();
+    	cartasUsadas = new Baralho();
     }
     
     public void adicionaJogador(Jogador j) {
@@ -21,11 +25,22 @@ class Jogo {
     }
     
     public void inicializa() {
+    	
     	iterador = escolheJogador();
     	System.out.println("O jogador " + jogadores.get(iterador%jogadores.size()).getNome() + " começa distribuindo as cartas.");
+    	
     	distribuiCartas();
     	System.out.println("O jogador " + jogadores.get(iterador%jogadores.size()).getNome() + " começa o jogo.");
     	
+    	// Volta as cartas usadas para o monte.
+    	Baralho aux = cartas;
+    	cartas = cartasUsadas;
+    	cartasUsadas = aux;
+    	
+    	// Adiciona os coringas no monte e embaralha novamente
+    	cartas.adiciona(new Carta(null,Carta.Simbolo.CORINGA));
+    	cartas.adiciona(new Carta(null,Carta.Simbolo.CORINGA));
+    	cartas.embaralha();
     }
     
     public Jogador getProxJogador() {
@@ -58,18 +73,24 @@ class Jogo {
     }
 
     private void distribuiCartas(){
+    	/** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
+    	cartas.embaralha();
+    	Carta c;
+    	while(!cartas.vazio()) {
+    		c = (Carta) cartas.retira();
+    		jogadores.get(iterador%jogadores.size()).addPais(c.getTerritorio(),1);
+    		cartasUsadas.adiciona(c);
+    		iterador++;
+    	}
     	
-    	
-    	//colocar shuffle em outro lugar
-    	
-        /** Funcao que distribui as cartas e preenche o mapa com os exercitos. Recebe o indice da lista de jogadores. */
-        Collections.shuffle(mapa.paises); //embaralhar os paises para distribuir
-        //^^^ o metodo shuffle substitui a lista por uma embaralhada
-        
-        for (int i = 0; i < mapa.paises.size(); i++){
-            jogadores.get(iterador%jogadores.size()).addPais(mapa.paises.get(i));
-            mapa.paises.get(i).dono = jogadores.get(iterador%jogadores.size());
-            iterador++;
-        }
+//        /** Funcao que distribui as cartas e preenche o mapa com os exercitos. Recebe o indice da lista de jogadores. */
+//        Collections.shuffle(mapa.paises); //embaralhar os paises para distribuir
+//        //^^^ o metodo shuffle substitui a lista por uma embaralhada
+//        
+//        for (int i = 0; i < mapa.paises.size(); i++){
+//            jogadores.get(iterador%jogadores.size()).addPais(mapa.paises.get(i));
+//            mapa.paises.get(i).dono = jogadores.get(iterador%jogadores.size());
+//            iterador++;
+//        }
     }
 }
