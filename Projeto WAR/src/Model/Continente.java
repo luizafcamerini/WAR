@@ -1,5 +1,4 @@
 package Model;
-
 import java.util.ArrayList;
 
 abstract class Continente {

@@ -10,13 +10,8 @@ public class Main {
         jogo.adicionaJogador(new Jogador(Cores.BRANCO, "LUIZA"));
         jogo.adicionaJogador(new Jogador(Cores.VERMELHO, "THOMAS"));
         jogo.adicionaJogador(new Jogador(Cores.VERDE, "JERONIMO"));
-//        Jogador jogador2 = new Jogador(Cores.VERDE, "JERONIMO");
-//        Jogador jogador0 = new Jogador(Cores.BRANCO, "LUIZA");
-//        Jogador jogador1 = new Jogador(Cores.VERMELHO, "THOMAS");
-        
-//        jogo.rodada();
+
         jogo.inicializa();
-        
         
         for (int i =0; i<jogo.getQtdJogadores(); i++){
         	jAtual = jogo.getProxJogador();
