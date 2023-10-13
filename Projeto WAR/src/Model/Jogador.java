@@ -12,7 +12,7 @@ class Jogador {
     public Jogador(Cores cor, String nome){
         this.cor = cor;
         this.nome = nome;
-        Jogo.jogadores.add(this); //depois da construcao do jogador, 
+//        Jogo.jogadores.add(this); //depois da construcao do jogador, 
         //ele ja eh adicionado na lista de jogadores do jogo
     }
 
