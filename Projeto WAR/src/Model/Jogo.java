@@ -5,19 +5,48 @@ import java.util.ArrayList;
 class Jogo {
     private ArrayList <Jogador> jogadores = new ArrayList<Jogador>();
     private int iterador; // Usado para iterar na lista jogadores (iterador%jogadores.size())
-    private Baralho cartas; //cartas totais do jogo
-    private Baralho cartasUsadas; //cartas usadas na partida
+    private Baralho<Carta> cartas; //cartas totais do jogo
+    private Baralho<Carta> cartasUsadas; //cartas usadas na partida
+    private Baralho<Objetivo> objetivos;
     
     public Jogo() {
         /** Construtor que monta o mapa do jogo e cria um novo baralho. */
-    	cartas = Territorio.montaMapa();
-    	cartasUsadas = new Baralho();
+    	cartas = Territorio.montaBaralho();
+    	cartasUsadas = new Baralho<Carta>();
+    	
+    	objetivos = Objetivo.montaBaralho();
     }
     
     public void adicionaJogador(Jogador j) {
         /** Funcao que adiciona os jogadores da partida na lista de jogadores. */
-    	if (jogadores.size() < 6)
+    	if (jogadores.size() < 6) {
     		jogadores.add(j);
+    		
+    		// Adiciona carta de destruir jogador no baralho de objetivos
+    		Jogador.Cores cor = j.getCor();
+    		switch(cor) {
+    		case AZUL:
+    			objetivos.adiciona(new Objetivo1(j));
+    			break;
+    		case AMARELO:
+    			objetivos.adiciona(new Objetivo2(j));
+    			break;
+    		case VERMELHO:
+    			objetivos.adiciona(new Objetivo3(j));
+    			break;
+    		case PRETO:
+    			objetivos.adiciona(new Objetivo4(j));
+    			break;
+    		case BRANCO:
+    			objetivos.adiciona(new Objetivo5(j));
+    			break;
+    		case VERDE:
+    			objetivos.adiciona(new Objetivo6(j));
+    			break;
+    		}
+    		
+    		
+    	}
     }
     
     public int getQtdJogadores() {
@@ -30,7 +59,7 @@ class Jogo {
     	iterador = escolheJogador();
     	System.out.println("O jogador " + jogadores.get(iterador%jogadores.size()).getNome() + " começa distribuindo as cartas.");
     	
-    	distribuiCartas();
+    	distribuiTerritorios();
     	System.out.println("O jogador " + jogadores.get(iterador%jogadores.size()).getNome() + " começa o jogo.");
     	
     	// Volta as cartas usadas para o monte.
@@ -42,6 +71,8 @@ class Jogo {
     	cartas.adiciona(new Carta(null,Carta.Simbolo.CORINGA));
     	cartas.adiciona(new Carta(null,Carta.Simbolo.CORINGA));
     	cartas.embaralha();
+    	
+    	
     }
     
     public Jogador getProxJogador() {
@@ -59,15 +90,25 @@ class Jogo {
         return i;
     }
 
-    private void distribuiCartas(){
+    private void distribuiTerritorios(){
     	/** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
     	cartas.embaralha();
     	Carta c;
     	while(!cartas.vazio()) {
-    		c = (Carta) cartas.retira();
+    		c = cartas.retira();
     		jogadores.get(iterador%jogadores.size()).addPais(c.getTerritorio(),1);
     		cartasUsadas.adiciona(c);
     		iterador++;
     	}
     }
+    
+    private void distribuiObjetivos() {
+    	objetivos.embaralha();
+    	Jogador j;
+    	for(int i=0;i<jogadores.size();i++) {
+    		j = jogadores.get(i);
+    		j.setObjetivo(objetivos.retira());
+    	}
+    }
+    
 }

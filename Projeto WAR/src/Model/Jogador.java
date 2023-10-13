@@ -5,8 +5,9 @@ class Jogador {
     public enum Cores{ AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO }; //cores disponiveis
     public ArrayList <Territorio> paises = new ArrayList<Territorio>(); //Trocar para private
     private String nome;
-    //private Objetivos objetivo;
+    private Objetivo objetivo;
     private Cores cor;
+    private Jogador assassino;
     //vai ter cartas de troca? Vai sim.
 
     public Jogador(Cores cor, String nome){
@@ -19,7 +20,24 @@ class Jogador {
     public String getNome(){
         return nome;
     }
+    
+    public Cores getCor() {
+    	return cor;
+    }
+    
+    public Jogador getAssassino() {
+    	return assassino;
+    }
+    
+    public void setObjetivo(Objetivo o) {
+    	objetivo = o;
+    	o.defineDono(this);
+    }
 
+    public ArrayList<Territorio> getTerritorios() {
+    	return paises;
+    }
+    
     public Territorio getPais(String nomePais){
         /** Funcao que retorna um pais pertencente ao jogador. */
         for (int i=0; i<paises.size(); i++){

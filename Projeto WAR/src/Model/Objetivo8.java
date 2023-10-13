@@ -1,7 +1,9 @@
 package Model;
 
-public class Objetivo8 implements Objetivo{
-    public String descricao = "Conquistar na totalidade a Asia e a Africa";
+class Objetivo8 extends Objetivo{
+    public Objetivo8() {
+    	descricao = "Conquistar na totalidade a Asia e a Africa";
+    }
     public boolean verifica(){
         return true;
     }

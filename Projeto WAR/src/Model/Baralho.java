@@ -2,10 +2,10 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Baralho {
-	private ArrayList <Object> cartas = new ArrayList<>();
+public class Baralho <Tipo> {
+	private ArrayList <Tipo> cartas = new ArrayList<Tipo>();
 	
-	public void adiciona(Object carta) {
+	public void adiciona(Tipo carta) {
 		cartas.add(carta);
 	}
 	
@@ -13,7 +13,7 @@ public class Baralho {
 		return cartas.isEmpty();
 	}
 	
-    public Object retira() {
+    public Tipo retira() {
     	if (!cartas.isEmpty())
 		    return cartas.remove(cartas.size() - 1);
     	else

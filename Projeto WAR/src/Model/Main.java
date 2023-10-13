@@ -20,6 +20,7 @@ public class Main {
                 System.out.printf("%s: %s\n", jAtual.paises.get(j).nome, jAtual.paises.get(j).dono.getNome());
             }
         }
+        
     }
     
 }

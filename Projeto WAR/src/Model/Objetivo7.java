@@ -1,8 +1,16 @@
 package Model;
+import java.util.ArrayList;
 
-public class Objetivo7 implements Objetivo{
-    public String descricao = "Conquistar 24 territorios a sua escolha";
+class Objetivo7 extends Objetivo{
+	
+	public Objetivo7() {
+		descricao = "Conquistar 24 territorios a sua escolha";
+    }
+	
     public boolean verifica(){
-        return true;
+    	ArrayList<Territorio> paises = dono.getTerritorios();
+    	if (paises.size() >= 24)
+    		return true;
+    	return false;
     }
 }

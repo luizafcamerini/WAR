@@ -26,9 +26,9 @@ class Territorio {
         qntdExercito -= qtd;
     }
     
-    public static Baralho montaMapa(){
+    public static Baralho<Carta> montaBaralho(){
     	// Ainda falta o continente
-    	Baralho mapa = new Baralho();
+    	Baralho<Carta> mapa = new Baralho<Carta>();
     	/** Funcao que adiciona os paises e seus adjacentes no mapa */
         Territorio BRASIL = new Territorio("BRASIL");
         Territorio ARGENTINA = new Territorio("ARGENTINA");
