@@ -13,6 +13,7 @@ class Jogador {
 	private Cores cor;
 	private Jogador assassino;
 	private int numExeNovos = 0;
+	private int numExeContinente = 0;
 	// vai ter cartas de troca? Vai sim.
 
 	public Jogador(Cores cor, String nome) {
@@ -20,6 +21,14 @@ class Jogador {
 		this.nome = nome;
 		// Jogo.jogadores.add(this); //depois da construcao do jogador,
 		// ele ja eh adicionado na lista de jogadores do jogo
+	}
+
+	public int getNumExePendentes(){
+		return this.numExeNovos;
+	}
+
+	public int getNumExeContinente(){
+		return this.numExeContinente;
 	}
 
 	public String getNome() {
@@ -67,19 +76,11 @@ class Jogador {
 	}
 
 	public void addExeNumTerr() {
-		/*
-		 * Recebimento de exercitos de acordo com o número de territórios conquistados.
-		 */
+		/** Funcao que adiciona exercitos com relacao a metade do numero de territorios. */
 		this.numExeNovos += (int) paises.size() / 2;
 	}
 
 	public void addExeContinente(Continente c) {
-		for (int i = 0; i < c.getPaises().size(); i++) {
-			Territorio pais = c.getPaises().get(i);
-			if (pais.getDono() != this) {
-				return;
-			}
-		}
 		this.numExeNovos += c.getNumExeAdicionais();
 	}
 

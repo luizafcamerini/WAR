@@ -14,6 +14,7 @@ public class Carta {
 	}
 
 	public Territorio getTerritorio() {
+		/** Funcao retorna o territorio da carta. */
 		return ter;
 	}
 

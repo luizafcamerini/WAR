@@ -29,6 +29,7 @@ class Continente {
 	}
 
 	public boolean pertence(Jogador j) {
+		/** Funcao que retorna se um jogador e dono de todos os paises de um continente. */
 		for (Territorio t : paises) {
 			if (t.getDono() != j)
 				return false;
@@ -38,6 +39,7 @@ class Continente {
 
 	// imprime o continente
 	public void exibe() {
+		/** Funcao que  */
 		System.out.println("\n\nNome: " + this.nome);
 		System.out.println("Numero de exercitos adicionais:" + Integer.toString(this.numExeAdicionais));
 		System.out.print("Paises: ");
