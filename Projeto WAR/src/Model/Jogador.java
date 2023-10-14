@@ -3,9 +3,6 @@ package Model;
 import java.util.ArrayList;
 
 class Jogador {
-	public enum Cores {
-		AZUL, VERMELHO, VERDE, BRANCO, PRETO, AMARELO
-	}; // cores disponiveis
 
 	public ArrayList<Territorio> paises = new ArrayList<Territorio>(); // Trocar para private
 	private String nome;

@@ -46,7 +46,7 @@ class Jogo {
 			jogadores.add(j);
 
 			// Adiciona carta de destruir jogador no baralho de objetivos
-			Jogador.Cores cor = j.getCor();
+			Cores cor = j.getCor();
 			switch (cor) {
 				case AZUL:
 					objetivos.adiciona(new Objetivo1(j));
