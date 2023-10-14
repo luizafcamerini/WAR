@@ -14,7 +14,6 @@ public class JogoTest {
         assertEquals(1, jogo.getQtdJogadores());
         jogo.adicionaJogador(new Jogador(Cores.VERDE, "LUIZA"));
         assertEquals(2, jogo.getQtdJogadores());
-//        System.out.println("Teste de quantidade de jogadores passou!");
     }
 
     @Test

@@ -1,14 +1,11 @@
 package Model;
 
 public class Carta {
-	public enum Simbolo {
-		TRIANGULO, QUADRADO, CIRCULO, CORINGA
-	};
-
+	
 	private Territorio ter;
-	private Simbolo simb;
+	private Simbolos simb;
 
-	public Carta(Territorio t, Simbolo s) {
+	public Carta(Territorio t, Simbolos s) {
 		ter = t;
 		simb = s;
 	}
@@ -18,7 +15,7 @@ public class Carta {
 		return ter;
 	}
 
-	public Simbolo getSimbolo() {
+	public Simbolos getSimbolo() {
 		return simb;
 	}
 }

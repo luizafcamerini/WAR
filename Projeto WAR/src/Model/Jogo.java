@@ -9,6 +9,7 @@ class Jogo {
 	private Baralho<Carta> cartas; // cartas totais do jogo
 	private Baralho<Carta> cartasUsadas; // cartas usadas na partida
 	private Baralho<Objetivo> objetivos;
+	private int contadorTroca = 1;
 
 	public Jogo() {
 		/** Construtor que monta o mapa do jogo e cria um novo baralho. */
@@ -16,6 +17,25 @@ class Jogo {
 		cartasUsadas = new Baralho<Carta>();
 
 		objetivos = Objetivo.montaBaralho();
+	}
+
+	public void iniciaJogo(){
+		/** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
+		Jogador jAtual;
+		while (true){ // rodada
+			jAtual = getProxJogador();
+			if(jAtual.verificaObjetivo())
+				break; // Jogador vence o jogo
+			
+			jAtual.posicionaExeCont();
+			Carta[] descartadas = jAtual.trocaCartas();
+			int exeAd = 0;
+			if (descartadas != null){
+				exeAd = trocaCartas(jAtual, descartadas);
+			}
+			jAtual.posicionaExe(exeAd);
+			break;
+		}
 	}
 
 	public void inicializa() {
@@ -33,8 +53,8 @@ class Jogo {
 		cartasUsadas = aux;
 
 		// Adiciona os coringas no monte e embaralha novamente.
-		cartas.adiciona(new Carta(null, Carta.Simbolo.CORINGA));
-		cartas.adiciona(new Carta(null, Carta.Simbolo.CORINGA));
+		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
+		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.embaralha();
 
 		distribuiObjetivos();
@@ -106,12 +126,45 @@ class Jogo {
 	}
 
 	private void distribuiObjetivos() {
+		/** Funcao que embaralha e distribui os objetivos para os jogadores. */
 		objetivos.embaralha();
 		Jogador j;
 		for (int i = 0; i < jogadores.size(); i++) {
 			j = jogadores.get(i);
 			j.setObjetivo(objetivos.retira());
 		}
+	}
+
+	public void entregaCarta(Jogador j) {
+		/** Funcao que entrga uma carta do baralho ao jogador atual. */
+		Carta carta = cartas.retira();
+		j.recebeCarta(carta);
+
+		/** Reembaralha monte de cartas caso ele fique vazio */
+		if (cartas.vazio()) {
+			Baralho<Carta> aux = cartas;
+			cartas = cartasUsadas;
+			cartasUsadas = aux;
+			cartas.embaralha();
+		}
+	}
+
+	public int trocaCartas(Jogador j, Carta[] descartadas){
+		for(Carta c:descartadas){
+			if (c.getTerritorio().getDono() == j)
+				c.getTerritorio().acrescentaExe(2);
+			cartasUsadas.adiciona(c);
+		}
+
+		int exeAd;
+		if(contadorTroca < 6){
+			exeAd = 2 + 2*contadorTroca;
+		}
+		else{
+			exeAd = 5*(contadorTroca-3);
+		}
+		contadorTroca++;
+		return exeAd;
 	}
 
 }

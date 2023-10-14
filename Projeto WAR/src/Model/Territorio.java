@@ -79,7 +79,7 @@ class Territorio {
 
 		String nomeCont;
 		String nomeSimb;
-		Carta.Simbolo simb = null;
+		Simbolos simb = null;
 		Territorio vizinho;
 
 		int qtdExe;
@@ -108,11 +108,11 @@ class Territorio {
 				Continente.getContinente(nomeCont).addTerritorio(territorio);
 
 				if (nomeSimb.equals("triangulo"))
-					simb = Carta.Simbolo.TRIANGULO;
+					simb = Simbolos.TRIANGULO;
 				else if (nomeSimb.equals("quadrado"))
-					simb = Carta.Simbolo.QUADRADO;
+					simb = Simbolos.QUADRADO;
 				else if (nomeSimb.equals("circulo"))
-					simb = Carta.Simbolo.CIRCULO;
+					simb = Simbolos.CIRCULO;
 
 				cartasTerritorio.add(new Carta(territorio, simb));
 
@@ -131,88 +131,5 @@ class Territorio {
 				}
 			}
 		}
-
-		/*
-		 * 
-		 * for (String linha: linhasTerritorios){
-		 * 
-		 * linha = linha.trim();
-		 * strListTemp = linha.split(",");
-		 * }
-		 * 
-		 * 
-		 * for(int i = 0; i < strListTemp.length; i++){
-		 * territorio.put(nome, territorio);
-		 * }
-		 * 
-		 * }
-		 * 
-		 * for(linha l: arquivo){
-		 * l=l.strip();
-		 * lista=l.split(",");
-		 * nome = lista[0];
-		 * nome = "oi";
-		 * 
-		 * territorio = new Territorio(nome);
-		 * territorio.vizinhos(lista[1]...etc)
-		 * territorios.put(nome, territorio);
-		 * 
-		 * 
-		 * 
-		 * }
-		 * 
-		 * 
-		 * // Cria instâncias de territórios
-		 * Territorio brasil = new Territorio("Brasil");
-		 * Territorio argentina = new Territorio("Argentina");
-		 * Territorio peru = new Territorio("Peru");
-		 * Territorio venezuela = new Territorio("Venezuela");
-		 * Territorio mexico = new Territorio("Mexico");
-		 * Territorio nigeria = new Territorio("Nigéria");
-		 * 
-		 * // Cria instâncias de continentes
-		 * Continente africa = new Continente("África",3);
-		 * Continente america_do_norte = new Continente("América do Norte",5);
-		 * Continente america_do_sul = new Continente("América do Sul",2);
-		 * Continente asia = new Continente("Ásia",7);
-		 * Continente europa = new Continente("Europa",5);
-		 * Continente oceania = new Continente("Oceania",2);
-		 * 
-		 * 
-		 * // Adiciona os vizinhos de cada pais
-		 * Collections.addAll(brasil.vizinhos, argentina, peru, venezuela, nigeria);
-		 * Collections.addAll(argentina.vizinhos, brasil, peru);
-		 * Collections.addAll(peru.vizinhos, brasil, argentina, venezuela);
-		 * Collections.addAll(venezuela.vizinhos, brasil, peru, mexico);
-		 * Collections.addAll(mexico.vizinhos, venezuela);
-		 * Collections.addAll(nigeria.vizinhos, brasil);
-		 * 
-		 * // Adiciona as cartas no baralho
-		 * cartasTerritorio.add(new Carta(brasil,Carta.Simbolo.CIRCULO));
-		 * cartasTerritorio.add(new Carta(argentina,Carta.Simbolo.QUADRADO));
-		 * cartasTerritorio.add(new Carta(peru,Carta.Simbolo.TRIANGULO));
-		 * cartasTerritorio.add(new Carta(venezuela,Carta.Simbolo.TRIANGULO));
-		 * cartasTerritorio.add(new Carta(mexico,Carta.Simbolo.QUADRADO));
-		 * cartasTerritorio.add(new Carta(nigeria,Carta.Simbolo.CIRCULO));
-		 * 
-		 * // Adiciona territórios aos continentes
-		 * africa.addTerritorio(nigeria);
-		 * 
-		 * 
-		 * // Metodo que adiciona os continentes e seus paises
-		 * 
-		 * Continente.addContinente(africa);
-		 * Continente.addContinente(america_do_norte);
-		 * Continente.addContinente(america_do_sul);
-		 * Continente.addContinente(asia);
-		 * Continente.addContinente(europa);
-		 * Continente.addContinente(oceania);
-		 * 
-		 * 
-		 * 
-		 * // Collections.addAll(america_do_sul.getPaises(), brasil, argentina, peru,
-		 * venezuela);
-		 */
 	}
-
 }
