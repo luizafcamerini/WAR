@@ -21,7 +21,7 @@ class Jogo {
 	public void inicializa() {
 		/** Funcao que inicializa as distribuicoes do jogo. */
 		iterador = escolheJogador();
-		System.out.println("O jogador " + jogadores.get(iterador++ % jogadores.size()).getNome()
+		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome()
 				+ " começa distribuindo as cartas.");
 
 		distribuiTerritorios();
