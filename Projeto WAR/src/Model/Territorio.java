@@ -66,9 +66,13 @@ class Territorio {
 				Venezuela,América do Sul,triangulo,Peru,México,Brasil
 				México,América do Norte,quadrado,Venezuela
 				Nigéria,África,circulo,Brasil
-				""";
 
-		// Brasil,Argentina,Peru,Venezuela,Nigéria,México
+				Polônia,Europa,triangulo
+				
+				China,Ásia,quadrado
+				
+				Austrália,Oceania,triangulo
+				""";
 
 		String nome;
 		Territorio territorio;
@@ -99,7 +103,7 @@ class Territorio {
 		for (String linha : linhasTerritorios) {
 			linha = linha.trim();
 			strListTemp = linha.split(",");
-			if (strListTemp.length > 3) { // Verifica que esta lendo uma linha com território
+			if (strListTemp.length >= 3) { // Verifica que esta lendo uma linha com território
 				nome = strListTemp[0];
 				nomeCont = strListTemp[1];
 				nomeSimb = strListTemp[2];

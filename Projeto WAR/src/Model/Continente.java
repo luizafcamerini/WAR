@@ -40,7 +40,7 @@ class Continente {
 	// imprime o continente
 	public void exibe() {
 		/** Funcao que  */
-		System.out.println("\n\nNome: " + this.nome);
+		System.out.println("\n\nContinente: " + this.nome);
 		System.out.println("Numero de exercitos adicionais:" + Integer.toString(this.numExeAdicionais));
 		System.out.print("Paises: ");
 		for (Territorio pais : this.paises) {
