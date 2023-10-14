@@ -71,6 +71,7 @@ public class Main {
 			if (Continente.getContinente("Ásia").pertence(jAtual)){
 
 			}
+			break;
 		}
 	}
 

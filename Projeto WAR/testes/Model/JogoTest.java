@@ -17,4 +17,9 @@ public class JogoTest {
 //        System.out.println("Teste de quantidade de jogadores passou!");
     }
 
+    @Test
+    public void testebobo(){
+        assertEquals("ola","ola");
+    }
+
 }
