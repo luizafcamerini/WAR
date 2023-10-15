@@ -16,6 +16,7 @@ public class JogadorTest {
         jogador.setAssassino(assassino);
         assertEquals(assassino, jogador.getAssassino());
     }
+
     
     @Test
     public void testSetObjetivo_e_getDescricaoObjetivo() {
@@ -53,20 +54,21 @@ public class JogadorTest {
     }
     
     
-    // @Test
-    // public void testPosicionaExeCont() { // NAO FINALIZADO
-    //     Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
-    //     Territorio territorio1 = new Territorio("Brasil");
-    //     Territorio territorio2 = new Territorio("Argentina");
-    //     Continente continente = new Continente("América do Sul", 2);
-    //     continente.addTerritorio(territorio1);
-    //     continente.addTerritorio(territorio2);
-    //     jogador.addPais(territorio1, 1);
-    //     jogador.addPais(territorio2, 1);
-    //     jogador.posicionaExeCont();
-    //     assertEquals(2, territorio1.getQntdExercitos());
-    //     assertEquals(2, territorio2.getQntdExercitos());
-    // }
+    @Test
+    public void testPosicionaExeCont() { // NAO FINALIZADO (?)
+        Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
+        Territorio territorio1 = new Territorio("Brasil");
+        Territorio territorio2 = new Territorio("Argentina");
+        Continente continente = new Continente("América do Sul", 2);
+        continente.addTerritorio(territorio1);
+        continente.addTerritorio(territorio2);
+        jogador.addPais(territorio1, 1);
+        jogador.addPais(territorio2, 1);
+        jogador.posicionaExeCont();
+        assertEquals(2, territorio1.getQntdExercitos());
+        assertEquals(2, territorio2.getQntdExercitos());
+    }
+    
 
     @Test
     public void testTrocaCartas(){

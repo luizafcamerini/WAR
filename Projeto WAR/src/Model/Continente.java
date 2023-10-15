@@ -29,6 +29,11 @@ class Continente {
 	}
 
 	public void addTerritorio(Territorio t) {
+		for (int i = 0;i<this.paises.size(); i++){
+			if (this.paises.get(i) == t){
+				return;
+			}
+		}
 		paises.add(t);
 	}
 

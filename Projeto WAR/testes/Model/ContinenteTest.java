@@ -1,5 +1,4 @@
 package Model;
-
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -11,7 +10,6 @@ public class ContinenteTest {
         assertEquals(2, continente.getNumExeAdicionais());
     }
 
-
     @Test
     public void testAddTerritorio_e_getPaises() {
         Territorio Brasil = new Territorio("Brasil");
@@ -21,6 +19,18 @@ public class ContinenteTest {
         continente.addTerritorio(Argentina);
         assertEquals(2, continente.getPaises().size());
     }
+
+    @Test
+    public void testAddTerritorioExistente(){
+        Territorio Brasil = new Territorio("Brasil");
+        Territorio Argentina = new Territorio("Argentina");
+        Continente continente = new Continente("América do Sul", 2);
+        continente.addTerritorio(Brasil);
+        continente.addTerritorio(Argentina);
+        continente.addTerritorio(Argentina);
+        assertEquals(2, continente.getPaises().size());
+    }
+
     
     @Test 
     public void testPertence(){

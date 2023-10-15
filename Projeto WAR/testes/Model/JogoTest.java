@@ -1,7 +1,5 @@
 package Model;
-
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class JogoTest {
@@ -14,11 +12,6 @@ public class JogoTest {
         assertEquals(1, jogo.getQtdJogadores());
         jogo.adicionaJogador(new Jogador(Cores.VERDE, "LUIZA"));
         assertEquals(2, jogo.getQtdJogadores());
-    }
-
-    @Test
-    public void testebobo(){
-        assertEquals("ola","ola");
     }
 
 }

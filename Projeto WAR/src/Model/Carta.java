@@ -1,6 +1,6 @@
 package Model;
 
-public class Carta {
+class Carta {
 	
 	private Territorio ter;
 	private Simbolos simb;

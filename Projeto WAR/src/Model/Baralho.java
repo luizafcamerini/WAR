@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Baralho<Tipo> {
+class Baralho<Tipo> {
 	private ArrayList<Tipo> cartas = new ArrayList<Tipo>();
 
 	public void adiciona(Tipo carta) {
