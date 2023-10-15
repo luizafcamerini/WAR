@@ -31,6 +31,11 @@ class Jogador {
 		return assassino;
 	}
 
+	public void setAssassino(Jogador assassino) {
+		this.assassino = assassino;
+	}
+
+
 	public void setObjetivo(Objetivo o) {
 		objetivo = o;
 		o.defineDono(this);

@@ -25,6 +25,10 @@ class Territorio {
 		return dono;
 	}
 
+	public int getQntdExercitos() {
+		return qntdExercito;
+	}
+
 	public void trocaDono(Jogador j, int qtdExe) {
 		dono = j;
 		qntdExercito = qtdExe;
