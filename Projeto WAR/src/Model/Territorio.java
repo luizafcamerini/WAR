@@ -7,10 +7,11 @@ import java.util.Hashtable;
 class Territorio {
 	private static ArrayList<Carta> cartasTerritorio = new ArrayList<Carta>();
 	private static Hashtable<String, Territorio> territorios = new Hashtable<String, Territorio>();
+
 	private ArrayList<Territorio> vizinhos = new ArrayList<Territorio>();
-	private Jogador dono; // Trocar para private
+	private Jogador dono;
 	private int qntdExercito = 1;
-	private String nome; // Trocar para private
+	private String nome;
 	// imagem do territorio
 
 	public Territorio(String nome) {
