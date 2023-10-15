@@ -11,7 +11,7 @@ class Objetivo4 extends Objetivo {
 	public boolean verifica() {
 		Jogador kAlvo = alvo.getAssassino();
 		if (alvo == dono) {
-			if (dono.getTerritorios().size() >= 24)
+			if (dono.getQtdTerritorios() >= 24)
 				return true;
 			return false;
 		}
@@ -19,7 +19,7 @@ class Objetivo4 extends Objetivo {
 			return false;
 		else if (kAlvo == dono)
 			return true;
-		else if (dono.getTerritorios().size() >= 24)
+		else if (dono.getQtdTerritorios() >= 24)
 			return true;
 		return false;
 		// se voce e quem possui os exércitos <X> ou se esses exercitos já foram

@@ -17,7 +17,7 @@ public class ContinenteTest {
         Continente continente = new Continente("América do Sul", 2);
         continente.addTerritorio(Brasil);
         continente.addTerritorio(Argentina);
-        assertEquals(2, continente.getPaises().size());
+        assertEquals(2, continente.getTerritorios().size());
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ContinenteTest {
         continente.addTerritorio(Brasil);
         continente.addTerritorio(Argentina);
         continente.addTerritorio(Argentina);
-        assertEquals(2, continente.getPaises().size());
+        assertEquals(2, continente.getTerritorios().size());
     }
 
     
@@ -44,10 +44,10 @@ public class ContinenteTest {
         continente.addTerritorio(Argentina);
         continente.addTerritorio(Peru);
         continente.addTerritorio(Venezuela);
-        jogador.addPais(Brasil, 1);
-        jogador.addPais(Argentina, 1);
-        jogador.addPais(Peru, 1);
-        jogador.addPais(Venezuela, 1);
+        jogador.addTerritorio(Brasil, 1);
+        jogador.addTerritorio(Argentina, 1);
+        jogador.addTerritorio(Peru, 1);
+        jogador.addTerritorio(Venezuela, 1);
         assertTrue(continente.pertence(jogador));
     }
     

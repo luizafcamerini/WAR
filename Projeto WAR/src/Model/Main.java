@@ -16,9 +16,9 @@ public class Main {
 			System.out.printf("\n%s\n", jAtual.getNome());
 			System.out.printf("Objetivo: %s\n", jAtual.getDescricaoObjetivo());
 
-			for (int j = 0; j < jAtual.getTerritorios().size(); j++) {
-				System.out.printf("%s: %s\n", jAtual.getTerritorios().get(j).getNome(),
-						jAtual.getTerritorios().get(j).getDono().getNome());
+			for (Territorio t: jAtual.getTerritorios()){
+				System.out.printf("%s: %s\n", t.getNome(),
+						t.getDono().getNome());
 			}
 		}
 

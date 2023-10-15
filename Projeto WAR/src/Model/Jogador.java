@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class Jogador {
 
-	private ArrayList<Territorio> paises = new ArrayList<Territorio>(); // Trocar para private
+	private ArrayList<Territorio> territorios = new ArrayList<Territorio>(); // Trocar para private
 	private ArrayList<Carta> cartas = new ArrayList<Carta>(); // Cartas que o jogador possui
 	private String nome;
 	private Objetivo objetivo;
@@ -28,7 +28,7 @@ class Jogador {
 		/** Funcao que retorna a cor do jogador. */
 		return cor;
 	}
-
+	
 	public Jogador getAssassino() {
 		/** Funcao que retorna o assassino do jogador. */
 		return assassino;
@@ -55,40 +55,37 @@ class Jogador {
 		return objetivo.verifica();
 	}
 
-	public ArrayList<Territorio> getTerritorios() {
-		/** Funcao que retorna a lista de territorios de um jogador. */
-		return paises;
+	public Territorio[] getTerritorios() {
+		/** Funcao que retorna uma copia da lista de territorios de um jogador. */
+		return territorios.toArray(new Territorio[territorios.size()]);
 	}
 
-	public int getQtdPaises() {
+	public int getQtdTerritorios() {
 		/** Funcao que retorna a quantidade de territorios de um jogador. */
-		return this.paises.size();
+		return this.territorios.size();
 	}
 
-	public Territorio getPais(String nomePais) {
+	public Territorio getTerritorio(String nomePais) {
 		/** Funcao que retorna um pais pertencente ao jogador. */
-		for (int i = 0; i < paises.size(); i++) {
-			if (paises.get(i).getNome() == nomePais) {
-				return paises.get(i);
+		for (int i = 0; i < territorios.size(); i++) {
+			if (territorios.get(i).getNome() == nomePais) {
+				return territorios.get(i);
 			}
 		}
 		return null;
 	}
 
-	public void addPais(Territorio pais, int qtdExe) {
+	public void addTerritorio(Territorio pais, int qtdExe) {
 		/** Funcao que adiciona um territorio na lista de um jogador e quantos exercitos posicionar nele. */
-		paises.add(pais);
+		territorios.add(pais);
 		pais.trocaDono(this, qtdExe);
 	}
 
 	public void posicionaExeCont() {
 		/** Funcao que percorre os continentes e verifica se o jogador tem seu dominio total. */
-		posicionaExeCont(Continente.getContinente("África"));
-		posicionaExeCont(Continente.getContinente("América do Norte"));
-		posicionaExeCont(Continente.getContinente("América do Sul"));
-		posicionaExeCont(Continente.getContinente("Ásia"));
-		posicionaExeCont(Continente.getContinente("Europa"));
-		posicionaExeCont(Continente.getContinente("Oceania"));
+		for(Continente c: Continente.getContinentes()){
+			posicionaExeCont(c);
+		}
 
 		// Pergunta se o jogador quer trocar as cartas por exercitos caso a condição
 		// seja verdadeira (3 cartas do mesmo tipo ou 1 de cada tipo)
@@ -101,11 +98,11 @@ class Jogador {
 		if (c.pertence(this)) {
 			int numExeContinente = c.getNumExeAdicionais();
 			int i = 0;
-			int tam = c.getPaises().size();
+			int tam = c.getTerritorios().size();
 			while (i < numExeContinente) {
 				int n = 1; // = input();
 				int iPais = i % tam; // = input();
-				c.getPaises().get(iPais).acrescentaExe(n);
+				c.getTerritorios().get(iPais).acrescentaExe(n);
 				i++;
 			}
 		}
@@ -113,14 +110,14 @@ class Jogador {
 	
 	public void posicionaExe(int numExeAd){
 		/** Funcao que posiciona os exercitos gerais e das cartas sequencialmente nos terrritorios dominados. */
-		int tam = this.paises.size();
+		int tam = this.territorios.size();
 		int numExe = tam > 6 ? tam / 2 : 3;
 		numExe += numExeAd;
 
 		for (int i = 0; i<numExe; i++){
 			int n = 1; // = input();
 			int iPais = i % tam; // = input();
-			this.paises.get(iPais).acrescentaExe(n);
+			this.territorios.get(iPais).acrescentaExe(n);
 		}
 	}
 
@@ -168,5 +165,4 @@ class Jogador {
 		}
 		return null;
 	}
-
 }

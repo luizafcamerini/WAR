@@ -51,11 +51,7 @@ class Territorio {
 
 	public Territorio[] getVizinhos() {
 		/** Funcao que retorna uma copia da lista de vizinhos de um territorio. */
-		Territorio[] _vizinhos = new Territorio[vizinhos.size()];
-		for (int i = 0; i < vizinhos.size(); i++) {
-			_vizinhos[i] = vizinhos.get(i);
-		}
-		return _vizinhos;
+		return vizinhos.toArray(new Territorio[vizinhos.size()]);
 	}
 
 	public static Baralho<Carta> montaBaralho() {

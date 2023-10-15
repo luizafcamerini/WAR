@@ -7,6 +7,14 @@ public class JogadorTest {
     private static final int TIMEOUT = 2000;
 	private Jogador jogador;
 
+    private boolean contem(Object [] lObj, Object obj) {
+		for(Object o: lObj) {
+			if(obj.equals(o))
+				return true;
+		}
+		return false;
+	}
+
 	@Test(timeout = TIMEOUT)
 	public void testSetAssassino_e_getAssassino() {
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
@@ -28,12 +36,12 @@ public class JogadorTest {
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
 		Territorio territorio1 = new Territorio("Brasil");
 		Territorio territorio2 = new Territorio("Argentina");
-		jogador.addPais(territorio2, 1);
-		jogador.addPais(territorio1, 1);
-		assertEquals(2, jogador.getTerritorios().size());
-		assertTrue(jogador.getTerritorios().contains(territorio1));
-		assertTrue(jogador.getTerritorios().contains(territorio2));
-		assertEquals(2, jogador.getQtdPaises());
+		jogador.addTerritorio(territorio2, 1);
+		jogador.addTerritorio(territorio1, 1);
+		assertEquals(2, jogador.getQtdTerritorios());
+		assertTrue(contem(jogador.getTerritorios(),territorio1));
+		assertTrue(contem(jogador.getTerritorios(),territorio2));
+		assertEquals(2, jogador.getQtdTerritorios());
 	}
 
 	@Test(timeout = TIMEOUT)
@@ -41,23 +49,23 @@ public class JogadorTest {
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
 		Territorio territorio1 = new Territorio("Brasil");
 		Territorio territorio2 = new Territorio("Argentina");
-		jogador.addPais(territorio1, 1);
-		jogador.addPais(territorio2, 1);
-		assertEquals(territorio1, jogador.getPais("Brasil"));
-		assertEquals(territorio2, jogador.getPais("Argentina"));
-		assertNull(jogador.getPais("Chile"));
+		jogador.addTerritorio(territorio1, 1);
+		jogador.addTerritorio(territorio2, 1);
+		assertEquals(territorio1, jogador.getTerritorio("Brasil"));
+		assertEquals(territorio2, jogador.getTerritorio("Argentina"));
+		assertNull(jogador.getTerritorio("Chile"));
 	}
 
 	@Test(timeout = TIMEOUT)
 	public void testPosicionaExeCont() { // NAO FINALIZADO (?)
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
-		Territorio territorio1 = new Territorio("Brasil");
-		Territorio territorio2 = new Territorio("Argentina");
-		Continente continente = new Continente("América do Sul", 2);
+		Territorio territorio1 = new Territorio("TerraSemLei1");
+		Territorio territorio2 = new Territorio("TerraSemLei2");
+		Continente continente = new Continente("Antártida", 2);
 		continente.addTerritorio(territorio1);
 		continente.addTerritorio(territorio2);
-		jogador.addPais(territorio1, 1);
-		jogador.addPais(territorio2, 1);
+		jogador.addTerritorio(territorio1, 1);
+		jogador.addTerritorio(territorio2, 1);
 		jogador.posicionaExeCont();
 		assertEquals(2, territorio1.getQntdExercitos());
 		assertEquals(2, territorio2.getQntdExercitos());

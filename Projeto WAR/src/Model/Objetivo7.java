@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-
 class Objetivo7 extends Objetivo {
 
 	public Objetivo7() {
@@ -9,9 +7,6 @@ class Objetivo7 extends Objetivo {
 	}
 
 	public boolean verifica() {
-		ArrayList<Territorio> paises = dono.getTerritorios();
-		if (paises.size() >= 24)
-			return true;
-		return false;
+		return dono.getQtdTerritorios() >= 24;
 	}
 }

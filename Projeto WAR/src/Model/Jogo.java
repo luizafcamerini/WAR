@@ -120,7 +120,7 @@ class Jogo {
 		Carta c;
 		while (!cartas.vazio()) {
 			c = cartas.retira();
-			jogadores.get(iterador % jogadores.size()).addPais(c.getTerritorio(), 1);
+			jogadores.get(iterador % jogadores.size()).addTerritorio(c.getTerritorio(), 1);
 			cartasUsadas.adiciona(c);
 			iterador++;
 		}

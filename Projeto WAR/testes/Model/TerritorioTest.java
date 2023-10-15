@@ -8,7 +8,7 @@ public class TerritorioTest {
 	
 	private boolean contem(Object [] lObj, Object obj) {
 		for(Object o: lObj) {
-			if(o.equals(obj))
+			if(obj.equals(o))
 				return true;
 		}
 		return false;
