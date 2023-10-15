@@ -34,11 +34,8 @@ class Continente {
 
 	public void addTerritorio(Territorio t) {
 		/** Funcao que adiciona um territorio em um continente. */
-		for (int i = 0;i<this.territorios.size(); i++){
-			if (this.territorios.get(i) == t){
-				return;
-			}
-		}
+		if(territorios.contains(t))
+			return;
 		territorios.add(t);
 	}
 
