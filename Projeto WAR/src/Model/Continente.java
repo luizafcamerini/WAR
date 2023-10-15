@@ -15,13 +15,17 @@ class Continente {
 		numExeAdicionais = nExe;
 		continentes.put(nome, this);
 	}
-
-	public int getNumExeAdicionais() {
-		return this.numExeAdicionais;
+	
+	public static Continente getContinente(String nome) {
+		return continentes.get(nome);
 	}
 
 	public ArrayList<Territorio> getPaises() {
 		return this.paises;
+	}
+
+	public int getNumExeAdicionais() {
+		return this.numExeAdicionais;
 	}
 
 	public void addTerritorio(Territorio t) {
@@ -48,8 +52,5 @@ class Continente {
 		}
 	}
 
-	public static Continente getContinente(String nome) {
-		return continentes.get(nome);
-	}
 
 }
