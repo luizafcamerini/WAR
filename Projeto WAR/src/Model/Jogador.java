@@ -98,11 +98,11 @@ class Jogador {
 		if (c.pertence(this)) {
 			int numExeContinente = c.getNumExeAdicionais();
 			int i = 0;
-			int tam = c.getTerritorios().size();
+			int tam = c.getTerritorios().length;
 			while (i < numExeContinente) {
 				int n = 1; // = input();
 				int iPais = i % tam; // = input();
-				c.getTerritorios().get(iPais).acrescentaExe(n);
+				c.getTerritorios()[iPais].acrescentaExe(n);
 				i++;
 			}
 		}

@@ -22,9 +22,9 @@ class Continente {
 		return continentes.get(nome);
 	}
 
-	public ArrayList<Territorio> getTerritorios() {
+	public Territorio[] getTerritorios() {
 		/** Funcao que retorna uma copia da lista de territorios de um continente. */
-		return (ArrayList<Territorio>) this.territorios.clone();
+		return territorios.toArray(new Territorio[territorios.size()]);
 	}
 
 	public int getNumExeAdicionais() {

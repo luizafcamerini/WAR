@@ -17,7 +17,7 @@ public class ContinenteTest {
         Continente continente = new Continente("América do Sul", 2);
         continente.addTerritorio(Brasil);
         continente.addTerritorio(Argentina);
-        assertEquals(2, continente.getTerritorios().size());
+        assertEquals(2, continente.getTerritorios().length);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ContinenteTest {
         continente.addTerritorio(Brasil);
         continente.addTerritorio(Argentina);
         continente.addTerritorio(Argentina);
-        assertEquals(2, continente.getTerritorios().size());
+        assertEquals(2, continente.getTerritorios().length);
     }
 
     
