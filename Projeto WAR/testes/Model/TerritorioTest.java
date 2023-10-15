@@ -1,12 +1,19 @@
 package Model;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class TerritorioTest {
 	private static final int TIMEOUT = 2000;
 	
+	private boolean contem(Object [] lObj, Object obj) {
+		for(Object o: lObj) {
+			if(o.equals(obj))
+				return true;
+		}
+		return false;
+	}
+
 	@Test(timeout = TIMEOUT)
 	public void testQtdExeInicial() {
 		Territorio t = new Territorio("Terra1");
@@ -40,6 +47,33 @@ public class TerritorioTest {
 		assertEquals(j2, t.getDono());
 		assertEquals(3, t.getQntdExercitos());
 	}
-	
 
+	@Test(timeout = TIMEOUT)
+	public void testVizinhosExistem() {
+		Baralho<Carta> cartas = Territorio.montaBaralho();
+		Territorio t, viz[];
+		String msg;
+		while(!cartas.vazio()) {
+			t = cartas.retira().getTerritorio();
+			viz = t.getVizinhos();
+			for(Territorio v: viz) {
+				msg = String.format("Vizinho de %s é null.",t.getNome());
+				assertNotNull(msg, v);
+			}
+		}
+	}
+
+	@Test(timeout = TIMEOUT)
+	public void testVizinhosCorrespondem() {
+		Baralho<Carta> cartas = Territorio.montaBaralho();
+		Territorio t, viz[];
+		while(!cartas.vazio()) {
+			t = cartas.retira().getTerritorio();
+			viz = t.getVizinhos();
+			for(Territorio v: viz) {
+				String msg = String.format("Vizinhos %s e %s não correspondem.", v.getNome(),t.getNome());
+				assertTrue(msg,contem(v.getVizinhos(),t));
+			}
+		}
+	}
 }

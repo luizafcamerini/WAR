@@ -15,26 +15,25 @@ class Jogo {
 		/** Construtor que monta o mapa do jogo e cria um novo baralho. */
 		cartas = Territorio.montaBaralho();
 		cartasUsadas = new Baralho<Carta>();
-
 		objetivos = Objetivo.montaBaralho();
 	}
 
-	public void iniciaJogo(){
+	public void iniciaJogo() {
 		/** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
 		Jogador jAtual;
-		while (true){ // rodada
+		while (true) { // rodada
 			jAtual = getProxJogador();
-			if(jAtual.verificaObjetivo())
+			if (jAtual.verificaObjetivo())
 				break; // Jogador vence o jogo
-			
+
 			jAtual.posicionaExeCont();
 			Carta[] descartadas = jAtual.trocaCartas();
 			int exeAd = 0;
-			if (descartadas != null){
+			if (descartadas != null) {
 				exeAd = trocaCartas(jAtual, descartadas);
 			}
 			jAtual.posicionaExe(exeAd);
-			break;
+			break; //break temporario
 		}
 	}
 
@@ -61,11 +60,13 @@ class Jogo {
 	}
 
 	public void adicionaJogador(Jogador j) {
-		/** Funcao que adiciona os jogadores da partida na lista de jogadores. */
+		/**
+		 * Funcao que adiciona os jogadores da partida na lista de jogadores e adiciona
+		 * objetivos em relacao a cor destes jogadores.
+		 */
 		if (jogadores.size() < 6) {
 			jogadores.add(j);
 
-			// Adiciona carta de destruir jogador no baralho de objetivos
 			Cores cor = j.getCor();
 			switch (cor) {
 				case AZUL:
@@ -149,19 +150,22 @@ class Jogo {
 		}
 	}
 
-	public int trocaCartas(Jogador j, Carta[] descartadas){
-		for(Carta c:descartadas){
+	public int trocaCartas(Jogador j, Carta[] descartadas) {
+		/**
+		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
+		 * cartas.
+		 */
+		for (Carta c : descartadas) {
 			if (c.getTerritorio().getDono() == j)
 				c.getTerritorio().acrescentaExe(2);
 			cartasUsadas.adiciona(c);
 		}
 
 		int exeAd;
-		if(contadorTroca < 6){
-			exeAd = 2 + 2*contadorTroca;
-		}
-		else{
-			exeAd = 5*(contadorTroca-3);
+		if (contadorTroca < 6) {
+			exeAd = 2 + 2 * contadorTroca;
+		} else {
+			exeAd = 5 * (contadorTroca - 3);
 		}
 		contadorTroca++;
 		return exeAd;

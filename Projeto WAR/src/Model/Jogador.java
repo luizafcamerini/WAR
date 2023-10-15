@@ -20,40 +20,48 @@ class Jogador {
 	}
 
 	public String getNome() {
+		/** Funcao que retorna o nome do jogador. */
 		return nome;
 	}
 
 	public Cores getCor() {
+		/** Funcao que retorna a cor do jogador. */
 		return cor;
 	}
 
 	public Jogador getAssassino() {
+		/** Funcao que retorna o assassino do jogador. */
 		return assassino;
 	}
 
 	public void setAssassino(Jogador assassino) {
+		/** Funcao que define o assassino de um jogador. */
 		this.assassino = assassino;
 	}
 
-
 	public void setObjetivo(Objetivo o) {
+		/** Funcao que define o objetivo de um jogador. */
 		objetivo = o;
 		o.defineDono(this);
 	}
 
 	public String getDescricaoObjetivo() {
+		/** Funcao que retorna a descricao de um objetivo. */
 		return objetivo.getDescricao();
 	}
 
 	public boolean verificaObjetivo(){
+		/** Funcao que verifica o objetivo do jogador. */
 		return objetivo.verifica();
 	}
 
 	public ArrayList<Territorio> getTerritorios() {
+		/** Funcao que retorna a lista de territorios de um jogador. */
 		return paises;
 	}
 
 	public int getQtdPaises() {
+		/** Funcao que retorna a quantidade de territorios de um jogador. */
 		return this.paises.size();
 	}
 
@@ -68,11 +76,26 @@ class Jogador {
 	}
 
 	public void addPais(Territorio pais, int qtdExe) {
+		/** Funcao que adiciona um territorio na lista de um jogador e quantos exercitos posicionar nele. */
 		paises.add(pais);
 		pais.trocaDono(this, qtdExe);
 	}
 
-	
+	public void posicionaExeCont() {
+		/** Funcao que percorre os continentes e verifica se o jogador tem seu dominio total. */
+		posicionaExeCont(Continente.getContinente("África"));
+		posicionaExeCont(Continente.getContinente("América do Norte"));
+		posicionaExeCont(Continente.getContinente("América do Sul"));
+		posicionaExeCont(Continente.getContinente("Ásia"));
+		posicionaExeCont(Continente.getContinente("Europa"));
+		posicionaExeCont(Continente.getContinente("Oceania"));
+
+		// Pergunta se o jogador quer trocar as cartas por exercitos caso a condição
+		// seja verdadeira (3 cartas do mesmo tipo ou 1 de cada tipo)
+		// Se sim, adiciona o valor correspondente ao numero de exercitos pendentes
+		// adiciona exercitos de acordo com o numero de territórios / 2
+	}
+
 	private void posicionaExeCont(Continente c) {
 		/** Funcao que posiciona os exercitos no continente dominado de forma fixa. */
 		if (c.pertence(this)) {
@@ -99,25 +122,6 @@ class Jogador {
 			int iPais = i % tam; // = input();
 			this.paises.get(iPais).acrescentaExe(n);
 		}
-	}
-
-	public void posicionaExeCont() {
-		/**
-		 * Chama o metodo que percorre cada continente e verifica se o jogador tem seu
-		 * dominio total,
-		 * e posiciona os exercitos de forma fixa
-		 */
-		posicionaExeCont(Continente.getContinente("África"));
-		posicionaExeCont(Continente.getContinente("América do Norte"));
-		posicionaExeCont(Continente.getContinente("América do Sul"));
-		posicionaExeCont(Continente.getContinente("Ásia"));
-		posicionaExeCont(Continente.getContinente("Europa"));
-		posicionaExeCont(Continente.getContinente("Oceania"));
-
-		// Pergunta se o jogador quer trocar as cartas por exercitos caso a condição
-		// seja verdadeira (3 cartas do mesmo tipo ou 1 de cada tipo)
-		// Se sim, adiciona o valor correspondente ao numero de exercitos pendentes
-		// adiciona exercitos de acordo com o numero de territórios / 2
 	}
 
 	public void recebeCarta(Carta carta) {
@@ -153,9 +157,9 @@ class Jogador {
 					for(int k = j+1; k < cartas.size(); k++){
 						Carta c3 = cartas.get(k);
 						if(verificaTroca(c1,c2,c3)){
-							resultado[0] = c1;
-							resultado[1] = c2;
-							resultado[2] = c3;
+							resultado[2] = cartas.remove(k);
+							resultado[1] = cartas.remove(j);
+							resultado[0] = cartas.remove(i);
 							return resultado;
 						}
 					}
