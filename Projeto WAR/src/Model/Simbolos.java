@@ -1,5 +1,5 @@
 package Model;
 
-public enum Simbolos {
+enum Simbolos {
 	TRIANGULO, QUADRADO, CIRCULO, CORINGA
 };
