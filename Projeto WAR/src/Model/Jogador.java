@@ -4,19 +4,16 @@ import java.util.ArrayList;
 
 class Jogador {
 
-	private ArrayList<Territorio> territorios = new ArrayList<Territorio>(); // Trocar para private
+	private ArrayList<Territorio> territorios = new ArrayList<Territorio>();
 	private ArrayList<Carta> cartas = new ArrayList<Carta>(); // Cartas que o jogador possui
 	private String nome;
 	private Objetivo objetivo;
 	private Cores cor;
 	private Jogador assassino;
-	// vai ter cartas de troca? Vai sim.
 
 	public Jogador(Cores cor, String nome) {
 		this.cor = cor;
 		this.nome = nome;
-		// Jogo.jogadores.add(this); //depois da construcao do jogador,
-		// ele ja eh adicionado na lista de jogadores do jogo
 	}
 
 	public String getNome() {
@@ -64,15 +61,10 @@ class Jogador {
 		/** Funcao que retorna a quantidade de territorios de um jogador. */
 		return this.territorios.size();
 	}
-
-	public Territorio getTerritorio(String nomePais) {
-		/** Funcao que retorna um pais pertencente ao jogador. */
-		for (int i = 0; i < territorios.size(); i++) {
-			if (territorios.get(i).getNome() == nomePais) {
-				return territorios.get(i);
-			}
-		}
-		return null;
+	
+	public void removeTerritorio(Territorio t) {
+		/** Funcao que remove um pais pertencente ao jogador. */
+		territorios.remove(t);
 	}
 
 	public void addTerritorio(Territorio pais, int qtdExe) {
@@ -86,11 +78,6 @@ class Jogador {
 		for(Continente c: Continente.getContinentes()){
 			posicionaExeCont(c);
 		}
-
-		// Pergunta se o jogador quer trocar as cartas por exercitos caso a condição
-		// seja verdadeira (3 cartas do mesmo tipo ou 1 de cada tipo)
-		// Se sim, adiciona o valor correspondente ao numero de exercitos pendentes
-		// adiciona exercitos de acordo com o numero de territórios / 2
 	}
 
 	private void posicionaExeCont(Continente c) {
@@ -164,5 +151,10 @@ class Jogador {
 			}
 		}
 		return null;
+
+		// Pergunta se o jogador quer trocar as cartas por exercitos caso a condição
+		// seja verdadeira (3 cartas do mesmo tipo ou 1 de cada tipo)
+		// Se sim, adiciona o valor correspondente ao numero de exercitos pendentes
+		// adiciona exercitos de acordo com o numero de territórios / 2
 	}
 }

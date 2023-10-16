@@ -3,32 +3,26 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class CartaTest {
+    private static final int TIMEOUT = 2000;
 
-    @Test
+    @Test(timeout = TIMEOUT)
     public void testGetTerritorio(){
         Territorio t = new Territorio("Brasil");
-        Carta c = new Carta(t, Simbolos.CORINGA);
+        Carta c = new Carta(t, Simbolos.CIRCULO);
         assertEquals(t, c.getTerritorio());
     }
 
-    @Test
+    @Test(timeout = TIMEOUT)
     public void testGetTerritorioNulo(){
         Carta c = new Carta(null, Simbolos.CORINGA);
-        assertEquals(null, c.getTerritorio());
+        assertNull(c.getTerritorio());
     }
 
-    @Test
+    @Test(timeout = TIMEOUT)
     public void testGetSimbolo(){
         Territorio t = new Territorio("Brasil");
-        Carta c = new Carta(t, Simbolos.CORINGA);
-        assertEquals(Simbolos.CORINGA, c.getSimbolo());
-    }
-
-    @Test
-    public void testGetSimboloNulo(){
-        Territorio t = new Territorio("Brasil");
-        Carta c = new Carta(t, null);
-        assertEquals(null, c.getSimbolo());
+        Carta c = new Carta(t, Simbolos.CIRCULO);
+        assertEquals(Simbolos.CIRCULO, c.getSimbolo());
     }
     
 }

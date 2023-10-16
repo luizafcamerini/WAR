@@ -21,6 +21,11 @@ class Continente {
 		/** Funcao que retorna um continente pelo seu nome. */
 		return continentes.get(nome);
 	}
+	
+	public String getNome() {
+		/** Funcao que retorna o nome do continente*/
+		return this.nome;
+	}
 
 	public Territorio[] getTerritorios() {
 		/** Funcao que retorna uma copia da lista de territorios de um continente. */

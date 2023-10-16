@@ -136,7 +136,7 @@ class Jogo {
 		}
 	}
 
-	public void entregaCarta(Jogador j) {
+	private void entregaCarta(Jogador j) {
 		/** Funcao que entrga uma carta do baralho ao jogador atual. */
 		Carta carta = cartas.retira();
 		j.recebeCarta(carta);
@@ -150,13 +150,14 @@ class Jogo {
 		}
 	}
 
-	public int trocaCartas(Jogador j, Carta[] descartadas) {
+	private int trocaCartas(Jogador j, Carta[] descartadas) {
 		/**
 		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
 		 * cartas.
 		 */
 		for (Carta c : descartadas) {
-			if (c.getTerritorio().getDono() == j)
+			Territorio t = c.getTerritorio();
+			if (t != null && t.getDono() == j)
 				c.getTerritorio().acrescentaExe(2);
 			cartasUsadas.adiciona(c);
 		}

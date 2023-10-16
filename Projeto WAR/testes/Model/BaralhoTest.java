@@ -1,28 +1,34 @@
 package Model;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class BaralhoTest {
-    private Baralho<Carta> baralho = new Baralho<Carta>(); 
-    private Territorio territorio1 = new Territorio("Brasil");
-    private Baralho<Carta> baralho2 = new Baralho<Carta>(); 
+	private static final int TIMEOUT = 2000;
+	private Territorio territorio = new Territorio("Brasil");
 
-    private Carta carta1 = new Carta(territorio1, Simbolos.CIRCULO);
+	@Test(timeout = TIMEOUT)
+	public void testVazio() {
+		Baralho<Carta> baralho = new Baralho<Carta>();
+		assertTrue(baralho.vazio());
+	}
 
-    @Test
-    public void testVazio(){
-        assertTrue(baralho2.vazio());
-    }
+	@Test(timeout = TIMEOUT)
+	public void testAdiciona() {
+		Baralho<Carta> baralho = new Baralho<Carta>();
+		Carta carta = new Carta(territorio, Simbolos.CIRCULO);
+		baralho.adiciona(carta);
+		assertFalse(baralho.vazio());
+	}
 
-    @Test
-    public void testAdiciona(){
-        baralho.adiciona(carta1);
-        assertFalse(baralho.vazio());
-    }
-
-    @Test
-    public void testRetira() {
-        baralho2.retira();
-        assertTrue(baralho2.vazio());
-    }
+	@Test(timeout = TIMEOUT)
+	public void testRetira() {
+		Baralho<Carta> baralho = new Baralho<Carta>();
+		Carta carta = new Carta(territorio, Simbolos.CIRCULO);
+		assertNull(baralho.retira());
+		baralho.adiciona(carta);
+		assertFalse(baralho.vazio());
+		assertEquals(carta, baralho.retira());
+		assertTrue(baralho.vazio());
+	}
 }

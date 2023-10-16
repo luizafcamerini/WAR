@@ -44,6 +44,7 @@ public class TerritorioTest {
 		assertEquals(j1, t.getDono());
 		assertEquals(2, t.getQntdExercitos());
 		t.trocaDono(j2, 3);
+		assertFalse(contem(j1.getTerritorios(),t));
 		assertEquals(j2, t.getDono());
 		assertEquals(3, t.getQntdExercitos());
 	}

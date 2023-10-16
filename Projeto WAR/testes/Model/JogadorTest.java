@@ -16,7 +16,7 @@ public class JogadorTest {
 	}
 
 	@Test(timeout = TIMEOUT)
-	public void testSetAssassino_e_getAssassino() {
+	public void testSetAssassino_e_GetAssassino() {
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
 		Jogador assassino = new Jogador(Cores.VERDE, "Jeronimo");
 		jogador.setAssassino(assassino);
@@ -24,7 +24,7 @@ public class JogadorTest {
 	}
 
 	@Test(timeout = TIMEOUT)
-	public void testSetObjetivo_e_getDescricaoObjetivo() {
+	public void testSetObjetivo_e_GetDescricaoObjetivo() {
 		Objetivo objetivo = new Objetivo7();
 		jogador = new Jogador(Cores.VERMELHO, "Thomas");
 		jogador.setObjetivo(objetivo);
@@ -32,7 +32,7 @@ public class JogadorTest {
 	}
 
 	@Test(timeout = TIMEOUT)
-	public void test_GetTerritorios_e_getQtdPaises() {
+	public void test_GetTerritorios_e_GetQtdPaises() {
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
 		Territorio territorio1 = new Territorio("Brasil");
 		Territorio territorio2 = new Territorio("Argentina");
@@ -41,20 +41,17 @@ public class JogadorTest {
 		assertEquals(2, jogador.getQtdTerritorios());
 		assertTrue(contem(jogador.getTerritorios(),territorio1));
 		assertTrue(contem(jogador.getTerritorios(),territorio2));
-		assertEquals(2, jogador.getQtdTerritorios());
 	}
 
-	@Test(timeout = TIMEOUT)
-	public void testGetPais() {
-		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
-		Territorio territorio1 = new Territorio("Brasil");
-		Territorio territorio2 = new Territorio("Argentina");
-		jogador.addTerritorio(territorio1, 1);
-		jogador.addTerritorio(territorio2, 1);
-		assertEquals(territorio1, jogador.getTerritorio("Brasil"));
-		assertEquals(territorio2, jogador.getTerritorio("Argentina"));
-		assertNull(jogador.getTerritorio("Chile"));
-	}
+	 @Test(timeout = TIMEOUT)
+	 public void testRemoveTerritorio() {
+	 	Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
+	 	Territorio territorio1 = new Territorio("Brasil");
+	 	jogador.addTerritorio(territorio1, 1);
+	 	assertTrue(contem(jogador.getTerritorios(),territorio1));
+	 	jogador.removeTerritorio(territorio1);
+	 	assertFalse(contem(jogador.getTerritorios(),territorio1));
+	 }
 
 	@Test(timeout = TIMEOUT)
 	public void testPosicionaExeCont() { // NAO FINALIZADO (?)
@@ -125,7 +122,7 @@ public class JogadorTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testTrocaCartas4Diferentes(){
+    public void testTrocaCartasInvalidas(){
         // Teste para 4 cartas que nao podem ser trocadas
         Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
 		Territorio territorio1 = new Territorio("Brasil");

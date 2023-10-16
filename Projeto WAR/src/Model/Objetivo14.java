@@ -6,6 +6,13 @@ class Objetivo14 extends Objetivo {
 	}
 
 	public boolean verifica() {
-		return true;
+		int count = 0;
+		for(Territorio t: dono.getTerritorios()) {
+			if (t.getQntdExercitos() >= 2)
+				count++;
+		}
+		if(count >= 18)
+			return true;
+		return false;
 	}
 }

@@ -6,6 +6,15 @@ class Objetivo13 extends Objetivo {
 	}
 
 	public boolean verifica() {
-		return true;
+		if (Continente.getContinente("Europa").pertence(dono) &&
+				Continente.getContinente("América do Sul").pertence(dono)) {
+			for(Continente c: Continente.getContinentes()) {
+				if (!c.getNome().equals("Europa") &&
+						!c.getNome().equals("América do Sul") &&
+						c.pertence(dono))
+					return true;
+			}
+		}
+		return false;
 	}
 }

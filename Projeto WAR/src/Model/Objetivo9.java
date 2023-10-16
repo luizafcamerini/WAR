@@ -6,6 +6,9 @@ class Objetivo9 extends Objetivo {
 	}
 
 	public boolean verifica() {
-		return true;
+		if (Continente.getContinente("Ásia").pertence(dono) &&
+				Continente.getContinente("América do Sul").pertence(dono))
+			return true;
+		return false;
 	}
 }
