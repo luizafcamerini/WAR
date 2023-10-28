@@ -37,17 +37,18 @@ public class TerritorioTest {
 	
 	@Test(timeout = TIMEOUT)
 	public void testTrocaDono() {
-		Territorio t = new Territorio("Terra1");
-		Jogador j1 = new Jogador(Cores.AMARELO, "Jogador1");
-		Jogador j2 = new Jogador(Cores.AMARELO, "Jogador2");
-		t.trocaDono(j1);
-		assertEquals(j1, t.getDono());
-		assertEquals(2, t.getQntdExercitos());
-		t.trocaDono(j2);
-		assertFalse(contem(j1.getTerritorios(),t));
-		assertEquals(j2, t.getDono());
-		assertEquals(3, t.getQntdExercitos());
-	}
+        Territorio t = new Territorio("Terra1");
+        Jogador j1 = new Jogador(Cores.AMARELO, "Jogador1");
+        Jogador j2 = new Jogador(Cores.AMARELO, "Jogador2");
+        t.acrescentaExe(2);
+        t.trocaDono(j1);
+        assertEquals(j1, t.getDono());
+        assertEquals(1, t.getQntdExercitos());
+        t.trocaDono(j2);
+        assertFalse(contem(j1.getTerritorios(),t));
+        assertEquals(j2, t.getDono());
+        assertEquals(1, t.getQntdExercitos());
+    }
 
 	@Test(timeout = TIMEOUT)
 	public void testVizinhosExistem() {

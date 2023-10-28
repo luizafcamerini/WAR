@@ -55,18 +55,18 @@ public class JogadorTest {
 
 	@Test(timeout = TIMEOUT)
 	public void testPosicionaExeCont() { // NAO FINALIZADO (?)
-		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
-		Territorio territorio1 = new Territorio("TerraSemLei1");
-		Territorio territorio2 = new Territorio("TerraSemLei2");
-		Continente continente = new Continente("Antártida", 2);
-		continente.addTerritorio(territorio1);
-		continente.addTerritorio(territorio2);
-		jogador.addTerritorio(territorio1);
-		jogador.addTerritorio(territorio2);
-		jogador.posicionaExeCont();
-		assertEquals(2, territorio1.getQntdExercitos());
-		assertEquals(2, territorio2.getQntdExercitos());
-	}
+        Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
+        Territorio territorio1 = new Territorio("TerraSemLei1");
+        Territorio territorio2 = new Territorio("TerraSemLei2");
+        Continente continente = new Continente("Antártida", 2);
+        continente.addTerritorio(territorio1);
+        continente.addTerritorio(territorio2);
+        territorio1.trocaDono(jogador);
+        territorio2.trocaDono(jogador);
+        jogador.posicionaExeCont();
+        assertEquals(2, territorio1.getQntdExercitos());
+        assertEquals(2, territorio2.getQntdExercitos());
+    }
 
 	@Test(timeout = TIMEOUT)
 	public void testTrocaCartasIguais() {
