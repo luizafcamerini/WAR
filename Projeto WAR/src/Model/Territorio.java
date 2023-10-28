@@ -1,7 +1,8 @@
 package Model;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.Random;
 
 class Territorio {
 	private static ArrayList<Carta> cartasTerritorio = new ArrayList<Carta>();
@@ -11,7 +12,6 @@ class Territorio {
 	private Jogador dono;
 	private int qntdExercito = 1;
 	private String nome;
-	// imagem do territorio
 
 	public Territorio(String nome) {
 		/** Construtor que cria um territorio com seu nome. */
@@ -33,10 +33,20 @@ class Territorio {
 		return this.qntdExercito;
 	}
 
-	public void trocaDono(Jogador j, int qtdExe) {
-		/** Funcao que troca o dono do territorio e a quantidade de exercitos do novo dono. */
+	public void trocaDono(Jogador j) {
+		/**
+		 * Funcao que troca o dono do territorio e a quantidade de exercitos do novo
+		 * dono.
+		 */
+		Jogador donoAnterior = dono;
+		if (dono != null){
+			donoAnterior.removeTerritorio(this);
+			if (donoAnterior.getQtdTerritorios() == 0)
+				donoAnterior.setAssassino(j);
+		}
 		dono = j;
-		qntdExercito = qtdExe;
+		j.addTerritorio(this);
+		qntdExercito = 1;
 	}
 
 	public void acrescentaExe(int qtd) {
@@ -63,8 +73,89 @@ class Territorio {
 		return mapa;
 	}
 
+	private void sorteiaDados(int[] lista) {
+		/**
+		 * Funcao que preenche uma lista de inteiros com inteiros aleatorios, de 1 a 6
+		 */
+		for (int i = 0; i < lista.length; i++) {
+			Random rand = new Random();
+			lista[i] = rand.nextInt(1, 7);
+		}
+		Arrays.sort(lista);
+		for (int i = 0; i < lista.length / 2; i++) {
+			int temp = lista[i];
+			lista[i] = lista[lista.length - i - 1];
+			lista[lista.length - i - 1] = temp;
+		}
+
+	}
+
+	public boolean verificarVizinhos(Territorio t) {
+		/** Funcao que verifica se dois territorios sao vizinhos */
+		return vizinhos.contains(t);
+	}
+
+	private boolean verificaCondicoesAtaque(Territorio alvo) {
+		return (this.verificarVizinhos(alvo)) &&
+				(this.dono != alvo.getDono()) &&
+				(this.qntdExercito > 1);
+	}
+
+	private void moveExercitos(Territorio origem, Territorio destino) {
+		/**
+		 * Funcao que, depois da vitoria de um ataque, move os exercitos de um
+		 * territorio atacante para um atacado/conquistado
+		 */
+	}
+
+	public void atacar(Territorio alvo) {
+		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
+		int listaDados[];
+		boolean condicoesAtaque = verificaCondicoesAtaque(alvo);
+		if (condicoesAtaque) {
+			if (this.qntdExercito > 3) {
+				listaDados = new int[3];
+			} else {
+				listaDados = new int[this.qntdExercito - 1];
+			}
+			sorteiaDados(listaDados);
+			alvo.defender(listaDados, this);
+		} else {
+			System.out.printf("Não foi possível atacar %s\n.", alvo.getNome());
+		}
+	}
+
+	private void defender(int[] dadosAtaque, Territorio atacante) {
+		/**
+		 * Funcao em que um territorio se defende de um ataque, podendo eliminar
+		 * exercitos dos dois lados.
+		 */
+		int dadosDefesa[];
+		if (this.qntdExercito > 3) {
+			dadosDefesa = new int[3];
+		} else {
+			dadosDefesa = new int[this.qntdExercito];
+		}
+		sorteiaDados(dadosDefesa);
+		int minTam = dadosAtaque.length > dadosDefesa.length ? dadosDefesa.length : dadosAtaque.length;
+		for (int i = 0; i < minTam; i++) {
+			if (dadosAtaque[i] > dadosDefesa[i]) {
+				this.qntdExercito--;
+			} else {
+				atacante.qntdExercito--;
+			}
+		}
+		if (this.qntdExercito == 0) {
+			this.trocaDono(atacante.dono);
+			atacante.qntdExercito--;
+		}
+	}
+
 	static {
-		/* Bloco estatico que cria os continentes e territorios a partir de uma string e de uma hashtable. */
+		/*
+		 * Bloco estatico que cria os continentes e territorios a partir de uma string e
+		 * de uma hashtable.
+		 */
 		String txtCont = """
 				    África,3
 				    América do Norte,5

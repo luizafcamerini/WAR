@@ -48,8 +48,8 @@ public class ContinenteTest {
 		Continente continente = new Continente("Antártida", 2);
 		continente.addTerritorio(territorio1);
 		continente.addTerritorio(territorio2);
-		jogador.addTerritorio(territorio1, 1);
-		jogador.addTerritorio(territorio2, 1);
+		jogador.addTerritorio(territorio1);
+		jogador.addTerritorio(territorio2);
 		assertTrue(continente.pertence(jogador));
 	}
 }

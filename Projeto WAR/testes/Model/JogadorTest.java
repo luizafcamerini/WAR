@@ -36,8 +36,8 @@ public class JogadorTest {
 		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
 		Territorio territorio1 = new Territorio("Brasil");
 		Territorio territorio2 = new Territorio("Argentina");
-		jogador.addTerritorio(territorio2, 1);
-		jogador.addTerritorio(territorio1, 1);
+		jogador.addTerritorio(territorio2);
+		jogador.addTerritorio(territorio1);
 		assertEquals(2, jogador.getQtdTerritorios());
 		assertTrue(contem(jogador.getTerritorios(),territorio1));
 		assertTrue(contem(jogador.getTerritorios(),territorio2));
@@ -47,7 +47,7 @@ public class JogadorTest {
 	 public void testRemoveTerritorio() {
 	 	Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
 	 	Territorio territorio1 = new Territorio("Brasil");
-	 	jogador.addTerritorio(territorio1, 1);
+	 	jogador.addTerritorio(territorio1);
 	 	assertTrue(contem(jogador.getTerritorios(),territorio1));
 	 	jogador.removeTerritorio(territorio1);
 	 	assertFalse(contem(jogador.getTerritorios(),territorio1));
@@ -61,8 +61,8 @@ public class JogadorTest {
 		Continente continente = new Continente("Antártida", 2);
 		continente.addTerritorio(territorio1);
 		continente.addTerritorio(territorio2);
-		jogador.addTerritorio(territorio1, 1);
-		jogador.addTerritorio(territorio2, 1);
+		jogador.addTerritorio(territorio1);
+		jogador.addTerritorio(territorio2);
 		jogador.posicionaExeCont();
 		assertEquals(2, territorio1.getQntdExercitos());
 		assertEquals(2, territorio2.getQntdExercitos());

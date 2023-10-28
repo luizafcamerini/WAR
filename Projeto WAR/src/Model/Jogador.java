@@ -67,10 +67,9 @@ class Jogador {
 		territorios.remove(t);
 	}
 
-	public void addTerritorio(Territorio pais, int qtdExe) {
+	public void addTerritorio(Territorio pais) {
 		/** Funcao que adiciona um territorio na lista de um jogador e quantos exercitos posicionar nele. */
 		territorios.add(pais);
-		pais.trocaDono(this, qtdExe);
 	}
 
 	public void posicionaExeCont() {
@@ -157,4 +156,5 @@ class Jogador {
 		// Se sim, adiciona o valor correspondente ao numero de exercitos pendentes
 		// adiciona exercitos de acordo com o numero de territórios / 2
 	}
+
 }
