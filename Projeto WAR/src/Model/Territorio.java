@@ -64,15 +64,6 @@ class Territorio {
 		return vizinhos.toArray(new Territorio[vizinhos.size()]);
 	}
 
-	public static Baralho<Carta> montaBaralho() {
-		/** Funcao que cria um baralho de cartas (cartas de territorios) */
-		Baralho<Carta> mapa = new Baralho<Carta>();
-		for (Carta carta : cartasTerritorio) {
-			mapa.adiciona(carta);
-		}
-		return mapa;
-	}
-
 	private void sorteiaDados(int[] lista) {
 		/**
 		 * Funcao que preenche uma lista de inteiros com inteiros aleatorios, de 1 a 6
@@ -149,6 +140,21 @@ class Territorio {
 			this.trocaDono(atacante.dono);
 			atacante.qntdExercito--;
 		}
+	}
+
+
+
+	public static Baralho<Carta> montaBaralho() {
+		/** Funcao que cria um baralho de cartas (cartas de territorios) */
+		Baralho<Carta> mapa = new Baralho<Carta>();
+		for (Carta carta : cartasTerritorio) {
+			mapa.adiciona(carta);
+		}
+		return mapa;
+	}
+
+	public static Territorio getTerritorio(String nome){
+		return territorios.get(nome);
 	}
 
 	static {

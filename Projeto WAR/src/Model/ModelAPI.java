@@ -3,6 +3,8 @@ package Model;
 public class ModelAPI {
 	private static ModelAPI instance;
 	private Jogo jogo;
+	private final Cores [] cores = {Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO};
+	
 
 	private ModelAPI() {
 	}
@@ -14,12 +16,30 @@ public class ModelAPI {
 		return instance;
 	}
 
+	public void adicionaJogador(String nome, int cor){
+		jogo.adicionaJogador(new Jogador(cores[cor], nome));
+	}
+
+	// public String[] getTerritorios(){
+
+	// }
+
+	public int getQtdExercitos(String territorio){
+		return Territorio.getTerritorio(territorio).getQntdExercitos();
+	}
+
+	public int getCor(String territorio){
+		Cores c =  Territorio.getTerritorio(territorio).getDono().getCor();
+		for(int i = 0; i < cores.length; i++){
+			if (cores[i] == c)
+				return i;
+		}
+		return -1;
+	}
+
 	public void inicializaJogo() {
 		if (jogo == null) {
 			jogo = new Jogo();
-			jogo.adicionaJogador(new Jogador(Cores.BRANCO, "LUIZA"));
-			jogo.adicionaJogador(new Jogador(Cores.VERMELHO, "THOMAS"));
-			jogo.adicionaJogador(new Jogador(Cores.VERDE, "JERONIMO"));
 			jogo.inicializa();
 		}
 	}
