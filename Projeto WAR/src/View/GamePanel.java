@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 
 class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
     // private ArrayList<Territorio> territorios = new ArrayList<Territorio>();
     private Territorio[] territorios;
-    Image tabuleiro;
+    private Image tabuleiro;
     private Territorio foco;
+
+    private InfoPainel iP;
 
 
     private int i = 0;
@@ -21,6 +24,14 @@ class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
         territorios = Territorio.getTerritorios();
         Territorio t1 = territorios[i];
         // System.out.printf("\n%s,",t1.getNome());
+        
+        
+        
+        iP = new InfoPainel(null,10,350,250,200);
+        
+        iP.setInfo(0, "AZUL", 3);
+        
+
     }
 
     // public void add(Territorio t){
@@ -31,13 +42,27 @@ class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+
+        
+        
+        
         g.drawImage(tabuleiro, 0, 0, getWidth(), getHeight(), null);
 
         for(Territorio t: territorios){
             t.draw(g);
         }
+//        System.out.println("AAAAAAAAAAAAAAAAAAAAAAaa");
+        
+//        g.drawString(mensagem, getWidth()/2, 20);
+        
+        
+        iP.draw(g);
+        
+        
         
     }
+    
 
 
     public void mouseClicked(MouseEvent e) {
@@ -51,13 +76,18 @@ class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
         // if (i >= territorios.length)
         //     i=0;
         SoundEffect.play("src/View/sounds/attack.wav");
+        boolean fora = true;
         for(Territorio t: territorios){
 
             if (t.estaEm(e.getX(),e.getY())) {
-                t.marca(true);
+//                t.setMarcado(true);
+                ViewAPI.getInstance().click(t.getNome());
+                fora = false;
             	// System.out.println("Está em "+t.getNome());
             };
         }
+        if (fora)
+        	ViewAPI.getInstance().click(null);
         repaint();
     }
 
@@ -87,7 +117,7 @@ class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
         if (foco != null){
             // foco.setCor(Color.BLUE);
             // foco.setModo(0);
-            foco.ocuta(false);
+            foco.setOcuto(false);
             repaint();
 
             foco = null;
@@ -97,7 +127,7 @@ class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
             if (t.estaEm(e.getX(),e.getY())) {
                 // t.setCor(Color.RED);
                 // t.setModo(1);
-                t.ocuta(true);
+                t.setOcuto(true);
                 foco = t;
                 repaint();
             	// System.out.println("Está em "+t.getNome());

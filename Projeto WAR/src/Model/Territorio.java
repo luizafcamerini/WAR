@@ -99,9 +99,10 @@ class Territorio {
 		 */
 	}
 
-	public void atacar(Territorio alvo) {
+	public int[][] atacar(Territorio alvo) {
 		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
 		int listaDados[];
+		int listaDadosDefesa[];
 		boolean condicoesAtaque = verificaCondicoesAtaque(alvo);
 		if (condicoesAtaque) {
 			if (this.qntdExercito > 3) {
@@ -110,13 +111,16 @@ class Territorio {
 				listaDados = new int[this.qntdExercito - 1];
 			}
 			sorteiaDados(listaDados);
-			alvo.defender(listaDados, this);
+			listaDadosDefesa = alvo.defender(listaDados, this);
 		} else {
 			System.out.printf("Não foi possível atacar %s\n.", alvo.getNome());
+			return null;
 		}
+		int listasDados[][] = {listaDados,listaDadosDefesa};//new int[2][];
+		return listasDados;
 	}
 
-	private void defender(int[] dadosAtaque, Territorio atacante) {
+	private int[] defender(int[] dadosAtaque, Territorio atacante) {
 		/**
 		 * Funcao em que um territorio se defende de um ataque, podendo eliminar
 		 * exercitos dos dois lados.
@@ -140,6 +144,7 @@ class Territorio {
 			this.trocaDono(atacante.dono);
 			atacante.qntdExercito--;
 		}
+		return dadosDefesa;
 	}
 
 

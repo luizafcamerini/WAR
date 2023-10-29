@@ -12,13 +12,14 @@ public class Territorio {
 	private static Hashtable<String, Territorio> territorios;
 	
     private String nome;
-	private int num = 654;
+	private int num = 0;
     private int x, y;
     private Color cor;
     private int raio = 12;
     private Color cor2, cor3, cor4;
 	boolean marcado = false;
 	boolean ocuto = false;
+	boolean clicavel = false;
 	
 
     public Territorio(String _nome, int _x, int _y){
@@ -29,19 +30,23 @@ public class Territorio {
 
     public void setCor(Color _cor){
         cor = _cor;
+        if (cor == null) return;
 
 		int red = this.cor.getRed();
         int green = this.cor.getGreen();
         int blue = this.cor.getBlue();
+//        
+//        // Converte RGB para HSB
+//        float[] hsb = Color.RGBtoHSB(red, green, blue, null);
+//
+//        // Adiciona 0.5 (180 graus no círculo cromático) ao valor de Hue
+//        hsb[0] = (hsb[0] + 0.5f) % 1;
+
+//        // Converte HSB de volta para RGB
+//        cor3 = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
         
-        // Converte RGB para HSB
-        float[] hsb = Color.RGBtoHSB(red, green, blue, null);
-
-        // Adiciona 0.5 (180 graus no círculo cromático) ao valor de Hue
-        hsb[0] = (hsb[0] + 0.5f) % 1;
-
-        // Converte HSB de volta para RGB
-        cor3 = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+//        cor3 = new Color(red,green,blue, 150);
+        cor3 = new Color(128,128,128,128);
 
 		red = 255 - this.cor.getRed();
         green = 255 - this.cor.getGreen();
@@ -62,24 +67,51 @@ public class Territorio {
     	return nome;
     }
 
+    public void setNum(int n) {
+    	num = n;
+    }
+    
 	public void setCoord(int _x, int _y){
         x = _x;
         y = _y;
     }
 
-	public void marca(boolean b){
+	public void setMarcado(boolean b){
 		marcado = b;
 	}
 
-	public void ocuta(boolean b){
+	public void setOcuto(boolean b){
 		ocuto = b;
 	}
+	
+	public void setClicavel(boolean b){
+		clicavel = b;
+	}
 
+	
 
+    public boolean estaEm(int _x, int _y) {
+    	if (!clicavel) return false;
+    	int dx = Math.abs(x - _x);
+    	int dy = Math.abs(y - _y);
+    	int r = (int)Math.sqrt(dx*dx+dy*dy);
+    	return r <= raio;
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
 		if (!ocuto)
 	        g2d.setPaint(cor);
+//		else if (!clicavel)
+//			g2d.setPaint(cor3);
 		else
 			g2d.setPaint(cor4);
         Ellipse2D circ= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
@@ -98,6 +130,13 @@ public class Territorio {
 		// Define a espessura da borda
 		g2d.setStroke(new BasicStroke(1));
 		g2d.draw(circ);
+		
+		if (!clicavel) {
+			Ellipse2D circ2= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
+			g2d.setColor(cor3);
+			g2d.fill(circ2);
+		}
+		
 
 		if (marcado){
 			int espessuraBorda = 5;
@@ -112,12 +151,20 @@ public class Territorio {
 		g.drawString(txt,_x,_y);
     }
     
-    public boolean estaEm(int _x, int _y) {
-    	int dx = Math.abs(x - _x);
-    	int dy = Math.abs(y - _y);
-    	int r = (int)Math.sqrt(dx*dx+dy*dy);
-    	return r <= raio;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public static Territorio getTerritorio(String nome) {
+    	return territorios.get(nome);
     }
+    
     
     
     public static Territorio[] getTerritorios() {
@@ -194,7 +241,7 @@ public class Territorio {
 					strListTemp = linha.split(",");
 					if (strListTemp.length ==3) { // Verifica que esta lendo uma linha com território
 						nome = strListTemp[0];
-						System.out.println(nome);
+//						System.out.println(nome);
 						x = Integer.parseInt(strListTemp[1]);
 						y = Integer.parseInt(strListTemp[2]);
 						territorio = new Territorio(nome, x+10, y);

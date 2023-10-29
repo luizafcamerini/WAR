@@ -33,7 +33,25 @@ public class ControllerAPI {
         model.inicializaJogo();
         view.inicializaGameScreen();
         
+//        view.drawString("O jogador começa com cansei");
+        
+        int corAtual;
+        
+        corAtual = model.getCorAtual();
+        
+        String territorios[] = model.getTerritorios(corAtual);
+        
+        view.setEtapa(0, territorios, corAtual, 0);
+        
 
+    }
+    
+    public void ataca(String atacante, String defensor) {
+    	model.ataca(atacante, defensor);
+    	
+    	int corAtual = model.getCorAtual();
+    	String territorios[] = model.getTerritorios(corAtual);
+        view.setEtapa(0, territorios, corAtual, 0);
     }
 
     public static void main(String[] args) {
@@ -41,6 +59,8 @@ public class ControllerAPI {
     	
     	ControllerAPI control = ControllerAPI.getInstance();
     	control.inicializa();
+    	
+    	
 
 	}
 }

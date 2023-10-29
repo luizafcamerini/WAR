@@ -12,13 +12,13 @@ class GameScreen extends JFrame {
     private final String path = "src/View/images/";
     private static final int ALTURA_TELA = 700;
     private static final int LARGURA_TELA = 1200;
+    private GamePanel gP;
 
     public GameScreen(){
         setTitle("War");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(LARGURA_TELA, ALTURA_TELA);
         setResizable(false);
-        content = getContentPane();
         
         // Centraliza a janela na tela
         Toolkit tk=Toolkit.getDefaultToolkit();
@@ -29,7 +29,7 @@ class GameScreen extends JFrame {
         int y=sa/2-ALTURA_TELA/2;
         setBounds(x,y,LARGURA_TELA, ALTURA_TELA);
         
-        String nomeImgTab = path + "war_tabuleiro.png";
+        String nomeImgTab = path + "war_tabuleiro2.png";
         try {
             tabuleiro = ImageIO.read(new File(nomeImgTab));
         }
@@ -38,16 +38,19 @@ class GameScreen extends JFrame {
             System.out.println(e.getMessage());
             System.exit(1);
         }
-        GamePanel p = new GamePanel(tabuleiro);
-        // Territorio t = new Territorio("Brasil",360,400);
-        // t.setCor(Color.BLUE);
-        // p.add(t);
-        p.setBackground(Color.BLACK);
-
-        content.add(p);
-//        addMouseListener(t);
+        gP = new GamePanel(tabuleiro);
+        gP.setBackground(Color.BLACK);
+        
+        content = getContentPane();
+        content.add(gP);
        
+        
+        
     }
+    
+//    public void drawString(String mensagem) {
+//    	gP.drawSting(mensagem);
+//    }
 
 
 }

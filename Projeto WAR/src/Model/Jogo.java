@@ -102,6 +102,16 @@ class Jogo {
 		iterador++;
 		return j;
 	}
+	
+	public Jogador getJogador(Cores cor) {
+		Jogador j;
+		for(int i = 0; i < jogadores.size(); i++) {
+			j = jogadores.get(i);
+			if (j.getCor() == cor)
+				return j;
+		}
+		return null;
+	}
 
 	private int escolheJogador() {
 		/**

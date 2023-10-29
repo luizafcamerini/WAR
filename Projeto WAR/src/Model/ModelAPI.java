@@ -3,6 +3,9 @@ package Model;
 public class ModelAPI {
 	private static ModelAPI instance;
 	private Jogo jogo = new Jogo();;
+	private Jogador jAtual;
+	
+	
 	private final Cores [] cores = {Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO};
 	
 
@@ -29,7 +32,19 @@ public class ModelAPI {
 	}
 
 	public int getCor(String territorio){
-		Cores c =  Territorio.getTerritorio(territorio).getDono().getCor();
+		Jogador dono = Territorio.getTerritorio(territorio).getDono();
+		if (dono == null) return -1;
+		Cores c =  dono.getCor();
+		for(int i = 0; i < cores.length; i++){
+			if (cores[i] == c)
+				return i;
+		}
+		return -1;
+	}
+	
+	public int getCorAtual() {
+		Cores c = jAtual.getCor();
+		
 		for(int i = 0; i < cores.length; i++){
 			if (cores[i] == c)
 				return i;
@@ -39,9 +54,41 @@ public class ModelAPI {
 
 	public void inicializaJogo() {
 		jogo.inicializa();
+		jAtual = jogo.getProxJogador();
+	}
+	
+	public String []getTerritorios(int cor) {
+		Jogador j = jogo.getJogador(cores[cor]);
+		Territorio []territorios = j.getTerritorios();
+		String []lst = new String[territorios.length];
+		for (int i = 0; i< territorios.length; i++) {
+			lst[i] = territorios[i].getNome();	
+			territorios[i].acrescentaExe(4);
+		}
+		return lst;
+		
 	}
 
+	public String []getVizinhos(String territorio) {
+		Territorio []viz = Territorio.getTerritorio(territorio).getVizinhos();
+		String []lst = new String[viz.length];
+		for (int i = 0; i< viz.length; i++) {
+			lst[i] = viz[i].getNome();	
+		}
+		return lst;
+		
+	}
 	
+	
+	
+	public int[][] ataca(String atacante, String defensor) {
+    	Territorio atac = Territorio.getTerritorio(atacante);
+    	Territorio def = Territorio.getTerritorio(defensor);
+    	return atac.atacar(def);
+    	
+    }
+
+
 
 	
 
