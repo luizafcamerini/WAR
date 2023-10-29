@@ -3,7 +3,6 @@ package Model;
 public class ModelAPI {
 	private static ModelAPI instance;
 	private Jogo jogo;
-	private Jogador JAtual;
 
 	private ModelAPI() {
 	}
@@ -24,6 +23,8 @@ public class ModelAPI {
 			jogo.inicializa();
 		}
 	}
+
+	
 
 	
 

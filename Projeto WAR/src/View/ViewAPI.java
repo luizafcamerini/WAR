@@ -11,7 +11,20 @@ public class ViewAPI {
         return instance;
     }
 
-    public void criaView(){
+    public void inicializaGameScreen(){
         gameScreen = new GameScreen();
+        gameScreen.setVisible(true);
     }
 }
+
+// package View;
+
+// public class Main {
+
+// 	public static void main(String[] args) {
+// 		GameScreen f = new GameScreen();
+// 		f.setVisible(true);
+
+// 	}
+
+// }

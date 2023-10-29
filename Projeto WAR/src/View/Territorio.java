@@ -12,9 +12,14 @@ public class Territorio {
 	private static Hashtable<String, Territorio> territorios;
 	
     private String nome;
+	private int num = 654;
     private int x, y;
     private Color cor;
     private int raio = 12;
+    private Color cor2, cor3, cor4;
+	boolean marcado = false;
+	boolean ocuto = false;
+	
 
     public Territorio(String _nome, int _x, int _y){
         nome = _nome;
@@ -24,6 +29,33 @@ public class Territorio {
 
     public void setCor(Color _cor){
         cor = _cor;
+
+		int red = this.cor.getRed();
+        int green = this.cor.getGreen();
+        int blue = this.cor.getBlue();
+        
+        // Converte RGB para HSB
+        float[] hsb = Color.RGBtoHSB(red, green, blue, null);
+
+        // Adiciona 0.5 (180 graus no círculo cromático) ao valor de Hue
+        hsb[0] = (hsb[0] + 0.5f) % 1;
+
+        // Converte HSB de volta para RGB
+        cor3 = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+
+		red = 255 - this.cor.getRed();
+        green = 255 - this.cor.getGreen();
+        blue = 255 - this.cor.getBlue();
+        
+        cor2 = new Color(red, green, blue);
+        
+        int d = 100;
+        
+        red = (this.cor.getRed() > 128) ? this.cor.getRed() - d : this.cor.getRed() + d;
+        green = (this.cor.getGreen() > 128) ? this.cor.getGreen() - d : this.cor.getGreen() + d;
+        blue = (this.cor.getBlue() > 128) ? this.cor.getBlue() - d : this.cor.getBlue() + d;
+
+        cor4 = new Color(red, green, blue);
     }
     
     public String getNome() {
@@ -35,11 +67,49 @@ public class Territorio {
         y = _y;
     }
 
+	public void marca(boolean b){
+		marcado = b;
+	}
+
+	public void ocuta(boolean b){
+		ocuto = b;
+	}
+
+
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
-        g2d.setPaint(cor);
+		if (!ocuto)
+	        g2d.setPaint(cor);
+		else
+			g2d.setPaint(cor4);
         Ellipse2D circ= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
-        g2d.fill(circ);
+		g2d.fill(circ);
+		
+		String txt = Integer.toString(num);
+        FontMetrics fm = g.getFontMetrics();
+		// Centraliza o texto no círculo
+        double textWidth = fm.getStringBounds(txt, g).getWidth();
+        double textHeight = fm.getStringBounds(txt, g).getHeight();
+        int _x = (int) (x - textWidth / 2);
+        int _y = (int) (y - textHeight / 2 + fm.getAscent());
+
+		// Define a cor da borda
+		g2d.setColor(cor2);
+		// Define a espessura da borda
+		g2d.setStroke(new BasicStroke(1));
+		g2d.draw(circ);
+
+		if (marcado){
+			int espessuraBorda = 5;
+			// Desenha a borda
+			Ellipse2D borda = new Ellipse2D.Double(x-raio-espessuraBorda, y-raio-espessuraBorda, (raio+espessuraBorda)*2, (raio+espessuraBorda)*2);
+			g2d.setColor(cor2);
+			g2d.setStroke(new BasicStroke(espessuraBorda));
+			g2d.draw(borda);
+		}
+
+		g2d.setPaint(cor2);
+		g.drawString(txt,_x,_y);
     }
     
     public boolean estaEm(int _x, int _y) {
@@ -85,7 +155,7 @@ public class Territorio {
 				Mongolia,960,195
 				Argélia,535,310
 				Somalia,705,425
-				Romênia,670,195
+				Romênia,660,195
 				Letônia,750,130
 				Texas,230,195
 				Peru,300,435
@@ -125,8 +195,20 @@ public class Territorio {
 						System.out.println(nome);
 						x = Integer.parseInt(strListTemp[1]);
 						y = Integer.parseInt(strListTemp[2]);
-						territorio = new Territorio(nome, x, y);
-						territorio.cor = Color.BLACK;
+						territorio = new Territorio(nome, x+10, y);
+						if (territorios.size()%6 == 0)
+							territorio.setCor(Color.BLACK);
+						else if (territorios.size()%6 == 1)
+							territorio.setCor(Color.RED);
+						else if (territorios.size()%6 == 2)
+							territorio.setCor(Color.YELLOW);
+						else if (territorios.size()%6 == 3)
+							territorio.setCor(Color.WHITE);
+						else if (territorios.size()%6 == 4)
+							territorio.setCor(Color.GREEN);
+						else
+							territorio.setCor(Color.BLUE);
+
 						territorios.put(nome, territorio);
 				}
 		}
