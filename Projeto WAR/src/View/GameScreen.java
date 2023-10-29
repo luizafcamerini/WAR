@@ -39,13 +39,13 @@ class GameScreen extends JFrame {
             System.exit(1);
         }
         GamePanel p = new GamePanel(tabuleiro);
-        Territorio t = new Territorio("Brasil",100,100);
+        Territorio t = new Territorio("Brasil",360,400);
         t.setCor(Color.BLUE);
         p.add(t);
         p.setBackground(Color.BLACK);
 
         content.add(p);
-        addMouseListener(t);
+//        addMouseListener(t);
        
     }
 

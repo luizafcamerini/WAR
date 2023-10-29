@@ -11,7 +11,7 @@ class GamePanel  extends JPanel implements MouseListener {
     
     public GamePanel(Image img) {
     	tabuleiro = img;
-        // this.addMouseListener(this);
+         this.addMouseListener(this);
     }
 
     public void add(Territorio t){
@@ -28,26 +28,36 @@ class GamePanel  extends JPanel implements MouseListener {
         
     }
 
+
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Mouse Clicked");
+        System.out.println("Mouse Clicked at X: " + e.getX() + " Y: " + e.getY());
+        Territorio t;
+        
+        for(int i = 0; i < territorios.size(); i++){
+        	t = territorios.get(i);
+            if (t.estaEm(e.getX(),e.getY())) {
+            	System.out.println("Está em "+t.getNome());
+            };
+        }
     }
 
+
     public void mouseEntered(MouseEvent e) {
-        System.out.println("Mouse Entered");
+//        System.out.println("Mouse Entered");
     }
 
 
     public void mouseExited(MouseEvent e) {
-        System.out.println("Mouse Exited");
+//        System.out.println("Mouse Exited");
     }
 
 
     public void mousePressed(MouseEvent e) {
-        System.out.println("Mouse Pressed");
+//        System.out.println("Mouse Pressed");
     }
 
     public void mouseReleased(MouseEvent e) {
-        System.out.println("Mouse Released");
+//        System.out.println("Mouse Released");
     }
 
 
