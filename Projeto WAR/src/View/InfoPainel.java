@@ -8,8 +8,7 @@ public class InfoPainel{
 	private String msg;
 	int x, y, alt, larg;
 
-    public InfoPainel(String mensagem, int _x, int _y, int largura, int altura) {
-//        this.mensagem = mensagem;
+    public InfoPainel(int _x, int _y, int largura, int altura) {
         x = _x;
         y = _y;
         larg = largura;
@@ -18,18 +17,12 @@ public class InfoPainel{
     
     public void setInfo(int etapa, String cor, int qtdExe) {
     	
-    	
-    	
-    	
     	switch (etapa) {
     	case 0:
     		msg = String.format("Jogador: %s\nEtapa: Posicionamento\nQtd exércitos: %d",cor,qtdExe);
     		
     	
     	}
-    	
-//    	this.mensagem = mensagem;
-    	
     }
     
     public void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
@@ -57,8 +50,6 @@ public class InfoPainel{
 
 
     public void draw(Graphics g) {
-//        super.paintComponent(g);
-        
         Graphics2D g2d=(Graphics2D) g;
         
      // Desenha retângulo
@@ -69,10 +60,6 @@ public class InfoPainel{
         
         g.setColor(Color.WHITE);
         drawStringMultiLine(g,msg, 10,x+5,y+20);
-//        g.drawString(mensagem, x, y + 20);
-//        System.out.println("AAAAAAAAAAAAAAAAAaa");
-        
-        
     }
 	
 

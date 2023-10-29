@@ -9,8 +9,7 @@ public class ModelAPI {
 	private final Cores [] cores = {Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO};
 	
 
-	private ModelAPI() {
-	}
+	private ModelAPI() {}
 
 	public static ModelAPI getInstance() {
 		if (instance == null) {
@@ -23,10 +22,8 @@ public class ModelAPI {
 		jogo.adicionaJogador(new Jogador(cores[cor], nome));
 	}
 
-	// public String[] getTerritorios(){
-
-	// }
-
+	
+	
 	public int getQtdExercitos(String territorio){
 		return Territorio.getTerritorio(territorio).getQntdExercitos();
 	}
@@ -76,7 +73,6 @@ public class ModelAPI {
 			lst[i] = viz[i].getNome();	
 		}
 		return lst;
-		
 	}
 	
 	
@@ -88,7 +84,13 @@ public class ModelAPI {
     	
     }
 
-
+	public int getExeAd() {
+		return jAtual.getExeAd();
+	}
+	
+	public void addExe(String territorio, int n) {
+		Territorio.getTerritorio(territorio).acrescentaExe(n);
+	}
 
 	
 

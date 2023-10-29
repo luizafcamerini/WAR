@@ -13,15 +13,13 @@ public class ViewAPI {
     private String []vizinhos;
     private String selecionado;
     private int corAtual;
+    private int qtdExe;
     
     private final Color [] cores = {Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED};
-	
-    
-    
+	private final String [] coresStr = {"AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO"};
     private GameScreen gameScreen;
     
-    private ViewAPI() {
-    }
+    private ViewAPI() {}
 
     public static ViewAPI getInstance(){
         if(instance == null){
@@ -35,7 +33,6 @@ public class ViewAPI {
 
     public void inicializaGameScreen(){
         gameScreen = new GameScreen();
-        
         gameScreen.setVisible(true);
         
         Territorio []lst = Territorio.getTerritorios();
@@ -53,40 +50,28 @@ public class ViewAPI {
     	return cores[i];
     }
     
-//    public int setViewQtdExe(String territorio) {
-//    	return model.getQtdExercitos(territorio);
-//    }
-    
-//    public void drawString(String menssagem) {
-//    	gameScreen.drawString(menssagem);
-//    	model.getQtdExercitos(territorio)
-//    }
-    
     
     public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
-//    	Territorio t;
     	if (this.territorios!=null) {
     		for (String nome: this.territorios) {
     			atualizaTerritorio(nome,false);
     		}
-    		
     	}
     	
     	this.territorios = territorios;
     	this.etapa = etapa;
     	this.corAtual = cor;
-//    	Territorio t;
+    	this.qtdExe = qtd;
     	if (this.territorios!=null) {
 	    	for (String nome: territorios) {
 	    		atualizaTerritorio(nome,true);
-	//    		t = Territorio.getTerritorio(nome);
-	//    		t.setClicavel(true);
 	    	}
     	}
+    	
+    	gameScreen.setInfo(etapa, coresStr[corAtual], qtd);
     }
     
     private void atualizaTerritorio(String territorio, boolean click) {
-    	
 
 		int n = model.getQtdExercitos(territorio);
 		Territorio t = Territorio.getTerritorio(territorio);
@@ -94,7 +79,6 @@ public class ViewAPI {
 		int cor = model.getCor(territorio);
 		t.setCor(cores[cor]);
 		t.setClicavel(click);
-	
     }
     
     
@@ -112,18 +96,23 @@ public class ViewAPI {
 	    		atualizaTerritorio(nome,false);
     	}
     	
-//    	if (territorio == null) {
-//    		if (selecionado != null) {
-//        		atualizaTerritorio(selecionado, false);
-//        		
-//        		t = Territorio.getTerritorio(selecionado);
-//        		t.setMarcado(true);
-//    		}
-//    		selecionado = null;
-//    	}
-//    	
     	
     	if (etapa == 0) {
+    		if (territorio != null) {
+    			model.addExe(territorio,1);
+    			qtdExe--;
+    			gameScreen.setInfo(etapa, coresStr[corAtual], qtdExe);
+    			if (qtdExe == 0)
+    				control.proxEtapa();
+    		}
+    		if (territorios!=null) {
+    			for (String nome: territorios) {
+    				atualizaTerritorio(nome,true);
+    			}
+    		}
+    	}
+
+    	else if (etapa == 10) {
     		if (territorio == null) {
     			if (selecionado != null) {
 	    			atualizaTerritorio(selecionado, false);
@@ -144,7 +133,6 @@ public class ViewAPI {
     		atualizaTerritorio(selecionado, true);
     		
     		t = Territorio.getTerritorio(selecionado);
-//    		t.setClicavel(true);
     		t.setMarcado(true);
     		
     		vizinhos = model.getVizinhos(selecionado);
@@ -153,9 +141,9 @@ public class ViewAPI {
         		if (corAtual != model.getCor(nome))
         			t.setClicavel(true);
         	}
-    		etapa = 1;
+    		etapa = 11;
     	}
-    	else if (etapa == 1) {
+    	else if (etapa == 11) {
     		if (territorio == null) {
 				if (selecionado != null) {
         			atualizaTerritorio(selecionado, false);
@@ -169,7 +157,7 @@ public class ViewAPI {
     		    	}
     	    	}
     			
-    			etapa = 0;
+    			etapa = 10;
     			return;
     		}
 
@@ -178,30 +166,18 @@ public class ViewAPI {
     		t = Territorio.getTerritorio(territorio);
     		if (corAtual == model.getCor(territorio)){
     			t.setMarcado(false);
-//    			Territorio t;
     	    	for (String nome: territorios) {
     	    		atualizaTerritorio(nome, true);
-//    	    		t = Territorio.getTerritorio(nome);
-//    	    		t.setClicavel(true);
     	    	}
     	    	
     	    	selecionado = null;
-    	    	etapa = 0;
+    	    	etapa = 10;
     		}
     		else {
     			control.ataca(selecionado,territorio);
-//    			int n;
-//    			atualizaTerritorio(selecionado);
-//    			atualizaTerritorio(territorio);
-//    			n = model.getQtdExercitos(selecionado);
-//    			Territorio.getTerritorio(selecionado).setNum(n);
-//    			n = model.getQtdExercitos(territorio);
-//    			Territorio.getTerritorio(territorio).setNum(n);
-    			
-    			etapa = 0;
+    			etapa = 10;
     			click(selecionado);
     		}
-//    			t.setClicavel(true);
     	}
     	
     }

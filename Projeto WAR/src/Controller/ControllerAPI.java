@@ -11,6 +11,8 @@ public class ControllerAPI {
     private ModelAPI model;
     private ViewAPI view;
     
+    private int etapa = 0;
+    private int corAtual;
 
     public static ControllerAPI getInstance(){
         if(instance == null){
@@ -19,8 +21,7 @@ public class ControllerAPI {
         return instance;
     }
 
-    private ControllerAPI(){
-    }
+    private ControllerAPI(){}
 
     public void inicializa(){
     	instance.model = ModelAPI.getInstance();
@@ -33,17 +34,25 @@ public class ControllerAPI {
         model.inicializaJogo();
         view.inicializaGameScreen();
         
-//        view.drawString("O jogador começa com cansei");
+        etapa = 0;
         
-        int corAtual;
-        
+        proxEtapa();
+    }
+    
+    public void proxEtapa() {
         corAtual = model.getCorAtual();
-        
         String territorios[] = model.getTerritorios(corAtual);
         
-        view.setEtapa(0, territorios, corAtual, 0);
+        if (etapa == 0) {
+        	int qtdExeAd = model.getExeAd();
+        	view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
+        }
+        else if (etapa == 10) {
+        	view.setEtapa(etapa, territorios, corAtual, 0);
+        }
         
-
+        
+        etapa = (etapa +10)%20;
     }
     
     public void ataca(String atacante, String defensor) {
@@ -51,12 +60,10 @@ public class ControllerAPI {
     	
     	int corAtual = model.getCorAtual();
     	String territorios[] = model.getTerritorios(corAtual);
-        view.setEtapa(0, territorios, corAtual, 0);
+        view.setEtapa(10, territorios, corAtual, 0);
     }
 
     public static void main(String[] args) {
-    	
-    	
     	ControllerAPI control = ControllerAPI.getInstance();
     	control.inicializa();
     	

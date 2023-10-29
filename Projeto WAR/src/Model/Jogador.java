@@ -94,6 +94,11 @@ class Jogador {
 		}
 	}
 	
+	public int getExeAd() {
+		int tam = this.territorios.size();
+		return tam > 6 ? tam / 2 : 3;
+	}
+	
 	public void posicionaExe(int numExeAd){
 		/** Funcao que posiciona os exercitos gerais e das cartas sequencialmente nos terrritorios dominados. */
 		int tam = this.territorios.size();

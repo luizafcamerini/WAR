@@ -13,6 +13,7 @@ class GameScreen extends JFrame {
     private static final int ALTURA_TELA = 700;
     private static final int LARGURA_TELA = 1200;
     private GamePanel gP;
+    private InfoPainel iP;
 
     public GameScreen(){
         setTitle("War");
@@ -38,14 +39,18 @@ class GameScreen extends JFrame {
             System.out.println(e.getMessage());
             System.exit(1);
         }
-        gP = new GamePanel(tabuleiro);
+        
+        iP = new InfoPainel(10,350,250,200);
+        
+        gP = new GamePanel(tabuleiro, iP);
         gP.setBackground(Color.BLACK);
         
         content = getContentPane();
         content.add(gP);
-       
-        
-        
+    }
+    
+    public void setInfo(int etapa, String cor, int qtd) {
+    	iP.setInfo(etapa, cor, qtd);
     }
     
 //    public void drawString(String mensagem) {
