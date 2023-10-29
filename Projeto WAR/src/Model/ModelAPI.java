@@ -2,7 +2,7 @@ package Model;
 
 public class ModelAPI {
 	private static ModelAPI instance;
-	private Jogo jogo;
+	private Jogo jogo = new Jogo();;
 	private final Cores [] cores = {Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO};
 	
 
@@ -38,10 +38,7 @@ public class ModelAPI {
 	}
 
 	public void inicializaJogo() {
-		if (jogo == null) {
-			jogo = new Jogo();
-			jogo.inicializa();
-		}
+		jogo.inicializa();
 	}
 
 	

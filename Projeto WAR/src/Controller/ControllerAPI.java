@@ -1,5 +1,6 @@
 package Controller;
 
+//import View.GameScreen;
 import View.ViewAPI;
 import Model.ModelAPI;
 
@@ -9,6 +10,7 @@ public class ControllerAPI {
     private static ControllerAPI instance;
     private ModelAPI model;
     private ViewAPI view;
+    
 
     public static ControllerAPI getInstance(){
         if(instance == null){
@@ -18,19 +20,29 @@ public class ControllerAPI {
     }
 
     private ControllerAPI(){
-        model = ModelAPI.getInstance();
-        view = ViewAPI.getInstance();
     }
 
     public void inicializa(){
-        view.inicializaGameScreen();
+    	instance.model = ModelAPI.getInstance();
+    	instance.view = ViewAPI.getInstance();
+    	
+        model.adicionaJogador("LUIZA", 2);
+        model.adicionaJogador("THOMAS", 5);
+        model.adicionaJogador("JERONIMO", 4);
+        
         model.inicializaJogo();
-        model.adicionaJogador("LUIZA", 0);
-        model.adicionaJogador("THOMAS", 1);
-        model.adicionaJogador("JERONIMO", 2);
+        view.inicializaGameScreen();
+        
 
     }
 
+    public static void main(String[] args) {
+    	
+    	
+    	ControllerAPI control = ControllerAPI.getInstance();
+    	control.inicializa();
+
+	}
 }
 
 // jogo.adicionaJogador(new Jogador(Cores.BRANCO, "LUIZA"));

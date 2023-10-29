@@ -184,6 +184,8 @@ public class Territorio {
 				String[] strListTemp;
 				int x,y;
 
+				ViewAPI api = ViewAPI.getInstance();
+				
 				// Cria os territórios
 				for (String linha : linhasTerritorios) {
 					linha = linha.trim();
@@ -196,18 +198,20 @@ public class Territorio {
 						x = Integer.parseInt(strListTemp[1]);
 						y = Integer.parseInt(strListTemp[2]);
 						territorio = new Territorio(nome, x+10, y);
-						if (territorios.size()%6 == 0)
-							territorio.setCor(Color.BLACK);
-						else if (territorios.size()%6 == 1)
-							territorio.setCor(Color.RED);
-						else if (territorios.size()%6 == 2)
-							territorio.setCor(Color.YELLOW);
-						else if (territorios.size()%6 == 3)
-							territorio.setCor(Color.WHITE);
-						else if (territorios.size()%6 == 4)
-							territorio.setCor(Color.GREEN);
-						else
-							territorio.setCor(Color.BLUE);
+						Color c = api.setViewColor(nome);
+						territorio.setCor(c);
+//						if (territorios.size()%6 == 0)
+//							territorio.setCor(Color.BLACK);
+//						else if (territorios.size()%6 == 1)
+//							territorio.setCor(Color.RED);
+//						else if (territorios.size()%6 == 2)
+//							territorio.setCor(Color.YELLOW);
+//						else if (territorios.size()%6 == 3)
+//							territorio.setCor(Color.WHITE);
+//						else if (territorios.size()%6 == 4)
+//							territorio.setCor(Color.GREEN);
+//						else
+//							territorio.setCor(Color.BLUE);
 
 						territorios.put(nome, territorio);
 				}
