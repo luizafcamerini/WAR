@@ -115,16 +115,17 @@ class Jogo {
 	}
 
 	private void distribuiTerritorios() {
-		/** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
-		cartas.embaralha();
-		Carta c;
-		while (!cartas.vazio()) {
-			c = cartas.retira();
-			jogadores.get(iterador % jogadores.size()).addTerritorio(c.getTerritorio());
-			cartasUsadas.adiciona(c);
-			iterador++;
-		}
-	}
+        /** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
+        cartas.embaralha();
+        Carta c;
+        Jogador j;
+        while (!cartas.vazio()) {
+            j = jogadores.get(iterador % jogadores.size());
+            c = cartas.retira();
+            c.getTerritorio().trocaDono(j);
+            iterador++;
+        }
+    }
 
 	private void distribuiObjetivos() {
 		/** Funcao que embaralha e distribui os objetivos para os jogadores. */
