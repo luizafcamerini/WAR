@@ -43,7 +43,7 @@ class GamePanel  extends JPanel implements MouseListener, MouseMotionListener {
 
 
     public void mouseClicked(MouseEvent e) {
-        SoundEffect.play("src/View/sounds/attack.wav");
+//        SoundEffect.play("src/View/sounds/attack.wav");
         boolean fora = true;
         for(Territorio t: territorios){
 

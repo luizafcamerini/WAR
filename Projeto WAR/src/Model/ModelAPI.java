@@ -59,8 +59,7 @@ public class ModelAPI {
 		Territorio []territorios = j.getTerritorios();
 		String []lst = new String[territorios.length];
 		for (int i = 0; i< territorios.length; i++) {
-			lst[i] = territorios[i].getNome();	
-			territorios[i].acrescentaExe(4);
+			lst[i] = territorios[i].getNome();
 		}
 		return lst;
 		
