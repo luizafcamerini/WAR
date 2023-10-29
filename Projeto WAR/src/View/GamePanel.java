@@ -8,18 +8,14 @@ import java.io.IOException;
 
 class GamePanel extends JPanel {
     Image tabuleiro;
+    
+    public GamePanel(Image img) {
+    	tabuleiro = img;
+    }
 
-    public void paintComponent(Graphics g, int x, int y) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        try {
-            tabuleiro = ImageIO.read(new File("src/View/Imagens/tabuleiro.png"));
-        }
-       catch(IOException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-        g.drawImage(tabuleiro, x, y, null);
-
+        g.drawImage(tabuleiro, 0, 0, getWidth(), getHeight(), null);
+//        g.drawImage(tabuleiro, 0, 0, null);
     }
 }
