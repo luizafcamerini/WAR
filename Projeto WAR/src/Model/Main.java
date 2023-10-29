@@ -1,5 +1,15 @@
 package Model;
+import javax.swing.*;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.imageio.ImageIO;
+
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 public class Main {
 	public static void main(String[] args) {
 		Jogo jogo = new Jogo();
@@ -32,6 +42,25 @@ public class Main {
 
 		jogo.iniciaJogo();
 
-	}
+		// try {
+        //     BufferedImage img = ImageIO.read(new File("src/View/images/dado_ataque_5.png"));
+		// 	int x = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getWidth() - img.getWidth()) / 2);
+		// 	int y = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - img.getHeight()) / 2);
+		// 	 // Criando um JLabel para exibir a imagem
+		// 	 JLabel label = new JLabel(new ImageIcon(img));
+
+		// 	 // Criando um JFrame para conter o JLabel
+		// 	 JFrame frame = new JFrame();
+		// 	 frame.setSize(1280, 720);
+		// 	 frame.setLocation(x - 500, y - 400);
+		// 	 frame.getContentPane().add(label, BorderLayout.CENTER);
+		// 	//  frame.pack();
+		// 	 frame.setVisible(true);
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+    }
 
 }
+
+
