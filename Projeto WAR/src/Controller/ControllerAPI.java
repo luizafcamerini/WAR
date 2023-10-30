@@ -1,5 +1,6 @@
 package Controller;
 
+import View.SoundEffect;
 //import View.GameScreen;
 import View.ViewAPI;
 import Model.ModelAPI;
@@ -67,6 +68,7 @@ public class ControllerAPI {
     }
     
     public int[][] ataca(String atacante, String defensor) {
+        SoundEffect.play("src/View/sounds/attack.wav");
     	int [][] dados = model.ataca(atacante, defensor);
         // view.ataca();
     	

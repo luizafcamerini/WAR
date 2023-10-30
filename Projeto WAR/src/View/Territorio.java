@@ -150,7 +150,6 @@ public class Territorio {
     }
 
 	public static String getImgTerritorio(String nome) {
-		// System.out.println(nome);
 		if (imgTerritorios.get(nome) == null){
 			return "war_carta_coringa.png";
 		}

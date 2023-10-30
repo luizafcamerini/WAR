@@ -63,7 +63,7 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 			return;
 		}
 
-		// SoundEffect.play("src/View/sounds/attack.wav");
+		
 		boolean fora = true;
 		for (Territorio t : territorios) {
 
