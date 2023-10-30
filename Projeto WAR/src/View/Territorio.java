@@ -10,6 +10,8 @@ import java.util.Hashtable;
 
 public class Territorio {
 	private static Hashtable<String, Territorio> territorios;
+	private static Hashtable<String, String> imgTerritorios;
+
 	
     private String nome;
 	private int num = 0;
@@ -80,7 +82,7 @@ public class Territorio {
 		marcado = b;
 	}
 
-	public void setOcuto(boolean b){
+	public void setOculto(boolean b){
 		ocuto = b;
 	}
 	
@@ -164,64 +166,68 @@ public class Territorio {
     public static Territorio getTerritorio(String nome) {
     	return territorios.get(nome);
     }
-    
+
+	public static String getImgTerritorio(String nome) {
+    	return imgTerritorios.get(nome);
+    }
     
     
     public static Territorio[] getTerritorios() {
     	if (territorios == null) {
 			territorios = new Hashtable<String, Territorio>();
+			imgTerritorios = new Hashtable<String, String>();
     		String txtTerritorios = """
-				Espanha,525,215
-				Polônia,660,140
-				Síria,760,225
-				Québec,350,125
-				África do Sul,660,510
-				Paquistão,845,260
-				Alasca,150,75
-				Indonésia,1000,445
-				Índia,895,315
-				Egito,650,330
-				Nova Zelândia,1035,590
-				Arábia Saudita,760,350
-				Calgary,235,80
-				China,895,230
-				Jordânia,710,290
-				Japão,1060,210
-				Nigéria,595,370
-				Austrália,975,555
-				Perth,915,540
-				Groelândia,395,40
-				Argentina,340,505
-				Vancouver,220,125
-				Cazaquistão,945,150
-				Itália,610,180
-				França,560,185
-				Angola,640,445
-				México,200,300
-				Venezuela,260,370
-				Mongolia,960,195
-				Argélia,535,310
-				Somalia,705,425
-				Romênia,660,195
-				Letônia,750,130
-				Texas,230,195
-				Peru,300,435
-				Suécia,610,80
-				Sibéria,995,75
-				Coréia do Norte,970,245
-				Coréia do Sul,970,275
-				Tailândia,1000,300
-				Bangladesh,950,320
-				Reino Unido,545,130
-				Ucrânia,680,170
-				Califórnia,170,200
-				Nova York,270,205
-				Russia,885,95
-				Estônia,770,80
-				Brasil,350,400
-				Turquia,825,185
-				Iraque,770,280
-				Irã,810,285
+				Espanha,525,215,war_carta_eu_espanha.png
+				Polônia,660,140,war_carta_eu_polonia.png
+				Síria,760,225,war_carta_as_siria.png
+				Québec,350,125,war_carta_an_quebec.png
+				África do Sul,660,510,war_carta_af_africadosul.png
+				Paquistão,845,260,war_carta_as_paquistao.png
+				Alasca,150,75,war_carta_an_alasca.png
+				Indonésia,1000,445,war_carta_oc_indonesia.png
+				Índia,895,315,war_carta_as_india.png
+				Egito,650,330,war_carta_af_egito.png
+				Nova Zelândia,1035,590,war_carta_oc_novazelandia.png
+				Arábia Saudita,760,350,war_carta_as_arabiasaudita.png
+				Calgary,235,80,war_carta_an_calgary.png
+				China,895,230,war_carta_as_china.png
+				Jordânia,710,290,war_carta_as_jordania.png
+				Japão,1060,210,war_carta_as_japao.png
+				Nigéria,595,370,war_carta_af_nigeria.png
+				Austrália,975,555,war_carta_oc_australia.png
+				Perth,915,540,war_carta_oc_perth.png
+				Groelândia,395,40,war_carta_an_groelandia.png
+				Argentina,340,505,war_carta_sa_argentina.png
+				Vancouver,220,125,war_carta_an_vancouver.png
+				Cazaquistão,945,150,war_carta_as_cazaquistao.png
+				Itália,610,180,war_carta_eu_italia.png
+				França,560,185,war_carta_eu_franca.png
+				Angola,640,445,war_carta_af_angola.png
+				México,200,300,war_carta_na_mexico.png
+				Venezuela,260,370,war_carta_sa_venezuela.png
+				Mongolia,960,195,war_carta_as_mongolia.png
+				Argélia,535,310,war_carta_af_argelia.png
+				Somalia,705,425,war_carta_af_somalia.png
+				Romênia,660,195,war_carta_eu_romenia.png
+				Letônia,750,130,war_carta_eu_letonia.png
+				Texas,230,195,war_carta_na_texas.png
+				Peru,300,435,war_carta_sa_peru.png
+				Suécia,610,80,war_carta_eu_suecia.png
+				Sibéria,995,75,war_carta_as_siberia.png
+				Coréia do Norte,970,245,war_carta_as_coreiadonorte.png
+				Coréia do Sul,970,275,war_carta_as_coreiadosul.png
+				Tailândia,1000,300,war_carta_as_tailandia.png
+				Bangladesh,950,320,war_carta_as_bangladesh.png 
+				Reino Unido,545,130,war_carta_eu_reinounido.png 
+				Ucrânia,680,170,war_carta_eu_ucrania.png
+				Califórnia,170,200,war_carta_na_california.png 
+				Nova York,270,205,war_carta_na_novayork.png
+				Russia,885,95,war_carta_as_russia.png
+				Estônia,770,80,war_carta_eu_estonia.png 
+				Brasil,350,400,war_carta_asl_brasil.png
+				Turquia,825,185,war_carta_as_turquia.png
+				Iraque,770,280, war_carta_as_iraque.png
+				Irã,810,285,war_carta_as_ira.png
     				""";
 
 				String nome;
@@ -239,7 +245,7 @@ public class Territorio {
 					// System.out.println(linha);
 
 					strListTemp = linha.split(",");
-					if (strListTemp.length ==3) { // Verifica que esta lendo uma linha com território
+					if (strListTemp.length ==4) { // Verifica que esta lendo uma linha com território
 						nome = strListTemp[0];
 //						System.out.println(nome);
 						x = Integer.parseInt(strListTemp[1]);
@@ -247,20 +253,9 @@ public class Territorio {
 						territorio = new Territorio(nome, x+10, y);
 						Color c = api.setViewColor(nome);
 						territorio.setCor(c);
-//						if (territorios.size()%6 == 0)
-//							territorio.setCor(Color.BLACK);
-//						else if (territorios.size()%6 == 1)
-//							territorio.setCor(Color.RED);
-//						else if (territorios.size()%6 == 2)
-//							territorio.setCor(Color.YELLOW);
-//						else if (territorios.size()%6 == 3)
-//							territorio.setCor(Color.WHITE);
-//						else if (territorios.size()%6 == 4)
-//							territorio.setCor(Color.GREEN);
-//						else
-//							territorio.setCor(Color.BLUE);
 
 						territorios.put(nome, territorio);
+						imgTerritorios.put(nome, strListTemp[3]);
 				}
 		}
     		

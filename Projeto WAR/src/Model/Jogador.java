@@ -16,6 +16,11 @@ class Jogador {
 		this.nome = nome;
 	}
 
+	public ArrayList<Carta> getCartas() {
+		/** Funcao que retorna uma copia da lista de cartas de um jogador. */
+		return new ArrayList<Carta>(cartas);
+	}
+
 	public String getNome() {
 		/** Funcao que retorna o nome do jogador. */
 		return nome;

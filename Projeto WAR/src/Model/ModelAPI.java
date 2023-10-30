@@ -1,10 +1,13 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class ModelAPI {
 	private static ModelAPI instance;
 	private Jogo jogo = new Jogo();;
 	private Jogador jAtual;
-	
+	private int[][] listaDados;
+	private boolean conquista = false;
 	
 	private final Cores [] cores = {Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO};
 	
@@ -21,7 +24,6 @@ public class ModelAPI {
 	public void adicionaJogador(String nome, int cor){
 		jogo.adicionaJogador(new Jogador(cores[cor], nome));
 	}
-
 	
 	
 	public int getQtdExercitos(String territorio){
@@ -49,9 +51,30 @@ public class ModelAPI {
 		return -1;
 	}
 
+	public int getProxCor() {
+		jAtual = jogo.getProxJogador();
+		conquista = false;
+		return getCorAtual();
+	}
+
+	public String[] getCartasJogador(){
+		ArrayList<Carta> cartas = jAtual.getCartas();
+		String[] nome_cartas = new String[cartas.size()];
+		for (int i = 0; i < cartas.size(); i++) {
+			nome_cartas[i] = cartas.get(i).getTerritorio().getNome();
+		}
+		return nome_cartas;
+	}
+
+
 	public void inicializaJogo() {
 		jogo.inicializa();
 		jAtual = jogo.getProxJogador();
+		conquista = false;
+	}
+
+	public void conquistou(){
+		conquista = true;
 	}
 	
 	public String []getTerritorios(int cor) {
@@ -74,12 +97,11 @@ public class ModelAPI {
 		return lst;
 	}
 	
-	
-	
 	public int[][] ataca(String atacante, String defensor) {
     	Territorio atac = Territorio.getTerritorio(atacante);
     	Territorio def = Territorio.getTerritorio(defensor);
-    	return atac.atacar(def);
+		listaDados = atac.atacar(def);
+    	return listaDados;
     	
     }
 
@@ -91,6 +113,13 @@ public class ModelAPI {
 		Territorio.getTerritorio(territorio).acrescentaExe(n);
 	}
 
+	public void reduzExe(String territorio, int n){
+		Territorio.getTerritorio(territorio).reduzExe(n);
+	}
+
+	// public int[][] getListaDados() {
+	// 	return listaDados;
+	// }
 	
 
 }

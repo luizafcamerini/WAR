@@ -49,26 +49,29 @@ public class ControllerAPI {
         }
         else if (etapa == 10) {
         	view.setEtapa(etapa, territorios, corAtual, 0);
+            // return;
+        }
+        else if (etapa == 20){
+            view.setEtapa(etapa, territorios, corAtual, 0);
         }
         
-        
-        etapa = (etapa +10)%20;
+        etapa = (etapa +10)%30;
     }
     
-    public void ataca(String atacante, String defensor) {
-    	model.ataca(atacante, defensor);
+    public int[][] ataca(String atacante, String defensor) {
+    	int [][] dados = model.ataca(atacante, defensor);
+        // view.ataca();
     	
     	int corAtual = model.getCorAtual();
     	String territorios[] = model.getTerritorios(corAtual);
-        view.setEtapa(10, territorios, corAtual, 0);
+        view.setEtapa(12, territorios, corAtual, 0);
+        return dados;
     }
 
     public static void main(String[] args) {
     	ControllerAPI control = ControllerAPI.getInstance();
     	control.inicializa();
     	
-    	
-
 	}
 }
 

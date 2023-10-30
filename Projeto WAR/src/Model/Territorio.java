@@ -47,6 +47,8 @@ class Territorio {
 		dono = j;
 		j.addTerritorio(this);
 		qntdExercito = 1;
+
+		ModelAPI.getInstance().conquistou();
 	}
 
 	public void acrescentaExe(int qtd) {
