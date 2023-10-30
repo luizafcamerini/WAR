@@ -61,10 +61,7 @@ public class ModelAPI {
 		ArrayList<Carta> cartas = jAtual.getCartas();
 		String[] nome_cartas = new String[cartas.size()];
 		for (int i = 0; i < cartas.size(); i++) {
-			if (cartas.get(i).getTerritorio() == null){
-				System.out.print("VISH é NULL\n");
-			}
-			else {
+			if (cartas.get(i).getTerritorio() != null){
 				nome_cartas[i] = cartas.get(i).getTerritorio().getNome();
 			}
 		}

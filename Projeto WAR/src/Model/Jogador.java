@@ -19,10 +19,10 @@ class Jogador {
 	public ArrayList<Carta> getCartas() {
 		/** Funcao que retorna uma copia da lista de cartas de um jogador. */
 		Carta c[] = cartas.toArray(new Carta[cartas.size()]);
-		for (Carta c1: c) {
+		// for (Carta c1: c) {
 			
-			System.out.println(c1.getTerritorio().getNome());
-		}
+		// 	System.out.println(c1.getTerritorio().getNome());
+		// }
 		return new ArrayList<Carta>(cartas);
 	}
 

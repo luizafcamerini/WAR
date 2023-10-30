@@ -150,7 +150,10 @@ public class Territorio {
     }
 
 	public static String getImgTerritorio(String nome) {
-		System.out.println(nome);
+		// System.out.println(nome);
+		if (imgTerritorios.get(nome) == null){
+			return "war_carta_coringa.png";
+		}
     	return imgTerritorios.get(nome);
     }
     
@@ -179,21 +182,21 @@ public class Territorio {
 				Austrália,975,555,war_carta_oc_australia.png
 				Perth,915,540,war_carta_oc_perth.png
 				Groelândia,395,40,war_carta_an_groelandia.png
-				Argentina,340,505,war_carta_sa_argentina.png
+				Argentina,340,505,war_carta_as_argentina.png
 				Vancouver,220,125,war_carta_an_vancouver.png
 				Cazaquistão,945,150,war_carta_as_cazaquistao.png
 				Itália,610,180,war_carta_eu_italia.png
 				França,560,185,war_carta_eu_franca.png
 				Angola,640,445,war_carta_af_angola.png
-				México,200,300,war_carta_na_mexico.png
-				Venezuela,260,370,war_carta_sa_venezuela.png
+				México,200,300,war_carta_an_mexico.png
+				Venezuela,260,370,war_carta_as_venezuela.png
 				Mongolia,960,195,war_carta_as_mongolia.png
 				Argélia,535,310,war_carta_af_argelia.png
 				Somalia,705,425,war_carta_af_somalia.png
 				Romênia,660,195,war_carta_eu_romenia.png
 				Letônia,750,130,war_carta_eu_letonia.png
-				Texas,230,195,war_carta_na_texas.png
-				Peru,300,435,war_carta_sa_peru.png
+				Texas,230,195,war_carta_an_texas.png
+				Peru,300,435,war_carta_as_peru.png
 				Suécia,610,80,war_carta_eu_suecia.png
 				Sibéria,995,75,war_carta_as_siberia.png
 				Coréia do Norte,970,245,war_carta_as_coreiadonorte.png
@@ -202,8 +205,8 @@ public class Territorio {
 				Bangladesh,950,320,war_carta_as_bangladesh.png 
 				Reino Unido,545,130,war_carta_eu_reinounido.png 
 				Ucrânia,680,170,war_carta_eu_ucrania.png
-				Califórnia,170,200,war_carta_na_california.png 
-				Nova York,270,205,war_carta_na_novayork.png
+				Califórnia,170,200,war_carta_an_california.png 
+				Nova York,270,205,war_carta_an_novayork.png
 				Russia,885,95,war_carta_as_russia.png
 				Estônia,770,80,war_carta_eu_estonia.png 
 				Brasil,350,400,war_carta_asl_brasil.png

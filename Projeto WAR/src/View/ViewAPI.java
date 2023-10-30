@@ -79,6 +79,8 @@ public class ViewAPI {
 			}
 		}
 
+
+
 		gameScreen.setInfo((etapa/10)*10, coresStr[corAtual], qtd);
 	}
 
@@ -248,13 +250,6 @@ public class ViewAPI {
 			t = Territorio.getTerritorio(selecionado2);
 			t.setMarcado(true);
 
-			// int qtd1 = model.getQtdExercitos(selecionado);
-			// // int qtd2 = model.getQtdExercitos(selecionado2);
-			// if (qtd1 > 1){
-			// 	model.reduzExe(selecionado,1);
-			// 	model.addExe(selecionado2,1);
-			// }
-
 			etapa = 22;
 		}
 
@@ -284,7 +279,6 @@ public class ViewAPI {
 
 				return;
 			}
-			System.out.println(territorio);
 
 			int qtd1 = model.getQtdExercitos(selecionado);
 			int qtd2 = model.getQtdExercitos(selecionado2);

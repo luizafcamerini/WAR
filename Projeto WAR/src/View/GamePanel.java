@@ -182,6 +182,10 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 		int alt = getHeight() * 70 / 100;
 		int x = getWidth() * 10 / 100;
 		int y = getHeight() * 15 / 100;
+        
+        int pos_x_ini = x + 30;
+		int pos_y_ini = y + alt/3;
+		int marginLeft = larg/5;
 
         exibeJanela(g);
 
@@ -189,7 +193,7 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 		//conectar o nome das carteas com as imagens
 		for (int i = 0; i < nomesCartas.length; i++) {
 			imagemCarta = images.getImage(Territorio.getImgTerritorio(nomesCartas[i]));
-			g2d.drawImage(imagemCarta, x + larg/2 + i*imagemCarta.getWidth(null), y + alt/2, null);
+			g2d.drawImage(imagemCarta, pos_x_ini + i*marginLeft, pos_y_ini, null);
 		}
 	}
 

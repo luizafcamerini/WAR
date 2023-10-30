@@ -55,9 +55,6 @@ class Jogo {
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.embaralha();
-		for(Carta c: cartas.array()) {
-			System.out.println(c.getSimbolo());
-		}
 
 		distribuiObjetivos();
 	}
@@ -156,10 +153,10 @@ class Jogo {
 		Carta carta = cartas.retira();
 		j.recebeCarta(carta);
 		System.out.println(carta.getSimbolo());
+
 		if (carta.getTerritorio()!=null)
 			System.out.println(carta.getTerritorio().getNome());
-		else
-				System.out.println("AAAAAAAAAA");
+			
 		/** Reembaralha monte de cartas caso ele fique vazio */
 		if (cartas.vazio()) {
 			Baralho<Carta> aux = cartas;
