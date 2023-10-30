@@ -150,6 +150,7 @@ public class Territorio {
     }
 
 	public static String getImgTerritorio(String nome) {
+		System.out.println(nome);
     	return imgTerritorios.get(nome);
     }
     

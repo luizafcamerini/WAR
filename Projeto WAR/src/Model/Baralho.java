@@ -28,4 +28,7 @@ class Baralho<Tipo> {
 		/** Funcao que embaralha as cartas do baralho. */
 		Collections.shuffle(cartas);
 	}
+	public ArrayList<Tipo> array(){
+		return cartas;
+	}
 }

@@ -156,6 +156,8 @@ class Territorio {
 		Baralho<Carta> mapa = new Baralho<Carta>();
 		for (Carta carta : cartasTerritorio) {
 			mapa.adiciona(carta);
+//			if (carta.getTerritorio()!=null)
+//				System.out.println(carta.getTerritorio().getNome());
 		}
 		return mapa;
 	}
