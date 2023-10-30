@@ -100,14 +100,6 @@ public class Territorio {
     	return r <= raio;
     }
 	
-	
-	
-	
-	
-	
-	
-	
-	
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
 		if (!ocuto)
@@ -153,16 +145,6 @@ public class Territorio {
 		g.drawString(txt,_x,_y);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public static Territorio getTerritorio(String nome) {
     	return territorios.get(nome);
     }
@@ -170,7 +152,6 @@ public class Territorio {
 	public static String getImgTerritorio(String nome) {
     	return imgTerritorios.get(nome);
     }
-    
     
     public static Territorio[] getTerritorios() {
     	if (territorios == null) {

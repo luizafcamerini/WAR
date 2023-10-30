@@ -54,8 +54,16 @@ public class ControllerAPI {
         else if (etapa == 20){
             view.setEtapa(etapa, territorios, corAtual, 0);
         }
+        else if (etapa == 30){
+            model.entregaCarta();
+            view.setEtapa(etapa, null, corAtual, 0);
+        }
+        else {
+            model.getProxCor();
+            etapa = -10;
+        }
         
-        etapa = (etapa +10)%30;
+        etapa += 10;
     }
     
     public int[][] ataca(String atacante, String defensor) {

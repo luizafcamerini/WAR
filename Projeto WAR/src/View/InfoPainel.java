@@ -35,6 +35,9 @@ public class InfoPainel {
 			case 20:
 				msg = String.format("Jogador: %s\nEtapa: Deslocamento", cor);
                 break;
+            case 30:
+                msg  = String.format("Jogador: %s\nEtapa: Recebimento de carta", cor);
+                break;
             default:
                 msg = null;
 		}

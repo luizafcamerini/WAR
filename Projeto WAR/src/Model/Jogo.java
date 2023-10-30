@@ -147,8 +147,8 @@ class Jogo {
 		}
 	}
 
-	private void entregaCarta(Jogador j) {
-		/** Funcao que entrga uma carta do baralho ao jogador atual. */
+	public void entregaCarta(Jogador j) {
+		/** Funcao que entrega uma carta do baralho ao jogador atual. */
 		Carta carta = cartas.retira();
 		j.recebeCarta(carta);
 

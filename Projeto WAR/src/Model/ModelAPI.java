@@ -61,17 +61,22 @@ public class ModelAPI {
 		ArrayList<Carta> cartas = jAtual.getCartas();
 		String[] nome_cartas = new String[cartas.size()];
 		for (int i = 0; i < cartas.size(); i++) {
-			nome_cartas[i] = cartas.get(i).getTerritorio().getNome();
+			if (cartas.get(i).getTerritorio() == null){
+				System.out.print("VISH é NULL\n");
+			}
+			else {
+				nome_cartas[i] = cartas.get(i).getTerritorio().getNome();
+			}
 		}
 		return nome_cartas;
 	}
-
 
 	public void inicializaJogo() {
 		jogo.inicializa();
 		jAtual = jogo.getProxJogador();
 		conquista = false;
 	}
+	
 
 	public void conquistou(){
 		conquista = true;
@@ -117,6 +122,9 @@ public class ModelAPI {
 		Territorio.getTerritorio(territorio).reduzExe(n);
 	}
 
+	public void entregaCarta(){
+		jogo.entregaCarta(jAtual);
+	}
 	// public int[][] getListaDados() {
 	// 	return listaDados;
 	// }
