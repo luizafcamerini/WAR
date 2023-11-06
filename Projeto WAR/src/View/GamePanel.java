@@ -50,6 +50,7 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 		iP.draw(g);
         exibeDadosAtaque(g);
         exibeCartas(g);
+		exibeTabelas(g);
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -197,4 +198,25 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 		}
 	}
 
+	public void exibeTabelas(Graphics g){
+		if(!view.getExibeTabelas()) return;
+		Graphics2D g2d = (Graphics2D) g;
+		Image imagemTabelaExe = images.getImage("war_tabela_troca.png");
+		Image imagemTabelaBonusCont = images.getImage("war_tabela_bonus_continente.png");
+		int larg = getWidth() * 80 / 100;
+		// int alt = getHeight() * 70 / 100;
+		int x = getWidth() * 35 / 100;
+		int y = getHeight() * 40 / 100;
+		
+		int pos_x_ini = x;
+		int pos_y_ini = y;
+		int marginLeft = larg/5;
+		exibeJanela(g);
+
+		g2d.drawImage(imagemTabelaExe, pos_x_ini, pos_y_ini, null);
+		g2d.drawImage(imagemTabelaBonusCont, pos_x_ini + marginLeft, pos_y_ini, null);
+	}
+
 }
+
+

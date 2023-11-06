@@ -20,6 +20,7 @@ public class ViewAPI {
 	private Images images;
 	private int[][] dados;
 	private boolean exibeCartas;
+	private boolean exibeTabelas;
 
 	// private Hashtable<String, Image> imagensHashtable = new Hashtable<String,
 	// Image>();
@@ -97,6 +98,7 @@ public class ViewAPI {
 	public void click(String territorio) {
 		System.out.printf("Etapa %d\n", etapa);
 		exibeCartas = false;
+		exibeTabelas = false;
 
 		if (etapa == 12) {
 			etapa = 10;
@@ -325,6 +327,7 @@ public class ViewAPI {
 				break;
 			case 2:
 				//tabela de exe
+				exibeTabelas = true;
 				break;
 			case 3:
 				if (etapa == 0) break;
@@ -335,6 +338,10 @@ public class ViewAPI {
 
 	public boolean getExibeCartas(){
 		return exibeCartas;
+	}
+
+	public boolean getExibeTabelas(){
+		return exibeTabelas;
 	}
 
 }
