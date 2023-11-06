@@ -71,6 +71,11 @@ class Jogador {
 		/** Funcao que retorna a quantidade de territorios de um jogador. */
 		return this.territorios.size();
 	}
+
+	public String getImgNameObjetivo() {
+		/** Funcao que retorna o nome da imagem do objetivo de um jogador. */
+		return objetivo.getImgName();
+	}
 	
 	public void removeTerritorio(Territorio t) {
 		/** Funcao que remove um pais pertencente ao jogador. */

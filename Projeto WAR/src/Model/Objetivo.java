@@ -1,8 +1,11 @@
 package Model;
 
+import java.awt.Image;
+
 abstract class Objetivo {
 	String descricao;
 	Jogador dono;
+	String imgName;
 
 	abstract public boolean verifica();
 
@@ -12,6 +15,10 @@ abstract class Objetivo {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public String getImgName() {
+		return imgName;
 	}
 
 	public static Baralho<Objetivo> montaBaralho() {

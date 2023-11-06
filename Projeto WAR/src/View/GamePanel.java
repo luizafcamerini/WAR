@@ -51,6 +51,7 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
         exibeDadosAtaque(g);
         exibeCartas(g);
 		exibeTabelas(g);
+		exibeObjetivo(g);
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -215,6 +216,20 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 
 		g2d.drawImage(imagemTabelaExe, pos_x_ini, pos_y_ini, null);
 		g2d.drawImage(imagemTabelaBonusCont, pos_x_ini + marginLeft, pos_y_ini, null);
+	}
+
+	public void exibeObjetivo(Graphics g){
+		if(!view.getExibeObjetivo()) return;
+		Graphics2D g2d = (Graphics2D) g;
+		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
+
+		int x = getWidth() * 40 / 100 + 35;
+		int y = getHeight() * 35 / 100;
+		int pos_x_ini = x;
+		int pos_y_ini = y;
+
+		exibeJanela(g);
+		g2d.drawImage(imagemObjetivo, pos_x_ini, pos_y_ini, null);
 	}
 
 }

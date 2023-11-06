@@ -126,7 +126,9 @@ public class ModelAPI {
 	// 	return listaDados;
 	// }
 	
-
+	public String getImgNameObjetivo(){
+		return jAtual.getImgNameObjetivo();
+	}
 }
 
 // Na main vai ficar assim (por enquanto, depois o controller que irá chamar

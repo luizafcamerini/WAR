@@ -2,7 +2,8 @@ package Model;
 
 class Objetivo8 extends Objetivo {
 	public Objetivo8() {
-		descricao = "Conquistar na totalidade a Asia e a Africa";
+		descricao = "Conquistar na totalidade a Ásia e a África";
+		imgName = "war_carta_objetivo8.png";
 	}
 
 	public boolean verifica() {

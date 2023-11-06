@@ -21,6 +21,7 @@ public class ViewAPI {
 	private int[][] dados;
 	private boolean exibeCartas;
 	private boolean exibeTabelas;
+	private boolean exibeObjetivo;
 
 	// private Hashtable<String, Image> imagensHashtable = new Hashtable<String,
 	// Image>();
@@ -99,6 +100,7 @@ public class ViewAPI {
 		System.out.printf("Etapa %d\n", etapa);
 		exibeCartas = false;
 		exibeTabelas = false;
+		exibeObjetivo = false;
 
 		if (etapa == 12) {
 			etapa = 10;
@@ -319,7 +321,8 @@ public class ViewAPI {
 	public void clickBotao(int i) {
 		switch (i){
 			case 0:
-				// gameScreen.exibeObjetivo();
+				// objetivo
+				exibeObjetivo = true;
 				break;
 			case 1:
 				exibeCartas = true;
@@ -342,6 +345,10 @@ public class ViewAPI {
 
 	public boolean getExibeTabelas(){
 		return exibeTabelas;
+	}
+
+	public boolean getExibeObjetivo(){
+		return exibeObjetivo;
 	}
 
 }

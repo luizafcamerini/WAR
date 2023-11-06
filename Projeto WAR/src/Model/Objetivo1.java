@@ -6,6 +6,7 @@ class Objetivo1 extends Objetivo {
 	public Objetivo1(Jogador _alvo) {
 		alvo = _alvo;
 		descricao = "Destruir todos os exércitos AZUIS";
+		imgName = "war_carta_objetivo1.png";
 	}
 
 	public boolean verifica() {
