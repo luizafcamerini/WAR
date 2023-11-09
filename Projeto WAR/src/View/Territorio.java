@@ -7,14 +7,15 @@ import java.util.Hashtable;
 import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.Hashtable;
+import java.util.List;
 
-public class Territorio {
+public class Territorio implements ObservadoIF{
 	private static Hashtable<String, Territorio> territorios;
 	private static Hashtable<String, String> imgTerritorios;
 
 	
     private String nome;
-	private int num = 0;
+	private int num = 0; // quantidade de exércitos neste território
     private int x, y;
     private Color cor;
     private int raio = 12;
@@ -23,6 +24,19 @@ public class Territorio {
 	boolean ocuto = false;
 	boolean clicavel = false;
 	
+	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
+
+	public void addObservador(ObservadorIF o) {
+		lst.add(o);
+	}
+
+	public void removeObservador(ObservadorIF o) {
+		lst.remove(o);
+	}
+
+	public int get(int i){
+		return num;
+	}
 
     public Territorio(String _nome, int _x, int _y){
         nome = _nome;
