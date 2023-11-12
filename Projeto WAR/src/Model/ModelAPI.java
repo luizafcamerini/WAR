@@ -230,38 +230,38 @@ public class ModelAPI {
 		
 	}
 
-	public void loadGame() throws IOException{
-		File file = new File("src/gameState.txt");
-		if (!file.exists()) {
-			System.out.println("Arquivo de salvamento não existe.");
-			return;
-		}
-		String nomeJogador;
-		Cores corJogador;
+	// public void loadGame() throws IOException{
+	// 	File file = new File("src/gameState.txt");
+	// 	if (!file.exists()) {
+	// 		System.out.println("Arquivo de salvamento não existe.");
+	// 		return;
+	// 	}
+	// 	String nomeJogador;
+	// 	Cores corJogador;
 
 
-		BufferedReader reader = null;
-		try{
-			reader = new BufferedReader(new FileReader(file));
-			String line;
-			while((line = reader.readLine()) != null){
-				while(!line.contains(";")){
-					String[] info = line.split(",");
-					nomeJogador = info[0];
-					corJogador = Cores.valueOf(info[1]);
-					adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
-					line = reader.readLine();
+	// 	BufferedReader reader = null;
+	// 	try{
+	// 		reader = new BufferedReader(new FileReader(file));
+	// 		String line;
+	// 		while((line = reader.readLine()) != null){
+	// 			while(!line.contains(";")){
+	// 				String[] info = line.split(",");
+	// 				nomeJogador = info[0];
+	// 				corJogador = Cores.valueOf(info[1]);
+	// 				adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
+	// 				line = reader.readLine();
 
-				}
-			}
+	// 			}
+	// 		}
 
-		}
-		finally{
-			if (reader != null){
-				reader.close();
-			}
-		}	
+	// 	}
+	// 	finally{
+	// 		if (reader != null){
+	// 			reader.close();
+	// 		}
+	// 	}	
 
-	}
+	// }
 }
 
