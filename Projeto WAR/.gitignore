@@ -1,2 +1,4 @@
 /.metadata/
 .vscode/
+/bin/*
+*.class
