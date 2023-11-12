@@ -1,5 +1,9 @@
 package Model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelAPI {
@@ -68,6 +72,18 @@ public class ModelAPI {
 		return nome_cartas;
 	}
 
+	// Sobrescrita do metodo getCartasJogador para ser usado no saveState
+	public String[] getCartasJogador(Jogador jogador){
+		ArrayList<Carta> cartas = jogador.getCartas();
+		String[] nome_cartas = new String[cartas.size()];
+		for (int i = 0; i < cartas.size(); i++) {
+			if (cartas.get(i).getTerritorio() != null){
+				nome_cartas[i] = cartas.get(i).getTerritorio().getNome();
+			}
+		}
+		return nome_cartas;
+	}
+
 	public void inicializaJogo() {
 		jogo.inicializa();
 		jAtual = jogo.getProxJogador();
@@ -77,6 +93,10 @@ public class ModelAPI {
 
 	public void conquistou(){
 		conquista = true;
+	}
+
+	public boolean getConquista(){
+		return conquista;
 	}
 	
 	public String []getTerritorios(int cor) {
@@ -129,56 +149,86 @@ public class ModelAPI {
 	public String getImgNameObjetivo(){
 		return jAtual.getImgNameObjetivo();
 	}
+
+
+	public void saveState(){
+		/** Funcao que salva o estado do jogo em um arquivo txt.*/
+
+		Jogador jogador = jAtual;
+		Territorio []territorios;
+		String nomeTerritorio;
+		String objetivoJogador;
+		int qtdExercitos;
+		String corJogador;
+		String[] cartasJogador;
+		BufferedWriter writer = null;
+		// recebe o arquivo de salvamento do jogo, se não existir, cria um novo
+		File file = new File("gameState.txt");
+		if (!file.exists()) {
+			try {
+				if (file.createNewFile()) {
+					System.out.println("Arquivo criado: " + file.getName());
+				} else {
+					System.out.println("Arquivo " + file.getName() + " já existe");
+				}
+			} catch (IOException e) {
+				System.out.println("Erro no salvamento do jogo.");
+				e.printStackTrace();
+			}
+		}
+
+		// inicializa o escritor do arquivo
+		try{
+			writer = new BufferedWriter(new FileWriter(file, false)); // esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo o que já existe
+			
+			// loop que escreve os dados no arquivo para cara jogador
+			do {
+				// salva os dados do jogador no arquivo txt
+				corJogador = jogador.getCor().toString();
+				objetivoJogador = jogador.getImgNameObjetivo();
+				cartasJogador = getCartasJogador(jogador);
+
+				writer.write(corJogador); // Escreve a cor do jogador
+				writer.newLine(); 
+				writer.write(objetivoJogador); // Escreve o objetivo do jogador
+				writer.newLine();
+				if(cartasJogador.length != 0){
+					for (String c : cartasJogador) { // Escreve as cartas do jogador
+					writer.write(c + ',');
+					}
+				}
+				else{
+					writer.write(',');
+				}
+				writer.newLine();
+
+				territorios = jogador.getTerritorios();
+				for (Territorio t : territorios) {
+					nomeTerritorio = t.getNome();
+					qtdExercitos = t.getQntdExercitos();
+					writer.write(nomeTerritorio + "," + qtdExercitos);
+					writer.newLine();
+				}
+				writer.write(";"); // separa os dados de cada jogador com um ponto e virgula
+				writer.newLine();
+				jogador = jogo.getProxJogador();
+			} while(jogador != jAtual);
+
+		} catch (IOException e){
+			System.out.println("Erro ao escrever no arquivo de salvamento do jogo.");
+			e.printStackTrace();
+		}
+		finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					System.out.println("Erro ao fechar o escritor do arquivo.");
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 }
 
-// Na main vai ficar assim (por enquanto, depois o controller que irá chamar
-// estes métodos e a MainFutura irá chamar o controller):
-
-/*
- * public static void main(String[] args){
- * ModelAPI modelAPI = ModelAPI.getInstance();
- * modelAPI.inicializaJogo()
- * 
- * }
- * 
- * ta assim atualmente:
- * 
- * package Model;
- * 
- * public class Main {
- * public static void main(String[] args) {
- * Jogo jogo = new Jogo();
- * Jogador jAtual;
- * 
- * jogo.adicionaJogador(new Jogador(Cores.BRANCO, "LUIZA"));
- * jogo.adicionaJogador(new Jogador(Cores.VERMELHO, "THOMAS"));
- * jogo.adicionaJogador(new Jogador(Cores.VERDE, "JERONIMO"));
- * 
- * jogo.inicializa();
- * 
- * for (int i = 0; i < jogo.getQtdJogadores(); i++) {
- * jAtual = jogo.getProxJogador();
- * System.out.printf("\n%s\n", jAtual.getNome());
- * System.out.printf("Objetivo: %s\n", jAtual.getDescricaoObjetivo());
- * 
- * for (Territorio t: jAtual.getTerritorios()){
- * System.out.printf("%s: %s\n", t.getNome(),
- * t.getDono().getNome());
- * }
- * }
- * 
- * Continente.getContinente("África").exibe();
- * Continente.getContinente("América do Norte").exibe();
- * Continente.getContinente("América do Sul").exibe();
- * Continente.getContinente("Ásia").exibe();
- * Continente.getContinente("Oceania").exibe();
- * Continente.getContinente("Europa").exibe();
- * 
- * 
- * jogo.iniciaJogo();
- * 
- * }
- * 
- * }
- * 
- */

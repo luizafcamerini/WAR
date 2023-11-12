@@ -44,20 +44,23 @@ public class ControllerAPI {
         corAtual = model.getCorAtual();
         String territorios[] = model.getTerritorios(corAtual);
         
-        if (etapa == 0) {
+        if (etapa == 0) { // Posicionamento
         	int qtdExeAd = model.getExeAd();
         	view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
         }
-        else if (etapa == 10) {
+        else if (etapa == 10) { // Ataque
         	view.setEtapa(etapa, territorios, corAtual, 0);
             // return;
         }
-        else if (etapa == 20){
+        else if (etapa == 20){ // Deslocamento de exércitos
             view.setEtapa(etapa, territorios, corAtual, 0);
         }
-        else if (etapa == 30){
-            model.entregaCarta();
+        else if (etapa == 30){ // Entrega de carta
+            if(model.getConquista()){
+                model.entregaCarta();
+            }
             view.setEtapa(etapa, null, corAtual, 0);
+            model.saveState();
         }
         else {
             model.getProxCor();

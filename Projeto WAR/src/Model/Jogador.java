@@ -57,6 +57,11 @@ class Jogador {
 		return objetivo.getDescricao();
 	}
 
+	public String getImgNameObjetivo(){
+		/** Funcao que retorna o nome da imagem do objetivo de um jogador. */
+		return objetivo.getImgName();
+	}
+
 	public boolean verificaObjetivo(){
 		/** Funcao que verifica o objetivo do jogador. */
 		return objetivo.verifica();
@@ -72,11 +77,6 @@ class Jogador {
 		return this.territorios.size();
 	}
 
-	public String getImgNameObjetivo() {
-		/** Funcao que retorna o nome da imagem do objetivo de um jogador. */
-		return objetivo.getImgName();
-	}
-	
 	public void removeTerritorio(Territorio t) {
 		/** Funcao que remove um pais pertencente ao jogador. */
 		territorios.remove(t);
