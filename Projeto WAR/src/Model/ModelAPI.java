@@ -163,7 +163,7 @@ public class ModelAPI {
 		String[] cartasJogador;
 		BufferedWriter writer = null;
 		// recebe o arquivo de salvamento do jogo, se não existir, cria um novo
-		File file = new File("gameState.txt");
+		File file = new File("src/gameState.txt");
 		if (!file.exists()) {
 			try {
 				if (file.createNewFile()) {

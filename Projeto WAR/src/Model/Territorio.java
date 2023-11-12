@@ -49,7 +49,6 @@ class Territorio {
 		qntdExercito = 1;
 
 		ModelAPI.getInstance().conquistou();
-		System.out.println("Conquistou");
 	}
 
 	public void acrescentaExe(int qtd) {
