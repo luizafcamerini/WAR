@@ -36,4 +36,18 @@ abstract class Objetivo {
 		return objetivos;
 	}
 
+	public static Baralho<Objetivo> montaBaralhoCompleto() {
+		Baralho<Objetivo> objetivos = new Baralho<Objetivo>();
+
+		objetivos.adiciona(new Objetivo7());
+		objetivos.adiciona(new Objetivo8());
+		objetivos.adiciona(new Objetivo9());
+		objetivos.adiciona(new Objetivo10());
+		objetivos.adiciona(new Objetivo11());
+		objetivos.adiciona(new Objetivo12());
+		objetivos.adiciona(new Objetivo13());
+		objetivos.adiciona(new Objetivo14());
+
+		return objetivos;
+	}
 }

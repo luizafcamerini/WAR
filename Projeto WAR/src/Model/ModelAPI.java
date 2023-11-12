@@ -1,10 +1,8 @@
 package Model;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.io.*;
+
 
 public class ModelAPI {
 	private static ModelAPI instance;
@@ -150,11 +148,11 @@ public class ModelAPI {
 		return jAtual.getImgNameObjetivo();
 	}
 
-
 	public void saveState(){
 		/** Funcao que salva o estado do jogo em um arquivo txt.*/
 
-		Jogador jogador = jAtual;
+		Jogador jogador = jAtual; // começa salvando pelo jogador da vez
+		String nomeJogador;
 		Territorio []territorios;
 		String nomeTerritorio;
 		String objetivoJogador;
@@ -187,8 +185,9 @@ public class ModelAPI {
 				corJogador = jogador.getCor().toString();
 				objetivoJogador = jogador.getImgNameObjetivo();
 				cartasJogador = getCartasJogador(jogador);
+				nomeJogador = jogador.getNome();
 
-				writer.write(corJogador); // Escreve a cor do jogador
+				writer.write(nomeJogador + ',' + corJogador); // Escreve o nome e a cor do jogador
 				writer.newLine(); 
 				writer.write(objetivoJogador); // Escreve o objetivo do jogador
 				writer.newLine();
@@ -229,6 +228,40 @@ public class ModelAPI {
 			}
 		}
 		
+	}
+
+	public void loadGame() throws IOException{
+		File file = new File("src/gameState.txt");
+		if (!file.exists()) {
+			System.out.println("Arquivo de salvamento não existe.");
+			return;
+		}
+		String nomeJogador;
+		Cores corJogador;
+
+
+		BufferedReader reader = null;
+		try{
+			reader = new BufferedReader(new FileReader(file));
+			String line;
+			while((line = reader.readLine()) != null){
+				while(!line.contains(";")){
+					String[] info = line.split(",");
+					nomeJogador = info[0];
+					corJogador = Cores.valueOf(info[1]);
+					adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
+					line = reader.readLine();
+
+				}
+			}
+
+		}
+		finally{
+			if (reader != null){
+				reader.close();
+			}
+		}	
+
 	}
 }
 

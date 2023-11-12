@@ -28,6 +28,16 @@ class Territorio {
 		return this.dono;
 	}
 
+	public void setDono(Jogador j) {
+		/** Funcao que define o dono do territorio. */
+		this.dono = j;
+	}
+
+	public void setQtdExercitos(int qtd) {
+		/** Funcao que define a quantidade de exercitos no territorio. */
+		this.qntdExercito = qtd;
+	}
+
 	public int getQntdExercitos() {
 		/** Funcao que retorna a quantidade de exercito no territorio. */
 		return this.qntdExercito;
