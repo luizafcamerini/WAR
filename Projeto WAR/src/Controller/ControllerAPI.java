@@ -4,6 +4,7 @@ import View.SoundEffect;
 //import View.GameScreen;
 import View.ViewAPI;
 import Model.ModelAPI;
+import java.io.IOException;
 
 
 public class ControllerAPI {
@@ -28,11 +29,16 @@ public class ControllerAPI {
     	instance.model = ModelAPI.getInstance();
     	instance.view = ViewAPI.getInstance();
     	
-        model.adicionaJogador("LUIZA", 2);
-        model.adicionaJogador("THOMAS", 5);
-        model.adicionaJogador("JERONIMO", 4);
+        // model.adicionaJogador("LUIZA", 2);
+        // model.adicionaJogador("THOMAS", 5);
+        // model.adicionaJogador("JERONIMO", 4);
         
-        model.inicializaJogo();
+        // model.inicializaJogo();
+        try {
+        model.loadGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         view.inicializaGameScreen();
         
         etapa = 0;

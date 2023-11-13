@@ -98,7 +98,7 @@ public class ModelAPI {
 	}
 	
 	public String []getTerritorios(int cor) {
-		Jogador j = jogo.getJogador(cores[cor]);
+		Jogador j = jogo.getJogadorCor(cores[cor]);
 		Territorio []territorios = j.getTerritorios();
 		String []lst = new String[territorios.length];
 		for (int i = 0; i< territorios.length; i++) {
@@ -230,38 +230,64 @@ public class ModelAPI {
 		
 	}
 
-	// public void loadGame() throws IOException{
-	// 	File file = new File("src/gameState.txt");
-	// 	if (!file.exists()) {
-	// 		System.out.println("Arquivo de salvamento não existe.");
-	// 		return;
-	// 	}
-	// 	String nomeJogador;
-	// 	Cores corJogador;
+	public void loadGame() throws IOException{
+		File file = new File("src/gameState.txt");
+		if (!file.exists()) {
+			System.out.println("Arquivo de salvamento não existe.");
+			return;
+		}
+		String nomeJogador;
+		Cores corJogador;
+		int[] numObjetivos = new int[6]; 
+		int i = 0;
 
+		BufferedReader reader = null;
+		try{
+			reader = new BufferedReader(new FileReader(file));
+			String line;
+			while((line = reader.readLine()) != null){
+				while(!line.contains(";")){
+					System.out.println("Lendo linha: " + line + "\nReferente ao jogador " + Integer.toString(i));
+					String[] info = line.split(",");
+					nomeJogador = info[0];
+					corJogador = Cores.valueOf(info[1]);
+					adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
+					System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador); 
 
-	// 	BufferedReader reader = null;
-	// 	try{
-	// 		reader = new BufferedReader(new FileReader(file));
-	// 		String line;
-	// 		while((line = reader.readLine()) != null){
-	// 			while(!line.contains(";")){
-	// 				String[] info = line.split(",");
-	// 				nomeJogador = info[0];
-	// 				corJogador = Cores.valueOf(info[1]);
-	// 				adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
-	// 				line = reader.readLine();
+					line = reader.readLine(); // Lê o objetivo do jogador
+					numObjetivos[i] = Integer.parseInt(line);
+					System.out.println("Adicionando o objetivo do jogador: " + nomeJogador + " | Objetivo " + Integer.toString(numObjetivos[i]) + ": " + Objetivo.getObjetivo(numObjetivos[i] - 1).getDescricao());
+					jogo.getJogador(i).setObjetivo(Objetivo.getObjetivo(numObjetivos[i] - 1));
 
-	// 			}
-	// 		}
+					line = reader.readLine(); // Lê as cartas do jogador
+					String[] cartas = line.split(",");
+					if(cartas.length != 0){
+						for (String c : cartas) {
+							jogo.entregaCarta(jogo.getJogador(i), c);
+						}
+					}
+					while(!(line = reader.readLine()).contains(";")){ // Lê os territorios do jogador
+						String[] infoTerritorio = line.split(",");
+						String nomeTerritorio = infoTerritorio[0];
+						int qtdExercitos = Integer.parseInt(infoTerritorio[1]);
+						jogo.getJogador(i).addTerritorio(Territorio.getTerritorio(nomeTerritorio), qtdExercitos - 1);
+						Territorio.getTerritorio(nomeTerritorio).setDono(jogo.getJogador(i));
+						System.out.println("Adicionando territorio " + nomeTerritorio + " ao jogador " + nomeJogador + " com " + Integer.toString(qtdExercitos) + " exercitos.");
+					}
+					i++;
+				}
+			}
+			jAtual = jogo.getJogador((i + 1) % jogo.getQtdJogadores());
+			System.out.println("Inicializando jogo pelo jogador " + jAtual.getNome());
+			jogo.continuaJogo(jAtual);
 
-	// 	}
-	// 	finally{
-	// 		if (reader != null){
-	// 			reader.close();
-	// 		}
-	// 	}	
+		}
+		finally{
+			if (reader != null){
+				reader.close();
+			}
+		}	
 
-	// }
+	}
 }
 

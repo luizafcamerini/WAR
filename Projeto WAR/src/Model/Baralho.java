@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 class Baralho<Tipo> {
 	private ArrayList<Tipo> cartas = new ArrayList<Tipo>();
 
@@ -31,4 +32,5 @@ class Baralho<Tipo> {
 	public ArrayList<Tipo> array(){
 		return cartas;
 	}
+
 }

@@ -3,6 +3,7 @@ package Model;
 import java.util.Random;
 import java.util.ArrayList;
 
+
 class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
 	private int iterador; // Usado para iterar na lista jogadores (iterador%jogadores.size())
@@ -33,7 +34,7 @@ class Jogo {
 				exeAd = trocaCartas(jAtual, descartadas);
 			}
 			jAtual.posicionaExe(exeAd);
-			break; //break temporario
+			break; // break temporario
 		}
 	}
 
@@ -59,6 +60,14 @@ class Jogo {
 		distribuiObjetivos();
 	}
 
+	public void continuaJogo(Jogador j){
+		/**Funcao que continua um jogo carregado por um txt. Usado em Model.loadGame() */
+		iterador = jogadores.indexOf(j);
+		cartas.adiciona(new Carta(null, Simbolos.CORINGA)); // mudar dps
+		cartas.adiciona(new Carta(null, Simbolos.CORINGA)); // mudar dps
+		cartas.embaralha();
+	}
+
 	public void adicionaJogador(Jogador j) {
 		/**
 		 * Funcao que adiciona os jogadores da partida na lista de jogadores e adiciona
@@ -68,27 +77,13 @@ class Jogo {
 			jogadores.add(j);
 
 			Cores cor = j.getCor();
-			switch (cor) {
-				case AZUL:
-					objetivos.adiciona(new Objetivo1(j));
-					break;
-				case AMARELO:
-					objetivos.adiciona(new Objetivo2(j));
-					break;
-				case VERMELHO:
-					objetivos.adiciona(new Objetivo3(j));
-					break;
-				case PRETO:
-					objetivos.adiciona(new Objetivo4(j));
-					break;
-				case BRANCO:
-					objetivos.adiciona(new Objetivo5(j));
-					break;
-				case VERDE:
-					objetivos.adiciona(new Objetivo6(j));
-					break;
-			}
+			objetivos.adiciona(Objetivo.setAlvo(cor, j));
 		}
+	}
+
+	public Jogador getJogador(int i) {
+		/** Funcao que retorna o jogador de indice i. */
+		return jogadores.get(i);
 	}
 
 	public int getQtdJogadores() {
@@ -102,10 +97,10 @@ class Jogo {
 		iterador++;
 		return j;
 	}
-	
-	public Jogador getJogador(Cores cor) {
+
+	public Jogador getJogadorCor(Cores cor) {
 		Jogador j;
-		for(int i = 0; i < jogadores.size(); i++) {
+		for (int i = 0; i < jogadores.size(); i++) {
 			j = jogadores.get(i);
 			if (j.getCor() == cor)
 				return j;
@@ -125,18 +120,18 @@ class Jogo {
 	}
 
 	private void distribuiTerritorios() {
-        /** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
-        cartas.embaralha();
-        Carta c;
-        Jogador j;
-        while (!cartas.vazio()) {
-            j = jogadores.get(iterador % jogadores.size());
-            c = cartas.retira();
-            c.getTerritorio().trocaDono(j);
-            cartasUsadas.adiciona(c);
-            iterador++;
-        }
-    }
+		/** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
+		cartas.embaralha();
+		Carta c;
+		Jogador j;
+		while (!cartas.vazio()) {
+			j = jogadores.get(iterador % jogadores.size());
+			c = cartas.retira();
+			c.getTerritorio().trocaDono(j);
+			cartasUsadas.adiciona(c);
+			iterador++;
+		}
+	}
 
 	private void distribuiObjetivos() {
 		/** Funcao que embaralha e distribui os objetivos para os jogadores. */
@@ -154,15 +149,34 @@ class Jogo {
 		j.recebeCarta(carta);
 		System.out.println(carta.getSimbolo());
 
-		if (carta.getTerritorio()!=null)
+		if (carta.getTerritorio() != null)
 			System.out.println(carta.getTerritorio().getNome());
-			
+
 		/** Reembaralha monte de cartas caso ele fique vazio */
 		if (cartas.vazio()) {
 			Baralho<Carta> aux = cartas;
 			cartas = cartasUsadas;
 			cartasUsadas = aux;
 			cartas.embaralha();
+		}
+	}
+
+	public void entregaCarta(Jogador j, String nomeTerritorio) {
+		/** Funcao que entrega uma carta específica do baralho ao jogador atual. Usada em ModelAPI.loadGame()*/
+		Carta carta = null;
+		if(cartas.vazio()){
+			System.out.println("Baralho de cartas vazio");
+		}
+		for(Carta c : cartas.array()){
+			if(c.getTerritorio().getNome() == nomeTerritorio){
+				carta = c;
+				j.recebeCarta(carta);
+				System.out.println("Entregando carta: " + carta.getTerritorio().getNome() + "para o jogador: " + j.getNome());
+				break;
+			}
+		}
+		if(carta == null){
+			System.out.println("Carta " + nomeTerritorio + " não encontrada");
 		}
 	}
 
