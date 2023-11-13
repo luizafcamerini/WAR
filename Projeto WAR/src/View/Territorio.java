@@ -118,12 +118,25 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
-		if (!oculto)
+		if (!oculto){
 	        g2d.setPaint(cor);
+		}
 //		else if (!clicavel)
 //			g2d.setPaint(cor3);
-		else
+		else{
+			g2d.setPaint(Color.WHITE);
+			String t = nome;
+			FontMetrics f = g.getFontMetrics();
+			double tw = f.getStringBounds(t, g).getWidth();
+			double th = f.getStringBounds(t, g).getHeight();
+			int __x = (int) (x - tw / 2);
+			int __y = (int) (y - th / 2 + f.getAscent());
+			//colocar a font como bold
+			g.setFont(new Font(null));
+			g.drawString(t,__x,__y-20);
 			g2d.setPaint(cor4);
+		}
+			
         Ellipse2D circ= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
 		g2d.fill(circ);
 		
@@ -146,7 +159,6 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 			g2d.setColor(cor3);
 			g2d.fill(circ2);
 		}
-		
 
 		if (marcado){
 			int espessuraBorda = 5;
@@ -187,11 +199,11 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// System.out.println("Mouse Entered");
+		System.out.println("Mouse Entered");
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// System.out.println("Mouse Exited");
+		System.out.println("Mouse Exited");
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -211,12 +223,15 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 		if (!clicavel) return;
 
 		if (estaEm(x, y) && !oculto){
-			// System.out.print("Entrou\n");
 			setOculto(true);
+			// System.out.print("Entrou\n");
+			mouseEntered(e);
 			notificaObservadores();
 		}
 		else if (!estaEm(x, y) && oculto){
 			setOculto(false);
+			// System.out.print("Saiu\n");
+			mouseExited(e);
 			notificaObservadores();
 		}
 	}

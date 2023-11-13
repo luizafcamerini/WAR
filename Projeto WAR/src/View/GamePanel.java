@@ -57,6 +57,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		for (Territorio t : territorios) {
 			t.draw(g);
+			
 		}
 
 		iP.draw(g);
