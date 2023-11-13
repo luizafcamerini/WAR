@@ -1,7 +1,7 @@
 package Model;
 
 class Objetivo14 extends Objetivo {
-	public Objetivo14() {
+	protected Objetivo14() {
 		descricao = "Conquistar 18 territorios com pelo menos 2 exércitos em cada";
 		imgName = "war_carta_objetivo14.png";
 	}

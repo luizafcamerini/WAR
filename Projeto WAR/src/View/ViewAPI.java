@@ -22,6 +22,8 @@ public class ViewAPI {
 	private boolean exibeCartas;
 	private boolean exibeTabelas;
 	private boolean exibeObjetivo;
+	private GamePanel gP;
+	private InfoPainel iP;
 
 	// private Hashtable<String, Image> imagensHashtable = new Hashtable<String,
 	// Image>();
@@ -44,7 +46,16 @@ public class ViewAPI {
 	}
 
 	public void inicializaGameScreen() {
-		gameScreen = new GameScreen();
+		iP = new InfoPainel(10, 350, 200, 250);
+
+		gP = new GamePanel(iP);
+		gP.setBackground(Color.BLACK);
+
+		iP.addObservador(gP);
+		gP.addMouseListener(iP);
+		gP.addMouseMotionListener(iP);
+
+		gameScreen = new GameScreen(gP);
 		gameScreen.setVisible(true);
 
 		images = Images.getInstance();
@@ -54,6 +65,9 @@ public class ViewAPI {
 		for (Territorio t : lst) {
 			int n = model.getQtdExercitos(t.getNome());
 			t.setNum(n);
+			t.addObservador(gP);
+			gP.addMouseListener(t);
+			gP.addMouseMotionListener(t);
 		}
 	}
 
@@ -63,6 +77,22 @@ public class ViewAPI {
 			return null;
 		return cores[i];
 	}
+
+	// public void notify(ObservadoIF o){
+	// 	if (o instanceof Territorio){
+	// 		Territorio t = (Territorio) o;
+	// 		click(t.getNome());
+	// 	}
+	// }
+
+
+
+
+
+
+
+
+
 
 	public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
 		if (this.territorios != null) {
@@ -83,7 +113,7 @@ public class ViewAPI {
 
 
 
-		gameScreen.setInfo((etapa/10)*10, coresStr[corAtual], qtd);
+		iP.setInfo((etapa/10)*10, coresStr[corAtual], qtd);
 	}
 
 	private void atualizaTerritorio(String territorio, boolean click) {
@@ -123,7 +153,7 @@ public class ViewAPI {
 			if (territorio != null) {
 				model.addExe(territorio, 1);
 				qtdExe--;
-				gameScreen.setInfo(etapa, coresStr[corAtual], qtdExe);
+				iP.setInfo(etapa, coresStr[corAtual], qtdExe);
 				if (qtdExe == 0)
 					control.proxEtapa();
 			}

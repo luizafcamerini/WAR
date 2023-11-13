@@ -98,7 +98,7 @@ public class ModelAPI {
 	}
 	
 	public String []getTerritorios(int cor) {
-		Jogador j = jogo.getJogador(cores[cor]);
+		Jogador j = jogo.getJogadorCor(cores[cor]);
 		Territorio []territorios = j.getTerritorios();
 		String []lst = new String[territorios.length];
 		for (int i = 0; i< territorios.length; i++) {
@@ -230,38 +230,47 @@ public class ModelAPI {
 		
 	}
 
-	// public void loadGame() throws IOException{
-	// 	File file = new File("src/gameState.txt");
-	// 	if (!file.exists()) {
-	// 		System.out.println("Arquivo de salvamento não existe.");
-	// 		return;
-	// 	}
-	// 	String nomeJogador;
-	// 	Cores corJogador;
+	public void loadGame() throws IOException{
+		File file = new File("src/gameState.txt");
+		if (!file.exists()) {
+			System.out.println("Arquivo de salvamento não existe.");
+			return;
+		}
+		String nomeJogador;
+		Cores corJogador;
+		int[] numObjetivos = new int[6]; 
+		int i = 0;
 
+		BufferedReader reader = null;
+		try{
+			reader = new BufferedReader(new FileReader(file));
+			String line;
+			while((line = reader.readLine()) != null){
+				while(!line.contains(";")){
+					String[] info = line.split(",");
+					nomeJogador = info[0];
+					corJogador = Cores.valueOf(info[1]);
+					adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum 
+					line = reader.readLine(); // Lê o objetivo do jogador
+					numObjetivos[i] = Integer.parseInt(line);
+					//jogadores.get(i).setObjetivo(Objetivo.getObjetivo(numObjetivos[i] - 1));
+					line = reader.readLine();
+					String[] cartas = line.split(",");
+					for (String c : cartas) {
+						
+						// jogo.getJogador(i).addCarta(Carta.getCarta(c));
+					}
+					i++;
+				}
+			}
 
-	// 	BufferedReader reader = null;
-	// 	try{
-	// 		reader = new BufferedReader(new FileReader(file));
-	// 		String line;
-	// 		while((line = reader.readLine()) != null){
-	// 			while(!line.contains(";")){
-	// 				String[] info = line.split(",");
-	// 				nomeJogador = info[0];
-	// 				corJogador = Cores.valueOf(info[1]);
-	// 				adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
-	// 				line = reader.readLine();
+		}
+		finally{
+			if (reader != null){
+				reader.close();
+			}
+		}	
 
-	// 			}
-	// 		}
-
-	// 	}
-	// 	finally{
-	// 		if (reader != null){
-	// 			reader.close();
-	// 		}
-	// 	}	
-
-	// }
+	}
 }
 

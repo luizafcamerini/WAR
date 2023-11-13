@@ -9,19 +9,17 @@ import java.awt.event.*;
 import java.util.Hashtable;
 import java.util.List;
 
-public class Territorio implements ObservadoIF{
+public class Territorio implements ObservadoIF, MouseListener, MouseMotionListener{
 	private static Hashtable<String, Territorio> territorios;
 	private static Hashtable<String, String> imgTerritorios;
-
 	
     private String nome;
 	private int num = 0; // quantidade de exércitos neste território
     private int x, y;
-    private Color cor;
+    private Color cor, cor2, cor3, cor4;
     private int raio = 12;
-    private Color cor2, cor3, cor4;
 	boolean marcado = false;
-	boolean ocuto = false;
+	boolean oculto = false;
 	boolean clicavel = false;
 	
 	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
@@ -35,6 +33,8 @@ public class Territorio implements ObservadoIF{
 	}
 
 	public int get(int i){
+		if (i==1)
+			return oculto ? 1 : 0;
 		return num;
 	}
 
@@ -77,6 +77,8 @@ public class Territorio implements ObservadoIF{
         blue = (this.cor.getBlue() > 128) ? this.cor.getBlue() - d : this.cor.getBlue() + d;
 
         cor4 = new Color(red, green, blue);
+
+		// notificaObservadores();
     }
     
     public String getNome() {
@@ -84,27 +86,27 @@ public class Territorio implements ObservadoIF{
     }
 
     public void setNum(int n) {
+		if (num == n) return;
     	num = n;
+		notificaObservadores();
     }
     
-	public void setCoord(int _x, int _y){
-        x = _x;
-        y = _y;
-    }
+	// public void setCoord(int _x, int _y){
+    //     x = _x;
+    //     y = _y;
+    // }
 
 	public void setMarcado(boolean b){
 		marcado = b;
 	}
 
 	public void setOculto(boolean b){
-		ocuto = b;
+		oculto = b;
 	}
 	
 	public void setClicavel(boolean b){
 		clicavel = b;
 	}
-
-	
 
     public boolean estaEm(int _x, int _y) {
     	if (!clicavel) return false;
@@ -116,7 +118,7 @@ public class Territorio implements ObservadoIF{
 	
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
-		if (!ocuto)
+		if (!oculto)
 	        g2d.setPaint(cor);
 //		else if (!clicavel)
 //			g2d.setPaint(cor3);
@@ -169,6 +171,55 @@ public class Territorio implements ObservadoIF{
 		}
     	return imgTerritorios.get(nome);
     }
+
+	private void notificaObservadores(){
+		for(ObservadorIF o: lst){
+			o.notify(this);
+		}
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		if (estaEm(x, y)){
+			ViewAPI.getInstance().click(nome);
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// System.out.println("Mouse Entered");
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// System.out.println("Mouse Exited");
+	}
+
+	public void mousePressed(MouseEvent e) {
+		// System.out.println("Mouse Pressed");
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// System.out.println("Mouse Released");
+	}
+
+	public void mouseDragged(MouseEvent e) {
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		if (!clicavel) return;
+
+		if (estaEm(x, y) && !oculto){
+			// System.out.print("Entrou\n");
+			setOculto(true);
+			notificaObservadores();
+		}
+		else if (!estaEm(x, y) && oculto){
+			setOculto(false);
+			notificaObservadores();
+		}
+	}
     
     public static Territorio[] getTerritorios() {
     	if (territorios == null) {

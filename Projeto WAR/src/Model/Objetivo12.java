@@ -1,7 +1,7 @@
 package Model;
 
 class Objetivo12 extends Objetivo {
-	public Objetivo12() {
+	protected Objetivo12() {
 		descricao = "Conquistar na totalidade a Europa, a Oceania e mais um continente a sua escolha";
 		imgName = "war_carta_objetivo12.png";
 	}

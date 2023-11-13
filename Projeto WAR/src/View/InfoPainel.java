@@ -3,12 +3,16 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class InfoPainel {
+public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListener {
 	private String msg;
 	int x, y, alt, larg;
 	Color cores[];
 	boolean selecionados[];
+	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
 
 	public InfoPainel(int _x, int _y, int largura, int altura) {
 		x = _x;
@@ -22,6 +26,18 @@ public class InfoPainel {
 			selecionados[i] = false;
 		}
 
+	}
+
+	public void addObservador(ObservadorIF o) {
+		lst.add(o);
+	}
+
+	public void removeObservador(ObservadorIF o) {
+		lst.remove(o);
+	}
+
+	public int get(int i){
+		return 0;
 	}
 
 	public void setInfo(int etapa, String cor, int qtdExe) {
@@ -212,6 +228,50 @@ public class InfoPainel {
 		}
 
 		return flag;
+	}
+
+	private void notificaObservadores(){
+		for(ObservadorIF o: lst){
+			o.notify(this);
+		}
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		int botao = mouseClick(x, y);
+		if (botao != -1){
+			// notificaObservadores();
+			ViewAPI.getInstance().clickBotao(botao);
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// System.out.println("Mouse Entered");
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// System.out.println("Mouse Exited");
+	}
+
+	public void mousePressed(MouseEvent e) {
+		// System.out.println("Mouse Pressed");
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// System.out.println("Mouse Released");
+	}
+
+	public void mouseDragged(MouseEvent e) {
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+
+		if (mouseMove(x, y)){
+			// notificaObservadores();
+		}
 	}
 
 }

@@ -9,22 +9,24 @@ import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import javax.imageio.ImageIO;
 
-class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
+class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private Territorio[] territorios;
 	// private Image tabuleiro;
-	private Territorio foco;
+	// private Territorio foco;
 	private InfoPainel iP;
 	private Images images = Images.getInstance();
 	private GamePanel instance;
     private ViewAPI view = ViewAPI.getInstance();
 	private ModelAPI model = ModelAPI.getInstance();
+	private boolean fora = true;
+
 
 	private int i = 0;
 
 	public GamePanel(InfoPainel iP) {
 		// tabuleiro = img;
 		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
+		// this.addMouseMotionListener(this);
 		this.iP = iP;
 
 		territorios = Territorio.getTerritorios();
@@ -36,6 +38,16 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 			instance = new GamePanel(iP);
 		}
 		return instance;
+	}
+
+	public void notify(ObservadoIF o){
+		if (o instanceof Territorio){
+			// Territorio t = (Territorio) o;
+			fora = (o.get(1) == 0);
+		}
+
+		repaint();
+		System.out.println("GamePanel: notificado");
 	}
 
 	public void paintComponent(Graphics g) {
@@ -55,31 +67,30 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		int botao = iP.mouseClick(x, y);
+		// int x = e.getX();
+		// int y = e.getY();
+		// int botao = iP.mouseClick(x, y);
 
-		if (botao != -1) {
-			ViewAPI.getInstance().clickBotao(botao);
-            repaint();
-			return;
-		}
+		// if (botao != -1) {
+		// 	ViewAPI.getInstance().clickBotao(botao);
+        //     repaint();
+		// 	return;
+		// }
 
 		
-		boolean fora = true;
-		for (Territorio t : territorios) {
+		// for (Territorio t : territorios) {
 
-			if (t.estaEm(x, y)) {
-				// t.setMarcado(true);
-				ViewAPI.getInstance().click(t.getNome());
-				fora = false;
-				// System.out.println("Está em "+t.getNome());
-			}
-			;
-		}
+		// 	if (t.estaEm(x, y)) {
+		// 		// t.setMarcado(true);
+		// 		ViewAPI.getInstance().click(t.getNome());
+		// 		fora = false;
+		// 		// System.out.println("Está em "+t.getNome());
+		// 	}
+		// 	;
+		// }
 		if (fora)
 			ViewAPI.getInstance().click(null);
-		repaint();
+		// repaint();
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -98,30 +109,30 @@ class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 		// System.out.println("Mouse Released");
 	}
 
-	public void mouseDragged(MouseEvent e) {
-	}
+	// public void mouseDragged(MouseEvent e) {
+	// }
 
-	public void mouseMoved(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		if (foco != null) {
-			foco.setOculto(false);
-			repaint();
-			foco = null;
-		}
-		if (iP.mouseMove(x, y))
-			repaint();
+	// public void mouseMoved(MouseEvent e) {
+	// 	int x = e.getX();
+	// 	int y = e.getY();
+	// 	if (foco != null) {
+	// 		foco.setOculto(false);
+	// 		repaint();
+	// 		foco = null;
+	// 	}
+	// 	if (iP.mouseMove(x, y))
+	// 		repaint();
 
-		for (Territorio t : territorios) {
-			if (t.estaEm(x, y)) {
-				t.setOculto(true);
-				foco = t;
-				repaint();
-				// System.out.println("Está em "+t.getNome());
-			}
-		}
+	// 	for (Territorio t : territorios) {
+	// 		if (t.estaEm(x, y)) {
+	// 			t.setOculto(true);
+	// 			foco = t;
+	// 			repaint();
+	// 			// System.out.println("Está em "+t.getNome());
+	// 		}
+	// 	}
 
-	}
+	// }
 
 	private void exibeJanela(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;

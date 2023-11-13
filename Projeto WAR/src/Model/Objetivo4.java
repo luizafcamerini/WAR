@@ -3,11 +3,21 @@ package Model;
 class Objetivo4 extends Objetivo {
 	Jogador alvo;
 
-	public Objetivo4(Jogador _alvo) {
-		alvo = _alvo;
+	// public Objetivo4(Jogador _alvo) {
+	// 	alvo = _alvo;
+	// 	descricao = "Destruir todos os exércitos PRETOS";
+	// 	imgName = "war_carta_objetivo4.png";
+	// }
+
+	protected Objetivo4(){
 		descricao = "Destruir todos os exércitos PRETOS";
 		imgName = "war_carta_objetivo4.png";
 	}
+
+	public void setJogadorAlvo(Jogador _alvo){
+		alvo = _alvo;
+	}
+
 
 	public boolean verifica() {
 		Jogador kAlvo = alvo.getAssassino();

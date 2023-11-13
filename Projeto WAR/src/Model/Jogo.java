@@ -33,7 +33,7 @@ class Jogo {
 				exeAd = trocaCartas(jAtual, descartadas);
 			}
 			jAtual.posicionaExe(exeAd);
-			break; //break temporario
+			break; // break temporario
 		}
 	}
 
@@ -68,27 +68,13 @@ class Jogo {
 			jogadores.add(j);
 
 			Cores cor = j.getCor();
-			switch (cor) {
-				case AZUL:
-					objetivos.adiciona(new Objetivo1(j));
-					break;
-				case AMARELO:
-					objetivos.adiciona(new Objetivo2(j));
-					break;
-				case VERMELHO:
-					objetivos.adiciona(new Objetivo3(j));
-					break;
-				case PRETO:
-					objetivos.adiciona(new Objetivo4(j));
-					break;
-				case BRANCO:
-					objetivos.adiciona(new Objetivo5(j));
-					break;
-				case VERDE:
-					objetivos.adiciona(new Objetivo6(j));
-					break;
-			}
+			objetivos.adiciona(Objetivo.setAlvo(cor, j));
 		}
+	}
+
+	public Jogador getJogador(int i) {
+		/** Funcao que retorna o jogador de indice i. */
+		return jogadores.get(i);
 	}
 
 	public int getQtdJogadores() {
@@ -102,10 +88,10 @@ class Jogo {
 		iterador++;
 		return j;
 	}
-	
-	public Jogador getJogador(Cores cor) {
+
+	public Jogador getJogadorCor(Cores cor) {
 		Jogador j;
-		for(int i = 0; i < jogadores.size(); i++) {
+		for (int i = 0; i < jogadores.size(); i++) {
 			j = jogadores.get(i);
 			if (j.getCor() == cor)
 				return j;
@@ -125,18 +111,18 @@ class Jogo {
 	}
 
 	private void distribuiTerritorios() {
-        /** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
-        cartas.embaralha();
-        Carta c;
-        Jogador j;
-        while (!cartas.vazio()) {
-            j = jogadores.get(iterador % jogadores.size());
-            c = cartas.retira();
-            c.getTerritorio().trocaDono(j);
-            cartasUsadas.adiciona(c);
-            iterador++;
-        }
-    }
+		/** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
+		cartas.embaralha();
+		Carta c;
+		Jogador j;
+		while (!cartas.vazio()) {
+			j = jogadores.get(iterador % jogadores.size());
+			c = cartas.retira();
+			c.getTerritorio().trocaDono(j);
+			cartasUsadas.adiciona(c);
+			iterador++;
+		}
+	}
 
 	private void distribuiObjetivos() {
 		/** Funcao que embaralha e distribui os objetivos para os jogadores. */
@@ -154,9 +140,9 @@ class Jogo {
 		j.recebeCarta(carta);
 		System.out.println(carta.getSimbolo());
 
-		if (carta.getTerritorio()!=null)
+		if (carta.getTerritorio() != null)
 			System.out.println(carta.getTerritorio().getNome());
-			
+
 		/** Reembaralha monte de cartas caso ele fique vazio */
 		if (cartas.vazio()) {
 			Baralho<Carta> aux = cartas;

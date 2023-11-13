@@ -3,10 +3,19 @@ package Model;
 class Objetivo1 extends Objetivo {
 	Jogador alvo;
 
-	public Objetivo1(Jogador _alvo) {
-		alvo = _alvo;
+	// public Objetivo1(Jogador _alvo) {
+	// 	alvo = _alvo;
+	// 	descricao = "Destruir todos os exércitos AZUIS";
+	// 	imgName = "war_carta_objetivo1.png";
+	// }
+
+	protected Objetivo1(){
 		descricao = "Destruir todos os exércitos AZUIS";
 		imgName = "war_carta_objetivo1.png";
+	}
+
+	public void setJogadorAlvo(Jogador _alvo){
+		alvo = _alvo;
 	}
 
 	public boolean verifica() {
