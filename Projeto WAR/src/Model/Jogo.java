@@ -168,10 +168,11 @@ class Jogo {
 			System.out.println("Baralho de cartas vazio");
 		}
 		for(Carta c : cartas.array()){
-			if(c.getTerritorio().getNome() == nomeTerritorio){
+			System.out.println("Carta: " + c.getTerritorio().getNome());
+			if(c.getTerritorio().getNome().equals(nomeTerritorio)){
 				carta = c;
 				j.recebeCarta(carta);
-				System.out.println("Entregando carta: " + carta.getTerritorio().getNome() + "para o jogador: " + j.getNome());
+				System.out.println("Entregando carta: " + carta.getTerritorio().getNome() + " para o jogador: " + j.getNome());
 				break;
 			}
 		}
