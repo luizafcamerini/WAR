@@ -1,63 +1,63 @@
-JERONIMO,BRANCO
-war_carta_objetivo8.png
-Texas,
-Romênia,1
-Cazaquistão,1
-Nova York,1
-França,7
-Québec,1
+JERONIMO,VERDE
+5
+Síria,
+Estônia,1
+Coréia do Norte,1
+Nigéria,1
 Texas,1
-Itália,1
-Bangladesh,1
-Polônia,1
-Vancouver,1
-Japão,1
-Calgary,1
-Turquia,1
-Letônia,1
-Argentina,8
 África do Sul,1
 Austrália,1
-Peru,1
+Iraque,1
+Polônia,1
 Espanha,1
-;
-LUIZA,PRETO
-war_carta_objetivo14.png
-,
-Estônia,1
-China,1
+Egito,1
+Indonésia,1
+Bangladesh,7
+Arábia Saudita,1
 Mongolia,1
-Suécia,1
-Groelândia,1
+Sibéria,1
 Reino Unido,1
 Coréia do Sul,1
-Egito,1
-Sibéria,1
-Irã,1
-Angola,1
-Califórnia,1
-Perth,1
-Síria,1
-Venezuela,14
-Índia,1
-México,1
 ;
-THOMAS,AZUL
-war_carta_objetivo5.png
-Peru,
-Nova Zelândia,1
-Somalia,1
-Argélia,6
-Brasil,7
-Arábia Saudita,1
-Tailândia,1
-Russia,1
-Iraque,1
-Indonésia,1
-Coréia do Norte,1
+LUIZA,BRANCO
+9
+Alasca,
+Argélia,1
+Síria,1
+Venezuela,1
+Índia,1
+Québec,1
+Vancouver,1
+China,1
+Angola,1
+Groelândia,1
+Perth,1
+Itália,1
 Alasca,1
-Jordânia,1
+Turquia,1
+Argentina,8
+Somalia,1
 Ucrânia,1
+França,1
+;
+THOMAS,VERMELHO
+8
+Nigéria,
+Brasil,6
+Califórnia,1
+Nova York,1
+Tailândia,1
+Irã,1
+Suécia,1
 Paquistão,1
-Nigéria,1
+Japão,1
+Cazaquistão,1
+Jordânia,1
+Letônia,1
+Russia,1
+Nova Zelândia,1
+Calgary,1
+México,1
+Romênia,1
+Peru,3
 ;

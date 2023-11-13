@@ -183,7 +183,7 @@ public class ModelAPI {
 			do {
 				// salva os dados do jogador no arquivo txt
 				corJogador = jogador.getCor().toString();
-				objetivoJogador = jogador.getImgNameObjetivo();
+				objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+","");
 				cartasJogador = getCartasJogador(jogador);
 				nomeJogador = jogador.getNome();
 
