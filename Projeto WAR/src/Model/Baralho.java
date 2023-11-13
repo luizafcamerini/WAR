@@ -25,6 +25,14 @@ class Baralho<Tipo> {
 			return null;
 	}
 
+	public Tipo retira(int i) {
+		/** Funcao que retira uma carta do baralho em uma posição específica. */
+		if (!cartas.isEmpty())
+			return cartas.remove(i);
+		else
+			return null;
+	}
+
 	public void embaralha() {
 		/** Funcao que embaralha as cartas do baralho. */
 		Collections.shuffle(cartas);

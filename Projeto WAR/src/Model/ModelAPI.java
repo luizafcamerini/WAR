@@ -241,7 +241,7 @@ public class ModelAPI {
 		int corJogador;
 		int[] numObjetivos = new int[6]; 
 		int i = 0;
-
+		jogo.adicionaCoringas(); // adiciona coringas no baralho
 		BufferedReader reader = null;
 		try{
 			reader = new BufferedReader(new FileReader(file));

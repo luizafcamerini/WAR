@@ -164,11 +164,11 @@ public class Territorio implements ObservadoIF{
     }
 
 	public static String getImgTerritorio(String nome) {
-		if (imgTerritorios.get(nome) == null){
+		if (nome == null || imgTerritorios.get(nome) == null){
 			return "war_carta_coringa.png";
 		}
-    	return imgTerritorios.get(nome);
-    }
+		return imgTerritorios.get(nome);
+	}
     
     public static Territorio[] getTerritorios() {
     	if (territorios == null) {
