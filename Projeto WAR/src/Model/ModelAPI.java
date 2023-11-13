@@ -230,6 +230,7 @@ public class ModelAPI {
 		
 	}
 
+
 	public void loadGame() throws IOException{
 		File file = new File("src/gameState.txt");
 		if (!file.exists()) {
@@ -237,7 +238,7 @@ public class ModelAPI {
 			return;
 		}
 		String nomeJogador;
-		Cores corJogador;
+		int corJogador;
 		int[] numObjetivos = new int[6]; 
 		int i = 0;
 
@@ -250,8 +251,9 @@ public class ModelAPI {
 					System.out.println("Lendo linha: " + line + "\nReferente ao jogador " + Integer.toString(i));
 					String[] info = line.split(",");
 					nomeJogador = info[0];
-					corJogador = Cores.valueOf(info[1]);
-					adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum
+					corJogador = getIndiceCor(info[1]);
+					System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador);
+					adicionaJogador(nomeJogador, corJogador); // ordinal retorna o indice do enum
 					System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador); 
 
 					line = reader.readLine(); // Lê o objetivo do jogador
@@ -288,6 +290,16 @@ public class ModelAPI {
 			}
 		}	
 
+	}
+
+	private int getIndiceCor(String cor) {
+	/** funcao auxiliar para loadGame() */
+		for (int i = 0; i < cores.length; i++) {
+			if (cores[i].name().equals(cor)) {
+				return i;
+			}
+		}
+		return -1; // retorna -1 se a cor não for encontrada
 	}
 }
 
