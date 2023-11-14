@@ -29,16 +29,16 @@ public class ControllerAPI {
     	instance.model = ModelAPI.getInstance();
     	instance.view = ViewAPI.getInstance();
     	
-        // model.adicionaJogador("LUIZA", 2);
-        // model.adicionaJogador("THOMAS", 5);
-        // model.adicionaJogador("JERONIMO", 4);
-        
-        // model.inicializaJogo();
-        try {
-        model.loadGame();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//         model.adicionaJogador("LUIZA", 2);
+//         model.adicionaJogador("THOMAS", 5);
+//         model.adicionaJogador("JERONIMO", 4);
+//        
+//         model.inicializaJogo();
+		try {
+			model.loadGame();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
         view.inicializaGameScreen();
         
         etapa = 0;
@@ -50,6 +50,7 @@ public class ControllerAPI {
         corAtual = model.getCorAtual();
         String territorios[] = model.getTerritorios(corAtual);
         
+        System.out.printf("Da etapa %d\n",etapa);
         if (etapa == 0) { // Posicionamento
         	int qtdExeAd = model.getExeAd();
         	view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
@@ -67,13 +68,15 @@ public class ControllerAPI {
             }
             view.setEtapa(etapa, null, corAtual, 0);
             model.saveState();
+            
         }
         else {
+        	etapa = -10;
             model.getProxCor();
-            etapa = -10;
         }
         
         etapa += 10;
+        System.out.printf("Para a etapa %d\n",etapa);
     }
     
     public int[][] ataca(String atacante, String defensor) {

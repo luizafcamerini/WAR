@@ -79,11 +79,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			exibeTabelas = false;
 			janelaExibida = false;
 			repaint();
-			// return;
+//			return;
 		}
 
-		if (fora)
+		if (fora) {
 			ViewAPI.getInstance().click(null);
+			repaint();
+		}
 		
 	}
 

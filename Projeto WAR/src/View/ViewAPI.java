@@ -134,7 +134,7 @@ public class ViewAPI {
 
 		if (etapa == 12) {
 			etapa = 10;
-			click(selecionado);
+//			click(selecionado);
 			dados = null;
 		}
 

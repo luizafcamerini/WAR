@@ -100,7 +100,10 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
     // }
 
 	public void setMarcado(boolean b){
-		marcado = b;
+		if (marcado != b) {
+			marcado = b;
+			notificaObservadores();
+		}
 	}
 
 	public void setOculto(boolean b){
@@ -108,6 +111,9 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	}
 	
 	public void setClicavel(boolean b){
+//		if (!b && !clicavel) return;
+//		if (!b) oculto = false;
+//		System.out.printf("%s %d\n",nome,!b?1:0);
 		clicavel = b;
 	}
 
@@ -122,12 +128,13 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
 		g.setFont(font1);
-		if (!oculto){
-	        g2d.setPaint(cor);
-		}
+//		if (!oculto){
+//	        g2d.setPaint(cor);
+//		}
 //		else if (!clicavel)
 //			g2d.setPaint(cor3);
-		else{
+//		else{}
+		if (oculto && clicavel){
 			g.setFont(font2);
 			g2d.setPaint(Color.WHITE);
 			String t = nome;
@@ -146,6 +153,9 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	        g.setColor(Color.WHITE);
 			g.drawString(t,__x,__y-20);
 			g2d.setPaint(cor4);
+		}
+		else {
+			g2d.setPaint(cor);
 		}
 			
         Ellipse2D circ= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
