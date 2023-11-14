@@ -96,6 +96,18 @@ class Jogo {
 		return j;
 	}
 
+	public int getIterador() {
+		/** Funcao que retorna o iterador da lista de jogadores. */
+		return iterador;
+	}
+
+	public void exibeJogadores(){
+		/** Funcao que exibe os jogadores da partida. */
+		for (Jogador j : jogadores) {
+			System.out.println(j.getNome() + " " + j.getCor());
+		}
+	}
+
 	public Jogador getJogadorCor(Cores cor) {
 		Jogador j;
 		for (int i = 0; i < jogadores.size(); i++) {

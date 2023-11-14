@@ -161,6 +161,9 @@ public class ModelAPI {
 		String corJogador;
 		String[] cartasJogador;
 		BufferedWriter writer = null;
+		// Jogador primeiroJogador = jogo.getJogador(0); // apagar
+		int iterador = jogo.getIterador();
+		int i = 0;
 		// recebe o arquivo de salvamento do jogo, se não existir, cria um novo
 		File file = new File("src/gameState.txt");
 		if (!file.exists()) {
@@ -175,7 +178,7 @@ public class ModelAPI {
 				e.printStackTrace();
 			}
 		}
-
+		jogo.exibeJogadores();
 		// inicializa o escritor do arquivo
 		try{
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)); // esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo o que já existe
@@ -209,10 +212,13 @@ public class ModelAPI {
 					writer.write(nomeTerritorio + "," + qtdExercitos);
 					writer.newLine();
 				}
+			
 				writer.write(";"); // separa os dados de cada jogador com um ponto e virgula
 				writer.newLine();
-				jogador = jogo.getProxJogador();
-			} while(jogador != jAtual);
+				
+				jogador = jogo.getJogador((iterador + 1 + i) % 3); // pega o proximo jogador
+				i++;
+			} while(i < jogo.getQtdJogadores());
 
 		} catch (IOException e){
 			System.out.println("Erro ao escrever no arquivo de salvamento do jogo.");
@@ -232,7 +238,9 @@ public class ModelAPI {
 	}
 
 
+
 	public void loadGame() throws IOException{
+		/** Funcao que carrega um jogo já existente através da leitura de um txt */
 		File file = new File("src/gameState.txt");
 		if (!file.exists()) {
 			System.out.println("Arquivo de salvamento não existe.");
