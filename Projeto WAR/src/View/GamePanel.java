@@ -52,7 +52,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 
 		repaint();
-		System.out.println("GamePanel: notificado");
+//		System.out.println("GamePanel: notificado");
 	}
 
 	public void paintComponent(Graphics g) {
@@ -73,6 +73,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		if (fora) {
+			ViewAPI.getInstance().click(null);
+			repaint();
+		}
+		
 		if (janelaExibida){
 			exibeObjetivo = false;
 			exibeCartas = false;
@@ -82,10 +87,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 //			return;
 		}
 
-		if (fora) {
-			ViewAPI.getInstance().click(null);
-			repaint();
-		}
+		System.out.printf("Fora = %s\n", fora?"true":"false");
 		
 	}
 
@@ -108,6 +110,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	private void exibeJanela(Graphics g) {
 		janelaExibida = true;
+		fora = true;
 		Graphics2D g2d = (Graphics2D) g;
 
 		int larg = getWidth() * 80 / 100;

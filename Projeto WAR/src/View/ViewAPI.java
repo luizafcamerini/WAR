@@ -127,14 +127,15 @@ public class ViewAPI {
 	}
 
 	public void click(String territorio) {
-		System.out.printf("Etapa %d\n", etapa);
+		System.out.printf("input = %s\n", territorio==null?"null":territorio);
+		System.out.printf("Etapa i = %d\n", etapa);
 		// exibeCartas = false;
 		// exibeTabelas = false;
 		// exibeObjetivo = false;
 
 		if (etapa == 12) {
 			etapa = 10;
-//			click(selecionado);
+//			click(null);
 			dados = null;
 		}
 
@@ -327,7 +328,7 @@ public class ViewAPI {
 			atualizaTerritorio(selecionado,true);
 			atualizaTerritorio(selecionado2,true);
 		}
-
+		System.out.printf("Etapa f = %d\n", etapa);
 	}
 
 	public int[][] getListaDados() {
