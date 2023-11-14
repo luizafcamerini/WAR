@@ -4,6 +4,7 @@ import View.SoundEffect;
 //import View.GameScreen;
 import View.ViewAPI;
 import Model.ModelAPI;
+import java.io.IOException;
 
 
 public class ControllerAPI {
@@ -33,6 +34,11 @@ public class ControllerAPI {
         model.adicionaJogador("JERONIMO", 4);
         
         model.inicializaJogo();
+        // try {
+        // model.loadGame();
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
         view.inicializaGameScreen();
         
         etapa = 0;

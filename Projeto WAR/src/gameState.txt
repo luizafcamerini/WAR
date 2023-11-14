@@ -1,63 +1,63 @@
-THOMAS,VERMELHO
-war_carta_objetivo6.png
-Paquist„o,
-Tail‚ndia,1
-Austr·lia,1
-It·lia,1
-CorÈia do Norte,1
-Nova York,1
-SÌria,1
-Reino Unido,1
-Somalia,1
-CalifÛrnia,1
-FranÁa,1
-Calgary,1
-Russia,1
-SibÈria,1
-Turquia,1
-Bangladesh,1
-Brasil,4
-Espanha,1
-Peru,1
-Argentina,1
-;
 JERONIMO,VERDE
-war_carta_objetivo3.png
-,
-Paquist„o,1
-ArgÈlia,1
-CorÈia do Sul,1
-Cazaquist„o,1
-Ir„,1
-China,1
-Mongolia,1
-NigÈria,1
-IndonÈsia,1
-Ar·bia Saudita,1
-QuÈbec,1
-Ucr‚nia,1
-MÈxico,1
-Alasca,1
-Õndia,1
+5
+S√≠ria,
+Est√¥nia,1
+Cor√©ia do Norte,1
+Nig√©ria,1
+Texas,1
+√Åfrica do Sul,1
+Austr√°lia,1
 Iraque,1
+Pol√¥nia,1
+Espanha,1
+Egito,1
+Indon√©sia,1
+Bangladesh,7
+Ar√°bia Saudita,1
+Mongolia,1
+Sib√©ria,1
+Reino Unido,1
+Cor√©ia do Sul,1
 ;
 LUIZA,BRANCO
-war_carta_objetivo7.png
-,
+9
+Alasca,
+Arg√©lia,1
+S√≠ria,1
 Venezuela,1
-RomÍnia,1
-Texas,1
-PolÙnia,1
-Nova Zel‚ndia,1
+√çndia,1
+Qu√©bec,1
 Vancouver,1
-Jap„o,1
-¡frica do Sul,1
-Groel‚ndia,1
-LetÙnia,1
-Egito,1
-Jord‚nia,1
-SuÈcia,1
-EstÙnia,1
-Perth,1
+China,1
 Angola,1
+Groel√¢ndia,1
+Perth,1
+It√°lia,1
+Alasca,1
+Turquia,1
+Argentina,8
+Somalia,1
+Ucr√¢nia,1
+Fran√ßa,1
+;
+THOMAS,VERMELHO
+8
+Nig√©ria,
+Brasil,6
+Calif√≥rnia,1
+Nova York,1
+Tail√¢ndia,1
+Ir√£,1
+Su√©cia,1
+Paquist√£o,1
+Jap√£o,1
+Cazaquist√£o,1
+Jord√¢nia,1
+Let√¥nia,1
+Russia,1
+Nova Zel√¢ndia,1
+Calgary,1
+M√©xico,1
+Rom√™nia,1
+Peru,3
 ;

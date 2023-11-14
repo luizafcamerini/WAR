@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 class Baralho<Tipo> {
 	private ArrayList<Tipo> cartas = new ArrayList<Tipo>();
 
@@ -24,6 +25,14 @@ class Baralho<Tipo> {
 			return null;
 	}
 
+	public Tipo retira(int i) {
+		/** Funcao que retira uma carta do baralho em uma posição específica. */
+		if (!cartas.isEmpty())
+			return cartas.remove(i);
+		else
+			return null;
+	}
+
 	public void embaralha() {
 		/** Funcao que embaralha as cartas do baralho. */
 		Collections.shuffle(cartas);
@@ -31,4 +40,5 @@ class Baralho<Tipo> {
 	public ArrayList<Tipo> array(){
 		return cartas;
 	}
+
 }

@@ -183,7 +183,7 @@ public class ModelAPI {
 			do {
 				// salva os dados do jogador no arquivo txt
 				corJogador = jogador.getCor().toString();
-				objetivoJogador = jogador.getImgNameObjetivo();
+				objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+","");
 				cartasJogador = getCartasJogador(jogador);
 				nomeJogador = jogador.getNome();
 
@@ -230,6 +230,7 @@ public class ModelAPI {
 		
 	}
 
+
 	public void loadGame() throws IOException{
 		File file = new File("src/gameState.txt");
 		if (!file.exists()) {
@@ -237,32 +238,50 @@ public class ModelAPI {
 			return;
 		}
 		String nomeJogador;
-		Cores corJogador;
+		int corJogador;
 		int[] numObjetivos = new int[6]; 
 		int i = 0;
-
+		jogo.adicionaCoringas(); // adiciona coringas no baralho
 		BufferedReader reader = null;
 		try{
 			reader = new BufferedReader(new FileReader(file));
 			String line;
 			while((line = reader.readLine()) != null){
 				while(!line.contains(";")){
+					System.out.println("Lendo linha: " + line + "\nReferente ao jogador " + Integer.toString(i));
 					String[] info = line.split(",");
 					nomeJogador = info[0];
-					corJogador = Cores.valueOf(info[1]);
-					adicionaJogador(nomeJogador, corJogador.ordinal()); // ordinal retorna o indice do enum 
+					corJogador = getIndiceCor(info[1]);
+					System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador);
+					adicionaJogador(nomeJogador, corJogador); // ordinal retorna o indice do enum
+					System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador); 
+
 					line = reader.readLine(); // Lê o objetivo do jogador
 					numObjetivos[i] = Integer.parseInt(line);
-					//jogadores.get(i).setObjetivo(Objetivo.getObjetivo(numObjetivos[i] - 1));
-					line = reader.readLine();
+					System.out.println("Adicionando o objetivo do jogador: " + nomeJogador + " | Objetivo " + Integer.toString(numObjetivos[i]) + ": " + Objetivo.getObjetivo(numObjetivos[i] - 1).getDescricao());
+					jogo.getJogador(i).setObjetivo(Objetivo.getObjetivo(numObjetivos[i] - 1));
+
+					line = reader.readLine(); // Lê as cartas do jogador
 					String[] cartas = line.split(",");
-					for (String c : cartas) {
-						
-						// jogo.getJogador(i).addCarta(Carta.getCarta(c));
+					if(cartas.length != 0){
+						for (String c : cartas) {
+							jogo.entregaCarta(jogo.getJogador(i), c);
+						}
+					}
+					while(!(line = reader.readLine()).contains(";")){ // Lê os territorios do jogador
+						String[] infoTerritorio = line.split(",");
+						String nomeTerritorio = infoTerritorio[0];
+						int qtdExercitos = Integer.parseInt(infoTerritorio[1]);
+						jogo.getJogador(i).addTerritorio(Territorio.getTerritorio(nomeTerritorio), qtdExercitos - 1);
+						Territorio.getTerritorio(nomeTerritorio).setDono(jogo.getJogador(i));
+						System.out.println("Adicionando territorio " + nomeTerritorio + " ao jogador " + nomeJogador + " com " + Integer.toString(qtdExercitos) + " exercitos.");
 					}
 					i++;
 				}
 			}
+			jAtual = jogo.getJogador((i + 1) % jogo.getQtdJogadores());
+			System.out.println("Inicializando jogo pelo jogador " + jAtual.getNome());
+			jogo.continuaJogo(jAtual);
 
 		}
 		finally{
@@ -271,6 +290,16 @@ public class ModelAPI {
 			}
 		}	
 
+	}
+
+	private int getIndiceCor(String cor) {
+	/** funcao auxiliar para loadGame() */
+		for (int i = 0; i < cores.length; i++) {
+			if (cores[i].name().equals(cor)) {
+				return i;
+			}
+		}
+		return -1; // retorna -1 se a cor não for encontrada
 	}
 }
 

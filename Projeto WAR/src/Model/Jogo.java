@@ -3,6 +3,7 @@ package Model;
 import java.util.Random;
 import java.util.ArrayList;
 
+
 class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
 	private int iterador; // Usado para iterar na lista jogadores (iterador%jogadores.size())
@@ -57,6 +58,12 @@ class Jogo {
 		cartas.embaralha();
 
 		distribuiObjetivos();
+	}
+
+	public void continuaJogo(Jogador j){
+		/**Funcao que continua um jogo carregado por um txt. Usado em Model.loadGame() */
+		iterador = jogadores.indexOf(j);
+		cartas.embaralha();
 	}
 
 	public void adicionaJogador(Jogador j) {
@@ -152,6 +159,41 @@ class Jogo {
 		}
 	}
 
+	public void entregaCarta(Jogador j, String nomeTerritorio) {
+		System.out.println("Buscando por carta: " + nomeTerritorio); // apagar
+		/** Funcao que entrega uma carta específica do baralho ao jogador atual. Usada em ModelAPI.loadGame()*/
+		Carta carta = null;
+		int i = 0;
+		if(cartas.vazio()){
+			System.out.println("Baralho de cartas vazio");
+		}
+		for(Carta c : cartas.array()){
+			if (!nomeTerritorio.equals("null") && c.getTerritorio() != null){
+				System.out.println("Carta: " + c.getTerritorio().getNome());
+				if(c.getTerritorio().getNome().equals(nomeTerritorio)){
+					carta = cartas.retira(i);
+					System.out.println("*******************Carta " + carta.getTerritorio().getNome() + " encontrada"); // apagar
+					j.recebeCarta(carta);
+					System.out.println("Entregando carta: " + carta.getTerritorio().getNome() + " para o jogador: " + j.getNome());
+					break;
+				}
+			}
+			else{
+				if(nomeTerritorio.equals("null") && c.getSimbolo() == Simbolos.CORINGA){
+					carta = c;
+					j.recebeCarta(carta);
+					carta = cartas.retira(i);
+					System.out.println("Entregando carta: " + carta.getSimbolo() + " para o jogador: " + j.getNome());
+					break;
+				}
+			}
+			i++;
+		}
+		if(carta == null){
+			System.out.println("Carta " + nomeTerritorio + " não encontrada");
+		}
+	}
+
 	private int trocaCartas(Jogador j, Carta[] descartadas) {
 		/**
 		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
@@ -172,6 +214,13 @@ class Jogo {
 		}
 		contadorTroca++;
 		return exeAd;
+	}
+
+	public void adicionaCoringas(){
+		/** Funcao que adiciona coringas no baralho de cartas. */
+		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
+		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
+		cartas.embaralha();
 	}
 
 }
