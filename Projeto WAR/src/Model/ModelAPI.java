@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 
 public class ModelAPI {
@@ -177,7 +178,7 @@ public class ModelAPI {
 
 		// inicializa o escritor do arquivo
 		try{
-			writer = new BufferedWriter(new FileWriter(file, false)); // esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo o que já existe
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)); // esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo o que já existe
 			
 			// loop que escreve os dados no arquivo para cara jogador
 			do {

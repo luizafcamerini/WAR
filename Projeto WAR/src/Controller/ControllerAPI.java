@@ -29,16 +29,16 @@ public class ControllerAPI {
     	instance.model = ModelAPI.getInstance();
     	instance.view = ViewAPI.getInstance();
     	
-        model.adicionaJogador("LUIZA", 2);
-        model.adicionaJogador("THOMAS", 5);
-        model.adicionaJogador("JERONIMO", 4);
+        // model.adicionaJogador("LUIZA", 2);
+        // model.adicionaJogador("THOMAS", 5);
+        // model.adicionaJogador("JERONIMO", 4);
         
-        model.inicializaJogo();
-        // try {
-        // model.loadGame();
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
+        // model.inicializaJogo();
+        try {
+        model.loadGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         view.inicializaGameScreen();
         
         etapa = 0;

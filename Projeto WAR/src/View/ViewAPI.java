@@ -19,9 +19,9 @@ public class ViewAPI {
 	private int qtdExe;
 	private Images images;
 	private int[][] dados;
-	private boolean exibeCartas;
-	private boolean exibeTabelas;
-	private boolean exibeObjetivo;
+	// private boolean exibeCartas;
+	// private boolean exibeTabelas;
+	// private boolean exibeObjetivo;
 	private GamePanel gP;
 	private InfoPainel iP;
 
@@ -128,9 +128,9 @@ public class ViewAPI {
 
 	public void click(String territorio) {
 		System.out.printf("Etapa %d\n", etapa);
-		exibeCartas = false;
-		exibeTabelas = false;
-		exibeObjetivo = false;
+		// exibeCartas = false;
+		// exibeTabelas = false;
+		// exibeObjetivo = false;
 
 		if (etapa == 12) {
 			etapa = 10;
@@ -352,15 +352,15 @@ public class ViewAPI {
 		switch (i){
 			case 0:
 				// objetivo
-				exibeObjetivo = true;
+				gP.setExibeObjetivo(true);
 				break;
 			case 1:
-				exibeCartas = true;
+				gP.setExibeCartas(true);
 				// exibir cartas de territorio
 				break;
 			case 2:
 				//tabela de exe
-				exibeTabelas = true;
+				gP.setExibeTabelas(true);
 				break;
 			case 3:
 				if (etapa == 0) break;
@@ -369,16 +369,16 @@ public class ViewAPI {
 		}
 	}
 
-	public boolean getExibeCartas(){
-		return exibeCartas;
-	}
+	// public boolean getExibeCartas(){
+	// 	return exibeCartas;
+	// }
 
-	public boolean getExibeTabelas(){
-		return exibeTabelas;
-	}
+	// public boolean getExibeTabelas(){
+	// 	return exibeTabelas;
+	// }
 
-	public boolean getExibeObjetivo(){
-		return exibeObjetivo;
-	}
+	// public boolean getExibeObjetivo(){
+	// 	return exibeObjetivo;
+	// }
 
 }

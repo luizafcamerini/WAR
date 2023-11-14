@@ -19,6 +19,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
     private ViewAPI view = ViewAPI.getInstance();
 	private ModelAPI model = ModelAPI.getInstance();
 	private boolean fora = true;
+	private boolean exibeCartas;
+	private boolean exibeTabelas;
+	private boolean exibeObjetivo;
+	private boolean janelaExibida = false;
 
 
 	private int i = 0;
@@ -41,6 +45,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void notify(ObservadoIF o){
+		if (janelaExibida) return;
 		if (o instanceof Territorio){
 			// Territorio t = (Territorio) o;
 			fora = (o.get(1) == 0);
@@ -68,30 +73,18 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// int x = e.getX();
-		// int y = e.getY();
-		// int botao = iP.mouseClick(x, y);
+		if (janelaExibida){
+			exibeObjetivo = false;
+			exibeCartas = false;
+			exibeTabelas = false;
+			janelaExibida = false;
+			repaint();
+			// return;
+		}
 
-		// if (botao != -1) {
-		// 	ViewAPI.getInstance().clickBotao(botao);
-        //     repaint();
-		// 	return;
-		// }
-
-		
-		// for (Territorio t : territorios) {
-
-		// 	if (t.estaEm(x, y)) {
-		// 		// t.setMarcado(true);
-		// 		ViewAPI.getInstance().click(t.getNome());
-		// 		fora = false;
-		// 		// System.out.println("Está em "+t.getNome());
-		// 	}
-		// 	;
-		// }
 		if (fora)
 			ViewAPI.getInstance().click(null);
-		// repaint();
+		
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -110,32 +103,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		// System.out.println("Mouse Released");
 	}
 
-	// public void mouseDragged(MouseEvent e) {
-	// }
-
-	// public void mouseMoved(MouseEvent e) {
-	// 	int x = e.getX();
-	// 	int y = e.getY();
-	// 	if (foco != null) {
-	// 		foco.setOculto(false);
-	// 		repaint();
-	// 		foco = null;
-	// 	}
-	// 	if (iP.mouseMove(x, y))
-	// 		repaint();
-
-	// 	for (Territorio t : territorios) {
-	// 		if (t.estaEm(x, y)) {
-	// 			t.setOculto(true);
-	// 			foco = t;
-	// 			repaint();
-	// 			// System.out.println("Está em "+t.getNome());
-	// 		}
-	// 	}
-
-	// }
 
 	private void exibeJanela(Graphics g) {
+		janelaExibida = true;
 		Graphics2D g2d = (Graphics2D) g;
 
 		int larg = getWidth() * 80 / 100;
@@ -153,6 +123,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("Arial", Font.PLAIN, 24));
 		g2d.drawString("Clique em qualquer lugar para fechar.",x+250,y+25);
+		
 	}
 
 	public void exibeDadosAtaque(Graphics g) {
@@ -189,7 +160,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void exibeCartas(Graphics g){
-        if (!view.getExibeCartas()) return;
+        if (!exibeCartas) return;
+		// janelaExibida = true;
 		Graphics2D g2d = (Graphics2D) g;
 		Image imagemCarta;
 		int larg = getWidth() * 80 / 100;
@@ -212,7 +184,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void exibeTabelas(Graphics g){
-		if(!view.getExibeTabelas()) return;
+		if(!exibeTabelas) return;
+		// janelaExibida = true;
 		Graphics2D g2d = (Graphics2D) g;
 		Image imagemTabelaExe = images.getImage("war_tabela_troca.png");
 		Image imagemTabelaBonusCont = images.getImage("war_tabela_bonus_continente.png");
@@ -231,7 +204,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void exibeObjetivo(Graphics g){
-		if(!view.getExibeObjetivo()) return;
+		if(!exibeObjetivo) return;
+		// janelaExibida = true;
 		Graphics2D g2d = (Graphics2D) g;
 		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
 
@@ -242,6 +216,21 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		exibeJanela(g);
 		g2d.drawImage(imagemObjetivo, pos_x_ini, pos_y_ini, null);
+	}
+
+	public void setExibeCartas(boolean b){
+		exibeCartas = b;
+		repaint();
+	}
+
+	public void setExibeTabelas(boolean b){
+		exibeTabelas = b;
+		repaint();
+	}
+
+	public void setExibeObjetivo(boolean b){
+		exibeObjetivo = b;
+		repaint();
 	}
 
 }

@@ -12,6 +12,7 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 	int x, y, alt, larg;
 	Color cores[];
 	boolean selecionados[];
+	int botao = -1;
 	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
 
 	public InfoPainel(int _x, int _y, int largura, int altura) {
@@ -57,6 +58,7 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
             default:
                 msg = null;
 		}
+		notificaObservadores();
 	}
 
 	public void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
@@ -99,6 +101,7 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 		Rectangle2D rt = new Rectangle2D.Double(x, y, larg, alt);
 		g2d.setColor(Color.BLACK);
 		g2d.fill(rt);
+		g.setFont(new Font(null));
 		g.setColor(Color.WHITE);
 		drawStringMultiLine(g, msg, 10, x + 5, y + 20);
 
@@ -239,7 +242,7 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		int botao = mouseClick(x, y);
+		botao = mouseClick(x, y);
 		if (botao != -1){
 			// notificaObservadores();
 			ViewAPI.getInstance().clickBotao(botao);
@@ -270,7 +273,7 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 		int y = e.getY();
 
 		if (mouseMove(x, y)){
-			// notificaObservadores();
+			notificaObservadores();
 		}
 	}
 

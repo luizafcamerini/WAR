@@ -17,6 +17,7 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	private int num = 0; // quantidade de exércitos neste território
     private int x, y;
     private Color cor, cor2, cor3, cor4;
+	private Font font1, font2;
     private int raio = 12;
 	boolean marcado = false;
 	boolean oculto = false;
@@ -42,6 +43,8 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
         nome = _nome;
         x = _x;
         y = _y;
+		font1 = new Font(null);
+		font2 = new Font("Arial",Font.BOLD,14);
     }
 
     public void setCor(Color _cor){
@@ -118,12 +121,14 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	
     public void draw(Graphics g){
         Graphics2D g2d=(Graphics2D) g;
+		g.setFont(font1);
 		if (!oculto){
 	        g2d.setPaint(cor);
 		}
 //		else if (!clicavel)
 //			g2d.setPaint(cor3);
 		else{
+			g.setFont(font2);
 			g2d.setPaint(Color.WHITE);
 			String t = nome;
 			FontMetrics f = g.getFontMetrics();
@@ -132,7 +137,13 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 			int __x = (int) (x - tw / 2);
 			int __y = (int) (y - th / 2 + f.getAscent());
 			//colocar a font como bold
-			g.setFont(new Font(null));
+			g.setColor(Color.BLACK);
+	        for (int i = -2; i <= 2; i++) {
+	            for (int j = -2; j <= 2; j++) {
+	                g.drawString(t, __x + i, __y-20 + j);
+	            }
+	        }
+	        g.setColor(Color.WHITE);
 			g.drawString(t,__x,__y-20);
 			g2d.setPaint(cor4);
 		}
@@ -196,14 +207,15 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 		if (estaEm(x, y)){
 			ViewAPI.getInstance().click(nome);
 		}
+		// notificaObservadores();
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse Entered");
+		// System.out.println("Mouse Entered");
 	}
 
 	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited");
+		// System.out.println("Mouse Exited");
 	}
 
 	public void mousePressed(MouseEvent e) {
