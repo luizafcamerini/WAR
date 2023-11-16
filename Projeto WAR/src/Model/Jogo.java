@@ -172,7 +172,7 @@ class Jogo {
 	}
 
 	public void entregaCarta(Jogador j, String nomeTerritorio) {
-		System.out.println("Buscando por carta: " + nomeTerritorio); // apagar
+		// System.out.println("Buscando por carta: " + nomeTerritorio); // apagar
 		/** Funcao que entrega uma carta específica do baralho ao jogador atual. Usada em ModelAPI.loadGame()*/
 		Carta carta = null;
 		int i = 0;
@@ -184,7 +184,6 @@ class Jogo {
 				System.out.println("Carta: " + c.getTerritorio().getNome());
 				if(c.getTerritorio().getNome().equals(nomeTerritorio)){
 					carta = cartas.retira(i);
-					System.out.println("*******************Carta " + carta.getTerritorio().getNome() + " encontrada"); // apagar
 					j.recebeCarta(carta);
 					System.out.println("Entregando carta: " + carta.getTerritorio().getNome() + " para o jogador: " + j.getNome());
 					break;

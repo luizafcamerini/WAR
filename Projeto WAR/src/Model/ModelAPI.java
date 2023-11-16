@@ -161,7 +161,6 @@ public class ModelAPI {
 		String corJogador;
 		String[] cartasJogador;
 		BufferedWriter writer = null;
-		// Jogador primeiroJogador = jogo.getJogador(0); // apagar
 		int iterador = jogo.getIterador();
 		int i = 0;
 		// recebe o arquivo de salvamento do jogo, se não existir, cria um novo
@@ -183,8 +182,9 @@ public class ModelAPI {
 		try{
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)); // esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo o que já existe
 			
-			// loop que escreve os dados no arquivo para cara jogador
+			// loop que escreve os dados no arquivo para cada jogador
 			do {
+				jogador = jogo.getJogador((iterador + i) % jogo.getQtdJogadores()); // pega o proximo jogador
 				// salva os dados do jogador no arquivo txt
 				corJogador = jogador.getCor().toString();
 				objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+","");
@@ -216,7 +216,6 @@ public class ModelAPI {
 				writer.write(";"); // separa os dados de cada jogador com um ponto e virgula
 				writer.newLine();
 				
-				jogador = jogo.getJogador((iterador + 1 + i) % 3); // pega o proximo jogador
 				i++;
 			} while(i < jogo.getQtdJogadores());
 
@@ -288,9 +287,10 @@ public class ModelAPI {
 					i++;
 				}
 			}
-			jAtual = jogo.getJogador((i + 1) % jogo.getQtdJogadores());
+			jAtual = jogo.getJogador((i) % jogo.getQtdJogadores());
 			System.out.println("Inicializando jogo pelo jogador " + jAtual.getNome());
 			jogo.continuaJogo(jAtual);
+			jAtual = jogo.getProxJogador();
 
 		}
 		finally{
