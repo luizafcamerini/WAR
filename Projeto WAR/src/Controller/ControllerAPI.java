@@ -67,7 +67,19 @@ public class ControllerAPI {
                 model.entregaCarta();
             }
             view.setEtapa(etapa, null, corAtual, 0);
-            model.saveState();
+
+            model.saveState(); // Salva o estado do jogo
+
+            if(model.verificaObjetivo()){ // Verifica se o jogador atual venceu
+                boolean continua = view.exibeVencedor();
+                if(continua){
+                    // inicializa(); ainda não funciona
+                }
+                else{
+                    System.exit(0);
+                }
+            }
+           
             
         }
         else {

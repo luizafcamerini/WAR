@@ -238,6 +238,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		repaint();
 	}
 
+	public boolean exibeVencedor(String corVencedor){
+		JOptionPane.showMessageDialog(null,"O jogador " + corVencedor + " venceu!", "Fim de jogo!", JOptionPane.INFORMATION_MESSAGE);
+		int resposta = JOptionPane.showConfirmDialog(null, "Jogar novamente?", "Continuar?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (resposta == JOptionPane.YES_OPTION) return true;
+		else return false;
+	}
+
 }
 
 

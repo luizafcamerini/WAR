@@ -382,4 +382,14 @@ public class ViewAPI {
 	// 	return exibeObjetivo;
 	// }
 
+	public boolean exibeVencedor(){
+		int indexCorVencedor = model.getCorAtual();
+		String corVencedor = coresStr[indexCorVencedor];
+		
+		System.out.println("Jogador " + corVencedor + " venceu!");
+
+		if(gP.exibeVencedor(corVencedor)) return true; 
+		else return false;
+	}
+
 }

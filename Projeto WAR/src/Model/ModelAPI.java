@@ -310,5 +310,14 @@ public class ModelAPI {
 		}
 		return -1; // retorna -1 se a cor não for encontrada
 	}
+
+	public boolean verificaObjetivo(){
+	/** Funcao que verifica o objetivo do jogador. */
+		return jAtual.verificaObjetivo();
+	}
+
 }
+
+
+
 
