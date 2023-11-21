@@ -44,6 +44,7 @@ public class ViewAPI {
 		instance.model = ModelAPI.getInstance();
 		return instance;
 	}
+	
 
 	public void inicializaGameScreen() {
 		iP = new InfoPainel(10, 350, 200, 250);
@@ -70,6 +71,20 @@ public class ViewAPI {
 			gP.addMouseMotionListener(t);
 		}
 	}
+	
+
+	public void setDado(int iDado, int valor) {
+		if (dados != null) {
+			if (iDado < 3) { //Dado de ataque
+				if (dados[0].length > iDado)
+					dados[0][iDado] = valor;
+			}
+			else { // Dado de defesa
+				if (dados[1].length > iDado - 3)
+					dados[1][iDado-3] = valor;
+			}
+		}
+	}
 
 	public Color setViewColor(String territorio) {
 		int i = model.getCor(territorio);
@@ -86,8 +101,20 @@ public class ViewAPI {
 	// }
 
 
-
-
+	
+	public void ataca(String atacante, String defensor, int nAtaque, int nDefesa) {
+		dados = new int[2][];
+		dados[0] = new int[nAtaque];
+		dados[1] = new int[nDefesa];
+		for (int i = 0; i < nAtaque; i++)
+			dados[0][i] = 0;
+		
+		for (int i = 0; i < nDefesa; i++)
+			dados[1][i] = 0;
+			
+		
+		gP.ataque(atacante, defensor, nAtaque, nDefesa);
+	}
 
 
 
@@ -129,6 +156,153 @@ public class ViewAPI {
 	public void click(String territorio) {
 		System.out.printf("input = %s\n", territorio==null?"null":territorio);
 		System.out.printf("Etapa i = %d\n", etapa);
+		
+		Territorio t, t2;
+		
+		if (etapa == 0) {
+			// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele pertencem
+			if (territorio != null) {
+				model.addExe(territorio, 1);
+				qtdExe--;
+				iP.setInfo(etapa, coresStr[corAtual], qtdExe);
+				if (qtdExe == 0)
+					control.proxEtapa();
+			}
+			if (territorios != null) {
+				for (String nome : territorios) {
+					atualizaTerritorio(nome, true);
+				}
+			}
+			
+			System.out.printf("Etapa f = %d\n", etapa);
+			return;
+			
+		}
+		
+		// Nesta etapa, o jogador seleciona o território que será o atacante
+		else if (etapa == 10) {
+			
+			// Clicou em um território válido para atacar
+			if (territorio != null) {
+				
+				// Define os territórios como não clicáveis 
+				if (territorios != null)
+					for (String nome : this.territorios) {
+						atualizaTerritorio(nome, false);
+					}
+				
+				// Destaca o atacante
+				selecionado = territorio;
+				atualizaTerritorio(selecionado, true);
+
+				t = Territorio.getTerritorio(selecionado);
+				t.setMarcado(true);
+
+				// Torna clicável todos os possíveis defensores
+				vizinhos = model.getVizinhos(selecionado);
+				for (String nome : vizinhos) {
+					t = Territorio.getTerritorio(nome);
+					if (corAtual != model.getCor(nome))
+						t.setClicavel(true);
+				}
+				etapa = 11;
+				System.out.printf("Etapa f = %d\n", etapa);
+				return;
+			}
+			
+			/*
+			if (territorio == null) { // Clicou "do lado de fora"
+				if (selecionado != null) {
+					atualizaTerritorio(selecionado, false);
+					t = Territorio.getTerritorio(selecionado);
+					t.setMarcado(false);
+					selecionado = null;
+				}
+
+				if (territorios != null) {
+					for (String nome : territorios) {
+						atualizaTerritorio(nome, true);
+					}
+				}
+				System.out.printf("Etapa f = %d\n", etapa);
+				return;
+			}
+			selecionado = territorio;
+			atualizaTerritorio(selecionado, true);
+
+			t = Territorio.getTerritorio(selecionado);
+			t.setMarcado(true);
+
+			vizinhos = model.getVizinhos(selecionado);
+			for (String nome : vizinhos) {
+				t = Territorio.getTerritorio(nome);
+				if (corAtual != model.getCor(nome))
+					t.setClicavel(true);
+			}
+			etapa = 11;
+			System.out.printf("Etapa f = %d\n", etapa);
+			return;
+			*/
+		}
+		
+		// Seleciona o defensor
+		else if (etapa == 11) {
+			
+			// Clicou do lado de fora
+			if (territorio == null) {
+				
+				// Define vizinhos como não clicáveis
+				if (vizinhos != null)
+					for (String nome : this.vizinhos) {
+						atualizaTerritorio(nome, false);
+					}
+				
+				// Desmarca o selecionado
+				if (selecionado != null) {
+					atualizaTerritorio(selecionado, false);
+					t = Territorio.getTerritorio(selecionado);
+					t.setMarcado(false);
+					selecionado = null;
+				}
+				
+				// Define os territórios do jogador como clicáveis
+				if (territorios != null) {
+					for (String nome : territorios) {
+						atualizaTerritorio(nome, true);
+					}
+				}
+
+				etapa = 10;
+			}
+			
+			// Clicou em um território
+			else {
+				t = Territorio.getTerritorio(territorio);
+				
+				// Território clicado é o selecionado
+				if (corAtual == model.getCor(territorio)) {
+					click(null);
+				}
+				
+				// Território clicado é um defensor válido
+				else {
+					control.ataca2(selecionado, territorio);
+					//dados = control.ataca(selecionado, territorio);
+				}				
+			}
+			
+			System.out.printf("Etapa f = %d\n", etapa);
+			return;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// exibeCartas = false;
 		// exibeTabelas = false;
 		// exibeObjetivo = false;
@@ -139,7 +313,7 @@ public class ViewAPI {
 			dados = null;
 		}
 
-		Territorio t, t2;
+		
 
 		if (territorios != null)
 			for (String nome : this.territorios) {

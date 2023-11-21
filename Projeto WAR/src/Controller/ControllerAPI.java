@@ -91,6 +91,19 @@ public class ControllerAPI {
         System.out.printf("Para a etapa %d\n",etapa);
     }
     
+    public void ataca2(String atacante, String defensor) {
+    	int nDadosAtaque, nDadosDefesa, tmp;
+    	
+    	tmp = model.getQtdExercitos(atacante);
+    	nDadosAtaque = tmp > 3 ? 3 : tmp - 1;
+    	
+    	tmp = model.getQtdExercitos(defensor);
+    	nDadosDefesa = tmp > 3 ? 3 : tmp;
+    	
+    	view.ataca(atacante, defensor, nDadosAtaque, nDadosDefesa);
+    	
+    }
+    
     public int[][] ataca(String atacante, String defensor) {
         SoundEffect.play("src/View/sounds/attack.wav");
     	int [][] dados = model.ataca(atacante, defensor);
