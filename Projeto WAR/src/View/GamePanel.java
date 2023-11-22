@@ -240,6 +240,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeResultadoAtaque = false;
 
 		if (exibeConquista) {
+			model.desregistra(temp1.getNome(), temp1);
+			model.desregistra(temp2.getNome(), temp2);
 
 			temp1.removeObservador(this);
 			temp2.removeObservador(this);
@@ -311,6 +313,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		temp1.setMarcado(true);
 
 		temp1.addObservador(this);
+		model.registra(temp1.getNome(), temp1);
 		addMouseListener(temp1);
 		addMouseMotionListener(temp1);
 
@@ -325,6 +328,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		temp2.setMarcado(true);
 
 		temp2.addObservador(this);
+		model.registra(temp2.getNome(), temp2);
 		addMouseListener(temp2);
 		addMouseMotionListener(temp2);
 

@@ -1,6 +1,9 @@
 package Model;
 
 import java.util.ArrayList;
+
+import View.ObservadorIF;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -14,6 +17,15 @@ public class ModelAPI {
 	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
 
 	private ModelAPI() {
+	}
+
+
+	int color2int(Cores cor) {
+		for (int i = 0; i < cores.length; i++) {
+			if (cores[i] == cor)
+				return i;
+		}
+		return -1;
 	}
 
 	public static ModelAPI getInstance() {
@@ -328,4 +340,13 @@ public class ModelAPI {
 		return jAtual.verificaObjetivo();
 	}
 
+	public void registra(String territorio, ObservadorIF o){
+		Territorio t = Territorio.getTerritorio(territorio);
+		t.addObservador(o);
+	}
+
+	public void desregistra(String territorio, ObservadorIF o){
+		Territorio t = Territorio.getTerritorio(territorio);
+		t.removeObservador(o);
+	}
 }

@@ -3,9 +3,12 @@ package Model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Random;
+import View.ObservadoIF;
+import View.ObservadorIF;
 
-class Territorio {
+class Territorio implements ObservadoIF {
 	private static ArrayList<Carta> cartasTerritorio = new ArrayList<Carta>();
 	private static Hashtable<String, Territorio> territorios = new Hashtable<String, Territorio>();
 
@@ -13,10 +16,37 @@ class Territorio {
 	private Jogador dono;
 	private int qntdExercito = 1;
 	private String nome;
+	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
 	public Territorio(String nome) {
 		/** Construtor que cria um territorio com seu nome. */
 		this.nome = nome;
+	}
+
+	public void addObservador(ObservadorIF o) {
+		lst.add(o);
+	}
+
+	public void removeObservador(ObservadorIF o) {
+		lst.remove(o);
+	}
+
+	public int get(int i) {
+		if (i == 1) {
+			return qntdExercito;
+		}
+
+		else if (i == 2) {
+			return ModelAPI.getInstance().color2int(dono.getCor());
+		}
+
+		return 0;
+	}
+
+	private void notificaObservadores() {
+		for (ObservadorIF o : lst) {
+			o.notify(this);
+		}
 	}
 
 	public String getNome() {
@@ -60,16 +90,19 @@ class Territorio {
 		qntdExercito = 1;
 
 		ModelAPI.getInstance().conquistou();
+		notificaObservadores();
 	}
 
 	public void acrescentaExe(int qtd) {
 		/** Funcao que acrescenta uma quantidade de exercitos em um territorio. */
 		qntdExercito += qtd;
+		notificaObservadores();
 	}
 
 	public void reduzExe(int qtd) {
 		/** Funcao que decrescenta uma quantidade de exercitos em um territorio. */
 		qntdExercito -= qtd;
+		notificaObservadores();
 	}
 
 	public Territorio[] getVizinhos() {
@@ -179,32 +212,32 @@ class Territorio {
 		return listasDados;
 	}
 
-	private int[] defender(int[] dadosAtaque, Territorio atacante) {
-		/**
-		 * Funcao em que um territorio se defende de um ataque, podendo eliminar
-		 * exercitos dos dois lados.
-		 */
-		int dadosDefesa[];
-		if (this.qntdExercito > 3) {
-			dadosDefesa = new int[3];
-		} else {
-			dadosDefesa = new int[this.qntdExercito];
-		}
-		sorteiaDados(dadosDefesa);
-		int minTam = dadosAtaque.length > dadosDefesa.length ? dadosDefesa.length : dadosAtaque.length;
-		for (int i = 0; i < minTam; i++) {
-			if (dadosAtaque[i] > dadosDefesa[i]) {
-				this.qntdExercito--;
-			} else {
-				atacante.qntdExercito--;
-			}
-		}
-		if (this.qntdExercito == 0) {
-			this.trocaDono(atacante.dono);
-			atacante.qntdExercito--;
-		}
-		return dadosDefesa;
-	}
+	// private int[] defender(int[] dadosAtaque, Territorio atacante) {
+	// 	/**
+	// 	 * Funcao em que um territorio se defende de um ataque, podendo eliminar
+	// 	 * exercitos dos dois lados.
+	// 	 */
+	// 	int dadosDefesa[];
+	// 	if (this.qntdExercito > 3) {
+	// 		dadosDefesa = new int[3];
+	// 	} else {
+	// 		dadosDefesa = new int[this.qntdExercito];
+	// 	}
+	// 	sorteiaDados(dadosDefesa);
+	// 	int minTam = dadosAtaque.length > dadosDefesa.length ? dadosDefesa.length : dadosAtaque.length;
+	// 	for (int i = 0; i < minTam; i++) {
+	// 		if (dadosAtaque[i] > dadosDefesa[i]) {
+	// 			this.qntdExercito--;
+	// 		} else {
+	// 			atacante.qntdExercito--;
+	// 		}
+	// 	}
+	// 	if (this.qntdExercito == 0) {
+	// 		this.trocaDono(atacante.dono);
+	// 		atacante.qntdExercito--;
+	// 	}
+	// 	return dadosDefesa;
+	// }
 
 	public static Baralho<Carta> montaBaralho() {
 		/** Funcao que cria um baralho de cartas (cartas de territorios) */
@@ -219,6 +252,10 @@ class Territorio {
 
 	public static Territorio getTerritorio(String nome) {
 		return territorios.get(nome);
+	}
+
+	public static Territorio[] getTerritorios() {
+		return territorios.values().toArray(new Territorio[territorios.size()]);
 	}
 
 	static {

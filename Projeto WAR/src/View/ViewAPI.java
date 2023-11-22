@@ -28,6 +28,10 @@ public class ViewAPI {
 	private ViewAPI() {
 	}
 
+	Color int2color(int i) {
+		return cores[i];
+	}
+
 	public static ViewAPI getInstance() {
 		if (instance == null) {
 			instance = new ViewAPI();
@@ -53,8 +57,10 @@ public class ViewAPI {
 
 		Territorio[] lst = Territorio.getTerritorios();
 		for (Territorio t : lst) {
+			model.registra(t.getNome(), t);
 			int n = model.getQtdExercitos(t.getNome());
 			t.setNum(n);
+
 			t.addObservador(gP);
 			gP.addMouseListener(t);
 			gP.addMouseMotionListener(t);
@@ -107,10 +113,36 @@ public class ViewAPI {
 	}
 
 	public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
+		// Torna não clicáveis os territórios anteriores
 		if (this.territorios != null) {
 			for (String nome : this.territorios) {
-				atualizaTerritorio(nome, false);
+				Territorio.getTerritorio(nome).setClicavel(false);
+				// atualizaTerritorio(nome, false);
 			}
+		}
+
+		if (this.vizinhos != null) {
+			for (String nome : this.vizinhos) {
+				Territorio.getTerritorio(nome).setClicavel(false);
+				// atualizaTerritorio(nome, false);
+			}
+		}
+
+		if (selecionado != null) {
+			// atualizaTerritorio(selecionado, false);
+
+			Territorio t = Territorio.getTerritorio(selecionado);
+			t.setMarcado(false);
+			t.setClicavel(false);
+			selecionado = null;
+		}
+
+		if (selecionado2 != null) {
+			// atualizaTerritorio(selecionado2, false);
+			Territorio t = Territorio.getTerritorio(selecionado2);
+			t.setMarcado(false);
+			t.setClicavel(false);
+			selecionado2 = null;
 		}
 
 		this.territorios = territorios;
@@ -119,22 +151,23 @@ public class ViewAPI {
 		this.qtdExe = qtd;
 		if (this.territorios != null) {
 			for (String nome : territorios) {
-				atualizaTerritorio(nome, true);
+				Territorio.getTerritorio(nome).setClicavel(true);
+				// atualizaTerritorio(nome, true);
 			}
 		}
 
 		iP.setInfo((etapa / 10) * 10, coresStr[corAtual], qtd);
 	}
 
-	private void atualizaTerritorio(String territorio, boolean click) {
+	// private void atualizaTerritorio(String territorio, boolean click) {
 
-		int n = model.getQtdExercitos(territorio);
-		Territorio t = Territorio.getTerritorio(territorio);
-		t.setNum(n);
-		int cor = model.getCor(territorio);
-		t.setCor(cores[cor]);
-		t.setClicavel(click);
-	}
+	// // int n = model.getQtdExercitos(territorio);
+	// Territorio t = Territorio.getTerritorio(territorio);
+	// // t.setNum(n);
+	// // int cor = model.getCor(territorio);
+	// // t.setCor(cores[cor]);
+	// t.setClicavel(click);
+	// }
 
 	public void click(String territorio) {
 		System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
@@ -154,7 +187,8 @@ public class ViewAPI {
 			}
 			if (territorios != null) {
 				for (String nome : territorios) {
-					atualizaTerritorio(nome, true);
+					// atualizaTerritorio(nome, true);
+					Territorio.getTerritorio(nome).setClicavel(true);
 				}
 			}
 
@@ -172,15 +206,17 @@ public class ViewAPI {
 				// Define os territórios como não clicáveis
 				if (territorios != null)
 					for (String nome : this.territorios) {
-						atualizaTerritorio(nome, false);
+						// atualizaTerritorio(nome, false);
+						Territorio.getTerritorio(nome).setClicavel(false);
 					}
 
 				// Destaca o atacante
 				selecionado = territorio;
-				atualizaTerritorio(selecionado, true);
+				// atualizaTerritorio(selecionado, true);
 
 				t = Territorio.getTerritorio(selecionado);
 				t.setMarcado(true);
+				t.setClicavel(true);
 
 				// Torna clicável todos os possíveis defensores
 				vizinhos = model.getVizinhos(selecionado);
@@ -205,21 +241,24 @@ public class ViewAPI {
 				// Define vizinhos como não clicáveis
 				if (vizinhos != null)
 					for (String nome : this.vizinhos) {
-						atualizaTerritorio(nome, false);
+						// atualizaTerritorio(nome, false);
+						Territorio.getTerritorio(nome).setClicavel(false);
 					}
 
 				// Desmarca o selecionado
 				if (selecionado != null) {
-					atualizaTerritorio(selecionado, false);
+					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
+					t.setClicavel(false);
 					selecionado = null;
 				}
 
 				// Define os territórios do jogador como clicáveis
 				if (territorios != null) {
 					for (String nome : territorios) {
-						atualizaTerritorio(nome, true);
+						// atualizaTerritorio(nome, true);
+						Territorio.getTerritorio(nome).setClicavel(true);
 					}
 				}
 
@@ -256,14 +295,16 @@ public class ViewAPI {
 				// Define vizinhos como não clicáveis
 				if (vizinhos != null)
 					for (String nome : this.vizinhos) {
-						atualizaTerritorio(nome, false);
+						// atualizaTerritorio(nome, false);
+						Territorio.getTerritorio(nome).setClicavel(false);
 					}
 
 				// Desmarca o selecionado
 				if (selecionado != null) {
-					atualizaTerritorio(selecionado, false);
+					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
+					t.setClicavel(false);
 					selecionado = null;
 				}
 				selecionado2 = null;
@@ -281,19 +322,56 @@ public class ViewAPI {
 			return;
 		}
 
+		// Selcionar um território para deslocar
+		else if (etapa == 20) {
+			if (territorio == null) {
+				if (selecionado != null) {
+					// atualizaTerritorio(selecionado, false);
+					t = Territorio.getTerritorio(selecionado);
+					t.setMarcado(false);
+					t.setClicavel(false);
+					selecionado = null;
+				}
+
+				if (territorios != null) {
+					for (String nome : territorios) {
+						// atualizaTerritorio(nome, true);
+						Territorio.getTerritorio(nome).setClicavel(true);
+					}
+				}
+
+				return;
+			}
+			selecionado = territorio;
+			// atualizaTerritorio(selecionado, true);
+
+			t = Territorio.getTerritorio(selecionado);
+			t.setMarcado(true);
+			t.setClicavel(true);
+
+			vizinhos = model.getVizinhos(selecionado);
+
+			for (String nome : vizinhos) {
+				t = Territorio.getTerritorio(nome);
+				if (corAtual == model.getCor(nome))
+					t.setClicavel(true);
+			}
+			etapa = 21;
+		}
+
 		if (territorios != null)
 			for (String nome : this.territorios) {
-				atualizaTerritorio(nome, false);
+				// atualizaTerritorio(nome, false);
 			}
 		if (vizinhos != null)
 			for (String nome : this.vizinhos) {
-				atualizaTerritorio(nome, false);
+				// atualizaTerritorio(nome, false);
 			}
 
 		else if (etapa == 20) {
 			if (territorio == null) {
 				if (selecionado != null) {
-					atualizaTerritorio(selecionado, false);
+					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
 					selecionado = null;
@@ -301,14 +379,14 @@ public class ViewAPI {
 
 				if (territorios != null) {
 					for (String nome : territorios) {
-						atualizaTerritorio(nome, true);
+						// atualizaTerritorio(nome, true);
 					}
 				}
 
 				return;
 			}
 			selecionado = territorio;
-			atualizaTerritorio(selecionado, true);
+			// atualizaTerritorio(selecionado, true);
 
 			t = Territorio.getTerritorio(selecionado);
 			t.setMarcado(true);
@@ -326,25 +404,28 @@ public class ViewAPI {
 		else if (etapa == 21) {
 			if (territorio == null) {
 				if (selecionado != null) {
-					atualizaTerritorio(selecionado, false);
+					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
+					t.setClicavel(false);
 					selecionado = null;
 				}
 
 				if (territorios != null) {
 					for (String nome : territorios) {
-						atualizaTerritorio(nome, true);
+						// atualizaTerritorio(nome, true);
+						Territorio.getTerritorio(nome).setClicavel(true);
 					}
 				}
 				etapa = 20;
 				return;
 			}
 			selecionado2 = territorio;
-			atualizaTerritorio(selecionado2, true);
+			// atualizaTerritorio(selecionado2, true);
 
 			t = Territorio.getTerritorio(selecionado2);
 			t.setMarcado(true);
+			t.setClicavel(true);
 
 			etapa = 22;
 		}
@@ -352,22 +433,25 @@ public class ViewAPI {
 		else if (etapa == 22) {
 			if (territorio == null) {
 				if (selecionado != null) {
-					atualizaTerritorio(selecionado, false);
+					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
+					t.setClicavel(false);
 					selecionado = null;
 				}
 
 				if (selecionado2 != null) {
-					atualizaTerritorio(selecionado2, false);
+					// atualizaTerritorio(selecionado2, false);
 					t = Territorio.getTerritorio(selecionado2);
 					t.setMarcado(false);
+					t.setClicavel(false);
 					selecionado2 = null;
 				}
 
 				if (territorios != null) {
 					for (String nome : territorios) {
-						atualizaTerritorio(nome, true);
+						// atualizaTerritorio(nome, true);
+						Territorio.getTerritorio(nome).setClicavel(true);
 					}
 				}
 
@@ -385,8 +469,11 @@ public class ViewAPI {
 				model.reduzExe(selecionado2, 1);
 				model.addExe(selecionado, 1);
 			}
-			atualizaTerritorio(selecionado, true);
-			atualizaTerritorio(selecionado2, true);
+			// atualizaTerritorio(selecionado, true);
+			// atualizaTerritorio(selecionado2, true);
+			Territorio.getTerritorio(selecionado).setClicavel(true);
+			Territorio.getTerritorio(selecionado2).setClicavel(true);
+
 		}
 		System.out.printf("Etapa f = %d\n", etapa);
 	}

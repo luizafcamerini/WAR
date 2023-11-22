@@ -1,4 +1,5 @@
 package View;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -9,22 +10,21 @@ import java.awt.event.*;
 import java.util.Hashtable;
 import java.util.List;
 
-public class Territorio implements ObservadoIF, MouseListener, MouseMotionListener{
+public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotionListener {
 	private static Hashtable<String, Territorio> territorios;
 	private static Hashtable<String, String> imgTerritorios;
-	
-    private String nome;
+
+	private String nome;
 	private int num = 0; // quantidade de exércitos neste território
-    private int x, y;
-    private Color cor, cor2, cor3, cor4;
+	private int x, y;
+	private Color cor, cor2, cor3, cor4;
 	private Font font1, font2;
-    private int raio = 12;
+	private int raio = 12;
 	boolean marcado = false;
 	boolean oculto = false;
 	boolean clicavel = false;
-	
-	
-	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
+
+	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
 	public void addObservador(ObservadorIF o) {
 		lst.add(o);
@@ -34,108 +34,123 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 		lst.remove(o);
 	}
 
-	public int get(int i){
-		if (i==1)
+	public int get(int i) {
+		if (i == 1)
 			return oculto ? 1 : 0;
 		return num;
 	}
 
-    public Territorio(String _nome, int _x, int _y){
-        nome = _nome;
-        x = _x;
-        y = _y;
-		font1 = new Font(null);
-		font2 = new Font("Arial",Font.BOLD,14);
-    }
+	public void notify(ObservadoIF o) {
+		int n = o.get(1);
+		int c = o.get(2);
 
-    public void setCor(Color _cor){
-        cor = _cor;
-        if (cor == null) return;
+		setNum(n);
+
+		Color cor = ViewAPI.getInstance().int2color(c);
+		setCor(cor);
+
+		notificaObservadores();
+	}
+
+	public Territorio(String _nome, int _x, int _y) {
+		nome = _nome;
+		x = _x;
+		y = _y;
+		font1 = new Font(null);
+		font2 = new Font("Arial", Font.BOLD, 14);
+	}
+
+	public void setCor(Color _cor) {
+		cor = _cor;
+		if (cor == null)
+			return;
 
 		int red = this.cor.getRed();
-        int green = this.cor.getGreen();
-        int blue = this.cor.getBlue();
-//        
-//        // Converte RGB para HSB
-//        float[] hsb = Color.RGBtoHSB(red, green, blue, null);
-//
-//        // Adiciona 0.5 (180 graus no círculo cromático) ao valor de Hue
-//        hsb[0] = (hsb[0] + 0.5f) % 1;
+		int green = this.cor.getGreen();
+		int blue = this.cor.getBlue();
+		//
+		// // Converte RGB para HSB
+		// float[] hsb = Color.RGBtoHSB(red, green, blue, null);
+		//
+		// // Adiciona 0.5 (180 graus no círculo cromático) ao valor de Hue
+		// hsb[0] = (hsb[0] + 0.5f) % 1;
 
-//        // Converte HSB de volta para RGB
-//        cor3 = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
-        
-//        cor3 = new Color(red,green,blue, 150);
-        cor3 = new Color(128,128,128,128);
+		// // Converte HSB de volta para RGB
+		// cor3 = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+
+		// cor3 = new Color(red,green,blue, 150);
+		cor3 = new Color(128, 128, 128, 128);
 
 		red = 255 - this.cor.getRed();
-        green = 255 - this.cor.getGreen();
-        blue = 255 - this.cor.getBlue();
-        
-        cor2 = new Color(red, green, blue);
-        
-        int d = 100;
-        
-        red = (this.cor.getRed() > 128) ? this.cor.getRed() - d : this.cor.getRed() + d;
-        green = (this.cor.getGreen() > 128) ? this.cor.getGreen() - d : this.cor.getGreen() + d;
-        blue = (this.cor.getBlue() > 128) ? this.cor.getBlue() - d : this.cor.getBlue() + d;
+		green = 255 - this.cor.getGreen();
+		blue = 255 - this.cor.getBlue();
 
-        cor4 = new Color(red, green, blue);
+		cor2 = new Color(red, green, blue);
+
+		int d = 100;
+
+		red = (this.cor.getRed() > 128) ? this.cor.getRed() - d : this.cor.getRed() + d;
+		green = (this.cor.getGreen() > 128) ? this.cor.getGreen() - d : this.cor.getGreen() + d;
+		blue = (this.cor.getBlue() > 128) ? this.cor.getBlue() - d : this.cor.getBlue() + d;
+
+		cor4 = new Color(red, green, blue);
 
 		// notificaObservadores();
-    }
-    
-    public String getNome() {
-    	return nome;
-    }
+	}
 
-    public void setNum(int n) {
-		if (num == n) return;
-    	num = n;
-		notificaObservadores();
-    }
-    
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNum(int n) {
+		if (num == n)
+			return;
+		num = n;
+		// notificaObservadores();
+	}
+
 	// public void setCoord(int _x, int _y){
-    //     x = _x;
-    //     y = _y;
-    // }
+	// x = _x;
+	// y = _y;
+	// }
 
-	public void setMarcado(boolean b){
+	public void setMarcado(boolean b) {
 		if (marcado != b) {
 			marcado = b;
 			notificaObservadores();
 		}
 	}
 
-	public void setOculto(boolean b){
+	public void setOculto(boolean b) {
 		oculto = b;
 	}
-	
-	public void setClicavel(boolean b){
-//		if (!b && !clicavel) return;
-//		if (!b) oculto = false;
-//		System.out.printf("%s %d\n",nome,!b?1:0);
+
+	public void setClicavel(boolean b) {
+		// if (!b && !clicavel) return;
+		// if (!b) oculto = false;
+		// System.out.printf("%s %d\n",nome,!b?1:0);
 		clicavel = b;
 	}
 
-    public boolean estaEm(int _x, int _y) {
-    	if (!clicavel) return false;
-    	int dx = Math.abs(x - _x);
-    	int dy = Math.abs(y - _y);
-    	int r = (int)Math.sqrt(dx*dx+dy*dy);
-    	return r <= raio;
-    }
-	
-    public void draw(Graphics g){
-        Graphics2D g2d=(Graphics2D) g;
+	public boolean estaEm(int _x, int _y) {
+		if (!clicavel)
+			return false;
+		int dx = Math.abs(x - _x);
+		int dy = Math.abs(y - _y);
+		int r = (int) Math.sqrt(dx * dx + dy * dy);
+		return r <= raio;
+	}
+
+	public void draw(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
 		g.setFont(font1);
-//		if (!oculto){
-//	        g2d.setPaint(cor);
-//		}
-//		else if (!clicavel)
-//			g2d.setPaint(cor3);
-//		else{}
-		if (oculto && clicavel){
+		// if (!oculto){
+		// g2d.setPaint(cor);
+		// }
+		// else if (!clicavel)
+		// g2d.setPaint(cor3);
+		// else{}
+		if (oculto && clicavel) {
 			g.setFont(font2);
 			g2d.setPaint(Color.WHITE);
 			String t = nome;
@@ -144,78 +159,78 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 			double th = f.getStringBounds(t, g).getHeight();
 			int __x = (int) (x - tw / 2);
 			int __y = (int) (y - th / 2 + f.getAscent());
-			//colocar a font como bold
+			// colocar a font como bold
 			g.setColor(Color.BLACK);
-	        for (int i = -2; i <= 2; i++) {
-	            for (int j = -2; j <= 2; j++) {
-	                g.drawString(t, __x + i, __y-20 + j);
-	            }
-	        }
-	        g.setColor(Color.WHITE);
-			g.drawString(t,__x,__y-20);
+			for (int i = -2; i <= 2; i++) {
+				for (int j = -2; j <= 2; j++) {
+					g.drawString(t, __x + i, __y - 20 + j);
+				}
+			}
+			g.setColor(Color.WHITE);
+			g.drawString(t, __x, __y - 20);
 			g2d.setPaint(cor4);
-		}
-		else {
+		} else {
 			g2d.setPaint(cor);
 		}
-			
-        Ellipse2D circ= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
+
+		Ellipse2D circ = new Ellipse2D.Double(x - raio, y - raio, raio * 2, raio * 2);
 		g2d.fill(circ);
-		
+
 		String txt = Integer.toString(num);
-        FontMetrics fm = g.getFontMetrics();
+		FontMetrics fm = g.getFontMetrics();
 		// Centraliza o texto no círculo
-        double textWidth = fm.getStringBounds(txt, g).getWidth();
-        double textHeight = fm.getStringBounds(txt, g).getHeight();
-        int _x = (int) (x - textWidth / 2);
-        int _y = (int) (y - textHeight / 2 + fm.getAscent());
+		double textWidth = fm.getStringBounds(txt, g).getWidth();
+		double textHeight = fm.getStringBounds(txt, g).getHeight();
+		int _x = (int) (x - textWidth / 2);
+		int _y = (int) (y - textHeight / 2 + fm.getAscent());
 
 		// Define a cor da borda
 		g2d.setColor(cor2);
 		// Define a espessura da borda
 		g2d.setStroke(new BasicStroke(1));
 		g2d.draw(circ);
-		
+
 		if (!clicavel) {
-			Ellipse2D circ2= new Ellipse2D.Double(x-raio,y-raio,raio*2,raio*2);
+			Ellipse2D circ2 = new Ellipse2D.Double(x - raio, y - raio, raio * 2, raio * 2);
 			g2d.setColor(cor3);
 			g2d.fill(circ2);
 		}
 
-		if (marcado){
+		if (marcado) {
 			int espessuraBorda = 5;
 			// Desenha a borda
-			Ellipse2D borda = new Ellipse2D.Double(x-raio-espessuraBorda, y-raio-espessuraBorda, (raio+espessuraBorda)*2, (raio+espessuraBorda)*2);
+			Ellipse2D borda = new Ellipse2D.Double(x - raio - espessuraBorda, y - raio - espessuraBorda,
+					(raio + espessuraBorda) * 2, (raio + espessuraBorda) * 2);
 			g2d.setColor(cor2);
 			g2d.setStroke(new BasicStroke(espessuraBorda));
 			g2d.draw(borda);
 		}
 
 		g2d.setPaint(cor2);
-		g.drawString(txt,_x,_y);
-    }
-    
-    public static Territorio getTerritorio(String nome) {
-    	return territorios.get(nome);
-    }
+		g.drawString(txt, _x, _y);
+	}
+
+	public static Territorio getTerritorio(String nome) {
+		return territorios.get(nome);
+	}
 
 	public static String getImgTerritorio(String nome) {
-		if (nome == null || imgTerritorios.get(nome) == null){
+		if (nome == null || imgTerritorios.get(nome) == null) {
 			return "war_carta_coringa.png";
 		}
-    	return imgTerritorios.get(nome);
-    }
+		return imgTerritorios.get(nome);
+	}
 
-	private void notificaObservadores(){
-		for(ObservadorIF o: lst){
+	private void notificaObservadores() {
+		for (ObservadorIF o : lst) {
 			o.notify(this);
 		}
 	}
-	
+
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		if (estaEm(x, y)){
+		if (estaEm(x, y)) {
 			ViewAPI.getInstance().click(nome);
 		}
 		// notificaObservadores();
@@ -243,112 +258,112 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	public void mouseMoved(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		if (!clicavel) return;
+		if (!clicavel)
+			return;
 
-		if (estaEm(x, y) && !oculto){
+		if (estaEm(x, y) && !oculto) {
 			setOculto(true);
 			// System.out.print("Entrou\n");
 			mouseEntered(e);
 			notificaObservadores();
-		}
-		else if (!estaEm(x, y) && oculto){
+		} else if (!estaEm(x, y) && oculto) {
 			setOculto(false);
 			// System.out.print("Saiu\n");
 			mouseExited(e);
 			notificaObservadores();
 		}
 	}
-    
-    public static Territorio[] getTerritorios() {
-    	if (territorios == null) {
+
+	public static Territorio[] getTerritorios() {
+		if (territorios == null) {
 			territorios = new Hashtable<String, Territorio>();
 			imgTerritorios = new Hashtable<String, String>();
-    		String txtTerritorios = """
-				Espanha,525,215,war_carta_eu_espanha.png
-				Polônia,660,140,war_carta_eu_polonia.png
-				Síria,760,225,war_carta_as_siria.png
-				Québec,350,125,war_carta_an_quebec.png
-				África do Sul,660,510,war_carta_af_africadosul.png
-				Paquistão,845,260,war_carta_as_paquistao.png
-				Alasca,150,75,war_carta_an_alasca.png
-				Indonésia,1000,445,war_carta_oc_indonesia.png
-				Índia,895,315,war_carta_as_india.png
-				Egito,650,330,war_carta_af_egito.png
-				Nova Zelândia,1035,590,war_carta_oc_novazelandia.png
-				Arábia Saudita,760,350,war_carta_as_arabiasaudita.png
-				Calgary,235,80,war_carta_an_calgary.png
-				China,895,230,war_carta_as_china.png
-				Jordânia,710,290,war_carta_as_jordania.png
-				Japão,1060,210,war_carta_as_japao.png
-				Nigéria,595,370,war_carta_af_nigeria.png
-				Austrália,975,555,war_carta_oc_australia.png
-				Perth,915,540,war_carta_oc_perth.png
-				Groelândia,395,40,war_carta_an_groelandia.png
-				Argentina,340,505,war_carta_as_argentina.png
-				Vancouver,220,125,war_carta_an_vancouver.png
-				Cazaquistão,945,150,war_carta_as_cazaquistao.png
-				Itália,610,180,war_carta_eu_italia.png
-				França,560,185,war_carta_eu_franca.png
-				Angola,640,445,war_carta_af_angola.png
-				México,200,300,war_carta_an_mexico.png
-				Venezuela,260,370,war_carta_as_venezuela.png
-				Mongolia,960,195,war_carta_as_mongolia.png
-				Argélia,535,310,war_carta_af_argelia.png
-				Somalia,705,425,war_carta_af_somalia.png
-				Romênia,660,195,war_carta_eu_romenia.png
-				Letônia,750,130,war_carta_eu_letonia.png
-				Texas,230,195,war_carta_an_texas.png
-				Peru,300,435,war_carta_as_peru.png
-				Suécia,610,80,war_carta_eu_suecia.png
-				Sibéria,995,75,war_carta_as_siberia.png
-				Coréia do Norte,970,245,war_carta_as_coreiadonorte.png
-				Coréia do Sul,970,275,war_carta_as_coreiadosul.png
-				Tailândia,1000,300,war_carta_as_tailandia.png
-				Bangladesh,950,320,war_carta_as_bangladesh.png 
-				Reino Unido,545,130,war_carta_eu_reinounido.png 
-				Ucrânia,680,170,war_carta_eu_ucrania.png
-				Califórnia,170,200,war_carta_an_california.png 
-				Nova York,270,205,war_carta_an_novayork.png
-				Russia,885,95,war_carta_as_russia.png
-				Estônia,770,80,war_carta_eu_estonia.png 
-				Brasil,350,400,war_carta_asl_brasil.png
-				Turquia,825,185,war_carta_as_turquia.png
-				Iraque,770,280, war_carta_as_iraque.png
-				Irã,810,285,war_carta_as_ira.png
-    				""";
+			String txtTerritorios = """
+					Espanha,525,215,war_carta_eu_espanha.png
+					Polônia,660,140,war_carta_eu_polonia.png
+					Síria,760,225,war_carta_as_siria.png
+					Québec,350,125,war_carta_an_quebec.png
+					África do Sul,660,510,war_carta_af_africadosul.png
+					Paquistão,845,260,war_carta_as_paquistao.png
+					Alasca,150,75,war_carta_an_alasca.png
+					Indonésia,1000,445,war_carta_oc_indonesia.png
+					Índia,895,315,war_carta_as_india.png
+					Egito,650,330,war_carta_af_egito.png
+					Nova Zelândia,1035,590,war_carta_oc_novazelandia.png
+					Arábia Saudita,760,350,war_carta_as_arabiasaudita.png
+					Calgary,235,80,war_carta_an_calgary.png
+					China,895,230,war_carta_as_china.png
+					Jordânia,710,290,war_carta_as_jordania.png
+					Japão,1060,210,war_carta_as_japao.png
+					Nigéria,595,370,war_carta_af_nigeria.png
+					Austrália,975,555,war_carta_oc_australia.png
+					Perth,915,540,war_carta_oc_perth.png
+					Groelândia,395,40,war_carta_an_groelandia.png
+					Argentina,340,505,war_carta_as_argentina.png
+					Vancouver,220,125,war_carta_an_vancouver.png
+					Cazaquistão,945,150,war_carta_as_cazaquistao.png
+					Itália,610,180,war_carta_eu_italia.png
+					França,560,185,war_carta_eu_franca.png
+					Angola,640,445,war_carta_af_angola.png
+					México,200,300,war_carta_an_mexico.png
+					Venezuela,260,370,war_carta_as_venezuela.png
+					Mongolia,960,195,war_carta_as_mongolia.png
+					Argélia,535,310,war_carta_af_argelia.png
+					Somalia,705,425,war_carta_af_somalia.png
+					Romênia,660,195,war_carta_eu_romenia.png
+					Letônia,750,130,war_carta_eu_letonia.png
+					Texas,230,195,war_carta_an_texas.png
+					Peru,300,435,war_carta_as_peru.png
+					Suécia,610,80,war_carta_eu_suecia.png
+					Sibéria,995,75,war_carta_as_siberia.png
+					Coréia do Norte,970,245,war_carta_as_coreiadonorte.png
+					Coréia do Sul,970,275,war_carta_as_coreiadosul.png
+					Tailândia,1000,300,war_carta_as_tailandia.png
+					Bangladesh,950,320,war_carta_as_bangladesh.png
+					Reino Unido,545,130,war_carta_eu_reinounido.png
+					Ucrânia,680,170,war_carta_eu_ucrania.png
+					Califórnia,170,200,war_carta_an_california.png
+					Nova York,270,205,war_carta_an_novayork.png
+					Russia,885,95,war_carta_as_russia.png
+					Estônia,770,80,war_carta_eu_estonia.png
+					Brasil,350,400,war_carta_asl_brasil.png
+					Turquia,825,185,war_carta_as_turquia.png
+					Iraque,770,280, war_carta_as_iraque.png
+					Irã,810,285,war_carta_as_ira.png
+									""";
 
-				String nome;
-				Territorio territorio;
+			String nome;
+			Territorio territorio;
 
-				String[] linhasTerritorios = txtTerritorios.split("\n");
-				String[] strListTemp;
-				int x,y;
+			String[] linhasTerritorios = txtTerritorios.split("\n");
+			String[] strListTemp;
+			int x, y;
 
-				ViewAPI api = ViewAPI.getInstance();
-				
-				// Cria os territórios
-				for (String linha : linhasTerritorios) {
-					linha = linha.trim();
-					// System.out.println(linha);
+			ViewAPI api = ViewAPI.getInstance();
 
-					strListTemp = linha.split(",");
-					if (strListTemp.length ==4) { // Verifica que esta lendo uma linha com território
-						nome = strListTemp[0];
-//						System.out.println(nome);
-						x = Integer.parseInt(strListTemp[1]);
-						y = Integer.parseInt(strListTemp[2]);
-						territorio = new Territorio(nome, x+10, y);
-						Color c = api.setViewColor(nome);
-						territorio.setCor(c);
+			// Cria os territórios
+			for (String linha : linhasTerritorios) {
+				linha = linha.trim();
+				// System.out.println(linha);
 
-						territorios.put(nome, territorio);
-						imgTerritorios.put(nome, strListTemp[3]);
+				strListTemp = linha.split(",");
+				if (strListTemp.length == 4) { // Verifica que esta lendo uma linha com território
+					nome = strListTemp[0];
+					// System.out.println(nome);
+					x = Integer.parseInt(strListTemp[1]);
+					y = Integer.parseInt(strListTemp[2]);
+					territorio = new Territorio(nome, x + 10, y);
+					Color c = api.setViewColor(nome);
+					territorio.setCor(c);
+
+					territorios.put(nome, territorio);
+					imgTerritorios.put(nome, strListTemp[3]);
 				}
+			}
+
 		}
-    		
-    	}
-    	
-    	return territorios.values().toArray(new Territorio[territorios.size()]);
-    }
+
+		return territorios.values().toArray(new Territorio[territorios.size()]);
+	}
 
 }
