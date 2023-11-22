@@ -19,9 +19,6 @@ public class ViewAPI {
 	private int qtdExe;
 	private Images images;
 	private int[][] dados;
-	// private boolean exibeCartas;
-	// private boolean exibeTabelas;
-	// private boolean exibeObjetivo;
 	private GamePanel gP;
 	private InfoPainel iP;
 
@@ -113,11 +110,14 @@ public class ViewAPI {
 			dados[1][i] = 0;
 			
 		
-		gP.ataque(atacante, defensor, nAtaque, nDefesa);
+		gP.ataque(atacante, defensor);
 	}
 
 
-
+	public void conquista(int dados[][]) {
+		this.dados = dados;
+		gP.conquista();
+	}
 
 
 
@@ -210,39 +210,6 @@ public class ViewAPI {
 				return;
 			}
 			
-			/*
-			if (territorio == null) { // Clicou "do lado de fora"
-				if (selecionado != null) {
-					atualizaTerritorio(selecionado, false);
-					t = Territorio.getTerritorio(selecionado);
-					t.setMarcado(false);
-					selecionado = null;
-				}
-
-				if (territorios != null) {
-					for (String nome : territorios) {
-						atualizaTerritorio(nome, true);
-					}
-				}
-				System.out.printf("Etapa f = %d\n", etapa);
-				return;
-			}
-			selecionado = territorio;
-			atualizaTerritorio(selecionado, true);
-
-			t = Territorio.getTerritorio(selecionado);
-			t.setMarcado(true);
-
-			vizinhos = model.getVizinhos(selecionado);
-			for (String nome : vizinhos) {
-				t = Territorio.getTerritorio(nome);
-				if (corAtual != model.getCor(nome))
-					t.setClicavel(true);
-			}
-			etapa = 11;
-			System.out.printf("Etapa f = %d\n", etapa);
-			return;
-			*/
 		}
 		
 		// Seleciona o defensor
@@ -286,18 +253,52 @@ public class ViewAPI {
 				
 				// Território clicado é um defensor válido
 				else {
-					control.ataca2(selecionado, territorio);
+					selecionado2 = territorio;
+					etapa = 12;
+					control.ataca2(selecionado, selecionado2);
 					//dados = control.ataca(selecionado, territorio);
-				}				
+				}
 			}
+			
 			
 			System.out.printf("Etapa f = %d\n", etapa);
 			return;
 		}
 		
 		
-		
-		
+		// Tela de ataque ou de conquista
+		else if (etapa == 12) {
+			
+			// Encerramento do ataque ou do deslocamento pós conquista
+			if (territorio == null) {
+				
+				// Define vizinhos como não clicáveis
+				if (vizinhos != null)
+					for (String nome : this.vizinhos) {
+						atualizaTerritorio(nome, false);
+					}
+				
+				// Desmarca o selecionado
+				if (selecionado != null) {
+					atualizaTerritorio(selecionado, false);
+					t = Territorio.getTerritorio(selecionado);
+					t.setMarcado(false);
+					selecionado = null;
+				}
+				selecionado2 = null;
+				
+				setEtapa(10, model.getTerritorios(corAtual), corAtual, 0);
+			}
+			
+			// Deslocando exército para território conquistado
+			else {
+				control.movePosConquista(selecionado, selecionado2, territorio);
+				gP.conquista(model.getQtdExercitos(selecionado),model.getQtdExercitos(selecionado2));
+			}
+			System.out.printf("Etapa f = %d\n", etapa);
+			
+			return;
+		}
 		
 		
 		

@@ -15,6 +15,8 @@ public class ControllerAPI {
     
     private int etapa = 0;
     private int corAtual;
+    
+    
 
     public static ControllerAPI getInstance(){
         if(instance == null){
@@ -114,6 +116,36 @@ public class ControllerAPI {
         view.setEtapa(12, territorios, corAtual, 0);
         return dados;
     }
+    
+    public void ataque(String atacante, String defensor) {
+    	int [][] dados = model.ataca(atacante, defensor);
+    	
+    	int corAtual = model.getCorAtual();
+    	
+    	if (model.getCor(defensor) == corAtual) { //Conquistou território
+    		
+    		view.conquista(dados);
+//    		String territorios[] = model.getTerritorios(corAtual);
+//    		view.setEtapa(12, territorios, corAtual, 0);
+    	}
+    	//view.ataque(atacante, defensor, dados)
+    }
+    
+    public void movePosConquista(String atacante, String defensor, String clicado) {
+    	int qtdA = model.getQtdExercitos(atacante);
+    	int qtdD = model.getQtdExercitos(defensor);
+    	
+    	if (atacante == clicado && qtdD > 1){
+			model.reduzExe(defensor,1);
+			model.addExe(atacante,1);
+		}
+    	else if (defensor == clicado && qtdD < 3 && qtdA > 1){
+			model.reduzExe(atacante,1);
+			model.addExe(defensor,1);
+		}
+    }
+    
+    
 
     public static void main(String[] args) {
     	ControllerAPI control = ControllerAPI.getInstance();

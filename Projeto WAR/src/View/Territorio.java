@@ -23,6 +23,7 @@ public class Territorio implements ObservadoIF, MouseListener, MouseMotionListen
 	boolean oculto = false;
 	boolean clicavel = false;
 	
+	
 	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
 
 	public void addObservador(ObservadorIF o) {

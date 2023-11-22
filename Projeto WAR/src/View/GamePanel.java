@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 
+import Controller.ControllerAPI;
 import Model.ModelAPI;
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import java.awt.geom.Rectangle2D;
 import javax.imageio.ImageIO;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
+	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
+	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
+	
 	private Territorio[] territorios;
 	// private Image tabuleiro;
 	// private Territorio foco;
@@ -18,6 +22,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private GamePanel instance;
     private ViewAPI view = ViewAPI.getInstance();
 	private ModelAPI model = ModelAPI.getInstance();
+	private ControllerAPI control = ControllerAPI.getInstance();
 	private boolean fora = true;
 	private boolean exibeCartas;
 	private boolean exibeTabelas;
@@ -26,10 +31,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private boolean manual = false;
 	
 	private boolean exibeAtaque = false;
+	private boolean exibeConquista = false;
 	private String atacante;
 	private String defensor;
-	private int nAtaque;
-	private int nDefesa;
+	
+	Territorio temp1, temp2;
 	
 	JComboBox cbDados[];
 	JButton bManual, bAuto, bAtaque;
@@ -95,7 +101,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
         
         bAtaque.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                control.ataque(atacante,defensor);
                 repaint();
             }
         });
@@ -106,6 +112,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
         add(bManual);
         add(bAuto);
         add(bAtaque);
+        
 	}
 
 	public GamePanel getInstance() {
@@ -116,6 +123,14 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void notify(ObservadoIF o){
+
+		if (o.equals(temp1) || o.equals(temp2)) {
+			
+			fora = (temp1.get(1)+temp2.get(1) == 0);
+			System.out.printf("Fora = %s\n", fora?"true":"false");
+			
+			repaint();
+		}
 		if (janelaExibida) return;
 		if (o instanceof Territorio){
 			fora = (o.get(1) == 0);
@@ -137,6 +152,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		iP.draw(g);
 //        exibeDadosAtaque(g);
         exibeTelaAtaque(g);
+        exibeTelaConquista(g);
         exibeCartas(g);
 		exibeTabelas(g);
 		exibeObjetivo(g);
@@ -148,12 +164,29 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			repaint();
 		}
 		
-		if (janelaExibida){
+		if (fora && janelaExibida){
 			exibeObjetivo = false;
 			exibeCartas = false;
 			exibeTabelas = false;
 			janelaExibida = false;
 			exibeAtaque = false;
+			
+			if (exibeConquista) {
+				
+				temp1.removeObservador(this);
+				temp2.removeObservador(this);
+
+				removeMouseListener(temp1);
+				removeMouseListener(temp2);
+				
+				removeMouseMotionListener(temp1);
+				removeMouseMotionListener(temp2);
+				
+				temp1 = null;
+				temp2 = null;
+
+				exibeConquista = false;
+			}
 			
 			bAtaque.setVisible(false);
 			bManual.setVisible(false);
@@ -189,7 +222,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	private void exibeJanela(Graphics g) {
 		janelaExibida = true;
-		fora = true;
+//		fora = true;
 		Graphics2D g2d = (Graphics2D) g;
 
 		int larg = getWidth() * 80 / 100;
@@ -210,14 +243,73 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		
 	}
 	
-	public void ataque(String atacante, String defensor, int nAtaque, int nDefesa) {
+	public void ataque(String atacante, String defensor) {
 		exibeAtaque = true;
 		this.atacante = atacante;
 		this.defensor = defensor;
-		this.nAtaque = nAtaque;
-		this.nDefesa = nDefesa;
 		repaint();
+	}
+	
+	public void conquista() {
+
+		int y = getHeight() * 15 / 100;
+		int y_inferior = getHeight() - y;
+		int x_centro = getWidth()/2;
+		int space = 50;
 		
+		
+		exibeObjetivo = false;
+		exibeCartas = false;
+		exibeTabelas = false;
+		janelaExibida = false;
+		exibeAtaque = false;
+		
+		bAtaque.setVisible(false);
+		bManual.setVisible(false);
+		bAuto.setVisible(false);
+		for (JComboBox cb: cbDados) {
+			cb.setVisible(false);
+		}
+		
+		exibeConquista = true;
+		int n, cor;
+		
+		// Mostra territorio "temporário" do atacante
+        temp1 = new Territorio(atacante,x_centro-space, y_inferior - 50);
+        n = model.getQtdExercitos(atacante);
+		temp1.setNum(n);
+		cor = model.getCor(atacante);
+		temp1.setCor(cores[cor]);
+		temp1.setClicavel(true);
+		temp1.setMarcado(true);
+
+		temp1.addObservador(this);
+		addMouseListener(temp1);
+		addMouseMotionListener(temp1);
+		
+		// Mostra territorio "temporário" do antigo defensor
+		temp2 = new Territorio(defensor,x_centro+space, y_inferior - 50);
+        
+        n = model.getQtdExercitos(defensor);
+		temp2.setNum(n);
+		cor = model.getCor(defensor);
+		temp2.setCor(cores[cor]);
+		temp2.setClicavel(true);
+		temp2.setMarcado(true);
+
+		temp2.addObservador(this);
+		addMouseListener(temp2);
+		addMouseMotionListener(temp2);
+		
+	}
+	
+	public void conquista(int n1, int n2) {
+		if (temp1 != null) {
+			temp1.setNum(n1);
+		}
+		if (temp2 != null) {
+			temp2.setNum(n2);
+		}
 	}
 	
 	private void drawStr(Graphics g, String text, int x, int y) {
@@ -256,6 +348,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		FontMetrics m = g.getFontMetrics();
 
 		exibeJanela(g);
+		fora = true;
 		
 		
 		
@@ -287,9 +380,58 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto.setBounds(2*getWidth()/3-bAuto.getPreferredSize().width/2, y + m.getHeight()*2, bAuto.getPreferredSize().width, bAuto.getPreferredSize().height);
 		bAtaque.setBounds((getWidth()-bAtaque.getPreferredSize().width)/2, y_inferior - m.getHeight(), bAtaque.getPreferredSize().width, bAtaque.getPreferredSize().height);
 		
-		drawStr(g2d, String.format("%s atacando %s",atacante, defensor),x_centro,y_inferior - m.getHeight()*3);
+		drawStr(g2d, String.format("%s (%d) atacando %s (%d)",atacante, model.getQtdExercitos(atacante),defensor,model.getQtdExercitos(defensor)),x_centro,y_inferior - m.getHeight()*3);
 		drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length),x_centro,y_inferior - m.getHeight()*2);
 	
+	}
+	
+	public void exibeTelaConquista(Graphics g) {
+		if (!exibeConquista) return;
+		int[][] dados = view.getListaDados();
+        if (dados == null) return;
+		
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 24));
+        
+		Image imagemDado;
+		String imagemDadoStr;
+        
+		int larg = getWidth() * 80 / 100;
+		int alt = getHeight() * 70 / 100;
+		int x = getWidth() * 10 / 100;
+		int y = getHeight() * 15 / 100;
+        int pos_x_ini = x + larg/4;
+		int pos_y_ini = y + alt/3;
+		int marginLeft = larg/4;
+		int marginTop = alt/4;
+		int x_centro = getWidth()/2;
+
+		int y_inferior = getHeight() - y;
+		FontMetrics m = g.getFontMetrics();
+
+		exibeJanela(g);
+//		fora = true;
+		
+		for (int i = 0; i < dados[0].length; i++) { // dados de ataque
+			imagemDadoStr = "dado_ataque_" + dados[0][i] + ".png";
+			imagemDado = images.getImage(imagemDadoStr);
+			g2d.drawImage(imagemDado, pos_x_ini + marginLeft*i, pos_y_ini, null);
+			// g2d.drawImage(imagemDado, pos_x_ini + marginLeft, pos_y_ini + marginLeft, imagemDado.getWidth(), imagemDado.getHeight(null), null);
+		}
+		pos_y_ini = marginTop * 2;
+		for (int i = 0; i < dados[1].length; i++) { // dados de defesa
+			imagemDadoStr = "dado_defesa_" + dados[1][i] + ".png";
+			imagemDado = images.getImage(imagemDadoStr);
+			// g2d.drawImage(imagemDado, pos_x_ini + marginLeft, pos_y_ini, getWidth(), getHeight(), null);
+			g2d.drawImage(imagemDado, pos_x_ini + marginLeft*i , pos_y_ini + marginTop, null);
+		}
+		
+		drawStr(g2d, String.format("Você conquistou %s",defensor),x_centro,y_inferior - m.getHeight()*4);
+		drawStr(g2d, "Escolha quantos exércitos deseja mover",x_centro,y_inferior - m.getHeight()*3);
+		//drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length),x_centro,y_inferior - m.getHeight()*2);
+		temp1.draw(g);
+		temp2.draw(g);
 	}
 
 
@@ -308,6 +450,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int marginLeft = larg/5;
 
         exibeJanela(g);
+        fora = true;
 
 		String [] nomesCartas = model.getCartasJogador();
 		//conectar o nome das carteas com as imagens
@@ -332,6 +475,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int pos_y_ini = y;
 		int marginLeft = larg/5;
 		exibeJanela(g);
+		fora = true;
 
 		g2d.drawImage(imagemTabelaExe, pos_x_ini, pos_y_ini, null);
 		g2d.drawImage(imagemTabelaBonusCont, pos_x_ini + marginLeft, pos_y_ini, null);
@@ -349,6 +493,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int pos_y_ini = y;
 
 		exibeJanela(g);
+		fora = true;
 		g2d.drawImage(imagemObjetivo, pos_x_ini, pos_y_ini, null);
 	}
 
