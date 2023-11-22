@@ -1,4 +1,5 @@
 package Model;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -49,7 +50,7 @@ class Territorio {
 		 * dono.
 		 */
 		Jogador donoAnterior = dono;
-		if (dono != null){
+		if (dono != null) {
 			donoAnterior.removeTerritorio(this);
 			if (donoAnterior.getQtdTerritorios() == 0)
 				donoAnterior.setAssassino(j);
@@ -76,6 +77,15 @@ class Territorio {
 		return vizinhos.toArray(new Territorio[vizinhos.size()]);
 	}
 
+	private void orndenaDecrescente(int[] lista) {
+		Arrays.sort(lista); // Ordena em ordem crescente
+		for (int i = 0; i < lista.length / 2; i++) { // Inverte a lista
+			int temp = lista[i];
+			lista[i] = lista[lista.length - i - 1];
+			lista[lista.length - i - 1] = temp;
+		}
+	}
+
 	private void sorteiaDados(int[] lista) {
 		/**
 		 * Funcao que preenche uma lista de inteiros com inteiros aleatorios, de 1 a 6
@@ -83,12 +93,6 @@ class Territorio {
 		for (int i = 0; i < lista.length; i++) {
 			Random rand = new Random();
 			lista[i] = rand.nextInt(1, 7);
-		}
-		Arrays.sort(lista);
-		for (int i = 0; i < lista.length / 2; i++) {
-			int temp = lista[i];
-			lista[i] = lista[lista.length - i - 1];
-			lista[lista.length - i - 1] = temp;
 		}
 
 	}
@@ -98,7 +102,7 @@ class Territorio {
 		return vizinhos.contains(t);
 	}
 
-	private boolean verificaCondicoesAtaque(Territorio alvo) {
+	public boolean verificaCondicoesAtaque(Territorio alvo) {
 		return (this.verificarVizinhos(alvo)) &&
 				(this.dono != alvo.getDono()) &&
 				(this.qntdExercito > 1);
@@ -111,24 +115,67 @@ class Territorio {
 		 */
 	}
 
+	public void atacar(Territorio alvo, int[][] dados) {
+		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
+		int dadosAtaque[] = dados[0];
+		int dadosDefesa[] = dados[1];
+
+		orndenaDecrescente(dadosAtaque);
+		orndenaDecrescente(dadosDefesa);
+
+		// Comparação dos valores dos dados
+		int minTam = dadosAtaque.length > dadosDefesa.length ? dadosDefesa.length : dadosAtaque.length;
+		for (int i = 0; i < minTam; i++) {
+			if (dadosAtaque[i] > dadosDefesa[i]) {
+				alvo.qntdExercito--;
+			} else {
+				this.qntdExercito--;
+			}
+		}
+
+		// Verifica se ocorreu conquista de território
+		if (alvo.qntdExercito == 0) {
+			alvo.trocaDono(this.dono);
+			this.qntdExercito--;
+		}
+	}
+
 	public int[][] atacar(Territorio alvo) {
 		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
-		int listaDados[];
-		int listaDadosDefesa[];
+		int dadosAtaque[];
+		int dadosDefesa[];
+		// int listasDados[][] = {dadosAtaque,dadosDefesa};//new int[2][];
+		int listasDados[][] = new int[2][];
 		boolean condicoesAtaque = verificaCondicoesAtaque(alvo);
+
 		if (condicoesAtaque) {
+
+			// Cria e sorteia dados de ataque
 			if (this.qntdExercito > 3) {
-				listaDados = new int[3];
+				dadosAtaque = new int[3];
 			} else {
-				listaDados = new int[this.qntdExercito - 1];
+				dadosAtaque = new int[this.qntdExercito - 1];
 			}
-			sorteiaDados(listaDados);
-			listaDadosDefesa = alvo.defender(listaDados, this);
+			sorteiaDados(dadosAtaque);
+			listasDados[0] = dadosAtaque;
+
+			// Cria e sorteia dados de defesa
+			if (alvo.qntdExercito > 3) {
+				dadosDefesa = new int[3];
+			} else {
+				dadosDefesa = new int[alvo.qntdExercito];
+			}
+			sorteiaDados(dadosDefesa);
+			listasDados[1] = dadosDefesa;
+
+			this.atacar(alvo, listasDados);
+
+			// dadosDefesa = alvo.defender(dadosAtaque, this);
 		} else {
 			System.out.printf("Não foi possível atacar %s\n.", alvo.getNome());
 			return null;
 		}
-		int listasDados[][] = {listaDados,listaDadosDefesa};//new int[2][];
+
 		return listasDados;
 	}
 
@@ -159,20 +206,18 @@ class Territorio {
 		return dadosDefesa;
 	}
 
-
-
 	public static Baralho<Carta> montaBaralho() {
 		/** Funcao que cria um baralho de cartas (cartas de territorios) */
 		Baralho<Carta> mapa = new Baralho<Carta>();
 		for (Carta carta : cartasTerritorio) {
 			mapa.adiciona(carta);
-//			if (carta.getTerritorio()!=null)
-//				System.out.println(carta.getTerritorio().getNome());
+			// if (carta.getTerritorio()!=null)
+			// System.out.println(carta.getTerritorio().getNome());
 		}
 		return mapa;
 	}
 
-	public static Territorio getTerritorio(String nome){
+	public static Territorio getTerritorio(String nome) {
 		return territorios.get(nome);
 	}
 

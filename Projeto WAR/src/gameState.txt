@@ -36,7 +36,7 @@ Jordânia,1
 Venezuela,1
 ;
 LUIZA,BRANCO
-5
+7
 ,
 Russia,1
 ;
