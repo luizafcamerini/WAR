@@ -1,16 +1,13 @@
 package View;
 
-import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.awt.geom.*;
 import java.awt.event.*;
-import java.util.Hashtable;
 import java.util.List;
 
-public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotionListener {
+class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotionListener {
 	private static Hashtable<String, Territorio> territorios;
 	private static Hashtable<String, String> imgTerritorios;
 
@@ -20,9 +17,10 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 	private Color cor, cor2, cor3, cor4;
 	private Font font1, font2;
 	private int raio = 12;
-	boolean marcado = false;
-	boolean oculto = false;
-	boolean clicavel = false;
+	private boolean marcado = false;
+	private boolean oculto = false;
+	private boolean clicavel = false;
+	private int i1;
 
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
@@ -36,7 +34,7 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 
 	public int get(int i) {
 		if (i == 1)
-			return oculto ? 1 : 0;
+			return i1;
 		return num;
 	}
 
@@ -48,7 +46,9 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 
 		Color cor = ViewAPI.getInstance().int2color(c);
 		setCor(cor);
-
+		
+		i1 = 0;
+		
 		notificaObservadores();
 	}
 
@@ -94,8 +94,6 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 		blue = (this.cor.getBlue() > 128) ? this.cor.getBlue() - d : this.cor.getBlue() + d;
 
 		cor4 = new Color(red, green, blue);
-
-		// notificaObservadores();
 	}
 
 	public String getNome() {
@@ -106,17 +104,12 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 		if (num == n)
 			return;
 		num = n;
-		// notificaObservadores();
 	}
-
-	// public void setCoord(int _x, int _y){
-	// x = _x;
-	// y = _y;
-	// }
 
 	public void setMarcado(boolean b) {
 		if (marcado != b) {
 			marcado = b;
+			i1=0;
 			notificaObservadores();
 		}
 	}
@@ -144,12 +137,6 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g.setFont(font1);
-		// if (!oculto){
-		// g2d.setPaint(cor);
-		// }
-		// else if (!clicavel)
-		// g2d.setPaint(cor3);
-		// else{}
 		if (oculto && clicavel) {
 			g.setFont(font2);
 			g2d.setPaint(Color.WHITE);
@@ -265,11 +252,13 @@ public class Territorio implements ObservadoIF, ObservadorIF, MouseListener, Mou
 			setOculto(true);
 			// System.out.print("Entrou\n");
 			mouseEntered(e);
+			i1 = 1;
 			notificaObservadores();
 		} else if (!estaEm(x, y) && oculto) {
 			setOculto(false);
 			// System.out.print("Saiu\n");
 			mouseExited(e);
+			i1 = 2;
 			notificaObservadores();
 		}
 	}

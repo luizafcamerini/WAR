@@ -1,10 +1,11 @@
 package Controller;
 
-import View.SoundEffect;
-//import View.GameScreen;
+//import View.SoundEffect;
 import View.ViewAPI;
 import Model.ModelAPI;
 import java.io.IOException;
+//import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class ControllerAPI {
 
@@ -14,6 +15,12 @@ public class ControllerAPI {
 
 	private int etapa = 0;
 	private int corAtual;
+	
+//	private ArrayList<String> recebidos;
+
+	private static Hashtable<String, Integer> qtdDeslocaveis;
+	private static Hashtable<String, Integer> qtdDeslocados;
+	
 
 	public static ControllerAPI getInstance() {
 		if (instance == null) {
@@ -65,6 +72,22 @@ public class ControllerAPI {
 
 		// Deslocamento de exércitos
 		else if (etapa == 20) {
+			
+			qtdDeslocaveis = new Hashtable<String, Integer>();
+			qtdDeslocados = new Hashtable<String, Integer>();
+			for(String nome: territorios) {
+				
+				// Salva quantos exércitos cada território pode doar
+				qtdDeslocaveis.put(nome, model.getQtdExercitos(nome)-1);
+				
+				// Salva quantos exércitos cada um doou para cada um
+				for (String nome2: territorios) {
+					if (nome != nome2) {
+						qtdDeslocados.put(nome+"-"+nome2, 0);
+					}
+				}
+			}
+			
 			view.setEtapa(etapa, territorios, corAtual, 0);
 		}
 
@@ -150,6 +173,54 @@ public class ControllerAPI {
 			model.reduzExe(atacante, 1);
 			model.addExe(defensor, 1);
 		}
+	}
+	
+	public void desloca (String tDe, String tPara) {
+		
+		int qtdDePara = qtdDeslocados.get(tDe+"-"+tPara);
+		int qtdDe = qtdDeslocaveis.get(tDe);
+		int qtdPara = qtdDeslocaveis.get(tPara);
+		
+		// Verifica se tentativa de deslocamento está retornando um exército para dono anterior
+		if (qtdDePara < 0) {
+			model.reduzExe(tDe, 1);
+			model.addExe(tPara, 1);
+			
+			qtdDePara++;
+			qtdPara++;
+			
+			qtdDeslocaveis.put(tPara, qtdPara);
+			qtdDeslocados.put(tDe+"-"+tPara, qtdDePara);
+			qtdDeslocados.put(tPara+"-"+tDe, -qtdDePara);
+		}
+		
+		// Realiza deslocamento de "tDe" para "tPara"
+		else if (qtdDe > 0) {
+			model.addExe(tPara, 1);
+			model.reduzExe(tDe, 1);
+			
+			qtdDePara++;
+			qtdDe--;
+			
+			qtdDeslocaveis.put(tDe, qtdDe);
+			qtdDeslocados.put(tDe+"-"+tPara, qtdDePara);
+			qtdDeslocados.put(tPara+"-"+tDe, -qtdDePara);
+			
+		}
+		
+//		int qtd1 = model.getQtdExercitos(tDe);
+//		int qtd2 = model.getQtdExercitos(tPara);
+//		if (territorio == selecionado2 && qtd1 > 1) {
+//			model.reduzExe(selecionado, 1);
+//			model.addExe(selecionado2, 1);
+//		} else if (territorio == selecionado && qtd2 > 1) {
+//			model.reduzExe(selecionado2, 1);
+//			model.addExe(selecionado, 1);
+//		}
+//		// atualizaTerritorio(selecionado, true);
+//		// atualizaTerritorio(selecionado2, true);
+//		Territorio.getTerritorio(selecionado).setClicavel(true);
+//		Territorio.getTerritorio(selecionado2).setClicavel(true);
 	}
 
 	public static void main(String[] args) {

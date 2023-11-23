@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.*;
-import java.util.Hashtable;
 
 import Model.ModelAPI;
 import Controller.ControllerAPI;
@@ -49,8 +48,7 @@ public class ViewAPI {
 		gP.setBackground(Color.BLACK);
 
 		iP.addObservador(gP);
-		gP.addMouseListener(iP);
-		gP.addMouseMotionListener(iP);
+		iP.atializaListeners(gP);
 
 		gameScreen = new GameScreen(gP);
 		gameScreen.setVisible(true);
@@ -159,15 +157,6 @@ public class ViewAPI {
 		iP.setInfo((etapa / 10) * 10, coresStr[corAtual], qtd);
 	}
 
-	// private void atualizaTerritorio(String territorio, boolean click) {
-
-	// // int n = model.getQtdExercitos(territorio);
-	// Territorio t = Territorio.getTerritorio(territorio);
-	// // t.setNum(n);
-	// // int cor = model.getCor(territorio);
-	// // t.setCor(cores[cor]);
-	// t.setClicavel(click);
-	// }
 
 	public void click(String territorio) {
 		System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
@@ -175,9 +164,8 @@ public class ViewAPI {
 
 		Territorio t, t2;
 
+		// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele pertencem
 		if (etapa == 0) {
-			// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele
-			// pertencem
 			if (territorio != null) {
 				model.addExe(territorio, 1);
 				qtdExe--;
@@ -187,13 +175,9 @@ public class ViewAPI {
 			}
 			if (territorios != null) {
 				for (String nome : territorios) {
-					// atualizaTerritorio(nome, true);
 					Territorio.getTerritorio(nome).setClicavel(true);
 				}
 			}
-
-			System.out.printf("Etapa f = %d\n", etapa);
-			return;
 
 		}
 
@@ -206,14 +190,11 @@ public class ViewAPI {
 				// Define os territórios como não clicáveis
 				if (territorios != null)
 					for (String nome : this.territorios) {
-						// atualizaTerritorio(nome, false);
 						Territorio.getTerritorio(nome).setClicavel(false);
 					}
 
 				// Destaca o atacante
 				selecionado = territorio;
-				// atualizaTerritorio(selecionado, true);
-
 				t = Territorio.getTerritorio(selecionado);
 				t.setMarcado(true);
 				t.setClicavel(true);
@@ -226,8 +207,6 @@ public class ViewAPI {
 						t.setClicavel(true);
 				}
 				etapa = 11;
-				System.out.printf("Etapa f = %d\n", etapa);
-				return;
 			}
 
 		}
@@ -241,13 +220,11 @@ public class ViewAPI {
 				// Define vizinhos como não clicáveis
 				if (vizinhos != null)
 					for (String nome : this.vizinhos) {
-						// atualizaTerritorio(nome, false);
 						Territorio.getTerritorio(nome).setClicavel(false);
 					}
 
 				// Desmarca o selecionado
 				if (selecionado != null) {
-					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
 					t.setClicavel(false);
@@ -257,7 +234,6 @@ public class ViewAPI {
 				// Define os territórios do jogador como clicáveis
 				if (territorios != null) {
 					for (String nome : territorios) {
-						// atualizaTerritorio(nome, true);
 						Territorio.getTerritorio(nome).setClicavel(true);
 					}
 				}
@@ -281,9 +257,6 @@ public class ViewAPI {
 						etapa = 12;
 				}
 			}
-
-			System.out.printf("Etapa f = %d\n", etapa);
-			return;
 		}
 
 		// Tela de ataque ou de conquista
@@ -295,13 +268,11 @@ public class ViewAPI {
 				// Define vizinhos como não clicáveis
 				if (vizinhos != null)
 					for (String nome : this.vizinhos) {
-						// atualizaTerritorio(nome, false);
 						Territorio.getTerritorio(nome).setClicavel(false);
 					}
 
 				// Desmarca o selecionado
 				if (selecionado != null) {
-					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
 					t.setClicavel(false);
@@ -317,165 +288,104 @@ public class ViewAPI {
 				control.movePosConquista(selecionado, selecionado2, territorio);
 				gP.conquista(model.getQtdExercitos(selecionado), model.getQtdExercitos(selecionado2));
 			}
-			System.out.printf("Etapa f = %d\n", etapa);
-
-			return;
 		}
 
-		// Selcionar um território para deslocar
+		// Selcionar um território para deslocar exércitos
 		else if (etapa == 20) {
-			if (territorio == null) {
-				if (selecionado != null) {
-					// atualizaTerritorio(selecionado, false);
-					t = Territorio.getTerritorio(selecionado);
-					t.setMarcado(false);
-					t.setClicavel(false);
-					selecionado = null;
-				}
-
-				if (territorios != null) {
-					for (String nome : territorios) {
-						// atualizaTerritorio(nome, true);
-						Territorio.getTerritorio(nome).setClicavel(true);
+			if (territorio != null) {
+					
+				if (territorios != null)
+					for (String nome : this.territorios) {
+						Territorio.getTerritorio(nome).setClicavel(false);
 					}
+				
+				selecionado = territorio;
+				t = Territorio.getTerritorio(selecionado);
+				t.setMarcado(true);
+				t.setClicavel(true);
+	
+				vizinhos = model.getVizinhos(selecionado);
+	
+				for (String nome : vizinhos) {
+					t = Territorio.getTerritorio(nome);
+					if (corAtual == model.getCor(nome))
+						t.setClicavel(true);
 				}
-
-				return;
+				etapa = 21;
 			}
-			selecionado = territorio;
-			// atualizaTerritorio(selecionado, true);
-
-			t = Territorio.getTerritorio(selecionado);
-			t.setMarcado(true);
-			t.setClicavel(true);
-
-			vizinhos = model.getVizinhos(selecionado);
-
-			for (String nome : vizinhos) {
-				t = Territorio.getTerritorio(nome);
-				if (corAtual == model.getCor(nome))
-					t.setClicavel(true);
-			}
-			etapa = 21;
 		}
-
-		if (territorios != null)
-			for (String nome : this.territorios) {
-				// atualizaTerritorio(nome, false);
-			}
-		if (vizinhos != null)
-			for (String nome : this.vizinhos) {
-				// atualizaTerritorio(nome, false);
-			}
-
-		else if (etapa == 20) {
-			if (territorio == null) {
-				if (selecionado != null) {
-					// atualizaTerritorio(selecionado, false);
-					t = Territorio.getTerritorio(selecionado);
-					t.setMarcado(false);
-					selecionado = null;
-				}
-
-				if (territorios != null) {
-					for (String nome : territorios) {
-						// atualizaTerritorio(nome, true);
-					}
-				}
-
-				return;
-			}
-			selecionado = territorio;
-			// atualizaTerritorio(selecionado, true);
-
-			t = Territorio.getTerritorio(selecionado);
-			t.setMarcado(true);
-
-			vizinhos = model.getVizinhos(selecionado);
-
-			for (String nome : vizinhos) {
-				t = Territorio.getTerritorio(nome);
-				if (corAtual == model.getCor(nome))
-					t.setClicavel(true);
-			}
-			etapa = 21;
-		}
-
+		
+		// Selcionar outro território para deslocar exércitos
 		else if (etapa == 21) {
-			if (territorio == null) {
+			if (territorio == null || territorio == selecionado) {
 				if (selecionado != null) {
-					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
-					t.setClicavel(false);
 					selecionado = null;
 				}
 
 				if (territorios != null) {
 					for (String nome : territorios) {
-						// atualizaTerritorio(nome, true);
 						Territorio.getTerritorio(nome).setClicavel(true);
 					}
 				}
 				etapa = 20;
-				return;
 			}
-			selecionado2 = territorio;
-			// atualizaTerritorio(selecionado2, true);
-
-			t = Territorio.getTerritorio(selecionado2);
-			t.setMarcado(true);
-			t.setClicavel(true);
-
-			etapa = 22;
+			else {
+				for (String nome : vizinhos) {
+					Territorio.getTerritorio(nome).setClicavel(false);
+				}
+				
+				selecionado2 = territorio;
+				
+				t = Territorio.getTerritorio(selecionado);
+				t2 = Territorio.getTerritorio(selecionado2);
+				
+				t.setMarcado(true);
+				t2.setMarcado(true);
+				
+				t.setClicavel(true);
+				t2.setClicavel(true);
+	
+				etapa = 22;
+			}
 		}
-
+		
 		else if (etapa == 22) {
 			if (territorio == null) {
 				if (selecionado != null) {
-					// atualizaTerritorio(selecionado, false);
 					t = Territorio.getTerritorio(selecionado);
 					t.setMarcado(false);
-					t.setClicavel(false);
 					selecionado = null;
 				}
 
 				if (selecionado2 != null) {
-					// atualizaTerritorio(selecionado2, false);
 					t = Territorio.getTerritorio(selecionado2);
 					t.setMarcado(false);
-					t.setClicavel(false);
 					selecionado2 = null;
 				}
 
 				if (territorios != null) {
 					for (String nome : territorios) {
-						// atualizaTerritorio(nome, true);
 						Territorio.getTerritorio(nome).setClicavel(true);
 					}
 				}
 
 				etapa = 20;
-
-				return;
 			}
-
-			int qtd1 = model.getQtdExercitos(selecionado);
-			int qtd2 = model.getQtdExercitos(selecionado2);
-			if (territorio == selecionado2 && qtd1 > 1) {
-				model.reduzExe(selecionado, 1);
-				model.addExe(selecionado2, 1);
-			} else if (territorio == selecionado && qtd2 > 1) {
-				model.reduzExe(selecionado2, 1);
-				model.addExe(selecionado, 1);
+			else {
+				
+				// Desloca exército para exército clicado
+				if (territorio == selecionado)
+					control.desloca(selecionado2, selecionado);
+				else
+					control.desloca(selecionado, selecionado2);
 			}
-			// atualizaTerritorio(selecionado, true);
-			// atualizaTerritorio(selecionado2, true);
-			Territorio.getTerritorio(selecionado).setClicavel(true);
-			Territorio.getTerritorio(selecionado2).setClicavel(true);
-
 		}
+
 		System.out.printf("Etapa f = %d\n", etapa);
+		return;
+
 	}
 
 	public int[][] getListaDados() {

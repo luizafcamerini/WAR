@@ -1,13 +1,11 @@
 JERONIMO,VERDE
 5
-,
+Ucrânia,Québec,
 Calgary,1
-Mongolia,1
 China,1
 Sibéria,1
 Espanha,1
 Austrália,1
-Cazaquistão,1
 Bangladesh,1
 Nigéria,1
 África do Sul,1
@@ -15,16 +13,15 @@ Peru,1
 Arábia Saudita,1
 Brasil,1
 França,1
-Califórnia,1
 Indonésia,1
 Tailândia,1
 Argentina,1
 Suécia,1
 Alasca,1
 Coréia do Norte,1
-Polônia,1
+Polônia,13
 Itália,1
-Nova York,1
+Nova York,5
 Paquistão,1
 Romênia,1
 Argélia,1
@@ -34,30 +31,33 @@ Iraque,1
 Egito,1
 Jordânia,1
 Venezuela,1
+Texas,10
+Ucrânia,3
 ;
 LUIZA,BRANCO
 7
-,
-Russia,1
+Russia,Itália,
+Russia,2
+Cazaquistão,4
+Mongolia,1
 ;
 THOMAS,VERMELHO
 10
-,
-Ucrânia,1
-Somalia,1
+Indonésia,
+Somalia,4
 Irã,1
 Coréia do Sul,1
 Perth,1
 Nova Zelândia,1
 Síria,1
 Índia,1
-Texas,9
 Letônia,1
 Turquia,1
 Vancouver,1
-Angola,1
+Angola,6
 Japão,1
-México,1
+México,2
 Reino Unido,1
 Groelândia,1
+Califórnia,1
 ;

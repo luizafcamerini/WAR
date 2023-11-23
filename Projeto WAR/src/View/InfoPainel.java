@@ -1,32 +1,42 @@
 package View;
 
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListener {
+public class InfoPainel implements ObservadoIF, ObservadorIF {
 	private String msg;
-	int x, y, alt, larg;
-	Color cores[];
-	boolean selecionados[];
-	int botao = -1;
+	private int x, y, alt, larg;
+	private Botao botoes[];
 	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
+	private int i1;
 
 	public InfoPainel(int _x, int _y, int largura, int altura) {
 		x = _x;
 		y = _y;
 		larg = largura;
 		alt = altura;
-		cores = new Color[4];
-		selecionados = new boolean[4];
+		botoes = new Botao[4];
+		botoes[0] = new Botao(x + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4, "OBJETIVO");
+		botoes[1] = new Botao(x + (larg / 2) + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4,"CARTAS");
+		botoes[2] = new Botao(x + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4, "TABELAS");
+		botoes[3] = new Botao(x + (larg / 2) + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4,"PRÓX. ETAPA");
+
 		for (int i = 0; i < 4; i++) {
-			cores[i] = Color.WHITE;
-			selecionados[i] = false;
+			botoes[i].addObservador(this);
+			botoes[i].setI2(i);
 		}
 
+	}
+	
+	public void atializaListeners(GamePanel gP) {
+		for(Botao b:botoes) {
+			
+			gP.addMouseListener(b);
+			gP.addMouseMotionListener(b);
+		}
 	}
 
 	public void addObservador(ObservadorIF o) {
@@ -38,7 +48,21 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 	}
 
 	public int get(int i){
+		if (i == 1)
+			return i1;
 		return 0;
+	}
+	
+	
+	public void notify(ObservadoIF o) {
+		i1 = o.get(1);
+		
+		if(i1 == 0) {
+			ViewAPI.getInstance().clickBotao(o.get(2));
+		}
+		else {			
+			notificaObservadores();
+		}
 	}
 
 	public void setInfo(int etapa, String cor, int qtdExe) {
@@ -58,6 +82,7 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
             default:
                 msg = null;
 		}
+		i1 = 0;
 		notificaObservadores();
 	}
 
@@ -85,16 +110,6 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 		}
 	}
 
-	private void drawStr(Graphics g, String text, int x, int y) {
-		g.setColor(Color.BLACK);
-
-		FontMetrics metrics = g.getFontMetrics(g.getFont());
-		x = x - metrics.stringWidth(text) / 2;
-		y = y - metrics.getHeight() / 2 + metrics.getAscent();
-
-		g.drawString(text, x, y);
-	}
-
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -105,133 +120,10 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 		g.setColor(Color.WHITE);
 		drawStringMultiLine(g, msg, 10, x + 5, y + 20);
 
-		Rectangle2D botaoObjetivo = new Rectangle2D.Double(x + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4);
-		g2d.setColor(cores[0]);
-		g2d.fill(botaoObjetivo);
-		drawStr(g, "OBJETIVO", x + larg / 4, y + 5 * alt / 8);
-
-		Rectangle2D botaoCartas = new Rectangle2D.Double(x + (larg / 2) + 5, y + alt / 2 + 2, (larg / 2) - 10,
-				alt / 4 - 4);
-		g2d.setColor(cores[1]);
-		g2d.fill(botaoCartas);
-		drawStr(g, "CARTAS", x + 3 * larg / 4, y + 5 * alt / 8);
-
-		Rectangle2D botaoTabela = new Rectangle2D.Double(x + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4);
-		g2d.setColor(cores[2]);
-		g2d.fill(botaoTabela);
-		drawStr(g, "TABELAS", x + larg / 4, y + 7 * alt / 8);
-
-		Rectangle2D botaoEtapa = new Rectangle2D.Double(x + (larg / 2) + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10,
-				alt / 4 - 4);
-		g2d.setColor(cores[3]);
-		g2d.fill(botaoEtapa);
-		drawStr(g, "PRÓX. ETAPA", x + 3 * larg / 4, y + 7 * alt / 8);
+		for(Botao b:botoes)
+			b.draw(g);
 	}
 
-	public int mouseClick(int _x, int _y) {
-		int _larg = (larg / 2) - 10;
-		int _alt = alt / 4 - 4;
-		int dx, dy;
-
-		dx = _x - (x + 5);
-		dy = _y - (y + alt / 2 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			return 0;
-		}
-
-		dx = _x - (x + (larg / 2) + 5);
-		dy = _y - (y + alt / 2 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			return 1;
-		}
-
-		dx = _x - (x + 5);
-		dy = _y - (y + 3 * alt / 4 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			return 2;
-		}
-
-		dx = _x - (x + (larg / 2) + 5);
-		dy = _y - (y + 3 * alt / 4 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			return 3;
-		}
-
-		return -1;
-	}
-
-	public boolean mouseMove(int _x, int _y) {
-		int _larg = (larg / 2) - 10;
-		int _alt = alt / 4 - 4;
-		int dx, dy;
-		boolean flag = false;
-
-		dx = _x - (x + 5);
-		dy = _y - (y + alt / 2 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			cores[0] = Color.GRAY;
-			if (!selecionados[0])
-				flag = true;
-			selecionados[0] = true;
-		} else {
-			cores[0] = Color.WHITE;
-			if (selecionados[0])
-				flag = true;
-			selecionados[0] = false;
-		}
-
-		dx = _x - (x + (larg / 2) + 5);
-		dy = _y - (y + alt / 2 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			cores[1] = Color.GRAY;
-			if (!selecionados[1])
-				flag = true;
-			selecionados[1] = true;
-		} else {
-			cores[1] = Color.WHITE;
-			if (selecionados[1])
-				flag = true;
-			selecionados[1] = false;
-		}
-
-		dx = _x - (x + 5);
-		dy = _y - (y + 3 * alt / 4 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			cores[2] = Color.GRAY;
-			if (!selecionados[2])
-				flag = true;
-			selecionados[2] = true;
-		} else {
-			cores[2] = Color.WHITE;
-			if (selecionados[2])
-				flag = true;
-			selecionados[2] = false;
-		}
-
-		dx = _x - (x + (larg / 2) + 5);
-		dy = _y - (y + 3 * alt / 4 + 2);
-
-		if (dx > 0 && dx < _larg && dy > 0 && dy < _alt) {
-			cores[3] = Color.GRAY;
-			if (!selecionados[3])
-				flag = true;
-			selecionados[3] = true;
-		} else {
-			cores[3] = Color.WHITE;
-			if (selecionados[3])
-				flag = true;
-			selecionados[3] = false;
-		}
-
-		return flag;
-	}
 
 	private void notificaObservadores(){
 		for(ObservadorIF o: lst){
@@ -239,42 +131,5 @@ public class InfoPainel implements ObservadoIF, MouseListener, MouseMotionListen
 		}
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		botao = mouseClick(x, y);
-		if (botao != -1){
-			// notificaObservadores();
-			ViewAPI.getInstance().clickBotao(botao);
-		}
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		// System.out.println("Mouse Entered");
-	}
-
-	public void mouseExited(MouseEvent e) {
-		// System.out.println("Mouse Exited");
-	}
-
-	public void mousePressed(MouseEvent e) {
-		// System.out.println("Mouse Pressed");
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		// System.out.println("Mouse Released");
-	}
-
-	public void mouseDragged(MouseEvent e) {
-	}
-
-	public void mouseMoved(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-
-		if (mouseMove(x, y)){
-			notificaObservadores();
-		}
-	}
 
 }

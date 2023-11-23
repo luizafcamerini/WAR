@@ -5,18 +5,14 @@ import javax.swing.*;
 import Controller.ControllerAPI;
 import Model.ModelAPI;
 import java.awt.*;
-import java.util.ArrayList;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
-import javax.imageio.ImageIO;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 
 	private Territorio[] territorios;
-	// private Image tabuleiro;
-	// private Territorio foco;
 	private InfoPainel iP;
 	private Images images = Images.getInstance();
 	private GamePanel instance;
@@ -41,16 +37,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	JComboBox cbDados[];
 	JButton bManual, bAuto, bAtaque, bAtaqueN;
 
-	// private int i = 0;
-
 	public GamePanel(InfoPainel iP) {
-		// tabuleiro = img;
 		this.addMouseListener(this);
-		// this.addMouseMotionListener(this);
 		this.iP = iP;
 
 		territorios = Territorio.getTerritorios();
-		// Territorio t1 = territorios[i];
 
 		String[] vm = { "1", "2", "3", "4", "5", "6" };
 		cbDados = new JComboBox[6];
@@ -94,8 +85,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				manual = false;
 
 				for (int i = 0; i < 6; i++) {
-					// cbDados[i].setSelectedIndex(-1);
-
 					view.setDado(i, 0);
 				}
 				repaint();
@@ -138,22 +127,17 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void notify(ObservadoIF o) {
-
-		if (o.equals(temp1) || o.equals(temp2)) {
-
-			fora = (temp1.get(1) + temp2.get(1) == 0);
-			System.out.printf("Fora = %s\n", fora ? "true" : "false");
-
-			repaint();
+		int estadoFora = o.get(1);
+		
+		if (estadoFora == 1) {
+			fora = false;
 		}
-		if (janelaExibida)
-			return;
-		if (o instanceof Territorio) {
-			fora = (o.get(1) == 0);
+		else if (estadoFora == 2) {
+			fora = true;
 		}
-
+		System.out.printf("Fora = %s\n", fora ? "true" : "false");
+		
 		repaint();
-		// System.out.println("GamePanel: notificado");
 	}
 
 	public void paintComponent(Graphics g) {
@@ -166,7 +150,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 
 		iP.draw(g);
-		// exibeDadosAtaque(g);
+		
 		exibeTelaAtaque(g);
 		exibeTelaResultadoAtaque(g);
 		exibeTelaConquista(g);
@@ -178,14 +162,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	public void mouseClicked(MouseEvent e) {
 		if (fora) {
 			ViewAPI.getInstance().click(null);
+			if (janelaExibida) {				
+				limpaJanela();
+			}
 			repaint();
-		}
-
-		if (fora && janelaExibida) {
-			limpaJanela();
-
-			repaint();
-			// return;
 		}
 
 		System.out.printf("Fora = %s\n", fora ? "true" : "false");
@@ -210,7 +190,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	private void exibeJanela(Graphics g) {
 		janelaExibida = true;
-		// fora = true;
 		Graphics2D g2d = (Graphics2D) g;
 
 		int larg = getWidth() * 80 / 100;
@@ -383,7 +362,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			// g2d.drawImage(imagemDado, pos_x_ini + marginLeft, pos_y_ini + marginLeft,
 			// imagemDado.getWidth(), imagemDado.getHeight(null), null);
 		}
-		// pos_y_ini = marginTop * 2;
+		
 		for (int i = 0; i < dados[1].length; i++) { // dados de defesa
 			imagemDadoStr = "dado_defesa_" + dados[1][i] + ".png";
 			imagemDado = images.getImage(imagemDadoStr);
@@ -523,7 +502,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		fora = true;
 
 		String[] nomesCartas = model.getCartasJogador();
-		// conectar o nome das carteas com as imagens
+		// conectar o nome das cartas com as imagens
 		for (int i = 0; i < nomesCartas.length; i++) {
 			imagemCarta = images.getImage(Territorio.getImgTerritorio(nomesCartas[i]));
 			g2d.drawImage(imagemCarta, pos_x_ini + i * marginLeft, pos_y_ini, null);
@@ -538,7 +517,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		Image imagemTabelaExe = images.getImage("war_tabela_troca.png");
 		Image imagemTabelaBonusCont = images.getImage("war_tabela_bonus_continente.png");
 		int larg = getWidth() * 80 / 100;
-		// int alt = getHeight() * 70 / 100;
 		int x = getWidth() * 35 / 100;
 		int y = getHeight() * 40 / 100;
 
