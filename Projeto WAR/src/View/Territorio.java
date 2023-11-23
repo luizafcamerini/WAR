@@ -81,11 +81,19 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		// cor3 = new Color(red,green,blue, 150);
 		cor3 = new Color(128, 128, 128, 128);
 
-		red = 255 - this.cor.getRed();
-		green = 255 - this.cor.getGreen();
-		blue = 255 - this.cor.getBlue();
+//		red = 255 - this.cor.getRed();
+//		green = 255 - this.cor.getGreen();
+//		blue = 255 - this.cor.getBlue();
 
-		cor2 = new Color(red, green, blue);
+		red = this.cor.getRed();
+		green = this.cor.getGreen();
+		blue = this.cor.getBlue();
+		
+		double luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+		
+		cor2 = luminance > 0.5 ? Color.BLACK : Color.WHITE;
+
+//		cor2 = new Color(red, green, blue);
 
 		int d = 100;
 

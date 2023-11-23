@@ -1,5 +1,5 @@
-JERONIMO,VERDE
-5
+JERONIMO,PRETO
+1
 Ucrânia,Québec,
 Calgary,1
 China,1
@@ -34,14 +34,14 @@ Venezuela,1
 Texas,10
 Ucrânia,3
 ;
-LUIZA,BRANCO
+LUIZA,AZUL
 7
 Russia,Itália,
 Russia,2
 Cazaquistão,4
 Mongolia,1
 ;
-THOMAS,VERMELHO
+THOMAS,AMARELO
 10
 Indonésia,
 Somalia,4
