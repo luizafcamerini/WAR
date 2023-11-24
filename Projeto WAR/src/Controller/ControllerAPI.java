@@ -37,16 +37,20 @@ public class ControllerAPI {
 		instance.view = ViewAPI.getInstance();
 		continentes = model.getContinentes();
 
-		// model.adicionaJogador("LUIZA", 2);
-		// model.adicionaJogador("THOMAS", 5);
-		// model.adicionaJogador("JERONIMO", 4);
+//		 model.adicionaJogador("LUIZA", 2);
+//		 model.adicionaJogador("THOMAS", 5);
+//		 model.adicionaJogador("JERONIMO", 4);
 		//
-		// model.inicializaJogo();
+//		 model.inicializaJogo();
+		
+		//tela de menu, com duas opcoes: comecar novo jogo, ou carregar um jogo ja existente
 		try {
-			model.loadGame();
+			int load = model.loadGame();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
+		//se o load for -1, volta pra tela de menu
+		// se for 0, da um load em um txt ja existente
 		view.inicializaGameScreen();
 
 		etapa = 0;
@@ -115,7 +119,7 @@ public class ControllerAPI {
 			view.setEtapa(etapa, null, corAtual, 0);
 			etapa = 40;
 
-			model.saveState(); // Salva o estado do jogo
+//			model.saveState(); // Salva o estado do jogo
 
 			if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
 				boolean continua = view.exibeVencedor();
@@ -136,6 +140,11 @@ public class ControllerAPI {
 		}
 
 		System.out.printf("Para a etapa %d\n", etapa);
+	}
+	
+	public void botaoSalvaJogo() {
+		/** Funcao que salva o jogo pelo botao de salvamento.*/
+		model.saveState();
 	}
 
 	public String getContinenteAtual(){
@@ -239,6 +248,10 @@ public class ControllerAPI {
 			
 		}
 		
+	}
+
+	public int getEtapa(){
+		return this.etapa;
 	}
 
 	public static void main(String[] args) {

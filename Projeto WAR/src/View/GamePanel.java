@@ -12,7 +12,19 @@ import java.awt.font.*;
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	// private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
+	private final int I2_TERRITORIO = -1; // retorno do observado territorio atraves do get(2)
+	private final int I2_INFOP = -2; // retorno do observado territorio atraves do get(2)
+	private final int I2_B_MANUAL = 1; // retorno do observado botao Manual atraves do get(2)
+	private final int I2_B_AUTO = 2; // retorno do observado botao Automático atraves do get(2)
+	private final int I2_B_ATAQUE = 3; // retorno do observado botao Ataque atraves do get(2)
+	private final int I2_B_ATAQUE_N = 4; // retorno do observado botao Ataque Novamente atraves do get(2)
+	private final int I2_B_SALVAR = 5; // retorno do observado botao Salvar atraves do get(2)
 
+	private final int I2_TEMP1 = 11; // retorno do observado temp1 atraves do get(2)
+	private final int I2_TEMP2 = 12; // retorno do observado temp1 atraves do get(2)
+
+	
+	
 	private Territorio[] territorios;
 	private InfoPainel iP;
 	private Images images = Images.getInstance();
@@ -37,7 +49,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	Territorio temp1, temp2;
 
 	JComboBox<Integer> cbDados[];
-	Botao bManual, bAuto, bAtaque, bAtaqueN;
+	Botao bManual, bAuto, bAtaque, bAtaqueN, bSalvar;
 
 	private void configBotao(Botao b, int i2) {
 		b.setI2(i2);
@@ -52,11 +64,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		territorios = Territorio.getTerritorios();
 
-		Integer[] vm = { 1, 2, 3, 4, 5, 6 };
+		Integer[] valores_comboBox = { 1, 2, 3, 4, 5, 6 };
 		cbDados = new JComboBox[6];
 		for (int i = 0; i < 6; i++) {
 			final int index = i;
-			cbDados[i] = new JComboBox<Integer>(vm);
+			cbDados[i] = new JComboBox<Integer>(valores_comboBox);
 			add(cbDados[i]);
 			cbDados[i].setEditable(false);
 			cbDados[i].setVisible(false);
@@ -76,16 +88,19 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto = new Botao("Modo automático");
 		bAtaque = new Botao("ATACAR");
 		bAtaqueN = new Botao("ATACAR NOVAMENTE");
+		bSalvar = new Botao("SALVAR O JOGO");
 
-		configBotao(bManual, 1);
-		configBotao(bAuto, 2);
-		configBotao(bAtaque, 3);
-		configBotao(bAtaqueN, 4);
+		configBotao(bManual, I2_B_MANUAL);
+		configBotao(bAuto, I2_B_AUTO);
+		configBotao(bAtaque, I2_B_ATAQUE);
+		configBotao(bAtaqueN, I2_B_ATAQUE_N);
+		configBotao(bSalvar, I2_B_SALVAR);
 
 		bManual.setClivael(false);
 		bAuto.setClivael(false);
 		bAtaque.setClivael(false);
 		bAtaqueN.setClivael(false);
+		bSalvar.setClivael(false);
 
 	}
 
@@ -97,8 +112,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void notify(ObservadoIF o) {
-		int i1 = o.get(1);
-		int i2 = o.get(2);
+		int i1 = o.get(1); // i1 = 0: mouse clicou em algo
+		int i2 = o.get(2); // pega o id do botao
+		
 		System.out.printf("i1 = %d, i2 = %d\n", i1, i2);
 
 		if (janelaExibida && (i2 < 1))
@@ -106,43 +122,48 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		// Mouse clicou em algo
 		if (i1 == 0) {
+			System.out.println("Mouse clicou em algo");
 			// Realiza "debounce" do clique
 			long tempoAtual = System.currentTimeMillis();
-			System.out.printf("DELTA = %d\n", tempoAtual - ultimoClique);
+			// System.out.printf("DELTA = %d\n", tempoAtual - ultimoClique);
 			if (tempoAtual - ultimoClique < 100)
 				return;
 			ultimoClique = tempoAtual;
 
 			// Clicou em um território
-			if (i2 == -1 || i2 == 5 || i2 == 6) {
+			if (i2 == I2_TERRITORIO || i2 == I2_TEMP1 || i2 == I2_TEMP2) { // 5 e 6 são aqueles territórios temporarios da conquista do territorio dentro do painel no ataque
 				Territorio t = (Territorio) o;
 				view.click(t.getNome());
 			}
 
 			// Clique em botão do infoPanel
-			if (i2 == -2) {
-				int i3 = o.get(3);
+			if (i2 == I2_INFOP) {
+				int i3 = o.get(3); // o botao clicado
 				System.out.printf("i3 = %d\n", i3);
 
 				if (i3 == 0) {
+					System.out.println("exibe objetivo");
 					exibeObjetivo = true;
 					fora = true;
 				}
 				else if (i3 == 1) {
+					System.out.println("exibe cartas");
 					exibeCartas = true;
 					fora = true;
 				}
 				else if (i3 == 2) {
+					System.out.println("exibe tabelas");
 					exibeTabelas = true;
 					fora = true;
 				}
 				else if (i3 == 3) {
+					System.out.println("proxima etapa");
 					control.proxEtapa();
 				}
 			}
 
 			// Ação do botao "bManual"
-			else if (i2 == 1) {
+			else if (i2 == I2_B_MANUAL) {
 				manual = true;
 				for (int i = 0; i < 6; i++) {
 					view.setDado(i, (int) cbDados[i].getSelectedItem());
@@ -150,7 +171,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			}
 
 			// Ação do botao "bAuto"
-			else if (i2 == 2) {
+			else if (i2 == I2_B_AUTO) {
 				manual = false;
 				for (int i = 0; i < 6; i++) {
 					view.setDado(i, 0);
@@ -158,7 +179,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			}
 
 			// Ação do botao "bAtaque"
-			else if (i2 == 3) {
+			else if (i2 == I2_B_ATAQUE) {
 				fora = true;
 				if (!manual) {
 					control.ataque(atacante, defensor);
@@ -169,9 +190,18 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			}
 
 			// Ação do botao "bAtaqueN"
-			else if (i2 == 4) {
+			else if (i2 == I2_B_ATAQUE_N) {
 				control.ataca(atacante, defensor);
 				fora = true;
+			}
+
+			// Ação do botao "bSalvar"
+			else if (i2 == I2_B_SALVAR){
+				System.out.println("*******etapa: " + Integer.toString(control.getEtapa()));
+				if (control.getEtapa() == 40){
+					System.out.println("GAMEPANEL: salva o jogo");
+					control.botaoSalvaJogo();
+				}
 			}
 
 		}
@@ -185,14 +215,17 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		else if (i1 == 2) {
 			fora = true;
 		}
-
-		System.out.printf("Fora = %s\n", fora ? "true" : "false");
-
+//		System.out.printf("Fora = %s\n", fora ? "true" : "false");
+		
 		repaint();
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Point mousePosition = getMousePosition();
+		int x = (int) mousePosition.getX();
+		int y = (int) mousePosition.getY();
+
 		Image tabuleiro = images.getImage("war_tabuleiro2.png");
 		g.drawImage(tabuleiro, 0, 0, getWidth(), getHeight(), null);
 
@@ -201,6 +234,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 
 		iP.draw(g);
+		bSalvar.setPos(g, 110, 450);
+		// if (bSalvar.atualiza(g, x, y)) {
+		// 	fora = false;
+		// }
+		bSalvar.draw(g);
 
 		exibeTelaAtaque(g);
 		exibeTelaResultadoAtaque(g);
@@ -208,13 +246,14 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeCartas(g);
 		exibeTabelas(g);
 		exibeObjetivo(g);
+
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		if (fora) {
 			// "debounce" do clique
 			long tempoAtual = System.currentTimeMillis();
-			System.out.printf("DELTA = %d\n", tempoAtual - ultimoClique);
+			// System.out.printf("DELTA = %d\n", tempoAtual - ultimoClique);
 			if (tempoAtual - ultimoClique < 100)
 				return;
 			ultimoClique = tempoAtual;
@@ -243,7 +282,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			repaint();
 		}
 
-		System.out.printf("Fora = %s\n", fora ? "true" : "false");
+//		System.out.printf("Fora = %s\n", fora ? "true" : "false");
 
 	}
 
@@ -388,8 +427,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		addMouseListener(temp2);
 		addMouseMotionListener(temp2);
 
-		temp1.setI2(5);
-		temp2.setI2(6);
+		temp1.setI2(I2_TEMP1);
+		temp2.setI2(I2_TEMP2);
 
 	}
 
@@ -666,6 +705,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	public void setExibeObjetivo(boolean b) {
 		exibeObjetivo = b;
+		repaint();
+	}
+
+	public void setClicavelSalvar(boolean b) {
+		bSalvar.setClivael(b);
 		repaint();
 	}
 

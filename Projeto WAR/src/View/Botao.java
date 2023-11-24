@@ -44,9 +44,9 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 
 	public int get(int i) {
 		if (i == 1)
-			return i1;
-		else if (i == 2) {
-			return i2;
+			return i1; // retorna a acao do 
+		else if (i == 2) { 
+			return i2; // retorna o id do botao
 		}
 		return 0;
 	}
@@ -64,8 +64,9 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		alt = _alt;
 		text = _text;
 		cores = new Color[4];
-		cores[0] = Color.WHITE;
+		cores[0] = Color.WHITE; //cores[0] = cor de preenchimento
 	}
+	
 	
 	public Botao(String _text) {
 		text = _text;
@@ -127,11 +128,16 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		return false;
 	}
 	
-	
+
 	public void setClivael(boolean b){
 		clicavel = b;
-		if (!b)
+		if (!b){
+			cores[0] = Color.GRAY;
 			estavaEm = false;
+		}
+		else{
+			cores[0] = Color.WHITE;
+		}
 	}
 	
 
@@ -140,6 +146,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int y = e.getY();
 		if (estaEm(x,y)) {
 			i1 = 0;
+			System.out.println("setei o i1 = 0");
 			notificaObservadores();
 		}
 	}
@@ -167,7 +174,10 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 		boolean dentro = estaEm(x,y);
-		
+
+		if (i2 == 5){
+			System.out.println(dentro?"DENTRO":"FORA");
+		}
 		if (dentro && !estavaEm){
 			cores[0] = Color.GRAY;
 			i1 = 1;
@@ -181,9 +191,9 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 			estavaEm = dentro;
 		}
 	}
-
+		
 	public boolean atualiza(Graphics g, int _x, int _y){
-
+		/** Funcao que retorna se o mouse esta em cima ou nao, e muda a cor. */
 		int dx = _x - x;
 		int dy = _y - y;
 
@@ -191,7 +201,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 			cores[0] = Color.GRAY;
 			estavaEm = true;
 		}
-		else {
+		else if (clicavel){
 			cores[0] = Color.WHITE;
 			estavaEm = false;
 		}

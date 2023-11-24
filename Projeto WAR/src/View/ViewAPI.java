@@ -187,6 +187,12 @@ public class ViewAPI {
 				Territorio.getTerritorio(nome).setClicavel(true);
 			}
 		}
+		if(etapa == 0){
+			gP.setClicavelSalvar(false);
+		}
+		else if (etapa == 30){
+			gP.setClicavelSalvar(true);
+		}
 		iP.setInfo(constroiMsg());
 	}
 
@@ -422,6 +428,35 @@ public class ViewAPI {
 	public int[][] getListaDados() {
 		return dados;
 	}
+
+	// public void clickBotao(int i) {
+	// 	switch (i) {
+	// 		case 0:
+	// 			// objetivo
+	// 			gP.setExibeObjetivo(true);
+	// 			break;
+	// 		case 1:
+	// 			gP.setExibeCartas(true);
+	// 			// exibir cartas de territorio
+	// 			break;
+	// 		case 2:
+	// 			// tabela de exe
+	// 			gP.setExibeTabelas(true);
+	// 			break;
+	// 		case 3:
+	// 			//prox etapa
+	// 			if (etapa == 0)
+	// 				break;
+	// 			control.proxEtapa();
+	// 			break;
+	// 		case 4:
+	// 			//salvamento do jogo
+	// 			if (etapa == 30) {
+	// 				control.botaoSalvaJogo();
+	// 			}
+	// 			break;
+	// 	}
+	// }
 
 	public boolean exibeVencedor() {
 		int indexCorVencedor = model.getCorAtual();
