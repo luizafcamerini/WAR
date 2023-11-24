@@ -12,7 +12,7 @@ import java.awt.font.*;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
-	// private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
+	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
 	private final int I2_TEMP1 = 11; // get(2) do id do territorio temporario 1
 	private final int I2_TEMP2 = 12; // get(2) do id do territorio temporario 2
@@ -43,6 +43,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private boolean janelaExibida = false;
 	private boolean manual = false;
 	private boolean exibeMenuInicial = true;
+	private boolean exibeNovoJogo = false;
 
 	private boolean exibeAtaque = false;
 	private boolean exibeResultadoAtaque = false;
@@ -54,6 +55,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private Territorio temp1, temp2;
 
 	private JComboBox<Integer> cbDados[];
+	private JTextField tfNomes[];
+	
 	private Botao bManual;
 	private Botao bAuto;
 	private Botao bAtaque;
@@ -79,7 +82,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		Integer[] valores_comboBox = { 1, 2, 3, 4, 5, 6 };
 		cbDados = new JComboBox[6];
+		tfNomes = new JTextField[6];
+
 		for (int i = 0; i < 6; i++) {
+			tfNomes[i] = new JTextField(coresStr[i]);
+			tfNomes[i].setVisible(false);
+
 			final int index = i;
 			cbDados[i] = new JComboBox<Integer>(valores_comboBox);
 			add(cbDados[i]);
@@ -388,6 +396,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto.setClivael(false);
 		bAtaque.setClivael(false);
 		bAtaqueN.setClivael(false);
+		bIniciar.setClivael(false);
+		bCarregar.setClivael(false);
+		bCarregarAuto.setClivael(false);
 
 		if (exibeConquista) {
 			model.desregistra(temp1.getNome(), temp1);
@@ -410,6 +421,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		for (JComboBox<Integer> cb : cbDados) {
 			cb.setVisible(false);
+		}
+		for (JTextField tf: tfNomes){
+			tf.setVisible(false);
 		}
 	}
 
@@ -814,10 +828,52 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bCarregar.draw(g);
 		bCarregarAuto.draw(g);
 
-		// drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante, model.getQtdExercitos(atacante), defensor,
-		// 		model.getQtdExercitos(defensor)), x_centro, y_inferior - m.getHeight() * 3);
-		// drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length), x_centro,
-		// 		y_inferior - m.getHeight() * 2);
+	}
+
+	public void exibeTelaNovoJogo(Graphics g) {
+		/** Funcao que exibe a tela de começo de um novo jogo. */
+		if (!exibeNovoJogo)
+			return;
+		
+		Font fonte = new Font("Arial", Font.PLAIN, 24);
+
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.WHITE);
+		g2d.setFont(fonte);
+		FontRenderContext frc = g2d.getFontRenderContext();
+		LineMetrics lm = fonte.getLineMetrics("", frc);
+
+		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
+		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
+		int y_centro = getHeight() /2;
+		int x_centro = getWidth() / 2;
+		int fAlt = (int) lm.getHeight(); // altura da fonte
+		int larg = getWidth() / 6;
+
+		for (int i = 0; i < tfNomes.length; i++) { // textfields dos jogadores
+			tfNomes[i].setBounds(x_centro + larg *2* ((i%3)-3), y_centro - fAlt * ((i/3)*8-4), larg,fAlt);
+			tfNomes[i].setVisible(true);
+
+
+		}
+
+		exibeJanela(g);
+
+		bIniciar.setClivael(true); // inicia um jogo totalmente novo
+		bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
+		bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
+
+		if (bIniciar.atualiza(g, xM, yM) || bCarregar.atualiza(g, xM, yM) || bCarregarAuto.atualiza(g, xM, yM)) {
+			fora = false;
+		}
+
+		bIniciar.setPos(g,  x_centro, y_centro - fAlt * 2);
+		bCarregar.setPos(g,  x_centro, y_centro);
+		bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
+
+		bIniciar.draw(g);
+		bCarregar.draw(g);
+		bCarregarAuto.draw(g);
 
 	}
 
