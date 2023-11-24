@@ -67,6 +67,7 @@ class Territorio implements ObservadoIF {
 	public void setQtdExercitos(int qtd) {
 		/** Funcao que define a quantidade de exercitos no territorio. */
 		this.qntdExercito = qtd;
+		notificaObservadores();
 	}
 
 	public int getQntdExercitos() {
@@ -160,16 +161,19 @@ class Territorio implements ObservadoIF {
 		int minTam = dadosAtaque.length > dadosDefesa.length ? dadosDefesa.length : dadosAtaque.length;
 		for (int i = 0; i < minTam; i++) {
 			if (dadosAtaque[i] > dadosDefesa[i]) {
-				alvo.qntdExercito--;
+				alvo.reduzExe(1);
+				// alvo.qntdExercito--;
 			} else {
-				this.qntdExercito--;
+				this.reduzExe(1);
+				// this.qntdExercito--;
 			}
 		}
 
 		// Verifica se ocorreu conquista de território
 		if (alvo.qntdExercito == 0) {
 			alvo.trocaDono(this.dono);
-			this.qntdExercito--;
+			this.reduzExe(1);
+			// this.qntdExercito--;
 		}
 	}
 
@@ -211,33 +215,6 @@ class Territorio implements ObservadoIF {
 
 		return listasDados;
 	}
-
-	// private int[] defender(int[] dadosAtaque, Territorio atacante) {
-	// 	/**
-	// 	 * Funcao em que um territorio se defende de um ataque, podendo eliminar
-	// 	 * exercitos dos dois lados.
-	// 	 */
-	// 	int dadosDefesa[];
-	// 	if (this.qntdExercito > 3) {
-	// 		dadosDefesa = new int[3];
-	// 	} else {
-	// 		dadosDefesa = new int[this.qntdExercito];
-	// 	}
-	// 	sorteiaDados(dadosDefesa);
-	// 	int minTam = dadosAtaque.length > dadosDefesa.length ? dadosDefesa.length : dadosAtaque.length;
-	// 	for (int i = 0; i < minTam; i++) {
-	// 		if (dadosAtaque[i] > dadosDefesa[i]) {
-	// 			this.qntdExercito--;
-	// 		} else {
-	// 			atacante.qntdExercito--;
-	// 		}
-	// 	}
-	// 	if (this.qntdExercito == 0) {
-	// 		this.trocaDono(atacante.dono);
-	// 		atacante.qntdExercito--;
-	// 	}
-	// 	return dadosDefesa;
-	// }
 
 	public static Baralho<Carta> montaBaralho() {
 		/** Funcao que cria um baralho de cartas (cartas de territorios) */

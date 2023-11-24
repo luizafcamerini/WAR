@@ -4,7 +4,6 @@ package Controller;
 import View.ViewAPI;
 import Model.ModelAPI;
 import java.io.IOException;
-//import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class ControllerAPI {
@@ -15,8 +14,7 @@ public class ControllerAPI {
 
 	private int etapa = 0;
 	private int corAtual;
-	
-//	private ArrayList<String> recebidos;
+	private int qtdExeAd;
 
 	private static Hashtable<String, Integer> qtdDeslocaveis;
 	private static Hashtable<String, Integer> qtdDeslocados;
@@ -60,14 +58,14 @@ public class ControllerAPI {
 		System.out.printf("Da etapa %d\n", etapa);
 		// Posicionamento
 		if (etapa == 0) {
-			int qtdExeAd = model.getExeAd();
+			qtdExeAd = model.getExeAd();
 			view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
 		}
 
 		// Ataque
 		else if (etapa == 10) {
+			if (qtdExeAd > 0) return;
 			view.setEtapa(etapa, territorios, corAtual, 0);
-			// return;
 		}
 
 		// Deslocamento de exércitos
@@ -118,6 +116,13 @@ public class ControllerAPI {
 
 		etapa += 10;
 		System.out.printf("Para a etapa %d\n", etapa);
+	}
+
+	public void addExe(String territorio, int i){
+		model.addExe(territorio, 1);
+		qtdExeAd--;
+		if (qtdExeAd == 0)
+			proxEtapa();
 	}
 
 	public boolean ataca(String atacante, String defensor) {
@@ -208,19 +213,6 @@ public class ControllerAPI {
 			
 		}
 		
-//		int qtd1 = model.getQtdExercitos(tDe);
-//		int qtd2 = model.getQtdExercitos(tPara);
-//		if (territorio == selecionado2 && qtd1 > 1) {
-//			model.reduzExe(selecionado, 1);
-//			model.addExe(selecionado2, 1);
-//		} else if (territorio == selecionado && qtd2 > 1) {
-//			model.reduzExe(selecionado2, 1);
-//			model.addExe(selecionado, 1);
-//		}
-//		// atualizaTerritorio(selecionado, true);
-//		// atualizaTerritorio(selecionado2, true);
-//		Territorio.getTerritorio(selecionado).setClicavel(true);
-//		Territorio.getTerritorio(selecionado2).setClicavel(true);
 	}
 
 	public static void main(String[] args) {

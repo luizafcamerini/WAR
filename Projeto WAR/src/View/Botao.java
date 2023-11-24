@@ -1,3 +1,13 @@
+/*
+ * i2 = ID do botão
+ * 
+ * i1 = 0 // Mouse clicou no botao
+ * i1 = 1 // Mouse "entrou" no botao
+ * i1 = 2 // Mouse "saiu" no botao
+ * 
+ */
+
+
 package View;
 
 import java.awt.Color;
@@ -10,6 +20,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.font.*;
+import java.awt.Font;
 
 class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	private int x, y, alt, larg;
@@ -55,6 +67,19 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		cores[0] = Color.WHITE;
 	}
 	
+	public Botao(String _text) {
+		text = _text;
+		cores = new Color[4];
+		cores[0] = Color.WHITE;
+	}
+
+	public void setBounds(int _x, int _y, int _larg, int _alt){
+		x = _x;
+		y = _y;
+		larg = _larg;
+		alt = _alt;
+	}
+
 	public void setI2(int _i2) {
 		i2 = _i2;
 	}
@@ -72,14 +97,25 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		
-		Rectangle2D botaoObjetivo = new Rectangle2D.Double(x, y, larg, alt);
+		Rectangle2D rect = new Rectangle2D.Double(x, y, larg, alt);
 		g2d.setColor(cores[0]);
-		g2d.fill(botaoObjetivo);
+		g2d.fill(rect);
 		drawStr(g, text, x + larg / 2, y + alt / 2);
-
 	}
-	
-	protected boolean estaEm(int _x, int _y) {
+
+	public void setPos(Graphics g, int xc, int yc) {
+		Graphics2D g2d = (Graphics2D) g;
+		FontRenderContext frc = g2d.getFontRenderContext();
+		Font font = g2d.getFont();
+		LineMetrics lm = font.getLineMetrics(text, frc);
+		
+		alt = (int)lm.getHeight(); // altura da fonte
+		larg = (int) font.getStringBounds(text, frc).getWidth(); // largura
+		x = xc - larg/2;
+		y = yc - alt/2;
+	}
+
+	public boolean estaEm(int _x, int _y) {
 		if (!clicavel)
 			return false;
 		int dx = _x - x;
@@ -92,11 +128,13 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 	
 	
+	public void setClivael(boolean b){
+		clicavel = b;
+		if (!b)
+			estavaEm = false;
+	}
 	
-	
-	
-	
-	
+
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
@@ -142,8 +180,22 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 			notificaObservadores();
 			estavaEm = dentro;
 		}
-		
-		
+	}
+
+	public boolean atualiza(Graphics g, int _x, int _y){
+
+		int dx = _x - x;
+		int dy = _y - y;
+
+		if (dx > 0 && dx < larg && dy > 0 && dy < alt) {
+			cores[0] = Color.GRAY;
+			estavaEm = true;
+		}
+		else {
+			cores[0] = Color.WHITE;
+			estavaEm = false;
+		}
+		return estavaEm;
 	}
 	
 	

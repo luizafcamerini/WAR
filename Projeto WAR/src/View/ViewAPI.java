@@ -115,19 +115,16 @@ public class ViewAPI {
 		if (this.territorios != null) {
 			for (String nome : this.territorios) {
 				Territorio.getTerritorio(nome).setClicavel(false);
-				// atualizaTerritorio(nome, false);
 			}
 		}
 
 		if (this.vizinhos != null) {
 			for (String nome : this.vizinhos) {
 				Territorio.getTerritorio(nome).setClicavel(false);
-				// atualizaTerritorio(nome, false);
 			}
 		}
 
 		if (selecionado != null) {
-			// atualizaTerritorio(selecionado, false);
 
 			Territorio t = Territorio.getTerritorio(selecionado);
 			t.setMarcado(false);
@@ -136,7 +133,6 @@ public class ViewAPI {
 		}
 
 		if (selecionado2 != null) {
-			// atualizaTerritorio(selecionado2, false);
 			Territorio t = Territorio.getTerritorio(selecionado2);
 			t.setMarcado(false);
 			t.setClicavel(false);
@@ -150,7 +146,6 @@ public class ViewAPI {
 		if (this.territorios != null) {
 			for (String nome : territorios) {
 				Territorio.getTerritorio(nome).setClicavel(true);
-				// atualizaTerritorio(nome, true);
 			}
 		}
 
@@ -167,11 +162,10 @@ public class ViewAPI {
 		// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele pertencem
 		if (etapa == 0) {
 			if (territorio != null) {
-				model.addExe(territorio, 1);
 				qtdExe--;
 				iP.setInfo(etapa, coresStr[corAtual], qtdExe);
-				if (qtdExe == 0)
-					control.proxEtapa();
+
+				control.addExe(territorio, 1);
 			}
 			if (territorios != null) {
 				for (String nome : territorios) {
@@ -392,27 +386,6 @@ public class ViewAPI {
 		return dados;
 	}
 
-	public void clickBotao(int i) {
-		switch (i) {
-			case 0:
-				// objetivo
-				gP.setExibeObjetivo(true);
-				break;
-			case 1:
-				gP.setExibeCartas(true);
-				// exibir cartas de territorio
-				break;
-			case 2:
-				// tabela de exe
-				gP.setExibeTabelas(true);
-				break;
-			case 3:
-				if (etapa == 0)
-					break;
-				control.proxEtapa();
-				break;
-		}
-	}
 
 	public boolean exibeVencedor() {
 		int indexCorVencedor = model.getCorAtual();
