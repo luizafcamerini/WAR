@@ -18,16 +18,17 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		y = _y;
 		larg = largura;
 		alt = altura;
-		botoes = new Botao[4];
+		botoes = new Botao[5];
 		botoes[0] = new Botao(x + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4, "OBJETIVO");
 		botoes[1] = new Botao(x + (larg / 2) + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4,"CARTAS");
 		botoes[2] = new Botao(x + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4, "TABELAS");
 		botoes[3] = new Botao(x + (larg / 2) + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4,"PRÓX. ETAPA");
+		botoes[4] = new Botao(x + (larg/4) + 5, y + alt/ 4 + 20, (larg / 2) - 10,alt / 8, "SALVAR O JOGO", false);
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			botoes[i].addObservador(this);
 			botoes[i].setI2(i);
-		}
+		}	
 
 	}
 	
@@ -54,13 +55,19 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 	}
 	
 	
+	public void setBotoesOcultos(int indexBotao, boolean flag) {
+		botoes[indexBotao].setOculto(flag);
+		notificaObservadores();
+	}
+	
+	
 	public void notify(ObservadoIF o) {
 		i1 = o.get(1);
 		
 		if(i1 == 0) {
 			ViewAPI.getInstance().clickBotao(o.get(2));
 		}
-		else {			
+		else {
 			notificaObservadores();
 		}
 	}

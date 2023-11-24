@@ -135,7 +135,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		else if (estadoFora == 2) {
 			fora = true;
 		}
-		System.out.printf("Fora = %s\n", fora ? "true" : "false");
+//		System.out.printf("Fora = %s\n", fora ? "true" : "false");
 		
 		repaint();
 	}
@@ -168,7 +168,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			repaint();
 		}
 
-		System.out.printf("Fora = %s\n", fora ? "true" : "false");
+//		System.out.printf("Fora = %s\n", fora ? "true" : "false");
 
 	}
 

@@ -166,6 +166,8 @@ public class ViewAPI {
 
 		// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele pertencem
 		if (etapa == 0) {
+			iP.setBotoesOcultos(4, false);
+			System.out.println("Setando o botao como falso.");
 			if (territorio != null) {
 				model.addExe(territorio, 1);
 				qtdExe--;
@@ -382,6 +384,10 @@ public class ViewAPI {
 					control.desloca(selecionado, selecionado2);
 			}
 		}
+		else if (etapa == 30) {
+			iP.setBotoesOcultos(4, true);
+			System.out.println("Setando o botao como true.");
+		}
 
 		System.out.printf("Etapa f = %d\n", etapa);
 		return;
@@ -407,9 +413,16 @@ public class ViewAPI {
 				gP.setExibeTabelas(true);
 				break;
 			case 3:
+				//prox etapa
 				if (etapa == 0)
 					break;
 				control.proxEtapa();
+				break;
+			case 4:
+				//salvamento do jogo
+				if (etapa == 30) {
+					control.botaoSalvaJogo();
+				}
 				break;
 		}
 	}

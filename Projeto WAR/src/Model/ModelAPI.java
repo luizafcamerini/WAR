@@ -1,9 +1,9 @@
 package Model;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 import java.util.ArrayList;
-
 import View.ObservadorIF;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -13,6 +13,7 @@ public class ModelAPI {
 	private Jogador jAtual;
 	private int[][] listaDados;
 	private boolean conquista = false;
+	private File file;
 
 	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
 
@@ -172,6 +173,21 @@ public class ModelAPI {
 	public String getImgNameObjetivo() {
 		return jAtual.getImgNameObjetivo();
 	}
+	
+	private String salvaFile(){
+		/** Funcao que retorna o path absoluto de salvamento do jogo por escolha do usuário. */
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); //cria um novo selecionador de arq
+		int returnValue = jfc.showSaveDialog(jfc); //abre a janela do selecionador e retorna se ele salvou ou não
+		String path;
+
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			// System.out.println(selectedFile.getAbsolutePath());
+			path = selectedFile.getAbsolutePath();
+			return path;
+		}
+		return null;
+	}
 
 	public void saveState() {
 		/** Funcao que salva o estado do jogo em um arquivo txt. */
@@ -188,25 +204,26 @@ public class ModelAPI {
 		int iterador = jogo.getIterador();
 		int i = 0;
 		// recebe o arquivo de salvamento do jogo, se não existir, cria um novo
-		File file = new File("src/gameState.txt");
-		if (!file.exists()) {
-			try {
-				if (file.createNewFile()) {
-					System.out.println("Arquivo criado: " + file.getName());
-				} else {
-					System.out.println("Arquivo " + file.getName() + " já existe");
-				}
-			} catch (IOException e) {
-				System.out.println("Erro no salvamento do jogo.");
-				e.printStackTrace();
+//		File file = new File("src/gameState.txt");
+//		File file = this.file;
+		if (this.file == null) {
+			file = new File(salvaFile());
+			if (file.exists()) {
+				System.out.println("Arquivo criado: " + this.file.getName());
+			} else {
+//				System.out.println("Arquivo " + this.file.getName() + " já existe");
+				System.out.println("Erro na criação do arquivo de salvamento.");
 			}
+		}
+		else {
+			System.out.println("Arquivo de salvamento " + this.file.getName() + " já existe.");
 		}
 		jogo.exibeJogadores();
 		// inicializa o escritor do arquivo
 		try {
 			// esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo
 			// o que já existe
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.file), StandardCharsets.UTF_8));
 
 			// loop que escreve os dados no arquivo para cada jogador
 			do {
@@ -259,14 +276,32 @@ public class ModelAPI {
 		}
 
 	}
+	
+	private String selecionaFile(){
+		/** Funcao que retorna o path absoluto de salvamento do jogo por escolha do usuário. */
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); //cria um novo selecionador de arq
+		int returnValue = jfc.showOpenDialog(null); //abre a janela do selecionador e retorna se ele salvou ou não
+		String path;
 
-	public void loadGame() throws IOException {
-		/** Funcao que carrega um jogo já existente através da leitura de um txt */
-		File file = new File("src/gameState.txt");
-		if (!file.exists()) {
-			System.out.println("Arquivo de salvamento não existe.");
-			return;
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			// System.out.println(selectedFile.getAbsolutePath());
+			path = selectedFile.getAbsolutePath();
+			return path;
 		}
+		return null;
+	}
+
+	public int loadGame() throws IOException {
+		/** Funcao que carrega um jogo já existente através da leitura de um txt */
+		String path = selecionaFile();
+//		File file = new File("src/gameState.txt");
+		if (path == null) {
+			System.out.println("Arquivo de salvamento não existe.");
+			return -1;
+		}
+		this.file = new File(path);
+		System.out.println("JOGO JÁ EXISTENTE ABERTO COM SUCESSO.");
 		String nomeJogador;
 		int corJogador;
 		int[] numObjetivos = new int[6];
@@ -322,6 +357,7 @@ public class ModelAPI {
 				reader.close();
 			}
 		}
+		return 0;
 
 	}
 
