@@ -15,6 +15,8 @@ public class ControllerAPI {
 	private int etapa = 0;
 	private int corAtual;
 	private int qtdExeAd;
+	private String[] continentes;
+	private int iCont = -1;
 
 	private static Hashtable<String, Integer> qtdDeslocaveis;
 	private static Hashtable<String, Integer> qtdDeslocados;
@@ -33,6 +35,7 @@ public class ControllerAPI {
 	public void inicializa() {
 		instance.model = ModelAPI.getInstance();
 		instance.view = ViewAPI.getInstance();
+		continentes = model.getContinentes();
 
 		// model.adicionaJogador("LUIZA", 2);
 		// model.adicionaJogador("THOMAS", 5);
@@ -53,12 +56,25 @@ public class ControllerAPI {
 
 	public void proxEtapa() {
 		corAtual = model.getCorAtual();
-		String territorios[] = model.getTerritorios(corAtual);
 
+		String territorios[] = model.getTerritorios(corAtual);
 		System.out.printf("Da etapa %d\n", etapa);
-		// Posicionamento
+
+		// Posicionamento de exércitos
 		if (etapa == 0) {
-			qtdExeAd = model.getExeAd();
+			if (qtdExeAd != 0) return;
+			// qtdExeAd = 0;
+			// Verifica há exércitos extras para colocar em cada continente
+			while (qtdExeAd == 0 && iCont < continentes.length-1){
+				iCont++;
+				qtdExeAd = model.getExeAdContinente(continentes[iCont]);
+				if (qtdExeAd > 0)
+					territorios = model.getTerritoriosContinente(continentes[iCont]);
+			}
+			if (qtdExeAd == 0){
+				qtdExeAd = model.getExeAd();
+				iCont = -1;
+			}
 			view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
 		}
 
@@ -66,6 +82,7 @@ public class ControllerAPI {
 		else if (etapa == 10) {
 			if (qtdExeAd > 0) return;
 			view.setEtapa(etapa, territorios, corAtual, 0);
+			etapa = 20;
 		}
 
 		// Deslocamento de exércitos
@@ -87,6 +104,7 @@ public class ControllerAPI {
 			}
 			
 			view.setEtapa(etapa, territorios, corAtual, 0);
+			etapa = 30;
 		}
 
 		// Entrega de carta
@@ -95,6 +113,7 @@ public class ControllerAPI {
 				model.entregaCarta();
 			}
 			view.setEtapa(etapa, null, corAtual, 0);
+			etapa = 40;
 
 			model.saveState(); // Salva o estado do jogo
 
@@ -109,20 +128,29 @@ public class ControllerAPI {
 
 		}
 
-		else {
-			etapa = -10;
+		// Passa a vez para o próximo jogador
+		else if (etapa == 40){
 			model.getProxCor();
+			etapa = 0;
+			proxEtapa();
 		}
 
-		etapa += 10;
 		System.out.printf("Para a etapa %d\n", etapa);
+	}
+
+	public String getContinenteAtual(){
+		if (iCont < 0) return null;
+		return continentes[iCont];
 	}
 
 	public void addExe(String territorio, int i){
 		model.addExe(territorio, 1);
 		qtdExeAd--;
-		if (qtdExeAd == 0)
+		if (qtdExeAd == 0){
+			if (iCont == -1)
+				etapa = 10;
 			proxEtapa();
+		}
 	}
 
 	public boolean ataca(String atacante, String defensor) {
@@ -145,10 +173,8 @@ public class ControllerAPI {
 
 	public void ataque(String atacante, String defensor) {
 		int[][] dados = model.ataca(atacante, defensor);
-
 		int corAtual = model.getCorAtual();
 
-		// view.setDados(dados);
 		view.resultadoAtaque(dados);
 
 		if (model.getCor(defensor) == corAtual) { // Conquistou território

@@ -142,13 +142,6 @@ class Territorio implements ObservadoIF {
 				(this.qntdExercito > 1);
 	}
 
-	private void moveExercitos(Territorio origem, Territorio destino) {
-		/**
-		 * Funcao que, depois da vitoria de um ataque, move os exercitos de um
-		 * territorio atacante para um atacado/conquistado
-		 */
-	}
-
 	public void atacar(Territorio alvo, int[][] dados) {
 		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
 		int dadosAtaque[] = dados[0];

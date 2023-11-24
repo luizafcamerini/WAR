@@ -1,7 +1,5 @@
 package Model;
 
-import java.awt.Image;
-
 abstract class Objetivo {
 	protected String descricao;
 	protected Jogador dono;

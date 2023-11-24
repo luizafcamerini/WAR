@@ -27,7 +27,6 @@ class Jogo {
 			if (jAtual.verificaObjetivo())
 				break; // Jogador vence o jogo
 
-			jAtual.posicionaExeCont();
 			Carta[] descartadas = jAtual.trocaCartas();
 			int exeAd = 0;
 			if (descartadas != null) {

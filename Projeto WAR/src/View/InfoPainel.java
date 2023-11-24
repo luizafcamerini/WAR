@@ -79,23 +79,8 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		notificaObservadores();
 	}
 
-	public void setInfo(int etapa, String cor, int qtdExe) {
-		switch (etapa) {
-			case 0:
-				msg = String.format("Jogador: %s\nEtapa: Posicionamento\nQtd exércitos: %d", cor, qtdExe);
-                break;
-			case 10:
-				msg = String.format("Jogador: %s\nEtapa: Ataque\n", cor);
-                break;
-			case 20:
-				msg = String.format("Jogador: %s\nEtapa: Deslocamento", cor);
-                break;
-            case 30:
-                msg  = String.format("Jogador: %s\nEtapa: Recebimento de carta", cor);
-                break;
-            default:
-                msg = null;
-		}
+	public void setInfo(String mensagem){
+		msg = mensagem;
 		i1 = -1;
 		notificaObservadores();
 	}

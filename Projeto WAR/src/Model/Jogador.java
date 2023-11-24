@@ -92,28 +92,6 @@ class Jogador {
 		territorios.add(pais);
 		pais.acrescentaExe(numExe);
 	}
-
-	public void posicionaExeCont() {
-		/** Funcao que percorre os continentes e verifica se o jogador tem seu dominio total. */
-		for(Continente c: Continente.getContinentes()){
-			posicionaExeCont(c);
-		}
-	}
-
-	private void posicionaExeCont(Continente c) {
-		/** Funcao que posiciona os exercitos no continente dominado de forma fixa. */
-		if (c.pertence(this)) {
-			int numExeContinente = c.getNumExeAdicionais();
-			int i = 0;
-			int tam = c.getTerritorios().length;
-			while (i < numExeContinente) {
-				int n = 1; // = input();
-				int iPais = i % tam; // = input();
-				c.getTerritorios()[iPais].acrescentaExe(n);
-				i++;
-			}
-		}
-	}
 	
 	public int getExeAd() {
 		int tam = this.territorios.size();

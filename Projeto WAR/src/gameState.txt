@@ -1,32 +1,12 @@
-THOMAS,AMARELO
-10
-Indonésia,
-Somalia,4
-Irã,1
-Coréia do Sul,1
-Perth,1
-Nova Zelândia,1
-Síria,1
-Índia,1
-Letônia,1
-Turquia,1
-Vancouver,1
-Angola,6
-Japão,1
-México,2
-Reino Unido,1
-Califórnia,1
-;
 JERONIMO,PRETO
 1
-Ucrânia,Québec,Romênia,
+Ucrânia,Québec,Romênia,Somalia,
 Calgary,12
 China,1
-Sibéria,1
 Espanha,1
 Austrália,1
 Bangladesh,1
-Nigéria,1
+Nigéria,2
 África do Sul,1
 Peru,2
 Arábia Saudita,1
@@ -40,7 +20,7 @@ Alasca,1
 Coréia do Norte,1
 Polônia,1
 Itália,13
-Nova York,5
+Nova York,12
 Paquistão,1
 Romênia,2
 Argélia,1
@@ -49,15 +29,35 @@ Estônia,1
 Iraque,1
 Egito,1
 Jordânia,1
-Venezuela,1
+Venezuela,9
 Texas,10
 Ucrânia,3
 Groelândia,1
+Angola,1
+Somalia,1
+;
+THOMAS,AMARELO
+10
+Indonésia,
+Irã,1
+Coréia do Sul,1
+Perth,1
+Nova Zelândia,1
+Síria,1
+Índia,1
+Letônia,1
+Vancouver,1
+Japão,1
+México,15
+Reino Unido,1
+Califórnia,1
 ;
 LUIZA,AZUL
 7
-Russia,Itália,
+Russia,Itália,Perth,Irã,
 Russia,5
 Cazaquistão,4
-Mongolia,1
+Mongolia,3
+Turquia,3
+Sibéria,3
 ;

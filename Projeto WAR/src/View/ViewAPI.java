@@ -110,6 +110,45 @@ public class ViewAPI {
 		gP.conquista();
 	}
 
+	private String constroiMsg() {
+		String msg;
+		int corAtual = model.getCorAtual();
+		String cor = coresStr[corAtual];
+		String nomeJogador = model.getJogadorAtual();
+
+		int etapa = (this.etapa / 10) * 10;
+
+		msg = String.format("Jogador: %s\nCor: %s\n", nomeJogador, cor);
+
+		// Posicionamento
+		if (etapa == 0) {
+			msg += String.format("Etapa:  Posicionamento de exércitos\n");
+
+			String cont = control.getContinenteAtual();
+			if (cont != null) {
+				msg += String.format("Continente: %s\n", cont);
+			}
+
+			msg += String.format("Qtd exércitos: %d", qtdExe);
+		}
+
+		// Ataque
+		else if (etapa == 10) {
+			msg += String.format("Etapa: Ataque\n");
+		}
+
+		// Deslocamento
+		else if (etapa == 20) {
+			msg += String.format("Etapa: Deslocamento");
+		}
+
+		// Recebimento de carta
+		else if (etapa == 30) {
+			msg += String.format("Etapa: Recebimento de carta");
+		}
+		return msg;
+	}
+
 	public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
 		// Torna não clicáveis os territórios anteriores
 		if (this.territorios != null) {
@@ -148,10 +187,8 @@ public class ViewAPI {
 				Territorio.getTerritorio(nome).setClicavel(true);
 			}
 		}
-
-		iP.setInfo((etapa / 10) * 10, coresStr[corAtual], qtd);
+		iP.setInfo(constroiMsg());
 	}
-
 
 	public void click(String territorio) {
 		System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
@@ -163,8 +200,7 @@ public class ViewAPI {
 		if (etapa == 0) {
 			if (territorio != null) {
 				qtdExe--;
-				iP.setInfo(etapa, coresStr[corAtual], qtdExe);
-
+				iP.setInfo(constroiMsg());
 				control.addExe(territorio, 1);
 			}
 			if (territorios != null) {
@@ -287,19 +323,19 @@ public class ViewAPI {
 		// Selcionar um território para deslocar exércitos
 		else if (etapa == 20) {
 			if (territorio != null) {
-					
+
 				if (territorios != null)
 					for (String nome : this.territorios) {
 						Territorio.getTerritorio(nome).setClicavel(false);
 					}
-				
+
 				selecionado = territorio;
 				t = Territorio.getTerritorio(selecionado);
 				t.setMarcado(true);
 				t.setClicavel(true);
-	
+
 				vizinhos = model.getVizinhos(selecionado);
-	
+
 				for (String nome : vizinhos) {
 					t = Territorio.getTerritorio(nome);
 					if (corAtual == model.getCor(nome))
@@ -308,7 +344,7 @@ public class ViewAPI {
 				etapa = 21;
 			}
 		}
-		
+
 		// Selcionar outro território para deslocar exércitos
 		else if (etapa == 21) {
 			if (territorio == null || territorio == selecionado) {
@@ -325,26 +361,27 @@ public class ViewAPI {
 				}
 				etapa = 20;
 			}
+
 			else {
 				for (String nome : vizinhos) {
 					Territorio.getTerritorio(nome).setClicavel(false);
 				}
-				
+
 				selecionado2 = territorio;
-				
+
 				t = Territorio.getTerritorio(selecionado);
 				t2 = Territorio.getTerritorio(selecionado2);
-				
+
 				t.setMarcado(true);
 				t2.setMarcado(true);
-				
+
 				t.setClicavel(true);
 				t2.setClicavel(true);
-	
+
 				etapa = 22;
 			}
 		}
-		
+
 		else if (etapa == 22) {
 			if (territorio == null) {
 				if (selecionado != null) {
@@ -367,8 +404,8 @@ public class ViewAPI {
 
 				etapa = 20;
 			}
+
 			else {
-				
 				// Desloca exército para exército clicado
 				if (territorio == selecionado)
 					control.desloca(selecionado2, selecionado);
@@ -385,7 +422,6 @@ public class ViewAPI {
 	public int[][] getListaDados() {
 		return dados;
 	}
-
 
 	public boolean exibeVencedor() {
 		int indexCorVencedor = model.getCorAtual();

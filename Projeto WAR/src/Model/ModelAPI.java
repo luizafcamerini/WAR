@@ -65,6 +65,10 @@ public class ModelAPI {
 		return -1;
 	}
 
+	public String getJogadorAtual() {
+		return jAtual.getNome();
+	}
+
 	public int getProxCor() {
 		jAtual = jogo.getProxJogador();
 		conquista = false;
@@ -150,6 +154,32 @@ public class ModelAPI {
 
 	}
 
+	public String[] getContinentes(){
+		Continente[] conts = Continente.getContinentes();
+		String[] strConts = new String[conts.length];
+		for(int i = 0;i< conts.length;i++){
+			strConts[i] = conts[i].getNome();
+		}
+		return strConts;
+	}
+
+	public String[] getTerritoriosContinente(String continente){
+		Continente cont = Continente.getContinente(continente);
+		Territorio[] territorios = cont.getTerritorios();
+		String[] strTerritorios = new String[territorios.length];
+		for (int i = 0; i<territorios.length;i++){
+			strTerritorios[i] = territorios[i].getNome();
+		}
+		return strTerritorios;
+	}
+
+	public int getExeAdContinente(String continente){
+		Continente cont = Continente.getContinente(continente);
+		if (cont.pertence(jAtual))
+			return cont.getNumExeAdicionais();
+		return 0;
+	}
+
 	public int getExeAd() {
 		return jAtual.getExeAd();
 	}
@@ -165,9 +195,6 @@ public class ModelAPI {
 	public void entregaCarta() {
 		jogo.entregaCarta(jAtual);
 	}
-	// public int[][] getListaDados() {
-	// return listaDados;
-	// }
 
 	public String getImgNameObjetivo() {
 		return jAtual.getImgNameObjetivo();
