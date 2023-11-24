@@ -45,16 +45,12 @@ public class ControllerAPI {
 		
 		//tela de menu, com duas opcoes: comecar novo jogo, ou carregar um jogo ja existente
 		
-		try {
 //			String path = view.selecionaFile();
-			String path = "src/gameState.txt";
-			int load = model.loadGame(path);
-		} catch (IOException e) {
-			e.printStackTrace(); 
-		}
+		String path = "src/gameState.txt";
+		int load = model.loadGame(path);
 		//se o load for -1, volta pra tela de menu
 		// se for 0, da um load em um txt ja existente
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
+		// System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 		view.inicializaGameScreen();
 
 		etapa = 0;

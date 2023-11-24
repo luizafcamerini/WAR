@@ -304,11 +304,11 @@ public class ModelAPI {
 
 	}
 
-	public int loadGame(String path) throws IOException {
+	public int loadGame(String path) {
 		/** Funcao que carrega um jogo já existente através da leitura de um txt */
 //		File file = new File("src/gameState.txt");
 		if (path == null) {
-			System.out.println("Arquivo de salvamento não existe.");
+			System.out.println("Arquivo de salvamento não foi selecionado.");
 			return -1;
 		}
 		this.file = new File(path);
@@ -363,10 +363,14 @@ public class ModelAPI {
 			jogo.continuaJogo(jAtual);
 			jAtual = jogo.getProxJogador();
 
-		} finally {
-			if (reader != null) {
+		} 
+		catch (IOException e){
+			return -1;
+		}
+		finally {
+			try {
 				reader.close();
-			}
+			} catch (Exception e) {}
 		}
 		return 0;
 

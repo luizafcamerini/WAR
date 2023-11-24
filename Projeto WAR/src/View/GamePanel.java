@@ -7,24 +7,27 @@ import Model.ModelAPI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.awt.font.*;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	// private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
-	private final int I2_TERRITORIO = -1; // retorno do observado territorio atraves do get(2)
-	private final int I2_INFOP = -2; // retorno do observado territorio atraves do get(2)
-	private final int I2_B_MANUAL = 1; // retorno do observado botao Manual atraves do get(2)
-	private final int I2_B_AUTO = 2; // retorno do observado botao Automático atraves do get(2)
-	private final int I2_B_ATAQUE = 3; // retorno do observado botao Ataque atraves do get(2)
-	private final int I2_B_ATAQUE_N = 4; // retorno do observado botao Ataque Novamente atraves do get(2)
-	private final int I2_B_SALVAR = 5; // retorno do observado botao Salvar atraves do get(2)
+	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
+	private final int I2_TEMP1 = 11; // get(2) do id do territorio temporario 1
+	private final int I2_TEMP2 = 12; // get(2) do id do territorio temporario 2
+	private final int I2_INFOP = -2; // get(2) do id do infopainel
+	private final int I2_B_MANUAL = 1; // get(2) do id de botao Ataque Manual
+	private final int I2_B_AUTO = 2; // get(2) do id de botao Ataque Automatico
+	private final int I2_B_ATAQUE = 3; // get(2) do id de botao Ataque 
+	private final int I2_B_ATAQUE_N = 4; // get(2) do id de botao Ataque Novamente
+	private final int I2_B_SALVAR = 5; // get(2) do id de botao Salvar
 
-	private final int I2_TEMP1 = 11; // retorno do observado temp1 atraves do get(2)
-	private final int I2_TEMP2 = 12; // retorno do observado temp1 atraves do get(2)
+	private final int I2_B_INICIAR = 6; // get(2) do id de botao Iniciar
+	private final int I2_B_CARREGAR = 7; // get(2) do id de botao Carregar
+	private final int I2_B_CARREGAR_AUTO = 8; // get(2) do id de botao Carregar Último Jogo
+	private final String pathAuto = "src/gameState.txt";
 
-	
-	
 	private Territorio[] territorios;
 	private InfoPainel iP;
 	private Images images = Images.getInstance();
@@ -34,11 +37,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private ControllerAPI control = ControllerAPI.getInstance();
 	private int xM, yM; // Coordenadas do Mouse
 	private boolean fora = true;
-	private boolean exibeCartas;
-	private boolean exibeTabelas;
-	private boolean exibeObjetivo;
+	private boolean exibeCartas = false;
+	private boolean exibeTabelas = false;
+	private boolean exibeObjetivo = false;
 	private boolean janelaExibida = false;
 	private boolean manual = false;
+	private boolean exibeMenuInicial = true;
 
 	private boolean exibeAtaque = false;
 	private boolean exibeResultadoAtaque = false;
@@ -47,16 +51,24 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private String defensor;
 
 	private long ultimoClique = 0;
-	Territorio temp1, temp2;
+	private Territorio temp1, temp2;
 
-	JComboBox<Integer> cbDados[];
-	Botao bManual, bAuto, bAtaque, bAtaqueN, bSalvar;
+	private JComboBox<Integer> cbDados[];
+	private Botao bManual;
+	private Botao bAuto;
+	private Botao bAtaque;
+	private Botao bAtaqueN;
+	private Botao bSalvar;
+	private Botao bIniciar;
+	private Botao bCarregar;
+	private Botao bCarregarAuto;
 
 	private void configBotao(Botao b, int i2) {
 		b.setI2(i2);
 		b.addObservador(this);
 		addMouseListener(b);
 		addMouseMotionListener(b);
+		b.setClivael(false);
 	}
 
 	public GamePanel(InfoPainel iP) {
@@ -90,18 +102,18 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAtaque = new Botao("ATACAR");
 		bAtaqueN = new Botao("ATACAR NOVAMENTE");
 		bSalvar = new Botao("SALVAR O JOGO");
+		bIniciar = new Botao("INICIAR JOGO");
+		bCarregar = new Botao("CARREGAR JOGO");
+		bCarregarAuto = new Botao("CONTINUAR ÚLTIMO JOGO");
 
 		configBotao(bManual, I2_B_MANUAL);
 		configBotao(bAuto, I2_B_AUTO);
 		configBotao(bAtaque, I2_B_ATAQUE);
 		configBotao(bAtaqueN, I2_B_ATAQUE_N);
 		configBotao(bSalvar, I2_B_SALVAR);
-
-		bManual.setClivael(false);
-		bAuto.setClivael(false);
-		bAtaque.setClivael(false);
-		bAtaqueN.setClivael(false);
-		bSalvar.setClivael(false);
+		configBotao(bIniciar, I2_B_INICIAR);
+		configBotao(bCarregar, I2_B_CARREGAR);
+		configBotao(bCarregarAuto, I2_B_CARREGAR_AUTO);
 
 	}
 
@@ -205,6 +217,38 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				}
 			}
 
+			// Ação do botão "bIniciar"
+			else if (i2 == I2_B_INICIAR) {
+			}
+
+			// Ação do botao "bCarregar"
+			else if (i2 == I2_B_CARREGAR) {
+				String path = view.selecionaFile();
+				int load = model.loadGame(path);
+				if (load == 0){
+					exibeMenuInicial = false;
+					view.click(null); //gasta um click automatico
+					if (janelaExibida) {
+						limpaJanela();
+					}
+				}
+				fora = true;
+			}
+
+			// Ação do botao "bCarregarAuto"
+			else if (i2 == I2_B_CARREGAR_AUTO) { //carrega o ultimo jogo que foi fechado e que foi salvo automaticamente
+				int load = model.loadGame(pathAuto);
+				if (load == 0){
+					exibeMenuInicial = false;
+					view.click(null); //gasta um click automatico
+					if (janelaExibida) {
+						limpaJanela();
+					}
+				}
+				fora = true;
+			}
+
+
 		}
 
 		// Mouse "entrou" em algo
@@ -253,6 +297,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeCartas(g);
 		exibeTabelas(g);
 		exibeObjetivo(g);
+		exibeTelaMenuInicial(g);
 
 	}
 
@@ -729,6 +774,51 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			return true;
 		else
 			return false;
+	}
+
+	public void exibeTelaMenuInicial(Graphics g) {
+		if (!exibeMenuInicial)
+			return;
+		
+		Font fonte = new Font("Arial", Font.PLAIN, 24);
+
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.WHITE);
+		g2d.setFont(fonte);
+		FontRenderContext frc = g2d.getFontRenderContext();
+		LineMetrics lm = fonte.getLineMetrics("", frc);
+
+		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
+		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
+		int y_centro = getHeight() /2;
+		int x_centro = getWidth() / 2;
+		int fAlt = (int) lm.getHeight(); // altura da fonte
+
+		FontMetrics m = g.getFontMetrics();
+
+		exibeJanela(g);
+
+		bIniciar.setClivael(true); // inicia um jogo totalmente novo
+		bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
+		bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
+
+		if (bIniciar.atualiza(g, xM, yM) || bCarregar.atualiza(g, xM, yM) || bCarregarAuto.atualiza(g, xM, yM)) {
+			fora = false;
+		}
+
+		bIniciar.setPos(g,  x_centro, y_centro - fAlt * 2);
+		bCarregar.setPos(g,  x_centro, y_centro);
+		bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
+
+		bIniciar.draw(g);
+		bCarregar.draw(g);
+		bCarregarAuto.draw(g);
+
+		// drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante, model.getQtdExercitos(atacante), defensor,
+		// 		model.getQtdExercitos(defensor)), x_centro, y_inferior - m.getHeight() * 3);
+		// drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length), x_centro,
+		// 		y_inferior - m.getHeight() * 2);
+
 	}
 
 }
