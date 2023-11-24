@@ -175,9 +175,6 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int y = e.getY();
 		boolean dentro = estaEm(x,y);
 
-		if (i2 == 5){
-			System.out.println(dentro?"DENTRO":"FORA");
-		}
 		if (dentro && !estavaEm){
 			cores[0] = Color.GRAY;
 			i1 = 1;

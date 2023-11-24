@@ -32,6 +32,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private ViewAPI view = ViewAPI.getInstance();
 	private ModelAPI model = ModelAPI.getInstance();
 	private ControllerAPI control = ControllerAPI.getInstance();
+	private int xM, yM; // Coordenadas do Mouse
 	private boolean fora = true;
 	private boolean exibeCartas;
 	private boolean exibeTabelas;
@@ -223,8 +224,14 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Point mousePosition = getMousePosition();
-		int x = (int) mousePosition.getX();
-		int y = (int) mousePosition.getY();
+		try {
+			xM = (int) mousePosition.getX();
+			yM = (int) mousePosition.getY();
+		}
+		catch (Exception e) {
+			xM = -1;
+			yM = -1;
+		}
 
 		Image tabuleiro = images.getImage("war_tabuleiro2.png");
 		g.drawImage(tabuleiro, 0, 0, getWidth(), getHeight(), null);
@@ -531,11 +538,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto.setPos(g, 2 * getWidth() / 3, y_superior + fAlt * 3);
 		bAtaque.setPos(g, getWidth() / 2, y_inferior - fAlt);
 
-		Point mousePosition = getMousePosition();
-		int x = (int) mousePosition.getX();
-		int y = (int) mousePosition.getY();
+//		Point mousePosition = getMousePosition();
+//		int x = (int) mousePosition.getX();
+//		int y = (int) mousePosition.getY();
 
-		if (bManual.atualiza(g, x, y) || bAuto.atualiza(g, x, y) || bAtaque.atualiza(g, x, y)) {
+		if (bManual.atualiza(g, xM, yM) || bAuto.atualiza(g, xM, yM) || bAtaque.atualiza(g, xM, yM)) {
 			fora = false;
 		}
 
@@ -585,14 +592,14 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeDados(g);
 
 		if (model.getQtdExercitos(atacante) > 1) {
-			Point mousePosition = getMousePosition();
-
-			int x = (int) mousePosition.getX();
-			int y = (int) mousePosition.getY();
+//			Point mousePosition = getMousePosition();
+//
+//			int x = (int) mousePosition.getX();
+//			int y = (int) mousePosition.getY();
 
 			bAtaqueN.setPos(g, getWidth() / 2, y_inferior - fAlt);
 			bAtaqueN.setClivael(true);
-			if (bAtaqueN.atualiza(g, x, y)) {
+			if (bAtaqueN.atualiza(g, xM, yM)) {
 				fora = false;
 			}
 			bAtaqueN.draw(g);
