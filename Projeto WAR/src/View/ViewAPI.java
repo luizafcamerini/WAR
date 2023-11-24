@@ -1,6 +1,10 @@
 package View;
 
 import java.awt.*;
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 
 import Model.ModelAPI;
 import Controller.ControllerAPI;
@@ -470,4 +474,20 @@ public class ViewAPI {
 			return false;
 	}
 
+	public String selecionaFile(){
+		/** Funcao que retorna o path absoluto de salvamento do jogo por escolha do usuário. */
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); //cria um novo selecionador de arq
+		int returnValue = jfc.showOpenDialog(null); //abre a janela do selecionador e retorna se ele salvou ou não
+		String path;
+		
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			// System.out.println(selectedFile.getAbsolutePath());
+			path = selectedFile.getAbsolutePath();
+			return path;
+		}
+		return null;
+	}
 }
+
+

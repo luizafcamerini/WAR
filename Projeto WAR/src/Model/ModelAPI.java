@@ -303,25 +303,9 @@ public class ModelAPI {
 		}
 
 	}
-	
-	private String selecionaFile(){
-		/** Funcao que retorna o path absoluto de salvamento do jogo por escolha do usuário. */
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); //cria um novo selecionador de arq
-		int returnValue = jfc.showOpenDialog(null); //abre a janela do selecionador e retorna se ele salvou ou não
-		String path;
 
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
-			// System.out.println(selectedFile.getAbsolutePath());
-			path = selectedFile.getAbsolutePath();
-			return path;
-		}
-		return null;
-	}
-
-	public int loadGame() throws IOException {
+	public int loadGame(String path) throws IOException {
 		/** Funcao que carrega um jogo já existente através da leitura de um txt */
-		String path = selecionaFile();
 //		File file = new File("src/gameState.txt");
 		if (path == null) {
 			System.out.println("Arquivo de salvamento não existe.");

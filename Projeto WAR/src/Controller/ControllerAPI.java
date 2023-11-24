@@ -45,7 +45,8 @@ public class ControllerAPI {
 		
 		//tela de menu, com duas opcoes: comecar novo jogo, ou carregar um jogo ja existente
 		try {
-			int load = model.loadGame();
+			String path = view.selecionaFile();
+			int load = model.loadGame(path);
 		} catch (IOException e) {
 			e.printStackTrace(); 
 		}
