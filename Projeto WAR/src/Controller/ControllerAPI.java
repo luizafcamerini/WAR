@@ -21,6 +21,7 @@ public class ControllerAPI {
 	private static Hashtable<String, Integer> qtdDeslocaveis;
 	private static Hashtable<String, Integer> qtdDeslocados;
 	
+	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 
 	public static ControllerAPI getInstance() {
 		if (instance == null) {
@@ -60,6 +61,7 @@ public class ControllerAPI {
 
 	public void proxEtapa() {
 		corAtual = model.getCorAtual();
+		System.out.println(coresStr[corAtual]);
 
 		String territorios[] = model.getTerritorios(corAtual);
 		System.out.printf("Da etapa %d\n", etapa);
@@ -72,6 +74,7 @@ public class ControllerAPI {
 			while (qtdExeAd == 0 && iCont < continentes.length-1){
 				iCont++;
 				qtdExeAd = model.getExeAdContinente(continentes[iCont]);
+				System.out.printf("%s %d\n", continentes[iCont],qtdExeAd);
 				if (qtdExeAd > 0)
 					territorios = model.getTerritoriosContinente(continentes[iCont]);
 			}
@@ -254,9 +257,31 @@ public class ControllerAPI {
 		return this.etapa;
 	}
 
+	public int loadGame(String path){
+		int load = model.loadGame(path);
+		if (load == 0){
+			iCont = -1;
+			etapa = 0;
+			qtdExeAd = 0;
+			proxEtapa();
+		}
+
+		return load;
+	}
+
+
+	public void novoJogo(String[] nomes){
+		model.novoJogo(nomes);
+		iCont = -1;
+		etapa = 0;
+		qtdExeAd = 0;
+		proxEtapa();
+	}
+
 	public static void main(String[] args) {
 		ControllerAPI control = ControllerAPI.getInstance();
 		control.inicializa();
+		
 
 	}
 }

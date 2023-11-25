@@ -80,6 +80,11 @@ class Territorio implements ObservadoIF {
 		 * Funcao que troca o dono do territorio e a quantidade de exercitos do novo
 		 * dono.
 		 */
+		if (j == null){
+			dono = null;
+			qntdExercito = 1;
+			return;
+		}
 		Jogador donoAnterior = dono;
 		if (dono != null) {
 			donoAnterior.removeTerritorio(this);

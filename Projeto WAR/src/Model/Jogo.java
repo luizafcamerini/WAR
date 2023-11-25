@@ -19,6 +19,16 @@ class Jogo {
 		objetivos = Objetivo.montaBaralho();
 	}
 
+	public void limpa(){
+		/** Funcao que limpa os dados do jogo. */
+		jogadores = new ArrayList<Jogador>();
+		cartas = null;
+		cartas = null;
+		cartasUsadas = null;
+		objetivos = null;
+		contadorTroca = 1;
+	}
+
 	public void iniciaJogo() {
 		/** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
 		Jogador jAtual;

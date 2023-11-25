@@ -175,9 +175,13 @@ public class ModelAPI {
 	}
 
 	public int getExeAdContinente(String continente){
+		 System.out.println(jAtual.getNome());
 		Continente cont = Continente.getContinente(continente);
-		if (cont.pertence(jAtual))
+		if (cont.pertence(jAtual)){
+			System.out.println(cont.getNome()+ jAtual.getNome());
+
 			return cont.getNumExeAdicionais();
+		}
 		return 0;
 	}
 
@@ -319,6 +323,9 @@ public class ModelAPI {
 		int i = 0;
 		jogo.adicionaCoringas(); // adiciona coringas no baralho
 		BufferedReader reader = null;
+
+		// jogo.limpa();
+
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			String line;
@@ -362,6 +369,7 @@ public class ModelAPI {
 			System.out.println("Inicializando jogo pelo jogador " + jAtual.getNome());
 			jogo.continuaJogo(jAtual);
 			jAtual = jogo.getProxJogador();
+			// System.out.println(jAtual.getNome());
 
 		} 
 		catch (IOException e){
@@ -399,5 +407,22 @@ public class ModelAPI {
 	public void desregistra(String territorio, ObservadorIF o){
 		Territorio t = Territorio.getTerritorio(territorio);
 		t.removeObservador(o);
+	}
+
+	
+	public void novoJogo(String[] nomes){
+		Territorio[] territorios = Territorio.getTerritorios();
+		for(Territorio t: territorios){
+			t.trocaDono(null);
+		}
+		jogo = new Jogo();
+		for (int i = 0; i< nomes.length;i++){
+			if(nomes[i]!=null){
+				Cores c = cores[i];
+				jogo.adicionaJogador(new Jogador(c,nomes[i]));
+			}
+		}
+		jogo.inicializa();
+		jAtual = jogo.getProxJogador();
 	}
 }

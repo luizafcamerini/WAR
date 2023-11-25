@@ -26,6 +26,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_B_INICIAR = 6; // get(2) do id de botao Iniciar
 	private final int I2_B_CARREGAR = 7; // get(2) do id de botao Carregar
 	private final int I2_B_CARREGAR_AUTO = 8; // get(2) do id de botao Carregar Último Jogo
+	private final int I2_B_CONFIRMA = 9; // get(2) do id de botao Carregar Último Jogo
 	private final String pathAuto = "src/gameState.txt";
 
 	private Territorio[] territorios;
@@ -65,6 +66,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private Botao bIniciar;
 	private Botao bCarregar;
 	private Botao bCarregarAuto;
+	private Botao bConfirma;
 
 	private void configBotao(Botao b, int i2) {
 		b.setI2(i2);
@@ -114,6 +116,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bIniciar = new Botao("INICIAR JOGO");
 		bCarregar = new Botao("CARREGAR JOGO");
 		bCarregarAuto = new Botao("CONTINUAR ÚLTIMO JOGO");
+		bConfirma = new Botao("CONFIRMAR");
 
 		configBotao(bManual, I2_B_MANUAL);
 		configBotao(bAuto, I2_B_AUTO);
@@ -123,6 +126,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		configBotao(bIniciar, I2_B_INICIAR);
 		configBotao(bCarregar, I2_B_CARREGAR);
 		configBotao(bCarregarAuto, I2_B_CARREGAR_AUTO);
+		configBotao(bConfirma, I2_B_CONFIRMA);
 
 	}
 
@@ -230,6 +234,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			else if (i2 == I2_B_INICIAR) {
 				exibeMenuInicial = false;
 				exibeNovoJogo = true;
+				bConfirma.setClivael(true);
 				if (janelaExibida) {
 					limpaJanela();
 				}
@@ -239,7 +244,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			// Ação do botao "bCarregar"
 			else if (i2 == I2_B_CARREGAR) {
 				String path = view.selecionaFile();
-				int load = model.loadGame(path);
+				int load = control.loadGame(path);
 				if (load == 0){
 					exibeMenuInicial = false;
 					view.click(null); //gasta um click automatico
@@ -252,7 +257,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 			// Ação do botao "bCarregarAuto"
 			else if (i2 == I2_B_CARREGAR_AUTO) { //carrega o ultimo jogo que foi fechado e que foi salvo automaticamente
-				int load = model.loadGame(pathAuto);
+				int load = control.loadGame(pathAuto);
 				if (load == 0){
 					exibeMenuInicial = false;
 					view.click(null); //gasta um click automatico
@@ -260,6 +265,30 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 						limpaJanela();
 					}
 				}
+				fora = true;
+			}
+
+			// Ação do botao "bConfirma"
+			else if (i2 == I2_B_CONFIRMA) { // confirma novos jogadores
+				String[] nomes = new String[6];
+				int count = 0;
+				for(int i = 0; i < tfNomes.length; i++){
+					JTextField tf = tfNomes[i];
+					String nome = tf.getText();
+					if (nome.length() != 0){
+						count++;
+						nomes[i] = nome;
+					}
+					if (count >= 3){
+						control.novoJogo(nomes);
+						bConfirma.setClivael(false);
+						exibeNovoJogo = false;
+						limpaJanela();
+						view.click(null);
+					}
+					System.out.printf("%d %s\n",nome.length(), nome);
+				}
+				// bConfirma.setClivael(false);
 				fora = true;
 			}
 
@@ -594,7 +623,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeDados(g);
 
 		for (int i = 0; i < 6; i++) {
-			cbDados[i].setVisible(manual && (i % 3) < dados[i / 3].length);
+			if(manual && (i % 3) < dados[i / 3].length){
+				cbDados[i].setVisible(true);
+				cbDados[i].repaint();
+			}
 		}
 
 		bManual.setClivael(true);
@@ -870,24 +902,23 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			tfNomes[i].setBounds(x, y, larg, fAlt);
 			tfNomes[i].setVisible(true);
 			tfNomes[i].repaint();
-
-
 		}
 
+		
 
-		// bIniciar.setClivael(true); // inicia um jogo totalmente novo
+		// bConfirma.setClivael(true); // inicia um jogo totalmente novo
 		// bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
 		// bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
 
-		// if (bIniciar.atualiza(g, xM, yM) || bCarregar.atualiza(g, xM, yM) || bCarregarAuto.atualiza(g, xM, yM)) {
-		// 	fora = false;
-		// }
+		if (bConfirma.atualiza(g, xM, yM)) {
+			fora = false;
+		}
 
-		// bIniciar.setPos(g,  x_centro, y_centro - fAlt * 2);
+		bConfirma.setPos(g,  x_centro, y_inferior - fAlt * 2);
 		// bCarregar.setPos(g,  x_centro, y_centro);
 		// bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
 
-		// bIniciar.draw(g);
+		bConfirma.draw(g);
 		// bCarregar.draw(g);
 		// bCarregarAuto.draw(g);
 

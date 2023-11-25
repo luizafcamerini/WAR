@@ -47,6 +47,11 @@ class Continente {
 	public boolean pertence(Jogador j) {
 		/** Funcao que retorna se um jogador e dono de todos os paises de um continente. */
 		for (Territorio t : territorios) {
+			 System.out.println(t.getNome()+t.getDono().getNome());
+			 System.out.println(t.getNome()+j.getNome());
+			  System.out.println(t.getDono().getNome().equals(j.getNome())?"PERTEnCE":"NAO PERTENCE");
+			  
+			  System.out.println(t.getDono().equals(j)?"PERTEnCE":"NAO PERTENCE");
 			if (t.getDono() != j)
 				return false;
 		}
