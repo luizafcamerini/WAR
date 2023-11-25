@@ -90,6 +90,7 @@ class Territorio implements ObservadoIF {
 			donoAnterior.removeTerritorio(this);
 			if (donoAnterior.getQtdTerritorios() == 0)
 				donoAnterior.setAssassino(j);
+				//tranferir as cartas do morto para o assassino
 		}
 		dono = j;
 		j.addTerritorio(this);

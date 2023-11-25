@@ -11,7 +11,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class ModelAPI {
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	private static ModelAPI instance;
 	private Jogo jogo = new Jogo();;
 	private Jogador jAtual;
@@ -240,19 +240,14 @@ public class ModelAPI {
 		/** Funcao que salva o estado do jogo em um arquivo txt. */
 
 		BufferedWriter writer = null;
-		// recebe o arquivo de salvamento do jogo, se não existir, cria um novo
-		// File file = new File("src/gameState.txt");
-		// File file = this.file;
 
 		File file = new File(path);
 		if (file.exists()) {
 			if (DEBUG)
-				System.out.println("Arquivo criado: " + file.getName());
+				System.out.println("Arquivo sobrescrito: " + file.getName());
 		} else {
-			// if(DEBUG) System.out.println("Arquivo " + this.file.getName() + " já
-			// existe");
 			if (DEBUG)
-				System.out.println("Erro na criação do arquivo de salvamento.");
+				System.out.println("Arquivo criado: "+ file.getName());
 		}
 
 		if (DEBUG)
@@ -315,8 +310,10 @@ public class ModelAPI {
 			System.out.println("JOGO JÁ EXISTENTE ABERTO COM SUCESSO.");
 		BufferedReader reader = null;
 		String nomeJogador;
+		String[] assassinos = new String[6];
+		Jogador[] jogadores = new Jogador[6];
 		int corJogador;
-		int[] numObjetivos = new int[6];
+		int numObjetivo;
 		int i = 0;
 		Carta carta;
 		String[] cartas;
@@ -387,7 +384,7 @@ public class ModelAPI {
 				monte.adiciona(carta);
 			}
 			jogo.setCartasUsadas(monte);
-
+			
 			while ((line = reader.readLine()) != null) {
 				while (!line.contains(";")) {
 					if (DEBUG)
@@ -395,10 +392,13 @@ public class ModelAPI {
 					info = line.split(",");
 					nomeJogador = info[0];
 					corJogador = getIndiceCor(info[1]);
+					assassinos[i] = info[2];
+
 					if (DEBUG)
 						System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador);
-					Jogador jogador = new Jogador(cores[corJogador], nomeJogador);
-					jogo.adicionaJogador(jogador);
+					jogadores[i] = new Jogador(cores[corJogador], nomeJogador);
+
+					jogo.adicionaJogador(jogadores[i]);
 
 					// jogo.adicionaCoringas();
 					// adicionaJogador(nomeJogador, corJogador); // ordinal retorna o indice do enum
@@ -406,13 +406,13 @@ public class ModelAPI {
 						System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador);
 
 					line = reader.readLine(); // Lê o objetivo do jogador
-					numObjetivos[i] = Integer.parseInt(line);
+					numObjetivo = Integer.parseInt(line);
 					if (DEBUG)
 						System.out.println("Adicionando o objetivo do jogador: " + nomeJogador + " | Objetivo "
-								+ Integer.toString(numObjetivos[i]) + ": "
-								+ Objetivo.getObjetivo(numObjetivos[i] - 1).getDescricao());
+								+ Integer.toString(numObjetivo) + ": "
+								+ Objetivo.getObjetivo(numObjetivo - 1).getDescricao());
 
-					jogador.setObjetivo(Objetivo.getObjetivo(numObjetivos[i] - 1));
+					jogadores[i].setObjetivo(Objetivo.getObjetivo(numObjetivo - 1));
 
 					line = reader.readLine(); // Lê as cartas do jogador
 					cartas = line.split(",");
@@ -426,9 +426,7 @@ public class ModelAPI {
 								if (DEBUG)
 									System.out.printf("Carta '%s' inválida\n", c);
 							}
-							jogador.recebeCarta(carta);
-							// if (carta!=null)
-							// jogo.entregaCarta(jogo.getJogador(i), c);
+							jogadores[i].recebeCarta(carta);
 
 						}
 					}
@@ -439,21 +437,35 @@ public class ModelAPI {
 
 						territorio = Territorio.getTerritorio(nomeTerritorio);
 
-						territorio.trocaDono(jogador);
+						territorio.trocaDono(jogadores[i]);
 						territorio.setQtdExercitos(qtdExercitos);
 
-						// jogo.getJogador(i).addTerritorio(Territorio.getTerritorio(nomeTerritorio),
-						// qtdExercitos - 1);
-
-						// Territorio.getTerritorio(nomeTerritorio).setDono(jogo.getJogador(i));
 						if (DEBUG)
 							System.out.println("Adicionando territorio " + nomeTerritorio + " ao jogador " + nomeJogador
 									+ " com " + Integer.toString(qtdExercitos) + " exercitos.");
 					}
 					i++;
 				}
+				for (int j = 0; j < i; j++) { // percorrendo os assassinos
+					if (!assassinos[j].equals("null")) {
+						for (int k = 0; k < i; k++) { // percorrendo os jogadores
+							if (jogadores[k].getCor().toString().equals(assassinos[j])) {
+								jogadores[j].setAssassino(jogadores[k]);
+							}
+						}
+					}
+				}
+
+				if(DEBUG){
+					for (int j = 0; j < i; j++) { // percorrendo os assassinos
+						Jogador assassino = jogadores[j].getAssassino();
+						if(assassino != null)
+							System.out.printf("Jogador %s foi morto por %s :(\n",jogadores[j].getNome(),assassino.getNome());
+						else
+							System.out.printf("Jogador %s está vivo :)\n",jogadores[j].getNome());
+					}
+				}
 			}
-			// jAtual = jogo.getJogador((i) % jogo.getQtdJogadores());
 
 			jAtual = jogo.getProxJogador();
 			if (DEBUG)

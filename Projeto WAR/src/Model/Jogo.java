@@ -106,6 +106,9 @@ class Jogo {
 		/** Funcao que retorna o proximo jogador */
 		Jogador j = jogadores.get(iterador % jogadores.size());
 		iterador++;
+		if (j.getAssassino() != null) { // Jogador morto, então pula para o próximo
+			return getProxJogador();
+		}
 		return j;
 	}
 
@@ -210,6 +213,7 @@ class Jogo {
 		Territorio[] territorios;
 		String nomeTerritorio;
 		String objetivoJogador;
+		String assassino;
 		int qtdExercitos;
 		String corJogador;
 		Carta[] cartasJogador;
@@ -258,7 +262,14 @@ class Jogo {
 			objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+", "");
 			cartasJogador = jogador.getCartas();
 			nomeJogador = jogador.getNome();
-			estado += nomeJogador + ',' + corJogador + '\n';
+			if (jogador.getAssassino()!=null){
+				assassino = jogador.getAssassino().getCor().toString();
+			}
+			else{
+				assassino = "null";
+			}
+
+			estado += nomeJogador + ',' + corJogador + ',' + assassino + '\n';
 			estado += objetivoJogador + '\n';
 
 			if (cartasJogador.length != 0) {
@@ -298,6 +309,10 @@ class Jogo {
 
 	public void setIterador(int n) {
 		iterador = n;
+	}
+
+	public void entregaCartaAssassino(Jogador assassino, Jogador morto){
+		
 	}
 
 }
