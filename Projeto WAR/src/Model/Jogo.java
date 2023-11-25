@@ -1,9 +1,7 @@
 package Model;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
-
 
 class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
@@ -20,7 +18,7 @@ class Jogo {
 		objetivos = Objetivo.montaBaralho();
 	}
 
-	public void limpa(){
+	public void limpa() {
 		/** Funcao que limpa os dados do jogo. */
 		jogadores = new ArrayList<Jogador>();
 		cartas = null;
@@ -50,8 +48,10 @@ class Jogo {
 
 	public void inicializa() {
 		/** Funcao que inicializa as distribuicoes do jogo. */
+
+		// Sorteia a ordem dos jogadores
 		Collections.shuffle(jogadores);
-//		iterador = escolheJogador();
+
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome()
 				+ " começa distribuindo as cartas.");
 
@@ -71,8 +71,10 @@ class Jogo {
 		distribuiObjetivos();
 	}
 
-	public void continuaJogo(Jogador j){
-		/**Funcao que continua um jogo carregado por um txt. Usado em Model.loadGame() */
+	public void continuaJogo(Jogador j) {
+		/**
+		 * Funcao que continua um jogo carregado por um txt. Usado em Model.loadGame()
+		 */
 		iterador = jogadores.indexOf(j);
 		cartas.embaralha();
 	}
@@ -112,7 +114,7 @@ class Jogo {
 		return iterador;
 	}
 
-	public void exibeJogadores(){
+	public void exibeJogadores() {
 		/** Funcao que exibe os jogadores da partida. */
 		for (Jogador j : jogadores) {
 			System.out.println(j.getNome() + " " + j.getCor());
@@ -127,17 +129,6 @@ class Jogo {
 				return j;
 		}
 		return null;
-	}
-
-	private int escolheJogador() {
-		/**
-		 * Funcao que retorna um indice aleatorio do jogador que vai começar
-		 * distribuindo as cartas.
-		 */
-		int tamLista = jogadores.size();
-		Random rand = new Random();
-		int i = rand.nextInt(tamLista); // escolhe entre 0 e tamLista-1
-		return i;
 	}
 
 	private void distribuiTerritorios() {
@@ -182,40 +173,6 @@ class Jogo {
 		}
 	}
 
-	public void entregaCarta(Jogador j, String nomeTerritorio) {
-		// System.out.println("Buscando por carta: " + nomeTerritorio); // apagar
-		/** Funcao que entrega uma carta específica do baralho ao jogador atual. Usada em ModelAPI.loadGame()*/
-		Carta carta = null;
-		int i = 0;
-		if(cartas.vazio()){
-			System.out.println("Baralho de cartas vazio");
-		}
-		for(Carta c : cartas.array()){
-			if (!nomeTerritorio.equals("null") && c.getTerritorio() != null){
-				System.out.println("Carta: " + c.getTerritorio().getNome());
-				if(c.getTerritorio().getNome().equals(nomeTerritorio)){
-					carta = cartas.retira(i);
-					j.recebeCarta(carta);
-					System.out.println("Entregando carta: " + carta.getTerritorio().getNome() + " para o jogador: " + j.getNome());
-					break;
-				}
-			}
-			else{
-				if(nomeTerritorio.equals("null") && c.getSimbolo() == Simbolos.CORINGA){
-					carta = c;
-					j.recebeCarta(carta);
-					carta = cartas.retira(i);
-					System.out.println("Entregando carta: " + carta.getSimbolo() + " para o jogador: " + j.getNome());
-					break;
-				}
-			}
-			i++;
-		}
-		if(carta == null){
-			System.out.println("Carta " + nomeTerritorio + " não encontrada");
-		}
-	}
-
 	private int trocaCartas(Jogador j, Carta[] descartadas) {
 		/**
 		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
@@ -238,15 +195,14 @@ class Jogo {
 		return exeAd;
 	}
 
-	public void adicionaCoringas(){
+	public void adicionaCoringas() {
 		/** Funcao que adiciona coringas no baralho de cartas. */
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.embaralha();
 	}
 
-
-	public String getEstadoStr(){
+	public String getEstadoStr() {
 		String estado = "";
 
 		Jogador jogador; // começa salvando pelo jogador da vez
@@ -260,9 +216,9 @@ class Jogo {
 
 		Carta carta;
 
-		estado += Integer.toString(contadorTroca) +'\n';
+		estado += Integer.toString(contadorTroca) + ',' + Integer.toString(iterador) + '\n';
 
-		if((!cartas.vazio())){
+		if ((!cartas.vazio())) {
 			Baralho<Carta> temp = new Baralho<Carta>();
 			while (!cartas.vazio()) {
 				carta = cartas.retira();
@@ -273,14 +229,13 @@ class Jogo {
 				temp.adiciona(carta);
 			}
 			cartas = temp;
-		}
-		else{
+		} else {
 			estado += ',';
 		}
 
 		estado += '\n';
 
-		if((!cartasUsadas.vazio())){
+		if ((!cartasUsadas.vazio())) {
 			Baralho<Carta> temp = new Baralho<Carta>();
 			while (!cartasUsadas.vazio()) {
 				carta = cartasUsadas.retira();
@@ -291,22 +246,19 @@ class Jogo {
 				temp.adiciona(carta);
 			}
 			cartasUsadas = temp;
-		}
-		else{
+		} else {
 			estado += ',';
 		}
 
 		estado += '\n';
 
-		estado += Integer.toString(iterador) + '\n';
-
-		for(int i=0;i<jogadores.size();i++){
+		for (int i = 0; i < jogadores.size(); i++) {
 			jogador = jogadores.get(i);
 			corJogador = jogador.getCor().toString();
 			objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+", "");
 			cartasJogador = jogador.getCartas();
 			nomeJogador = jogador.getNome();
-			estado += nomeJogador + ',' + corJogador+'\n';
+			estado += nomeJogador + ',' + corJogador + '\n';
 			estado += objetivoJogador + '\n';
 
 			if (cartasJogador.length != 0) {
@@ -332,21 +284,19 @@ class Jogo {
 		return estado;
 	}
 
-	public void setCartas(Baralho<Carta> baralho){
+	public void setCartas(Baralho<Carta> baralho) {
 		cartas = baralho;
 	}
 
-	
-	public void setCartasUsadas(Baralho<Carta> baralho){
+	public void setCartasUsadas(Baralho<Carta> baralho) {
 		cartasUsadas = baralho;
 	}
 
-	public void setContadorTroca(int n){
+	public void setContadorTroca(int n) {
 		contadorTroca = n;
 	}
 
-	
-	public void setIterador(int n){
+	public void setIterador(int n) {
 		iterador = n;
 	}
 

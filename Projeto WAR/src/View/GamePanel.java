@@ -1,16 +1,15 @@
 package View;
 
 import javax.swing.*;
-
 import Controller.ControllerAPI;
 import Model.ModelAPI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.awt.font.*;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
+	private final boolean DEBUG = false;
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
@@ -19,7 +18,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_INFOP = -2; // get(2) do id do infopainel
 	private final int I2_B_MANUAL = 1; // get(2) do id de botao Ataque Manual
 	private final int I2_B_AUTO = 2; // get(2) do id de botao Ataque Automatico
-	private final int I2_B_ATAQUE = 3; // get(2) do id de botao Ataque 
+	private final int I2_B_ATAQUE = 3; // get(2) do id de botao Ataque
 	private final int I2_B_ATAQUE_N = 4; // get(2) do id de botao Ataque Novamente
 	private final int I2_B_SALVAR = 5; // get(2) do id de botao Salvar
 
@@ -27,12 +26,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_B_CARREGAR = 7; // get(2) do id de botao Carregar
 	private final int I2_B_CARREGAR_AUTO = 8; // get(2) do id de botao Carregar Último Jogo
 	private final int I2_B_CONFIRMA = 9; // get(2) do id de botao Carregar Último Jogo
-	// private final String pathAuto = "src/autoSave.txt";
+	private final Font fonte = new Font("Arial", Font.PLAIN, 24);
 
 	private Territorio[] territorios;
 	private InfoPainel iP;
 	private Images images = Images.getInstance();
-	private GamePanel instance;
 	private ViewAPI view = ViewAPI.getInstance();
 	private ModelAPI model = ModelAPI.getInstance();
 	private ControllerAPI control = ControllerAPI.getInstance();
@@ -58,7 +56,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	private JComboBox<Integer> cbDados[];
 	private JTextField tfNomes[];
-	
+
 	private Botao bManual;
 	private Botao bAuto;
 	private Botao bAtaque;
@@ -131,34 +129,31 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	}
 
-	// public GamePanel getInstance() {
-	// 	if (instance == null) {
-	// 		instance = new GamePanel(iP);
-	// 	}
-	// 	return instance;
-	// }
-
 	public void notify(ObservadoIF o) {
 		int i1 = o.get(1); // i1 = 0: mouse clicou em algo
 		int i2 = o.get(2); // pega o id do botao
-		
-		System.out.printf("i1 = %d, i2 = %d\n", i1, i2);
+
+		if (DEBUG)
+			System.out.printf("i1 = %d, i2 = %d\n", i1, i2);
 
 		if (janelaExibida && (i2 < 1))
 			return;
 
 		// Mouse clicou em algo
 		if (i1 == 0) {
-			System.out.println("Mouse clicou em algo");
+			if (DEBUG)
+				System.out.println("Mouse clicou em algo");
+
 			// Realiza "debounce" do clique
 			long tempoAtual = System.currentTimeMillis();
-			// System.out.printf("DELTA = %d\n", tempoAtual - ultimoClique);
 			if (tempoAtual - ultimoClique < 100)
 				return;
 			ultimoClique = tempoAtual;
 
 			// Clicou em um território
-			if (i2 == I2_TERRITORIO || i2 == I2_TEMP1 || i2 == I2_TEMP2) { // 5 e 6 são aqueles territórios temporarios da conquista do territorio dentro do painel no ataque
+			if (i2 == I2_TERRITORIO || i2 == I2_TEMP1 || i2 == I2_TEMP2) {
+				// 5 e 6 são aqueles territórios temporarios da conquista do territorio dentro
+				// do painel no ataque
 				Territorio t = (Territorio) o;
 				view.click(t.getNome());
 			}
@@ -166,25 +161,27 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			// Clique em botão do infoPanel
 			if (i2 == I2_INFOP) {
 				int i3 = o.get(3); // o botao clicado
-				System.out.printf("i3 = %d\n", i3);
+				if (DEBUG)
+					System.out.printf("i3 = %d\n", i3);
 
 				if (i3 == 0) {
-					System.out.println("exibe objetivo");
+					if (DEBUG)
+						System.out.println("exibe objetivo");
 					exibeObjetivo = true;
 					fora = true;
-				}
-				else if (i3 == 1) {
-					System.out.println("exibe cartas");
+				} else if (i3 == 1) {
+					if (DEBUG)
+						System.out.println("exibe cartas");
 					exibeCartas = true;
 					fora = true;
-				}
-				else if (i3 == 2) {
-					System.out.println("exibe tabelas");
+				} else if (i3 == 2) {
+					if (DEBUG)
+						System.out.println("exibe tabelas");
 					exibeTabelas = true;
 					fora = true;
-				}
-				else if (i3 == 3) {
-					System.out.println("proxima etapa");
+				} else if (i3 == 3) {
+					if (DEBUG)
+						System.out.println("proxima etapa");
 					control.proxEtapa();
 				}
 			}
@@ -223,13 +220,16 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			}
 
 			// Ação do botao "bSalvar"
-			else if (i2 == I2_B_SALVAR){
-				System.out.println("*******etapa: " + Integer.toString(control.getEtapa()));
-				if (control.getEtapa() == 40){
-					System.out.println("GAMEPANEL: salva o jogo");
-					// control.botaoSalvaJogo();
-					control.saveState("src/gameState1.txt");
+			else if (i2 == I2_B_SALVAR) {
+				if (DEBUG)
+					System.out.println("*******etapa: " + Integer.toString(control.getEtapa()));
+
+				String path = view.salvaFile();
+				if (path != null) {
+					control.saveState(path);
+					view.click(null); // gasta um click automatico
 				}
+				fora = true;
 			}
 
 			// Ação do botão "bIniciar"
@@ -239,7 +239,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				bConfirma.setClivael(true);
 				if (janelaExibida) {
 					limpaJanela();
-					// bSalvar.setClivael(true);
 				}
 				fora = true;
 			}
@@ -248,9 +247,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			else if (i2 == I2_B_CARREGAR) {
 				String path = view.selecionaFile();
 				int load = control.loadGame(path);
-				if (load == 0){
+				if (load == 0) {
 					exibeMenuInicial = false;
-					view.click(null); //gasta um click automatico
+					view.click(null); // gasta um click automatico
 					if (janelaExibida) {
 						limpaJanela();
 						bSalvar.setClivael(true);
@@ -261,12 +260,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			}
 
 			// Ação do botao "bCarregarAuto"
-			else if (i2 == I2_B_CARREGAR_AUTO) { //carrega o ultimo jogo que foi fechado e que foi salvo automaticamente
-				// int load = control.loadGame(pathAuto);
+			else if (i2 == I2_B_CARREGAR_AUTO) {
+				// carrega o ultimo jogo que foi fechado e que foi salvo automaticamente
 				int load = control.loadGameAuto();
-				if (load == 0){
+				if (load == 0) {
 					exibeMenuInicial = false;
-					view.click(null); //gasta um click automatico
+					view.click(null); // gasta um click automatico
 					if (janelaExibida) {
 						limpaJanela();
 						bSalvar.setClivael(true);
@@ -280,14 +279,14 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			else if (i2 == I2_B_CONFIRMA) { // confirma novos jogadores
 				String[] nomes = new String[6];
 				int count = 0;
-				for(int i = 0; i < tfNomes.length; i++){
+				for (int i = 0; i < tfNomes.length; i++) {
 					JTextField tf = tfNomes[i];
 					String nome = tf.getText();
-					if (nome.length() != 0){
+					if (nome.length() != 0) {
 						count++;
 						nomes[i] = nome;
 					}
-					if (count >= 3){
+					if (count >= 3) {
 						control.novoJogo(nomes);
 						bConfirma.setClivael(false);
 						exibeNovoJogo = false;
@@ -296,12 +295,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 						inicio = false;
 						view.click(null);
 					}
-					System.out.printf("%d %s\n",nome.length(), nome);
+					if (DEBUG)
+						System.out.printf("%d %s\n", nome.length(), nome);
 				}
-				// bConfirma.setClivael(false);
 				fora = true;
 			}
-
 
 		}
 
@@ -314,19 +312,19 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		else if (i1 == 2) {
 			fora = true;
 		}
-//		System.out.printf("Fora = %s\n", fora ? "true" : "false");
-		
+		if (DEBUG)
+			System.out.printf("Fora = %s\n", fora ? "true" : "false");
+
 		repaint();
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Point mousePosition = getMousePosition();
 		try {
 			xM = (int) mousePosition.getX();
 			yM = (int) mousePosition.getY();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			xM = -1;
 			yM = -1;
 		}
@@ -337,7 +335,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		for (Territorio t : territorios) {
 			t.draw(g);
 		}
-		
+
 		iP.draw(g);
 		bSalvar.setPos(g, 110, 450);
 		if (bSalvar.atualiza(g, xM, yM)) {
@@ -353,29 +351,27 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeObjetivo(g);
 		exibeTelaMenuInicial(g);
 		exibeTelaNovoJogo(g);
-		
+
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		if (fora) {
 			// "debounce" do clique
 			long tempoAtual = System.currentTimeMillis();
-			// System.out.printf("DELTA = %d\n", tempoAtual - ultimoClique);
 			if (tempoAtual - ultimoClique < 100)
 				return;
 			ultimoClique = tempoAtual;
 
-			if(inicio){
+			if (inicio) {
 				return;
 			}
-			
-			
+
 			// Clique fora ocorrido
 			view.click(null);
 			if (janelaExibida) {
 				limpaJanela();
 				bSalvar.setClivael(true);
-				
+
 			}
 
 			// Verifica se mouse "está em cima" de algo
@@ -396,7 +392,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			repaint();
 		}
 
-//		System.out.printf("Fora = %s\n", fora ? "true" : "false");
+		if (DEBUG)
+			System.out.printf("Fora = %s\n", fora ? "true" : "false");
 
 	}
 
@@ -420,11 +417,14 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		janelaExibida = true;
 		bSalvar.setClivael(false);
 		Graphics2D g2d = (Graphics2D) g;
+		FontRenderContext frc = g2d.getFontRenderContext();
 
 		int larg = getWidth() * 80 / 100;
 		int alt = getHeight() * 70 / 100;
 		int x = getWidth() * 10 / 100;
 		int y = getHeight() * 15 / 100;
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight();
+
 		Rectangle2D rt = new Rectangle2D.Double(x, y, larg, alt);
 		g2d.setColor(Color.CYAN);
 		g2d.setStroke(new BasicStroke(30));
@@ -433,9 +433,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		Image fundo = images.getImage("war_tabuleiro_fundo.png");
 		g.drawImage(fundo, x, y, larg, alt, null);
 
+		g2d.setFont(fonte);
 		g2d.setColor(Color.WHITE);
-		g2d.setFont(new Font("Arial", Font.PLAIN, 24));
-		g2d.drawString("Clique em quase qualquer lugar para fechar.", x + 250, y + 25);
+		drawStr(g, "Clique em quase qualquer lugar para fechar.", getWidth() / 2, y + fAlt * 2);
 
 	}
 
@@ -477,7 +477,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		for (JComboBox<Integer> cb : cbDados) {
 			cb.setVisible(false);
 		}
-		for (JTextField tf: tfNomes){
+		for (JTextField tf : tfNomes) {
 			tf.setVisible(false);
 		}
 	}
@@ -500,7 +500,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	public void resultadoAtaque() {
 
-		System.out.println("Exibe resultado ataque");
+		if (DEBUG)
+			System.out.println("Exibe resultado ataque");
 		limpaJanela();
 		exibeResultadoAtaque = true;
 
@@ -562,11 +563,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 	}
 
-	private void drawStr(Graphics g, String text, int x, int y) {
+	private void drawStr(Graphics g, String text, int xc, int yc) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(fonte);
+		FontRenderContext frc = g2d.getFontRenderContext();
 
-		FontMetrics metrics = g.getFontMetrics(g.getFont());
-		x = x - metrics.stringWidth(text) / 2;
-		y = y - metrics.getHeight() / 2 + metrics.getAscent();
+		int x = xc - (int) fonte.getStringBounds(text, frc).getWidth() / 2;
+		int y = yc - (int) fonte.getStringBounds(text, frc).getHeight() / 2;
 
 		g.drawString(text, x, y);
 	}
@@ -577,8 +580,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			return;
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.setFont(new Font("Arial", Font.PLAIN, 24));
 
 		Image imagemDado;
 		String imagemDadoStr;
@@ -591,27 +592,25 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int pos_y_ini = y + alt / 3;
 		int marginLeft = larg / 4;
 		int marginTop = alt / 4;
-		int space = 40;
+		int lado = 50;
 
 		for (int i = 0; i < dados[0].length; i++) { // dados de ataque
 			imagemDadoStr = "dado_ataque_" + dados[0][i] + ".png";
 			imagemDado = images.getImage(imagemDadoStr);
-			g2d.drawImage(imagemDado, pos_x_ini + marginLeft * i, pos_y_ini, null);
-			cbDados[i].setBounds(pos_x_ini + marginLeft * i + space, pos_y_ini, cbDados[i].getPreferredSize().width,
-					cbDados[i].getPreferredSize().height);
-			// g2d.drawImage(imagemDado, pos_x_ini + marginLeft, pos_y_ini + marginLeft,
-			// imagemDado.getWidth(), imagemDado.getHeight(null), null);
+			g2d.drawImage(imagemDado, pos_x_ini + marginLeft * i - lado / 2, pos_y_ini - lado / 2, lado, lado, null);
+			cbDados[i].setBounds(pos_x_ini + marginLeft * i + lado / 2, pos_y_ini - lado / 4,
+					cbDados[i].getPreferredSize().width, lado / 2);
 		}
 
 		for (int i = 0; i < dados[1].length; i++) { // dados de defesa
 			imagemDadoStr = "dado_defesa_" + dados[1][i] + ".png";
 			imagemDado = images.getImage(imagemDadoStr);
-			// g2d.drawImage(imagemDado, pos_x_ini + marginLeft, pos_y_ini, getWidth(),
-			// getHeight(), null);
-			g2d.drawImage(imagemDado, pos_x_ini + marginLeft * i, pos_y_ini + marginTop, null);
-			cbDados[i + 3].setBounds(pos_x_ini + marginLeft * i + space, pos_y_ini + marginTop,
-					cbDados[i + 3].getPreferredSize().width, cbDados[i + 3].getPreferredSize().height);
+			g2d.drawImage(imagemDado, pos_x_ini + marginLeft * i - lado / 2, pos_y_ini + marginTop - lado / 2, lado,
+					lado, null);
+			cbDados[i + 3].setBounds(pos_x_ini + marginLeft * i + lado / 2, pos_y_ini + marginTop - lado / 4,
+					cbDados[i + 3].getPreferredSize().width, lado / 2);
 		}
+
 	}
 
 	public void exibeTelaAtaque(Graphics g) {
@@ -621,29 +620,23 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		if (dados == null)
 			return;
 
-		Font fonte = new Font("Arial", Font.PLAIN, 24);
-
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.setFont(fonte);
 		FontRenderContext frc = g2d.getFontRenderContext();
-		LineMetrics lm = fonte.getLineMetrics("", frc);
 
 		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
 		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
-		int fAlt = (int) lm.getHeight(); // altura da fonte
-
 		int x_centro = getWidth() / 2;
-
-		FontMetrics m = g.getFontMetrics();
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
 
 		exibeJanela(g);
-		exibeDados(g);
 
+		exibeDados(g);
 		for (int i = 0; i < 6; i++) {
-			if(manual && (i % 3) < dados[i / 3].length){
+			if (manual && (i % 3) < dados[i / 3].length) {
 				cbDados[i].setVisible(true);
 				cbDados[i].repaint();
+			} else {
+				cbDados[i].setVisible(false);
 			}
 		}
 
@@ -655,10 +648,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto.setPos(g, 2 * getWidth() / 3, y_superior + fAlt * 3);
 		bAtaque.setPos(g, getWidth() / 2, y_inferior - fAlt);
 
-//		Point mousePosition = getMousePosition();
-//		int x = (int) mousePosition.getX();
-//		int y = (int) mousePosition.getY();
-
 		if (bManual.atualiza(g, xM, yM) || bAuto.atualiza(g, xM, yM) || bAtaque.atualiza(g, xM, yM)) {
 			fora = false;
 		}
@@ -667,10 +656,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto.draw(g);
 		bAtaque.draw(g);
 
+		g2d.setColor(Color.WHITE);
+
 		drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante, model.getQtdExercitos(atacante), defensor,
-				model.getQtdExercitos(defensor)), x_centro, y_inferior - m.getHeight() * 3);
+				model.getQtdExercitos(defensor)), x_centro, y_inferior - fAlt * 3);
 		drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length), x_centro,
-				y_inferior - m.getHeight() * 2);
+				y_inferior - fAlt * 2);
 
 	}
 
@@ -681,39 +672,19 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		if (dados == null)
 			return;
 
-		Font fonte = new Font("Arial", Font.PLAIN, 24);
-
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.setFont(fonte);
 		FontRenderContext frc = g2d.getFontRenderContext();
-		LineMetrics lm = fonte.getLineMetrics("", frc);
 
 		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
 		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
-		int fAlt = (int) lm.getHeight(); // altura da fonte
-
-		// Graphics2D g2d = (Graphics2D) g;
-		// g2d.setColor(Color.WHITE);
-		// g2d.setFont(new Font("Arial", Font.PLAIN, 24));
-
-		// int y = getHeight() * 15 / 100;
 		int x_centro = getWidth() / 2;
-
-		// int y_inferior = getHeight() - y;
-		FontMetrics m = g.getFontMetrics();
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
 
 		exibeJanela(g);
-		// fora = true;
 
 		exibeDados(g);
 
 		if (model.getQtdExercitos(atacante) > 1) {
-//			Point mousePosition = getMousePosition();
-//
-//			int x = (int) mousePosition.getX();
-//			int y = (int) mousePosition.getY();
-
 			bAtaqueN.setPos(g, getWidth() / 2, y_inferior - fAlt);
 			bAtaqueN.setClivael(true);
 			if (bAtaqueN.atualiza(g, xM, yM)) {
@@ -722,11 +693,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			bAtaqueN.draw(g);
 		}
 
+		g2d.setColor(Color.WHITE);
 		drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante, model.getQtdExercitos(atacante), defensor,
-				model.getQtdExercitos(defensor)), x_centro, y_inferior - m.getHeight() * 3);
+				model.getQtdExercitos(defensor)), x_centro, y_inferior - fAlt * 3);
 		drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length), x_centro,
-				y_inferior - m.getHeight() * 2);
-
+				y_inferior - fAlt * 2);
 	}
 
 	public void exibeTelaConquista(Graphics g) {
@@ -737,21 +708,19 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			return;
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.setFont(new Font("Arial", Font.PLAIN, 24));
+		FontRenderContext frc = g2d.getFontRenderContext();
 
-		int y = getHeight() * 15 / 100;
+		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
+		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
 		int x_centro = getWidth() / 2;
-
-		int y_inferior = getHeight() - y;
-		FontMetrics m = g.getFontMetrics();
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
 
 		exibeJanela(g);
-
 		exibeDados(g);
 
-		drawStr(g2d, String.format("Você conquistou %s", defensor), x_centro, y_inferior - m.getHeight() * 4);
-		drawStr(g2d, "Escolha quantos exércitos deseja mover", x_centro, y_inferior - m.getHeight() * 3);
+		g2d.setColor(Color.WHITE);
+		drawStr(g2d, String.format("Você conquistou %s", defensor), x_centro, y_inferior - fAlt * 4);
+		drawStr(g2d, "Escolha quantos exércitos deseja mover", x_centro, y_inferior - fAlt * 3);
 
 		temp1.draw(g);
 		temp2.draw(g);
@@ -763,12 +732,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		Graphics2D g2d = (Graphics2D) g;
 		Image imagemCarta;
 		int larg = getWidth() * 80 / 100;
-		int alt = getHeight() * 70 / 100;
-		int x = getWidth() * 10 / 100;
-		int y = getHeight() * 15 / 100;
-
-		int pos_x_ini = x + 30;
-		int pos_y_ini = y + alt / 3;
+		int y_centro = getHeight() / 2;
+		int x_centro = getWidth() / 2;
 		int marginLeft = larg / 5;
 
 		exibeJanela(g);
@@ -777,7 +742,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		// conectar o nome das cartas com as imagens
 		for (int i = 0; i < nomesCartas.length; i++) {
 			imagemCarta = images.getImage(Territorio.getImgTerritorio(nomesCartas[i]));
-			g2d.drawImage(imagemCarta, pos_x_ini + i * marginLeft, pos_y_ini, null);
+			g2d.drawImage(imagemCarta, x_centro + (i - 2) * marginLeft - imagemCarta.getWidth(null) / 2,
+					y_centro - imagemCarta.getHeight(null) / 2, null);
 		}
 	}
 
@@ -803,18 +769,15 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	public void exibeObjetivo(Graphics g) {
 		if (!exibeObjetivo)
 			return;
-		// janelaExibida = true;
 		Graphics2D g2d = (Graphics2D) g;
 		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
 
-		int x = getWidth() * 40 / 100 + 35;
-		int y = getHeight() * 35 / 100;
-		int pos_x_ini = x;
-		int pos_y_ini = y;
+		int x_centro = getWidth() / 2;
+		int y_centro = getHeight() / 2;
 
 		exibeJanela(g);
-		// fora = true;
-		g2d.drawImage(imagemObjetivo, pos_x_ini, pos_y_ini, null);
+		g2d.drawImage(imagemObjetivo, x_centro - imagemObjetivo.getWidth(null) / 2,
+				y_centro - imagemObjetivo.getHeight(null) / 2, null);
 	}
 
 	public void setExibeCartas(boolean b) {
@@ -832,11 +795,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		repaint();
 	}
 
-	// public void setClicavelSalvar(boolean b) {
-	// 	bSalvar.setClivael(b);
-	// 	repaint();
-	// }
-
 	public boolean exibeVencedor(String corVencedor) {
 		JOptionPane.showMessageDialog(null, "O jogador " + corVencedor + " venceu!", "Fim de jogo!",
 				JOptionPane.INFORMATION_MESSAGE);
@@ -851,22 +809,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	public void exibeTelaMenuInicial(Graphics g) {
 		if (!exibeMenuInicial)
 			return;
-		
-		Font fonte = new Font("Arial", Font.PLAIN, 24);
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.setFont(fonte);
 		FontRenderContext frc = g2d.getFontRenderContext();
-		LineMetrics lm = fonte.getLineMetrics("", frc);
 
-		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
-		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
-		int y_centro = getHeight() /2;
+		int y_centro = getHeight() / 2;
 		int x_centro = getWidth() / 2;
-		int fAlt = (int) lm.getHeight(); // altura da fonte
-
-		FontMetrics m = g.getFontMetrics();
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
 
 		exibeJanela(g);
 
@@ -874,13 +823,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
 		bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
 
+		bIniciar.setPos(g, x_centro, y_centro - fAlt * 2);
+		bCarregar.setPos(g, x_centro, y_centro);
+		bCarregarAuto.setPos(g, x_centro, y_centro + fAlt * 2);
+
 		if (bIniciar.atualiza(g, xM, yM) || bCarregar.atualiza(g, xM, yM) || bCarregarAuto.atualiza(g, xM, yM)) {
 			fora = false;
 		}
-
-		bIniciar.setPos(g,  x_centro, y_centro - fAlt * 2);
-		bCarregar.setPos(g,  x_centro, y_centro);
-		bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
 
 		bIniciar.draw(g);
 		bCarregar.draw(g);
@@ -892,54 +841,37 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		/** Funcao que exibe a tela de começo de um novo jogo. */
 		if (!exibeNovoJogo)
 			return;
-		
-		Font fonte = new Font("Arial", Font.PLAIN, 24);
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.setFont(fonte);
 		FontRenderContext frc = g2d.getFontRenderContext();
-		LineMetrics lm = fonte.getLineMetrics("", frc);
 
 		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
 		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
-		int y_centro = getHeight() /2;
+		int y_centro = getHeight() / 2;
 		int x_centro = getWidth() / 2;
-		int fAlt = (int) lm.getHeight(); // altura da fonte
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
 		int larg = getWidth() / 6;
 
 		exibeJanela(g);
 		for (int i = 0; i < tfNomes.length; i++) { // textfields dos jogadores
-			int x = x_centro + larg*((i%3)-1)*3/2 - larg/2;
-			int y = y_centro - fAlt * ((i/3)*6-3);
-			Rectangle2D rt = new Rectangle2D.Double(x-fAlt, y-fAlt, larg+2*fAlt, fAlt*3);
+			int x = x_centro + larg * ((i % 3) - 1) * 3 / 2 - larg / 2;
+			int y = y_centro - fAlt * ((i / 3) * 6 - 3);
+			Rectangle2D rt = new Rectangle2D.Double(x - fAlt, y - fAlt, larg + 2 * fAlt, fAlt * 3);
 			g2d.setColor(cores[i]);
 			g2d.fill(rt);
-
 
 			tfNomes[i].setBounds(x, y, larg, fAlt);
 			tfNomes[i].setVisible(true);
 			tfNomes[i].repaint();
 		}
 
-		
-
-		// bConfirma.setClivael(true); // inicia um jogo totalmente novo
-		// bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
-		// bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
+		bConfirma.setPos(g, x_centro, y_inferior - fAlt * 2);
 
 		if (bConfirma.atualiza(g, xM, yM)) {
 			fora = false;
 		}
 
-		bConfirma.setPos(g,  x_centro, y_inferior - fAlt * 2);
-		// bCarregar.setPos(g,  x_centro, y_centro);
-		// bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
-
 		bConfirma.draw(g);
-		// bCarregar.draw(g);
-		// bCarregarAuto.draw(g);
-
 	}
 
 }

@@ -4,12 +4,12 @@ import java.awt.*;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileSystemView;
 
 import Model.ModelAPI;
 import Controller.ControllerAPI;
 
 public class ViewAPI {
+	private final boolean DEBUG = false;
 	private static ViewAPI instance;
 	private ControllerAPI control;
 	private ModelAPI model;
@@ -191,22 +191,19 @@ public class ViewAPI {
 				Territorio.getTerritorio(nome).setClicavel(true);
 			}
 		}
-		// if(etapa == 0){
-		// 	gP.setClicavelSalvar(false);
-		// }
-		// else if (etapa == 30){
-		// 	gP.setClicavelSalvar(true);
-		// }
 		iP.setInfo(constroiMsg());
 	}
 
 	public void click(String territorio) {
-		System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
-		System.out.printf("Etapa i = %d\n", etapa);
+		if (DEBUG)
+			System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
+		if (DEBUG)
+			System.out.printf("Etapa i = %d\n", etapa);
 
 		Territorio t, t2;
 
-		// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele pertencem
+		// Nesta etapa o jogador posiciona os exércitos nos territórios que a ele
+		// pertencem
 		if (etapa == 0) {
 			if (territorio != null) {
 				qtdExe--;
@@ -424,7 +421,8 @@ public class ViewAPI {
 			}
 		}
 
-		System.out.printf("Etapa f = %d\n", etapa);
+		if (DEBUG)
+			System.out.printf("Etapa f = %d\n", etapa);
 		return;
 
 	}
@@ -432,35 +430,6 @@ public class ViewAPI {
 	public int[][] getListaDados() {
 		return dados;
 	}
-
-	// public void clickBotao(int i) {
-	// 	switch (i) {
-	// 		case 0:
-	// 			// objetivo
-	// 			gP.setExibeObjetivo(true);
-	// 			break;
-	// 		case 1:
-	// 			gP.setExibeCartas(true);
-	// 			// exibir cartas de territorio
-	// 			break;
-	// 		case 2:
-	// 			// tabela de exe
-	// 			gP.setExibeTabelas(true);
-	// 			break;
-	// 		case 3:
-	// 			//prox etapa
-	// 			if (etapa == 0)
-	// 				break;
-	// 			control.proxEtapa();
-	// 			break;
-	// 		case 4:
-	// 			//salvamento do jogo
-	// 			if (etapa == 30) {
-	// 				control.botaoSalvaJogo();
-	// 			}
-	// 			break;
-	// 	}
-	// }
 
 	public boolean exibeVencedor() {
 		int indexCorVencedor = model.getCorAtual();
@@ -475,11 +444,14 @@ public class ViewAPI {
 	}
 
 	public String selecionaFile() {
-		/** Funcao que retorna o path absoluto de salvamento do jogo por escolha do usuário. */
-		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); //cria um novo selecionador de arq
-		int returnValue = jfc.showOpenDialog(null); //abre a janela do selecionador e retorna se ele salvou ou não
+		/**
+		 * Funcao que retorna o path absoluto de salvamento do jogo por escolha do
+		 * usuário.
+		 */
+		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // cria um novo selecionador de arq
+		int returnValue = jfc.showOpenDialog(null); // abre a janela do selecionador e retorna se ele salvou ou não
 		String path;
-	
+
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
 			path = selectedFile.getAbsolutePath();
@@ -487,6 +459,22 @@ public class ViewAPI {
 		}
 		return null;
 	}
+
+	public String salvaFile() {
+		/**
+		 * Funcao que retorna o path absoluto de salvamento do jogo por escolha do
+		 * usuário.
+		 */
+		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // cria um novo selecionador de arq
+		int returnValue = jfc.showSaveDialog(jfc); // abre a janela do selecionador e retorna se ele salvou ou não
+		String path;
+
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			// System.out.println(selectedFile.getAbsolutePath());
+			path = selectedFile.getAbsolutePath();
+			return path;
+		}
+		return null;
+	}
 }
-
-

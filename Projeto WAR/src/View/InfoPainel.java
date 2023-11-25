@@ -69,20 +69,13 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 			return i3;
 		return -2;
 	}
-	
-	
-	// public void setBotoesOcultos(int indexBotao, boolean flag) {
-	// 	botoes[indexBotao].setOculto(flag);
-	// 	notificaObservadores();
-	// }
-	
-	
+
 	public void notify(ObservadoIF o) {
 		i1 = o.get(1);
 		
 		if(i1 == 0) {
 			i3 = o.get(2);
-			System.out.println("Botao clicado: " + Integer.toString(i3));
+			// System.out.println("Botao clicado: " + Integer.toString(i3));
 		}
 
 		notificaObservadores();

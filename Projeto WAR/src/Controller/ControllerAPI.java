@@ -3,11 +3,12 @@ package Controller;
 //import View.SoundEffect;
 import View.ViewAPI;
 import Model.ModelAPI;
-import java.io.IOException;
+// import java.io.IOException;
 import java.util.Hashtable;
 
 public class ControllerAPI {
 	private final String pathAuto = "src/autoSave.txt";
+	private final boolean DEBUG = false;
 	private static ControllerAPI instance;
 	private ModelAPI model;
 	private ViewAPI view;
@@ -68,10 +69,12 @@ public class ControllerAPI {
 
 		// saveState(pathAuto);
 
-		System.out.println(coresStr[corAtual]);
+		if (DEBUG)
+			System.out.println(coresStr[corAtual]);
 
 		String territorios[] = model.getTerritorios(corAtual);
-		System.out.printf("Da etapa %d\n", etapa);
+		if (DEBUG)
+			System.out.printf("Da etapa %d\n", etapa);
 
 		// Posicionamento de exércitos
 		if (etapa == 0) {
@@ -81,7 +84,8 @@ public class ControllerAPI {
 			while (qtdExeAd == 0 && iCont < continentes.length - 1) {
 				iCont++;
 				qtdExeAd = model.getExeAdContinente(continentes[iCont]);
-				System.out.printf("%s %d\n", continentes[iCont], qtdExeAd);
+				if (DEBUG)
+					System.out.printf("%s %d\n", continentes[iCont], qtdExeAd);
 				if (qtdExeAd > 0)
 					territorios = model.getTerritoriosContinente(continentes[iCont]);
 			}
@@ -156,7 +160,8 @@ public class ControllerAPI {
 
 		saveState(pathAuto);
 
-		System.out.printf("Para a etapa %d\n", etapa);
+		if (DEBUG)
+			System.out.printf("Para a etapa %d\n", etapa);
 	}
 
 	public void saveState(String path) {
@@ -309,10 +314,14 @@ public class ControllerAPI {
 		iCont = Integer.parseInt(info[1]);
 		qtdExeAd = Integer.parseInt(info[2]);
 		conquista = (Integer.parseInt(info[3]) == 1);
-		System.out.printf("Etapa: %d\n", etapa);
-		System.out.printf("iCont: %d\n", iCont);
-		System.out.printf("qtdExeAd: %d\n", qtdExeAd);
-		System.out.printf("conquista: %s\n", conquista ? "true" : "false");
+		if (DEBUG)
+			System.out.printf("Etapa: %d\n", etapa);
+		if (DEBUG)
+			System.out.printf("iCont: %d\n", iCont);
+		if (DEBUG)
+			System.out.printf("qtdExeAd: %d\n", qtdExeAd);
+		if (DEBUG)
+			System.out.printf("conquista: %s\n", conquista ? "true" : "false");
 	}
 
 	public void novoJogo(String[] nomes) {
