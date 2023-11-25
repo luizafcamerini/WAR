@@ -742,6 +742,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		// conectar o nome das cartas com as imagens
 		for (int i = 0; i < nomesCartas.length; i++) {
 			imagemCarta = images.getImage(Territorio.getImgTerritorio(nomesCartas[i]));
+			System.out.println("CARTA " + nomesCartas[i]);
+			System.out.println("CARTA " + Territorio.getImgTerritorio(nomesCartas[i]));
 			g2d.drawImage(imagemCarta, x_centro + (i - 2) * marginLeft - imagemCarta.getWidth(null) / 2,
 					y_centro - imagemCarta.getHeight(null) / 2, null);
 		}
@@ -872,6 +874,20 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 
 		bConfirma.draw(g);
+	}
+
+	public void exibeNovoJogoNovamente(String[] nomes){
+		for(int i = 0; i < tfNomes.length; i++){
+			tfNomes[i].setText(nomes[i] != null ? nomes[i] : "");
+		}
+		exibeMenuInicial = false;
+		exibeNovoJogo = true;
+		bConfirma.setClivael(true);
+		if (janelaExibida) {
+			limpaJanela();
+		}
+		fora = true;
+		exibeNovoJogo = true;
 	}
 
 }

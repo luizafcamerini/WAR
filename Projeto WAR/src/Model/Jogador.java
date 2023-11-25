@@ -113,6 +113,7 @@ class Jogador {
 	}
 
 	public void recebeCarta(Carta carta) {
+		System.out.println("Jogador "+this.nome+" recebeu uma carta "+carta.getSimbolo());
 		cartas.add(carta);
 	}
 

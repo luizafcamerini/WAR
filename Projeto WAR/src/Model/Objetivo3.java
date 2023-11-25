@@ -10,7 +10,7 @@ class Objetivo3 extends Objetivo {
 	// }
 
 	protected Objetivo3(){
-		descricao = "Destruir todos os exércitos VERMELHOS";
+		descricao = "Destruir todos os exércitos VERMELHOS. Se você é quem possui os exércitos VERMELHOS ou se esses exércitos já foram destruídos por outro jogador, o seu objetivo passa a ser conquistar 24 territorios a sua escolha.";
 		imgName = "war_carta_objetivo3.png";
 	}
 

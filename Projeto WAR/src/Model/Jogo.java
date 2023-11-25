@@ -28,23 +28,23 @@ class Jogo {
 		contadorTroca = 1;
 	}
 
-	public void iniciaJogo() {
-		/** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
-		Jogador jAtual;
-		while (true) { // rodada
-			jAtual = getProxJogador();
-			if (jAtual.verificaObjetivo())
-				break; // Jogador vence o jogo
+	// public void iniciaJogo() {
+	// 	/** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
+	// 	Jogador jAtual;
+	// 	while (true) { // rodada
+	// 		jAtual = getProxJogador();
+	// 		if (jAtual.verificaObjetivo())
+	// 			break; // Jogador vence o jogo
 
-			Carta[] descartadas = jAtual.trocaCartas();
-			int exeAd = 0;
-			if (descartadas != null) {
-				exeAd = trocaCartas(jAtual, descartadas);
-			}
-			jAtual.posicionaExe(exeAd);
-			break; // break temporario
-		}
-	}
+	// 		Carta[] descartadas = jAtual.trocaCartas();
+	// 		int exeAd = 0;
+	// 		if (descartadas != null) {
+	// 			exeAd = trocaCartas(jAtual, descartadas);
+	// 		}
+	// 		jAtual.posicionaExe(exeAd);
+	// 		break; // break temporario
+	// 	}
+	// }
 
 	public void inicializa() {
 		/** Funcao que inicializa as distribuicoes do jogo. */
@@ -160,6 +160,10 @@ class Jogo {
 
 	public void entregaCarta(Jogador j) {
 		/** Funcao que entrega uma carta do baralho ao jogador atual. */
+		if(j.getCartas().length >= 5){
+			System.out.println("Não foi possível entregar carta ao jogador " + j.getNome() + " pois ele já possui 5 cartas");
+			return;
+		}
 		Carta carta = cartas.retira();
 		j.recebeCarta(carta);
 		System.out.println(carta.getSimbolo());

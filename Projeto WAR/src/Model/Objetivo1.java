@@ -10,7 +10,7 @@ class Objetivo1 extends Objetivo {
 	// }
 
 	protected Objetivo1(){
-		descricao = "Destruir todos os exércitos AZUIS";
+		descricao = "Destruir todos os exércitos AZUIS. Se você é quem possui os exércitos AZUIS ou se esses exércitos já foram destruídos por outro jogador, o seu objetivo passa a ser conquistar 24 territorios a sua escolha.";
 		imgName = "war_carta_objetivo1.png";
 	}
 

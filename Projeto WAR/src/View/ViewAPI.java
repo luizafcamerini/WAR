@@ -118,7 +118,7 @@ public class ViewAPI {
 		String msg;
 		int corAtual = model.getCorAtual();
 		String cor = coresStr[corAtual];
-		String nomeJogador = model.getJogadorAtual();
+		String nomeJogador = model.getNomeJogadorAtual();
 
 		int etapa = (this.etapa / 10) * 10;
 
@@ -477,4 +477,15 @@ public class ViewAPI {
 		}
 		return null;
 	}
+
+	public void exibeNovoJogoNovamente(){
+		String nomes[] = new String[6];
+		for (int i = 0; i<6; i++){
+			if(model.getNomeJogador(i) != null){
+				nomes[i] = model.getNomeJogador(i);
+			}
+		}
+		gP.exibeNovoJogoNovamente(nomes);
+	}
+
 }

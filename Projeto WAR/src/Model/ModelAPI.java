@@ -70,8 +70,15 @@ public class ModelAPI {
 		return -1;
 	}
 
-	public String getJogadorAtual() {
+	public String getNomeJogadorAtual() {
 		return jAtual.getNome();
+	}
+
+	public String getNomeJogador(int cor) {
+		if (jogo.getJogadorCor(cores[cor]) == null){
+			return null;
+		}
+		return jogo.getJogadorCor(cores[cor]).getNome();
 	}
 
 	public int getProxCor() {

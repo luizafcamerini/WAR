@@ -143,6 +143,7 @@ public class ControllerAPI {
 			if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
 				boolean continua = view.exibeVencedor();
 				if (continua) {
+					view.exibeNovoJogoNovamente();
 					// inicializa(); ainda não funciona
 				} else {
 					System.exit(0);

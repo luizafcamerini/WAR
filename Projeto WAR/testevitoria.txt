@@ -1,4 +1,4 @@
-40,-1,0,0
+0,-1,17,0
 1,72
 Espanha,Venezuela,Nova Zelândia,Cazaquistão,Austrália,Alasca,México,Romênia,Sibéria,Reino Unido,Califórnia,França,Suécia,Coréia do Sul,Russia,Somalia,Tailândia,Paquistão,Irã,Coréia do Norte,Texas,Brasil,Letônia,Nigéria,Jordânia,Ucrânia,Iraque,Estônia,Québec,Groelândia,Argentina,Japão,Peru,Indonésia,Nova York,Mongolia,Itália,Egito,Perth,Bangladesh,Índia,Turquia,Síria,Argélia,África do Sul,Angola,Polônia,
 ,
@@ -21,12 +21,12 @@ Nova Zelândia,1
 França,1
 Romênia,1
 Polônia,1
-Arábia Saudita,10
+Arábia Saudita,1
 Espanha,1
 Brasil,10
 Peru,5
 Argentina,2
-Nigéria,8
+Nigéria,1
 Jordânia,3
 Cazaquistão,1
 Irã,2
@@ -44,7 +44,6 @@ Suécia,9
 China,1
 Texas,9
 Austrália,10
-Somalia,1
 ;
 Coitado2,AZUL,VERMELHO
 12
@@ -60,6 +59,7 @@ Jerônimo,VERDE,null
 ,
 África do Sul,1
 Tailândia,1
+Somalia,1
 Itália,1
 México,8
 Bangladesh,1

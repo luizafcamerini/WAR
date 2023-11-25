@@ -321,7 +321,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 					França,560,185,war_carta_eu_franca.png
 					Angola,640,445,war_carta_af_angola.png
 					México,200,300,war_carta_an_mexico.png
-					Venezuela,260,370,war_carta_as_venezuela.png
+					Venezuela,260,370,war_carta_asl_venezuela.png
 					Mongolia,960,195,war_carta_as_mongolia.png
 					Argélia,535,310,war_carta_af_argelia.png
 					Somalia,705,425,war_carta_af_somalia.png
