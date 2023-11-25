@@ -95,7 +95,6 @@ class Territorio implements ObservadoIF {
 		j.addTerritorio(this);
 		qntdExercito = 1;
 
-		ModelAPI.getInstance().conquistou();
 		notificaObservadores();
 	}
 
@@ -231,6 +230,15 @@ class Territorio implements ObservadoIF {
 
 	public static Territorio[] getTerritorios() {
 		return territorios.values().toArray(new Territorio[territorios.size()]);
+	}
+
+	public static Carta getCarta(String nome){
+		for(int i =0;i<cartasTerritorio.size();i++){
+			Carta c = cartasTerritorio.get(i);
+			if (c.getTerritorio().getNome().equals(nome))
+				return c;
+		}
+		return null;
 	}
 
 	static {

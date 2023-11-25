@@ -1,0 +1,72 @@
+40,-1,0,0
+1
+China,Nova Zelândia,Groelândia,Japão,Perth,Califórnia,Itália,Calgary,Iraque,Romênia,Espanha,Texas,Cazaquistão,África do Sul,Arábia Saudita,Somalia,Indonésia,Tailândia,Polônia,Nova York,Ucrânia,Paquistão,Coréia do Sul,Letônia,CORINGA,Peru,Síria,CORINGA,Reino Unido,Alasca,México,Turquia,Estônia,Vancouver,Québec,França,Egito,Venezuela,Jordânia,Nigéria,Suécia,Russia,Índia,Bangladesh,Argentina,Sibéria,Argélia,Mongolia,Austrália,Coréia do Norte,Angola,
+,
+55
+f,AZUL
+7
+,
+França,1
+Arábia Saudita,1
+Estônia,1
+Brasil,7
+Indonésia,1
+Jordânia,1
+Nova Zelândia,1
+Alasca,1
+Argentina,1
+Letônia,1
+Espanha,1
+África do Sul,1
+Calgary,1
+;
+a,PRETO
+11
+,
+Perth,1
+Coréia do Norte,1
+Austrália,1
+Peru,7
+Nova York,1
+Coréia do Sul,1
+Russia,1
+Itália,1
+Vancouver,1
+Ucrânia,1
+Sibéria,1
+Turquia,1
+;
+d,VERDE
+14
+Brasil,
+Índia,1
+Tailândia,1
+Iraque,1
+Japão,1
+Polônia,1
+Suécia,1
+China,1
+México,3
+Reino Unido,1
+Síria,1
+Texas,4
+Somalia,1
+Venezuela,1
+;
+f,VERMELHO
+4
+Irã,
+Egito,1
+Mongolia,1
+Bangladesh,1
+Angola,1
+Califórnia,1
+Cazaquistão,1
+Paquistão,1
+Romênia,1
+Groelândia,1
+Irã,1
+Argélia,4
+Québec,1
+Nigéria,2
+;

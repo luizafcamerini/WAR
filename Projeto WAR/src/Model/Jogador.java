@@ -16,14 +16,15 @@ class Jogador {
 		this.nome = nome;
 	}
 
-	public ArrayList<Carta> getCartas() {
+	public Carta[] getCartas() {
 		/** Funcao que retorna uma copia da lista de cartas de um jogador. */
 		Carta c[] = cartas.toArray(new Carta[cartas.size()]);
 		// for (Carta c1: c) {
-			
+
 		// 	System.out.println(c1.getTerritorio().getNome());
 		// }
-		return new ArrayList<Carta>(cartas);
+		// return new ArrayList<Carta>(cartas);
+		return c;
 	}
 
 	public String getNome() {

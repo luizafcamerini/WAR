@@ -27,7 +27,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_B_CARREGAR = 7; // get(2) do id de botao Carregar
 	private final int I2_B_CARREGAR_AUTO = 8; // get(2) do id de botao Carregar Último Jogo
 	private final int I2_B_CONFIRMA = 9; // get(2) do id de botao Carregar Último Jogo
-	private final String pathAuto = "src/gameState.txt";
+	// private final String pathAuto = "src/autoSave.txt";
 
 	private Territorio[] territorios;
 	private InfoPainel iP;
@@ -45,6 +45,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private boolean manual = false;
 	private boolean exibeMenuInicial = true;
 	private boolean exibeNovoJogo = false;
+	private boolean inicio = true;
 
 	private boolean exibeAtaque = false;
 	private boolean exibeResultadoAtaque = false;
@@ -130,12 +131,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	}
 
-	public GamePanel getInstance() {
-		if (instance == null) {
-			instance = new GamePanel(iP);
-		}
-		return instance;
-	}
+	// public GamePanel getInstance() {
+	// 	if (instance == null) {
+	// 		instance = new GamePanel(iP);
+	// 	}
+	// 	return instance;
+	// }
 
 	public void notify(ObservadoIF o) {
 		int i1 = o.get(1); // i1 = 0: mouse clicou em algo
@@ -226,7 +227,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				System.out.println("*******etapa: " + Integer.toString(control.getEtapa()));
 				if (control.getEtapa() == 40){
 					System.out.println("GAMEPANEL: salva o jogo");
-					control.botaoSalvaJogo();
+					// control.botaoSalvaJogo();
+					control.saveState("src/gameState1.txt");
 				}
 			}
 
@@ -237,6 +239,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				bConfirma.setClivael(true);
 				if (janelaExibida) {
 					limpaJanela();
+					// bSalvar.setClivael(true);
 				}
 				fora = true;
 			}
@@ -250,6 +253,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 					view.click(null); //gasta um click automatico
 					if (janelaExibida) {
 						limpaJanela();
+						bSalvar.setClivael(true);
+						inicio = false;
 					}
 				}
 				fora = true;
@@ -257,12 +262,15 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 			// Ação do botao "bCarregarAuto"
 			else if (i2 == I2_B_CARREGAR_AUTO) { //carrega o ultimo jogo que foi fechado e que foi salvo automaticamente
-				int load = control.loadGame(pathAuto);
+				// int load = control.loadGame(pathAuto);
+				int load = control.loadGameAuto();
 				if (load == 0){
 					exibeMenuInicial = false;
 					view.click(null); //gasta um click automatico
 					if (janelaExibida) {
 						limpaJanela();
+						bSalvar.setClivael(true);
+						inicio = false;
 					}
 				}
 				fora = true;
@@ -284,6 +292,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 						bConfirma.setClivael(false);
 						exibeNovoJogo = false;
 						limpaJanela();
+						bSalvar.setClivael(true);
+						inicio = false;
 						view.click(null);
 					}
 					System.out.printf("%d %s\n",nome.length(), nome);
@@ -330,9 +340,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		
 		iP.draw(g);
 		bSalvar.setPos(g, 110, 450);
-		// if (bSalvar.atualiza(g, x, y)) {
-		// 	fora = false;
-		// }
+		if (bSalvar.atualiza(g, xM, yM)) {
+			fora = false;
+		}
 		bSalvar.draw(g);
 
 		exibeTelaAtaque(g);
@@ -355,10 +365,17 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				return;
 			ultimoClique = tempoAtual;
 
+			if(inicio){
+				return;
+			}
+			
+			
 			// Clique fora ocorrido
 			view.click(null);
 			if (janelaExibida) {
 				limpaJanela();
+				bSalvar.setClivael(true);
+				
 			}
 
 			// Verifica se mouse "está em cima" de algo
@@ -401,6 +418,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	private void exibeJanela(Graphics g) {
 		janelaExibida = true;
+		bSalvar.setClivael(false);
 		Graphics2D g2d = (Graphics2D) g;
 
 		int larg = getWidth() * 80 / 100;
@@ -814,10 +832,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		repaint();
 	}
 
-	public void setClicavelSalvar(boolean b) {
-		bSalvar.setClivael(b);
-		repaint();
-	}
+	// public void setClicavelSalvar(boolean b) {
+	// 	bSalvar.setClivael(b);
+	// 	repaint();
+	// }
 
 	public boolean exibeVencedor(String corVencedor) {
 		JOptionPane.showMessageDialog(null, "O jogador " + corVencedor + " venceu!", "Fim de jogo!",

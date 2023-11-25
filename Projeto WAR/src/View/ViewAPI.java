@@ -191,12 +191,12 @@ public class ViewAPI {
 				Territorio.getTerritorio(nome).setClicavel(true);
 			}
 		}
-		if(etapa == 0){
-			gP.setClicavelSalvar(false);
-		}
-		else if (etapa == 30){
-			gP.setClicavelSalvar(true);
-		}
+		// if(etapa == 0){
+		// 	gP.setClicavelSalvar(false);
+		// }
+		// else if (etapa == 30){
+		// 	gP.setClicavelSalvar(true);
+		// }
 		iP.setInfo(constroiMsg());
 	}
 

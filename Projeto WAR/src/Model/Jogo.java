@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 class Jogo {
@@ -49,7 +50,8 @@ class Jogo {
 
 	public void inicializa() {
 		/** Funcao que inicializa as distribuicoes do jogo. */
-		iterador = escolheJogador();
+		Collections.shuffle(jogadores);
+//		iterador = escolheJogador();
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome()
 				+ " começa distribuindo as cartas.");
 
@@ -241,6 +243,111 @@ class Jogo {
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.embaralha();
+	}
+
+
+	public String getEstadoStr(){
+		String estado = "";
+
+		Jogador jogador; // começa salvando pelo jogador da vez
+		String nomeJogador;
+		Territorio[] territorios;
+		String nomeTerritorio;
+		String objetivoJogador;
+		int qtdExercitos;
+		String corJogador;
+		Carta[] cartasJogador;
+
+		Carta carta;
+
+		estado += Integer.toString(contadorTroca) +'\n';
+
+		if((!cartas.vazio())){
+			Baralho<Carta> temp = new Baralho<Carta>();
+			while (!cartas.vazio()) {
+				carta = cartas.retira();
+				if (carta.getSimbolo() == Simbolos.CORINGA)
+					estado += "CORINGA,";
+				else
+					estado += carta.getTerritorio().getNome() + ',';
+				temp.adiciona(carta);
+			}
+			cartas = temp;
+		}
+		else{
+			estado += ',';
+		}
+
+		estado += '\n';
+
+		if((!cartasUsadas.vazio())){
+			Baralho<Carta> temp = new Baralho<Carta>();
+			while (!cartasUsadas.vazio()) {
+				carta = cartasUsadas.retira();
+				if (carta.getSimbolo() == Simbolos.CORINGA)
+					estado += "CORINGA,";
+				else
+					estado += carta.getTerritorio().getNome() + ',';
+				temp.adiciona(carta);
+			}
+			cartasUsadas = temp;
+		}
+		else{
+			estado += ',';
+		}
+
+		estado += '\n';
+
+		estado += Integer.toString(iterador) + '\n';
+
+		for(int i=0;i<jogadores.size();i++){
+			jogador = jogadores.get(i);
+			corJogador = jogador.getCor().toString();
+			objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+", "");
+			cartasJogador = jogador.getCartas();
+			nomeJogador = jogador.getNome();
+			estado += nomeJogador + ',' + corJogador+'\n';
+			estado += objetivoJogador + '\n';
+
+			if (cartasJogador.length != 0) {
+				for (Carta c : cartasJogador) { // Escreve as cartas do jogador
+					if (c.getSimbolo() == Simbolos.CORINGA)
+						estado += "CORINGA,";
+					else
+						estado += c.getTerritorio().getNome() + ',';
+				}
+			} else {
+				estado += ',';
+			}
+			estado += '\n';
+
+			territorios = jogador.getTerritorios();
+			for (Territorio t : territorios) {
+				nomeTerritorio = t.getNome();
+				qtdExercitos = t.getQntdExercitos();
+				estado += nomeTerritorio + "," + qtdExercitos + '\n';
+			}
+			estado += ";\n"; // separa os dados de cada jogador com um ponto e virgula
+		}
+		return estado;
+	}
+
+	public void setCartas(Baralho<Carta> baralho){
+		cartas = baralho;
+	}
+
+	
+	public void setCartasUsadas(Baralho<Carta> baralho){
+		cartasUsadas = baralho;
+	}
+
+	public void setContadorTroca(int n){
+		contadorTroca = n;
+	}
+
+	
+	public void setIterador(int n){
+		iterador = n;
 	}
 
 }
