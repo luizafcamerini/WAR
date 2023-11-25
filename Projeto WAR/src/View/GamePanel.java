@@ -85,8 +85,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		tfNomes = new JTextField[6];
 
 		for (int i = 0; i < 6; i++) {
-			tfNomes[i] = new JTextField(coresStr[i]);
+			tfNomes[i] = new JTextField();
 			tfNomes[i].setVisible(false);
+			add(tfNomes[i]);
 
 			final int index = i;
 			cbDados[i] = new JComboBox<Integer>(valores_comboBox);
@@ -227,6 +228,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 			// Ação do botão "bIniciar"
 			else if (i2 == I2_B_INICIAR) {
+				exibeMenuInicial = false;
+				exibeNovoJogo = true;
+				if (janelaExibida) {
+					limpaJanela();
+				}
+				fora = true;
 			}
 
 			// Ação do botao "bCarregar"
@@ -272,7 +279,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		
 		repaint();
 	}
-
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Point mousePosition = getMousePosition();
@@ -291,7 +298,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		for (Territorio t : territorios) {
 			t.draw(g);
 		}
-
+		
 		iP.draw(g);
 		bSalvar.setPos(g, 110, 450);
 		// if (bSalvar.atualiza(g, x, y)) {
@@ -306,7 +313,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeTabelas(g);
 		exibeObjetivo(g);
 		exibeTelaMenuInicial(g);
-
+		exibeTelaNovoJogo(g);
+		
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -850,30 +858,38 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int fAlt = (int) lm.getHeight(); // altura da fonte
 		int larg = getWidth() / 6;
 
-		for (int i = 0; i < tfNomes.length; i++) { // textfields dos jogadores
-			tfNomes[i].setBounds(x_centro + larg *2* ((i%3)-3), y_centro - fAlt * ((i/3)*8-4), larg,fAlt);
-			tfNomes[i].setVisible(true);
-
-
-		}
-
 		exibeJanela(g);
+		for (int i = 0; i < tfNomes.length; i++) { // textfields dos jogadores
+			int x = x_centro + larg*((i%3)-1)*3/2 - larg/2;
+			int y = y_centro - fAlt * ((i/3)*6-3);
+			Rectangle2D rt = new Rectangle2D.Double(x-fAlt, y-fAlt, larg+2*fAlt, fAlt*3);
+			g2d.setColor(cores[i]);
+			g2d.fill(rt);
 
-		bIniciar.setClivael(true); // inicia um jogo totalmente novo
-		bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
-		bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
 
-		if (bIniciar.atualiza(g, xM, yM) || bCarregar.atualiza(g, xM, yM) || bCarregarAuto.atualiza(g, xM, yM)) {
-			fora = false;
+			tfNomes[i].setBounds(x, y, larg, fAlt);
+			tfNomes[i].setVisible(true);
+			tfNomes[i].repaint();
+
+
 		}
 
-		bIniciar.setPos(g,  x_centro, y_centro - fAlt * 2);
-		bCarregar.setPos(g,  x_centro, y_centro);
-		bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
 
-		bIniciar.draw(g);
-		bCarregar.draw(g);
-		bCarregarAuto.draw(g);
+		// bIniciar.setClivael(true); // inicia um jogo totalmente novo
+		// bCarregar.setClivael(true); // carrega o jogo de um txt escolhido
+		// bCarregarAuto.setClivael(true); // carrega o ultimo jogo carregado
+
+		// if (bIniciar.atualiza(g, xM, yM) || bCarregar.atualiza(g, xM, yM) || bCarregarAuto.atualiza(g, xM, yM)) {
+		// 	fora = false;
+		// }
+
+		// bIniciar.setPos(g,  x_centro, y_centro - fAlt * 2);
+		// bCarregar.setPos(g,  x_centro, y_centro);
+		// bCarregarAuto.setPos(g,  x_centro,  y_centro + fAlt * 2);
+
+		// bIniciar.draw(g);
+		// bCarregar.draw(g);
+		// bCarregarAuto.draw(g);
 
 	}
 
