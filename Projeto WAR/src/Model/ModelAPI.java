@@ -201,6 +201,10 @@ public class ModelAPI {
 		return jAtual.getImgNameObjetivo();
 	}
 
+	public String getDescricaoObjetivo() {
+		return jAtual.getDescricaoObjetivo();
+	}
+
 	private int getIndiceCor(String cor) {
 		/** funcao auxiliar para loadGame() */
 		for (int i = 0; i < cores.length; i++) {

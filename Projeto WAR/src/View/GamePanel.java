@@ -769,10 +769,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void exibeObjetivo(Graphics g) {
-		if (!exibeObjetivo)
+		if (!exibeObjetivo || model.getCorAtual() == -1)
 			return;
 		Graphics2D g2d = (Graphics2D) g;
 		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
+		int objetivoNum = Integer.parseInt(model.getImgNameObjetivo().replaceAll("\\D+", ""));
+		String[] descObjetivoCompleta = model.getDescricaoObjetivo().split("\\.", 2);
+		String[] descObjetivo = descObjetivoCompleta[1].split(",");
 
 		int x_centro = getWidth() / 2;
 		int y_centro = getHeight() / 2;
@@ -780,6 +783,20 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeJanela(g);
 		g2d.drawImage(imagemObjetivo, x_centro - imagemObjetivo.getWidth(null) / 2,
 				y_centro - imagemObjetivo.getHeight(null) / 2, null);
+
+		if(objetivoNum >= 1 && objetivoNum <= 7){ // Se o objetivo for de eliminar um jogador, exibe o restante de sua descrição
+			// System.out.println("***Objetivo: " + objetivoNum);
+			int pos_x =  x_centro - imagemObjetivo.getWidth(null) * 3;
+			int pos_y = y_centro + imagemObjetivo.getHeight(null) / 2 + 40;
+			/* Reduz o tamanho da fonte atual para desenhar a string depois volta para a fonte q tava antes */
+			Font fonte_atual = g2d.getFont();
+			Font font_nova = fonte_atual.deriveFont(15f);
+			g2d.setFont(font_nova);
+			g2d.drawString(descObjetivo[0], pos_x, pos_y);
+			pos_y += 20;
+			g2d.drawString(descObjetivo[1], pos_x, pos_y);
+			g2d.setFont(fonte_atual);
+		}
 	}
 
 	public void setExibeCartas(boolean b) {
