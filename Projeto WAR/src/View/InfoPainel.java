@@ -44,6 +44,7 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		for (int i = 0; i < botoes.length; i++) {
 			botoes[i].addObservador(this);
 			botoes[i].setI2(i);
+			botoes[i].setClivael(false);
 		}
 
 	}
@@ -92,6 +93,12 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		msg = mensagem;
 		i1 = -1;
 		notificaObservadores();
+	}
+
+	public void setClivael(boolean b){
+		for(Botao botao : botoes){
+			botao.setClivael(b);
+		}
 	}
 
 	private void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {

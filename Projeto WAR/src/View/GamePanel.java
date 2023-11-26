@@ -278,7 +278,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 					view.click(null); // gasta um click automatico
 					if (janelaExibida) {
 						limpaJanela();
-						bSalvar.setClivael(true);
 						inicio = false;
 					}
 				}
@@ -294,7 +293,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 					view.click(null); // gasta um click automatico
 					if (janelaExibida) {
 						limpaJanela();
-						bSalvar.setClivael(true);
 						inicio = false;
 					}
 				}
@@ -317,7 +315,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 						bConfirmaNovoJogo.setClivael(false);
 						exibeNovoJogo = false;
 						limpaJanela();
-						bSalvar.setClivael(true);
 						inicio = false;
 						view.click(null);
 					}
@@ -368,7 +365,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 				for (int i = 0; i < bCartas.length; i++) {
 					cartasSelecionadas[i] = false;
-					bCartas[i].setClivael(DEBUG);
+					bCartas[i].setClivael(false);
 				}
 				limpaJanela();
 				obrigaExibeCartas = false;
@@ -443,8 +440,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			view.click(null);
 			if (janelaExibida) {
 				limpaJanela();
-				bSalvar.setClivael(true);
-
 			}
 
 			repaint();
@@ -488,12 +483,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void resultadoAtaque() {
-
 		if (DEBUG)
 			System.out.println("Exibe resultado ataque");
 		limpaJanela();
 		exibeResultadoAtaque = true;
-
 	}
 
 	public void conquista() {
@@ -506,7 +499,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int x_centro = getWidth() / 2;
 		int space = 50;
 
-		exibeConquista = true;
 		int n, cor;
 
 		// Mostra territorio "temporário" do atacante
@@ -584,6 +576,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private void exibeJanela(Graphics g) {
 		janelaExibida = true;
 		bSalvar.setClivael(false);
+		iP.setClivael(false);
+		
+		// bSalvar.setClivael(false);
 		Graphics2D g2d = (Graphics2D) g;
 		FontRenderContext frc = g2d.getFontRenderContext();
 
@@ -622,6 +617,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bIniciar.setClivael(false);
 		bCarregar.setClivael(false);
 		bCarregarAuto.setClivael(false);
+		bSalvar.setClivael(true);
+		iP.setClivael(true);
 
 		if (exibeConquista) {
 			model.desregistra(temp1.getNome(), temp1);
