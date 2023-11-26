@@ -2,12 +2,16 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
-	private int iterador; // Usado para iterar na lista jogadores (iterador%jogadores.size())
-	private Baralho<Carta> cartas; // cartas totais do jogo
-	private Baralho<Carta> cartasUsadas; // cartas usadas na partida
+	// Iterador usado na lista de jogadores (iterador%jogadores.size()):
+	private int iterador;
+	// Carats totais do jogo (monte):
+	private Baralho<Carta> cartas;
+	// Cartas usadas na partida (retiradas do monte):
+	private Baralho<Carta> cartasUsadas;
 	private Baralho<Objetivo> objetivos;
 	private int contadorTroca = 1;
 
@@ -18,56 +22,45 @@ class Jogo {
 		objetivos = Objetivo.montaBaralho();
 	}
 
-	public void limpa() {
-		/** Funcao que limpa os dados do jogo. */
-		jogadores = new ArrayList<Jogador>();
-		cartas = null;
-		cartas = null;
-		cartasUsadas = null;
-		objetivos = null;
-		contadorTroca = 1;
-	}
-
 	// public void iniciaJogo() {
-	// 	/** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
-	// 	Jogador jAtual;
-	// 	while (true) { // rodada
-	// 		jAtual = getProxJogador();
-	// 		if (jAtual.verificaObjetivo())
-	// 			break; // Jogador vence o jogo
+	// /** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
+	// Jogador jAtual;
+	// while (true) { // rodada
+	// jAtual = getProxJogador();
+	// if (jAtual.verificaObjetivo())
+	// break; // Jogador vence o jogo
 
-	// 		Carta[] descartadas = jAtual.trocaCartas();
-	// 		int exeAd = 0;
-	// 		if (descartadas != null) {
-	// 			exeAd = trocaCartas(jAtual, descartadas);
-	// 		}
-	// 		jAtual.posicionaExe(exeAd);
-	// 		break; // break temporario
-	// 	}
+	// Carta[] descartadas = jAtual.trocaCartas();
+	// int exeAd = 0;
+	// if (descartadas != null) {
+	// exeAd = trocaCartas(jAtual, descartadas);
+	// }
+	// jAtual.posicionaExe(exeAd);
+	// break; // break temporario
+	// }
 	// }
 
 	public void inicializa() {
 		/** Funcao que inicializa as distribuicoes do jogo. */
-
-		// Sorteia a ordem dos jogadores
 		Collections.shuffle(jogadores);
-
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome()
 				+ " começa distribuindo as cartas.");
 
-		distribuiTerritorios();
+		distribuiTerritorios(); // distribui as cartas com os territorios
+
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome() + " começa o jogo.");
 
-		// Volta as cartas usadas para o monte.
+		// Volta as cartasd de territorios usadas para o monte:
 		Baralho<Carta> aux = cartas;
 		cartas = cartasUsadas;
 		cartasUsadas = aux;
 
-		// Adiciona os coringas no monte e embaralha novamente.
+		// Adiciona os coringas no monte e embaralha novamente:
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
 		cartas.embaralha();
 
+		// Distribui as cartas dos objetivos:
 		distribuiObjetivos();
 	}
 
@@ -103,7 +96,7 @@ class Jogo {
 	}
 
 	public Jogador getProxJogador() {
-		/** Funcao que retorna o proximo jogador */
+		/** Funcao que retorna o proximo jogador da partida. */
 		Jogador j = jogadores.get(iterador % jogadores.size());
 		iterador++;
 		if (j.getAssassino() != null) { // Jogador morto, então pula para o próximo
@@ -125,6 +118,7 @@ class Jogo {
 	}
 
 	public Jogador getJogadorCor(Cores cor) {
+		/** Funcao que retorna o jogador de uma dada cor. */
 		Jogador j;
 		for (int i = 0; i < jogadores.size(); i++) {
 			j = jogadores.get(i);
@@ -160,8 +154,9 @@ class Jogo {
 
 	public void entregaCarta(Jogador j) {
 		/** Funcao que entrega uma carta do baralho ao jogador atual. */
-		if(j.getCartas().length >= 5){
-			System.out.println("Não foi possível entregar carta ao jogador " + j.getNome() + " pois ele já possui 5 cartas");
+		if (j.getCartas().length >= 5) {
+			System.out.println(
+					"Não foi possível entregar carta ao jogador " + j.getNome() + " pois ele já possui 5 cartas");
 			return;
 		}
 		Carta carta = cartas.retira();
@@ -180,10 +175,10 @@ class Jogo {
 		}
 	}
 
-	private int trocaCartas(Jogador j, Carta[] descartadas) {
+	public int trocaCartas(Jogador j, Carta[] descartadas) {
 		/**
 		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
-		 * cartas.
+		 * cartas e que acrescenta exercitos pela carta trocada com o territorio conquistado.
 		 */
 		for (Carta c : descartadas) {
 			Territorio t = c.getTerritorio();
@@ -210,8 +205,8 @@ class Jogo {
 	}
 
 	public String getEstadoStr() {
+		/** Funcao que salva o estado do jogo em uma string. */
 		String estado = "";
-
 		Jogador jogador; // começa salvando pelo jogador da vez
 		String nomeJogador;
 		Territorio[] territorios;
@@ -221,7 +216,6 @@ class Jogo {
 		int qtdExercitos;
 		String corJogador;
 		Carta[] cartasJogador;
-
 		Carta carta;
 
 		estado += Integer.toString(contadorTroca) + ',' + Integer.toString(iterador) + '\n';
@@ -266,10 +260,9 @@ class Jogo {
 			objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+", "");
 			cartasJogador = jogador.getCartas();
 			nomeJogador = jogador.getNome();
-			if (jogador.getAssassino()!=null){
+			if (jogador.getAssassino() != null) {
 				assassino = jogador.getAssassino().getCor().toString();
-			}
-			else{
+			} else {
 				assassino = "null";
 			}
 
@@ -300,23 +293,43 @@ class Jogo {
 	}
 
 	public void setCartas(Baralho<Carta> baralho) {
+		/** Funcao que define o baralho de cartas. */
 		cartas = baralho;
 	}
 
 	public void setCartasUsadas(Baralho<Carta> baralho) {
+		/** Funcao que define o baralho de cartas usadas. */
 		cartasUsadas = baralho;
 	}
 
 	public void setContadorTroca(int n) {
+		/** Funcao que define o contaador de troca de cartas. */
 		contadorTroca = n;
 	}
 
 	public void setIterador(int n) {
+		/** Funcao que define o iterador da lista de jogadores. */
 		iterador = n;
 	}
 
-	public void entregaCartaAssassino(Jogador assassino, Jogador morto){
+	public void entregaCartaAssassino(Jogador assassino, Jogador morto) {
+		/** Funcao que entrega as cartas do jogador morto para seu assassino. */
+		Baralho<Carta> tempBaralho = new Baralho<Carta>();
+		int count = assassino.getCartas().length;
 		
+		while (morto.getCartas().length > 0){
+			tempBaralho.adiciona(morto.removeCarta(0));
+		}
+		tempBaralho.embaralha();
+		while(!tempBaralho.vazio()){
+			Carta carta = tempBaralho.retira();
+			if (count < 5){
+				assassino.recebeCarta(carta);
+				count++;
+			}
+			else
+				cartasUsadas.adiciona(carta);
+		}
 	}
 
 }

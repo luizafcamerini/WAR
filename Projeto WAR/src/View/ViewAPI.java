@@ -208,7 +208,7 @@ public class ViewAPI {
 			if (territorio != null) {
 				qtdExe--;
 				iP.setInfo(constroiMsg());
-				control.addExe(territorio, 1);
+				control.addExe(territorio);
 			}
 			if (territorios != null) {
 				for (String nome : territorios) {
@@ -486,6 +486,10 @@ public class ViewAPI {
 			}
 		}
 		gP.exibeNovoJogoNovamente(nomes);
+	}
+
+	public void obrigaTroca(){
+		gP.obrigaTroca();
 	}
 
 }

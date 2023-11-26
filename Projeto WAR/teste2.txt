@@ -1,5 +1,5 @@
 20,-1,0,0
-1,67
+1,65
 Espanha,Nova Zelândia,Cazaquistão,Austrália,Alasca,México,Romênia,Sibéria,Reino Unido,Califórnia,França,Suécia,Coréia do Sul,Russia,Somalia,Tailândia,Paquistão,Irã,Coréia do Norte,Texas,Brasil,Letônia,Nigéria,Jordânia,Ucrânia,Iraque,Estônia,Québec,Groelândia,Argentina,Japão,Peru,Indonésia,Nova York,Mongolia,Itália,Egito,Perth,Bangladesh,Índia,Turquia,Síria,Argélia,África do Sul,Angola,Polônia,Arábia Saudita,
 ,
 Coitado,BRANCO,VERMELHO

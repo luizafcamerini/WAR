@@ -5,25 +5,28 @@ import java.util.Hashtable;
 
 class Continente {
 	private static Hashtable<String, Continente> continentes = new Hashtable<String, Continente>();
-
 	private ArrayList<Territorio> territorios = new ArrayList<>();
 	private String nome;
+	// Numero de exercitos adicionais em relacao ao dominio total do continente:
 	private int numExeAdicionais;
 
 	public Continente(String nome, int nExe) {
-		/** Construtor que cria um continente com seu nome e numero de exercitos adicionais e o coloca na hashtable. */
+		/**
+		 * Construtor que cria um continente com seu nome e numero de exercitos
+		 * adicionais e o coloca na hashtable.
+		 */
 		this.nome = nome;
 		numExeAdicionais = nExe;
 		continentes.put(nome, this);
 	}
-	
+
 	public static Continente getContinente(String nome) {
 		/** Funcao que retorna um continente pelo seu nome. */
 		return continentes.get(nome);
 	}
-	
+
 	public String getNome() {
-		/** Funcao que retorna o nome do continente*/
+		/** Funcao que retorna o nome do continente */
 		return this.nome;
 	}
 
@@ -33,34 +36,36 @@ class Continente {
 	}
 
 	public int getNumExeAdicionais() {
-		/** Funcao que retorna o numero de exercitos adicionais de um continente dominado. */
+		/**
+		 * Funcao que retorna o numero de exercitos adicionais de um continente
+		 * dominado.
+		 */
 		return this.numExeAdicionais;
 	}
 
 	public void addTerritorio(Territorio t) {
 		/** Funcao que adiciona um territorio em um continente. */
-		if(territorios.contains(t))
+		if (territorios.contains(t))
 			return;
 		territorios.add(t);
 	}
 
 	public boolean pertence(Jogador j) {
-		/** Funcao que retorna se um jogador e dono de todos os paises de um continente. */
+		/**
+		 * Funcao que retorna se um jogador e dono de todos os paises de um continente.
+		 */
 		for (Territorio t : territorios) {
-			//  System.out.println(t.getNome()+t.getDono().getNome());
-			//  System.out.println(t.getNome()+j.getNome());
-			//   System.out.println(t.getDono().getNome().equals(j.getNome())?"PERTEnCE":"NAO PERTENCE");
-			  
-			//   System.out.println(t.getDono().equals(j)?"PERTEnCE":"NAO PERTENCE");
 			if (t.getDono() != j)
 				return false;
 		}
 		return true;
 	}
 
-	// imprime o continente
 	public void exibe() {
-		/** Funcao que exibe os dados de um continente: nome, exercitos adicionais e seus paises. */
+		/**
+		 * Funcao que exibe os dados de um continente: nome, exercitos adicionais e seus
+		 * paises.
+		 */
 		System.out.println("\n\nContinente: " + this.nome);
 		System.out.println("Numero de exercitos adicionais:" + Integer.toString(this.numExeAdicionais));
 		System.out.print("Paises: ");
@@ -69,7 +74,8 @@ class Continente {
 		}
 	}
 
-	public static Continente[] getContinentes(){
+	public static Continente[] getContinentes() {
+		/** Funcao que retorna a lista de continentes a partir da hashtable. */
 		return continentes.values().toArray(new Continente[continentes.size()]);
 	}
 

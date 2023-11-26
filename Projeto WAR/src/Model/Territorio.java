@@ -142,6 +142,7 @@ class Territorio implements ObservadoIF {
 	}
 
 	public boolean verificaCondicoesAtaque(Territorio alvo) {
+		/** Funcao que verifica as condicoes de ataque dado um territorio alvo. */
 		return (this.verificarVizinhos(alvo)) &&
 				(this.dono != alvo.getDono()) &&
 				(this.qntdExercito > 1);
@@ -176,7 +177,7 @@ class Territorio implements ObservadoIF {
 	}
 
 	public int[][] atacar(Territorio alvo) {
-		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
+		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda. Retorna uma matriz de dados. */
 		int dadosAtaque[];
 		int dadosDefesa[];
 		// int listasDados[][] = {dadosAtaque,dadosDefesa};//new int[2][];
@@ -215,7 +216,7 @@ class Territorio implements ObservadoIF {
 	}
 
 	public static Baralho<Carta> montaBaralho() {
-		/** Funcao que cria um baralho de cartas (cartas de territorios) */
+		/** Funcao que cria um baralho de cartas de territorios */
 		Baralho<Carta> mapa = new Baralho<Carta>();
 		for (Carta carta : cartasTerritorio) {
 			mapa.adiciona(carta);

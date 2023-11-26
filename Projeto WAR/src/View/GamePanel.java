@@ -9,12 +9,12 @@ import java.awt.geom.Rectangle2D;
 import java.awt.font.*;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
-	private final int I2_TEMP1 = 11; // get(2) do id do territorio temporario 1
-	private final int I2_TEMP2 = 12; // get(2) do id do territorio temporario 2
+	private final int I2_TEMP1 = 101; // get(2) do id do territorio temporario 1
+	private final int I2_TEMP2 = 102; // get(2) do id do territorio temporario 2
 	private final int I2_INFOP = -2; // get(2) do id do infopainel
 	private final int I2_B_MANUAL = 1; // get(2) do id de botao Ataque Manual
 	private final int I2_B_AUTO = 2; // get(2) do id de botao Ataque Automatico
@@ -25,7 +25,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_B_INICIAR = 6; // get(2) do id de botao Iniciar
 	private final int I2_B_CARREGAR = 7; // get(2) do id de botao Carregar
 	private final int I2_B_CARREGAR_AUTO = 8; // get(2) do id de botao Carregar Último Jogo
-	private final int I2_B_CONFIRMA = 9; // get(2) do id de botao Carregar Último Jogo
+	private final int I2_B_CONFIRMA_NOVO_JOGO = 9; // get(2) do id de botao Carregar Último Jogo
+	private final int I2_B_CARTAS = 10; // get(2) do id de botao das Cartas para a troca de cartas 
+	private final int I2_B_CONFIRMA_TROCA = 11; // get(2) do id do botao de confirmacao da escolha para a troca de cartas 
 	private final Font fonte = new Font("Arial", Font.PLAIN, 24);
 
 	private Territorio[] territorios;
@@ -44,6 +46,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private boolean exibeMenuInicial = true;
 	private boolean exibeNovoJogo = false;
 	private boolean inicio = true;
+	private boolean obrigaExibeCartas = false;
 
 	private boolean exibeAtaque = false;
 	private boolean exibeResultadoAtaque = false;
@@ -65,7 +68,11 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private Botao bIniciar;
 	private Botao bCarregar;
 	private Botao bCarregarAuto;
-	private Botao bConfirma;
+	private Botao bConfirmaNovoJogo;
+	private Botao bConfirmaTroca;
+
+	private Botao[] bCartas;
+	private boolean[] cartasSelecionadas;
 
 	private void configBotao(Botao b, int i2) {
 		b.setI2(i2);
@@ -106,6 +113,18 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				}
 			});
 		}
+		
+		bCartas = new Botao[5];
+		cartasSelecionadas = new boolean[5];
+		
+		for(int i = 0; i < bCartas.length; i++){
+			bCartas[i] = new Botao("");
+			configBotao(bCartas[i],I2_B_CARTAS);
+			bCartas[i].setI3(i);
+			bCartas[i].setColor(0,new Color(128,128,128,0));
+			bCartas[i].setColor(1,new Color(128,128,128,64));
+			cartasSelecionadas[i] = false;
+		}
 
 		bManual = new Botao("Modo Manual");
 		bAuto = new Botao("Modo automático");
@@ -115,7 +134,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bIniciar = new Botao("INICIAR JOGO");
 		bCarregar = new Botao("CARREGAR JOGO");
 		bCarregarAuto = new Botao("CONTINUAR ÚLTIMO JOGO");
-		bConfirma = new Botao("CONFIRMAR");
+		bConfirmaNovoJogo = new Botao("CONFIRMAR");
+		bConfirmaTroca = new Botao("CONFIRMAR");
 
 		configBotao(bManual, I2_B_MANUAL);
 		configBotao(bAuto, I2_B_AUTO);
@@ -125,7 +145,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		configBotao(bIniciar, I2_B_INICIAR);
 		configBotao(bCarregar, I2_B_CARREGAR);
 		configBotao(bCarregarAuto, I2_B_CARREGAR_AUTO);
-		configBotao(bConfirma, I2_B_CONFIRMA);
+		configBotao(bConfirmaNovoJogo, I2_B_CONFIRMA_NOVO_JOGO);
+		configBotao(bConfirmaTroca, I2_B_CONFIRMA_TROCA);
 
 	}
 
@@ -236,7 +257,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			else if (i2 == I2_B_INICIAR) {
 				exibeMenuInicial = false;
 				exibeNovoJogo = true;
-				bConfirma.setClivael(true);
+				bConfirmaNovoJogo.setClivael(true);
 				if (janelaExibida) {
 					limpaJanela();
 				}
@@ -275,8 +296,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				fora = true;
 			}
 
-			// Ação do botao "bConfirma"
-			else if (i2 == I2_B_CONFIRMA) { // confirma novos jogadores
+			// Ação do botao "bConfirmaNovoJogo"
+			else if (i2 == I2_B_CONFIRMA_NOVO_JOGO) { // confirma novos jogadores
 				String[] nomes = new String[6];
 				int count = 0;
 				for (int i = 0; i < tfNomes.length; i++) {
@@ -288,7 +309,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 					}
 					if (count >= 3) {
 						control.novoJogo(nomes);
-						bConfirma.setClivael(false);
+						bConfirmaNovoJogo.setClivael(false);
 						exibeNovoJogo = false;
 						limpaJanela();
 						bSalvar.setClivael(true);
@@ -301,6 +322,55 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				fora = true;
 			}
 
+			// Ação dos botões "bCartas"
+			else if (i2 == I2_B_CARTAS) {
+				int i3 = o.get(3);
+				if (DEBUG)
+					System.out.printf("i3=%d\n",i3);
+				
+				int count = 0;
+				for(boolean b:cartasSelecionadas){
+					if(b)
+						count++;
+				}
+
+				if(cartasSelecionadas[i3]){
+					// Muda as cores com relacao a entrada e saida do mouse:
+					bCartas[i3].setColor(0, new Color(0,0,0,0));
+					bCartas[i3].setColor(1, new Color(128,128,128,64));
+					// Muda para nao selecionado:
+					cartasSelecionadas[i3] = false;
+					count--;
+				}
+				else if (count < 3){
+					// Muda as cores com relacao a entrada e saida do mouse:
+					bCartas[i3].setColor(0,new Color(255,0,0,64));
+					bCartas[i3].setColor(1,new Color(255,0,0,64));
+					// Muda para selecionado:
+					cartasSelecionadas[i3] = true;
+					count++;
+				}
+
+				if (count == 3 && model.verificaTrocaCartas(cartasSelecionadas)){
+					bConfirmaTroca.setClivael(true);
+				}
+				else{
+					bConfirmaTroca.setClivael(false);
+				}
+			}
+
+			// Ação do botão "bConfirmaTroca"
+			else if (i2 == I2_B_CONFIRMA_TROCA) {
+				control.confirmaTroca(cartasSelecionadas);
+
+				for(int i=0;i<bCartas.length;i++){
+					cartasSelecionadas[i] = false;
+					bCartas[i].setClivael(DEBUG);
+				}
+				limpaJanela();
+				obrigaExibeCartas = false;
+				fora = true;
+			}
 		}
 
 		// Mouse "entrou" em algo
@@ -685,7 +755,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		exibeDados(g);
 
 		if (model.getQtdExercitos(atacante) > 1) {
-			bAtaqueN.setPos(g, getWidth() / 2, y_inferior - fAlt);
+			bAtaqueN.setPos(g, x_centro, y_inferior - fAlt);
 			bAtaqueN.setClivael(true);
 			if (bAtaqueN.atualiza(g, xM, yM)) {
 				fora = false;
@@ -727,14 +797,20 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void exibeCartas(Graphics g) {
-		if (!exibeCartas)
+		if (!(exibeCartas || obrigaExibeCartas))
 			return;
 		Graphics2D g2d = (Graphics2D) g;
-		Image imagemCarta;
+		FontRenderContext frc = g2d.getFontRenderContext();
+		Image imagemCarta=null;
+		
 		int larg = getWidth() * 80 / 100;
 		int y_centro = getHeight() / 2;
 		int x_centro = getWidth() / 2;
 		int marginLeft = larg / 5;
+	
+		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
+		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
 
 		exibeJanela(g);
 
@@ -746,7 +822,27 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			System.out.println("CARTA " + Territorio.getImgTerritorio(nomesCartas[i]));
 			g2d.drawImage(imagemCarta, x_centro + (i - 2) * marginLeft - imagemCarta.getWidth(null) / 2,
 					y_centro - imagemCarta.getHeight(null) / 2, null);
+
+			if(control.podeTrocar()){
+				bCartas[i].setBounds(x_centro + (i - 2) * marginLeft - imagemCarta.getWidth(null) / 2,
+						y_centro - imagemCarta.getHeight(null) / 2, imagemCarta.getWidth(null), imagemCarta.getHeight(null));
+				bCartas[i].setClivael(true);
+				if(bCartas[i].atualiza(g,xM,yM)){
+					fora = false;
+				}
+				bCartas[i].draw(g);
+			}
 		}
+
+		if(control.podeTrocar()){
+			bConfirmaTroca.setPos(g2d, x_centro, y_inferior - fAlt);
+			// bConfirmaTroca.setClivael(false);
+			if(bConfirmaTroca.atualiza(g,xM,yM)){
+				fora = false;
+			}
+			bConfirmaTroca.draw(g2d);
+		}
+
 	}
 
 	public void exibeTabelas(Graphics g) {
@@ -772,10 +868,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		if (!exibeObjetivo || model.getCorAtual() == -1)
 			return;
 		Graphics2D g2d = (Graphics2D) g;
-		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
 		int objetivoNum = Integer.parseInt(model.getImgNameObjetivo().replaceAll("\\D+", ""));
-		String[] descObjetivoCompleta = model.getDescricaoObjetivo().split("\\.", 2);
-		String[] descObjetivo = descObjetivoCompleta[1].split(",");
+		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
 
 		int x_centro = getWidth() / 2;
 		int y_centro = getHeight() / 2;
@@ -785,6 +879,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				y_centro - imagemObjetivo.getHeight(null) / 2, null);
 
 		if(objetivoNum >= 1 && objetivoNum <= 7){ // Se o objetivo for de eliminar um jogador, exibe o restante de sua descrição
+			String[] descObjetivoCompleta = model.getDescricaoObjetivo().split("\\.", 2);
+			String[] descObjetivo = descObjetivoCompleta[1].split(",");
 			// System.out.println("***Objetivo: " + objetivoNum);
 			int pos_x =  x_centro - imagemObjetivo.getWidth(null) * 3;
 			int pos_y = y_centro + imagemObjetivo.getHeight(null) / 2 + 40;
@@ -884,13 +980,13 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			tfNomes[i].repaint();
 		}
 
-		bConfirma.setPos(g, x_centro, y_inferior - fAlt * 2);
+		bConfirmaNovoJogo.setPos(g, x_centro, y_inferior - fAlt * 2);
 
-		if (bConfirma.atualiza(g, xM, yM)) {
+		if (bConfirmaNovoJogo.atualiza(g, xM, yM)) {
 			fora = false;
 		}
 
-		bConfirma.draw(g);
+		bConfirmaNovoJogo.draw(g);
 	}
 
 	public void exibeNovoJogoNovamente(String[] nomes){
@@ -899,12 +995,16 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 		exibeMenuInicial = false;
 		exibeNovoJogo = true;
-		bConfirma.setClivael(true);
+		bConfirmaNovoJogo.setClivael(true);
 		if (janelaExibida) {
 			limpaJanela();
 		}
 		fora = true;
 		exibeNovoJogo = true;
+	}
+
+	public void obrigaTroca(){
+		obrigaExibeCartas = true;
 	}
 
 }

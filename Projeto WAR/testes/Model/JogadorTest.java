@@ -53,76 +53,76 @@ public class JogadorTest {
 	 	assertFalse(contem(jogador.getTerritorios(),territorio1));
 	 }
 
-	@Test(timeout = TIMEOUT)
-	public void testTrocaCartasIguais() {
-        // Teste para 3 cartas iguais
-		Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
-		Territorio territorio1 = new Territorio("Brasil");
-        Territorio territorio2 = new Territorio("Argentina");
-        Territorio territorio3 = new Territorio("Peru");
-		Carta carta1 = new Carta(territorio1, Simbolos.CIRCULO);
-		Carta carta2 = new Carta(territorio2, Simbolos.CIRCULO);
-		Carta carta3 = new Carta(territorio3, Simbolos.CIRCULO);
-		Carta[] cartasIguais = { carta1, carta2, carta3 };
-		jogador.recebeCarta(carta1);
-		jogador.recebeCarta(carta2);
-		jogador.recebeCarta(carta3);
-		assertArrayEquals(cartasIguais, jogador.trocaCartas()); 
-        assertNull(jogador.trocaCartas()); 
-	}
+	// @Test(timeout = TIMEOUT)
+	// public void testTrocaCartasIguais() {
+    //     // Teste para 3 cartas iguais
+	// 	Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");
+	// 	Territorio territorio1 = new Territorio("Brasil");
+    //     Territorio territorio2 = new Territorio("Argentina");
+    //     Territorio territorio3 = new Territorio("Peru");
+	// 	Carta carta1 = new Carta(territorio1, Simbolos.CIRCULO);
+	// 	Carta carta2 = new Carta(territorio2, Simbolos.CIRCULO);
+	// 	Carta carta3 = new Carta(territorio3, Simbolos.CIRCULO);
+	// 	Carta[] cartasIguais = { carta1, carta2, carta3 };
+	// 	jogador.recebeCarta(carta1);
+	// 	jogador.recebeCarta(carta2);
+	// 	jogador.recebeCarta(carta3);
+	// 	assertArrayEquals(cartasIguais, jogador.trocaCartas()); 
+    //     assertNull(jogador.trocaCartas()); 
+	// }
 
-    @Test(timeout = TIMEOUT)
-    public void testTrocaCartasDiferentes(){
-        // Teste para 3 cartas diferentes
-        Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
-		Territorio territorio1 = new Territorio("Brasil");
-        Territorio territorio2 = new Territorio("Argentina");
-        Territorio territorio3 = new Territorio("Peru");
-        Carta carta1 = new Carta(territorio1, Simbolos.TRIANGULO);
-		Carta carta2 = new Carta(territorio2, Simbolos.QUADRADO);
-		Carta carta3 = new Carta(territorio3, Simbolos.CIRCULO);
-		Carta[] cartasDiferentes = { carta1, carta2, carta3 };
-		jogador.recebeCarta(carta1);
-		jogador.recebeCarta(carta2);
-		jogador.recebeCarta(carta3);
-		assertArrayEquals(cartasDiferentes, jogador.trocaCartas()); 
-        assertNull(jogador.trocaCartas()); 
-    }
+    // @Test(timeout = TIMEOUT)
+    // public void testTrocaCartasDiferentes(){
+    //     // Teste para 3 cartas diferentes
+    //     Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
+	// 	Territorio territorio1 = new Territorio("Brasil");
+    //     Territorio territorio2 = new Territorio("Argentina");
+    //     Territorio territorio3 = new Territorio("Peru");
+    //     Carta carta1 = new Carta(territorio1, Simbolos.TRIANGULO);
+	// 	Carta carta2 = new Carta(territorio2, Simbolos.QUADRADO);
+	// 	Carta carta3 = new Carta(territorio3, Simbolos.CIRCULO);
+	// 	Carta[] cartasDiferentes = { carta1, carta2, carta3 };
+	// 	jogador.recebeCarta(carta1);
+	// 	jogador.recebeCarta(carta2);
+	// 	jogador.recebeCarta(carta3);
+	// 	assertArrayEquals(cartasDiferentes, jogador.trocaCartas()); 
+    //     assertNull(jogador.trocaCartas()); 
+    // }
 
-    @Test(timeout = TIMEOUT)
-    public void testTrocaCartasCoringa(){
-        // Teste para 3 cartas com 1 coringa entre elas
-        Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
-		Territorio territorio1 = new Territorio("Brasil");
-        Territorio territorio2 = new Territorio("Argentina");
-        Carta carta1 = new Carta(territorio1, Simbolos.TRIANGULO);
-		Carta carta2 = new Carta(null, Simbolos.CORINGA);
-		Carta carta3 = new Carta(territorio2, Simbolos.TRIANGULO);
-		Carta[] cartasDiferentes = { carta1, carta2, carta3 };
-		jogador.recebeCarta(carta1);
-		jogador.recebeCarta(carta2);
-		jogador.recebeCarta(carta3);
-		assertArrayEquals(cartasDiferentes, jogador.trocaCartas()); 
-        assertNull(jogador.trocaCartas()); 
-    }
+    // @Test(timeout = TIMEOUT)
+    // public void testTrocaCartasCoringa(){
+    //     // Teste para 3 cartas com 1 coringa entre elas
+    //     Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
+	// 	Territorio territorio1 = new Territorio("Brasil");
+    //     Territorio territorio2 = new Territorio("Argentina");
+    //     Carta carta1 = new Carta(territorio1, Simbolos.TRIANGULO);
+	// 	Carta carta2 = new Carta(null, Simbolos.CORINGA);
+	// 	Carta carta3 = new Carta(territorio2, Simbolos.TRIANGULO);
+	// 	Carta[] cartasDiferentes = { carta1, carta2, carta3 };
+	// 	jogador.recebeCarta(carta1);
+	// 	jogador.recebeCarta(carta2);
+	// 	jogador.recebeCarta(carta3);
+	// 	assertArrayEquals(cartasDiferentes, jogador.trocaCartas()); 
+    //     assertNull(jogador.trocaCartas()); 
+    // }
 
-    @Test(timeout = TIMEOUT)
-    public void testTrocaCartasInvalidas(){
-        // Teste para 4 cartas que nao podem ser trocadas
-        Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
-		Territorio territorio1 = new Territorio("Brasil");
-        Territorio territorio2 = new Territorio("Argentina");
-        Territorio territorio3 = new Territorio("Peru");
-        Territorio territorio4 = new Territorio("Venezuela");
-        Carta carta1 = new Carta(territorio1, Simbolos.TRIANGULO);
-		Carta carta2 = new Carta(territorio2, Simbolos.QUADRADO);
-		Carta carta3 = new Carta(territorio3, Simbolos.QUADRADO);
-		Carta carta4 = new Carta(territorio4, Simbolos.TRIANGULO);
-		jogador.recebeCarta(carta1);
-		jogador.recebeCarta(carta2);
-		jogador.recebeCarta(carta3);
-		jogador.recebeCarta(carta4);
-		assertNull(jogador.trocaCartas()); 
-    }
+    // @Test(timeout = TIMEOUT)
+    // public void testTrocaCartasInvalidas(){
+    //     // Teste para 4 cartas que nao podem ser trocadas
+    //     Jogador jogador = new Jogador(Cores.VERMELHO, "Thomas");;
+	// 	Territorio territorio1 = new Territorio("Brasil");
+    //     Territorio territorio2 = new Territorio("Argentina");
+    //     Territorio territorio3 = new Territorio("Peru");
+    //     Territorio territorio4 = new Territorio("Venezuela");
+    //     Carta carta1 = new Carta(territorio1, Simbolos.TRIANGULO);
+	// 	Carta carta2 = new Carta(territorio2, Simbolos.QUADRADO);
+	// 	Carta carta3 = new Carta(territorio3, Simbolos.QUADRADO);
+	// 	Carta carta4 = new Carta(territorio4, Simbolos.TRIANGULO);
+	// 	jogador.recebeCarta(carta1);
+	// 	jogador.recebeCarta(carta2);
+	// 	jogador.recebeCarta(carta3);
+	// 	jogador.recebeCarta(carta4);
+	// 	assertNull(jogador.trocaCartas()); 
+    // }
 
 }

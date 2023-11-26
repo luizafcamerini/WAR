@@ -17,7 +17,7 @@ public class ControllerAPI {
 	private int corAtual;
 	private int qtdExeAd;
 	private String[] continentes;
-	private int iCont = -1;
+	private int iCont = -1; 
 	private boolean conquista = false;
 
 	private static Hashtable<String, Integer> qtdDeslocaveis;
@@ -78,8 +78,6 @@ public class ControllerAPI {
 
 		// Posicionamento de exércitos
 		if (etapa == 0) {
-			// if (qtdExeAd != 0) return;
-			// qtdExeAd = 0;
 			// Verifica há exércitos extras para colocar em cada continente
 			while (qtdExeAd == 0 && iCont < continentes.length - 1) {
 				iCont++;
@@ -92,6 +90,9 @@ public class ControllerAPI {
 			if (qtdExeAd == 0) {
 				qtdExeAd = model.getExeAd();
 				iCont = -1;
+			}
+			if (iCont == -1 && model.getCartasJogador().length == 5){
+				view.obrigaTroca();
 			}
 			view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
 		}
@@ -175,7 +176,7 @@ public class ControllerAPI {
 		return continentes[iCont];
 	}
 
-	public void addExe(String territorio, int i) {
+	public void addExe(String territorio) {
 		model.addExe(territorio, 1);
 		qtdExeAd--;
 		if (qtdExeAd == 0) {
@@ -335,11 +336,25 @@ public class ControllerAPI {
 		proxEtapa();
 	}
 
+
+	public boolean podeTrocar(){
+		return (etapa == 0) && (iCont == -1);
+	}
+
 	public static void main(String[] args) {
 		ControllerAPI control = ControllerAPI.getInstance();
 
 		control.inicializa();
 
+	}
+
+	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas){
+		return model.verificaTrocaCartas(cartasSelecionadas);
+	}
+	
+	public void confirmaTroca(boolean [] cartasSelecionadas){
+		qtdExeAd += model.trocaCartas(cartasSelecionadas);
+		proxEtapa(); // Executa a etapa
 	}
 }
 

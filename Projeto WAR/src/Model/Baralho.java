@@ -3,7 +3,6 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 class Baralho<Tipo> {
 	private ArrayList<Tipo> cartas = new ArrayList<Tipo>();
 
@@ -37,7 +36,9 @@ class Baralho<Tipo> {
 		/** Funcao que embaralha as cartas do baralho. */
 		Collections.shuffle(cartas);
 	}
-	public ArrayList<Tipo> array(){
+
+	public ArrayList<Tipo> array() {
+		/** Funcao que retorna a array de cartas do baralho. */
 		return cartas;
 	}
 
