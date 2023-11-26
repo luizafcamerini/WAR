@@ -18,7 +18,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
 	private final int I2_TEMP1 = 101; // get(2) do id do territorio temporario 1
 	private final int I2_TEMP2 = 102; // get(2) do id do territorio temporario 2
-	private final int I2_INFOP = -2; // get(2) do id do infopainel
+	private final int I2_INFOP = 100; // get(2) do id do infopainel
 	private final int I2_B_MANUAL = 1; // get(2) do id de botao Ataque Manual
 	private final int I2_B_AUTO = 2; // get(2) do id de botao Ataque Automatico
 	private final int I2_B_ATAQUE = 3; // get(2) do id de botao Ataque
@@ -77,8 +77,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private Botao[] bCartas;
 	private boolean[] cartasSelecionadas;
 
-	private SoundEffect somAtaque = new SoundEffect("src/View/sounds/attack.wav");
-
 	private void configBotao(Botao b, int i2) {
 		b.setI2(i2);
 		b.addObservador(this);
@@ -126,7 +124,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			bCartas[i] = new Botao("");
 			configBotao(bCartas[i], I2_B_CARTAS);
 			bCartas[i].setI3(i);
-			bCartas[i].setColor(0, new Color(128, 128, 128, 0));
+			bCartas[i].setColor(0, new Color(0, 0, 0, 0));
 			bCartas[i].setColor(1, new Color(128, 128, 128, 64));
 			cartasSelecionadas[i] = false;
 		}
@@ -152,6 +150,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		configBotao(bCarregarAuto, I2_B_CARREGAR_AUTO);
 		configBotao(bConfirmaNovoJogo, I2_B_CONFIRMA_NOVO_JOGO);
 		configBotao(bConfirmaTroca, I2_B_CONFIRMA_TROCA);
+		iP.setI2(I2_INFOP);
 
 	}
 
@@ -236,7 +235,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				} else {
 					control.ataque(atacante, defensor, view.getListaDados());
 				}
-				somAtaque.play();
 			}
 
 			// Ação do botao "bAtaqueN"
@@ -312,7 +310,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 					}
 					if (count >= 3) {
 						control.novoJogo(nomes);
-						bConfirmaNovoJogo.setClivael(false);
+						// bConfirmaNovoJogo.setClivael(false);
 						exibeNovoJogo = false;
 						limpaJanela();
 						inicio = false;
@@ -363,10 +361,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			else if (i2 == I2_B_CONFIRMA_TROCA) {
 				control.confirmaTroca(cartasSelecionadas);
 
-				for (int i = 0; i < bCartas.length; i++) {
-					cartasSelecionadas[i] = false;
-					bCartas[i].setClivael(false);
-				}
+				// for (int i = 0; i < bCartas.length; i++) {
+				// 	cartasSelecionadas[i] = false;
+				// 	bCartas[i].setClivael(false);
+				// }
 				limpaJanela();
 				obrigaExibeCartas = false;
 				fora = true;
@@ -467,6 +465,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	public void ataque(String atacante, String defensor) {
+		/** Funcao que define que a tela de ataque será exibida. */
 		limpaJanela();
 		fora = true;
 
@@ -577,8 +576,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		janelaExibida = true;
 		bSalvar.setClivael(false);
 		iP.setClivael(false);
-		
-		// bSalvar.setClivael(false);
+
 		Graphics2D g2d = (Graphics2D) g;
 		FontRenderContext frc = g2d.getFontRenderContext();
 
@@ -617,6 +615,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bIniciar.setClivael(false);
 		bCarregar.setClivael(false);
 		bCarregarAuto.setClivael(false);
+		bConfirmaNovoJogo.setClivael(false);
+		bConfirmaTroca.setClivael(false);
+
 		bSalvar.setClivael(true);
 		iP.setClivael(true);
 
@@ -644,6 +645,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 		for (JTextField tf : tfNomes) {
 			tf.setVisible(false);
+		}
+		for (int i = 0; i < 5; i++) {
+			bCartas[i].setColor(0, new Color(0, 0, 0, 0));
+			bCartas[i].setColor(1, new Color(128, 128, 128, 64));
+			cartasSelecionadas[i] = false;
+			bCartas[i].setClivael(false);
 		}
 	}
 
@@ -851,7 +858,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		if (control.podeTrocar()) {
 			bConfirmaTroca.setPos(g2d, x_centro, y_inferior - fAlt);
-			// bConfirmaTroca.setClivael(false);
 			if (bConfirmaTroca.atualiza(g, xM, yM)) {
 				fora = false;
 			}

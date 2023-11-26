@@ -7,7 +7,7 @@ class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
 	// Iterador usado na lista de jogadores (iterador%jogadores.size()):
 	private int iterador;
-	// Carats totais do jogo (monte):
+	// Cartas totais do jogo (monte):
 	private Baralho<Carta> cartas;
 	// Cartas usadas na partida (retiradas do monte):
 	private Baralho<Carta> cartasUsadas;
@@ -145,6 +145,7 @@ class Jogo {
 			cartasUsadas.adiciona(c);
 		}
 
+		// Calcula os exercitos adicionais pelo contador de troca:
 		int exeAd;
 		if (contadorTroca < 6) {
 			exeAd = 2 + 2 * contadorTroca;
@@ -169,8 +170,10 @@ class Jogo {
 		Carta[] cartasJogador;
 		Carta carta;
 
+		// Estado comecao com o numero da troca e numero da rodada:
 		estado += Integer.toString(contadorTroca) + ',' + Integer.toString(iterador) + '\n';
 
+		// Escreve as cartas do baralho nao usado de cartas:
 		if ((!cartas.vazio())) {
 			Baralho<Carta> temp = new Baralho<Carta>();
 			while (!cartas.vazio()) {
@@ -188,6 +191,7 @@ class Jogo {
 
 		estado += '\n';
 
+		// Escreve as cartas usadas (cartas descartadas pelos jogadores):
 		if ((!cartasUsadas.vazio())) {
 			Baralho<Carta> temp = new Baralho<Carta>();
 			while (!cartasUsadas.vazio()) {
@@ -206,8 +210,10 @@ class Jogo {
 		estado += '\n';
 
 		for (int i = 0; i < jogadores.size(); i++) {
+			// Escreve o nome, cor, assassino (null ou nao) e numero do objetivo do jogador:
 			jogador = jogadores.get(i);
 			corJogador = jogador.getCor().toString();
+			// Pega o numero do objetivo do jogador:
 			objetivoJogador = jogador.getImgNameObjetivo().replaceAll("\\D+", "");
 			cartasJogador = jogador.getCartas();
 			nomeJogador = jogador.getNome();
@@ -220,8 +226,9 @@ class Jogo {
 			estado += nomeJogador + ',' + corJogador + ',' + assassino + '\n';
 			estado += objetivoJogador + '\n';
 
+			// Escreve as cartas do jogador:
 			if (cartasJogador.length != 0) {
-				for (Carta c : cartasJogador) { // Escreve as cartas do jogador
+				for (Carta c : cartasJogador) {
 					if (c.getSimbolo() == Simbolos.CORINGA)
 						estado += "CORINGA,";
 					else
@@ -230,15 +237,19 @@ class Jogo {
 			} else {
 				estado += ',';
 			}
+
 			estado += '\n';
 
+			// Escreve os territorios do jogador e a quantidade de exercito em cada um
 			territorios = jogador.getTerritorios();
 			for (Territorio t : territorios) {
 				nomeTerritorio = t.getNome();
 				qtdExercitos = t.getQntdExercitos();
 				estado += nomeTerritorio + "," + qtdExercitos + '\n';
 			}
-			estado += ";\n"; // separa os dados de cada jogador com um ponto e virgula
+
+			// Separa os dados de cada jogador com um ponto e virgula:
+			estado += ";\n";
 		}
 		return estado;
 	}

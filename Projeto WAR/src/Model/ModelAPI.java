@@ -11,7 +11,6 @@ public class ModelAPI {
 	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
 
 	private static ModelAPI instance;
-
 	private Jogo jogo = new Jogo();
 	private Jogador jAtual;
 
@@ -59,7 +58,6 @@ public class ModelAPI {
 		if (jAtual == null)
 			return -1;
 		Cores c = jAtual.getCor();
-
 		for (int i = 0; i < cores.length; i++) {
 			if (cores[i] == c)
 				return i;
@@ -140,10 +138,10 @@ public class ModelAPI {
 		return atac.verificaCondicoesAtaque(def);
 	}
 
-	public int[][] ataca(String atacante, String defensor) {
+	public int[][] ataque(String atacante, String defensor) {
 		/**
-		 * Funcao que retorna uma matriz dos dados de um ataque. Usado no ataque
-		 * automatico.
+		 * Funcao que retorna uma matriz dos dados de um ataque automativo. Usado no
+		 * ControllerAPI.
 		 */
 		Territorio atac = Territorio.getTerritorio(atacante);
 		Territorio def = Territorio.getTerritorio(defensor);
@@ -152,9 +150,10 @@ public class ModelAPI {
 		return listaDados;
 	}
 
-	public void ataca(String atacante, String defensor, int[][] dados) {
+	public void ataque(String atacante, String defensor, int[][] dados) {
 		/**
-		 * Funcao que retorna uma matriz dos dados de um ataque. Usado no ataque manual.
+		 * Funcao que recebe uma matriz dos dados de um ataque manual. Usado no
+		 * ControllerAPI.
 		 */
 		Territorio atac = Territorio.getTerritorio(atacante);
 		Territorio def = Territorio.getTerritorio(defensor);
@@ -183,7 +182,10 @@ public class ModelAPI {
 	}
 
 	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
-		/** Funcao que verifica as condicoes para a troca das cartas selecionadas. */
+		/**
+		 * Funcao que verifica as condicoes para a troca das cartas selecionadas. Usada
+		 * no ControllerAPI.
+		 */
 		Carta[] cartas = jAtual.getCartas();
 		Carta[] cartasRespectivas = new Carta[3];
 
@@ -202,6 +204,7 @@ public class ModelAPI {
 	}
 
 	public int trocaCartas(boolean[] cartasSelecionadas) {
+		/** Funcao que realiza a troca de cartas. Usada no ControllerAPI. */
 		Carta[] cartasRespectivas = new Carta[3];
 
 		int j = 0;
@@ -288,7 +291,10 @@ public class ModelAPI {
 	}
 
 	public void novoJogo(String[] nomes) {
-		/** Funcao que comeca um novo jogo. */
+		/**
+		 * Funcao que comeca um novo jogo dados os nomes dos jogadores. Usada no
+		 * ControllerAPI.
+		 */
 		Territorio[] territorios = Territorio.getTerritorios();
 		for (Territorio t : territorios) {
 			t.trocaDono(null);
@@ -305,7 +311,9 @@ public class ModelAPI {
 	}
 
 	public void saveState(String path) {
-		/** Funcao que salva o estado do jogo em um arquivo txt. */
+		/**
+		 * Funcao que salva o estado do jogo em um arquivo txt. Usado no ControllerAPI.
+		 */
 		BufferedWriter writer = null;
 		File file = new File(path);
 		if (file.exists()) {
@@ -320,10 +328,10 @@ public class ModelAPI {
 
 		jogo.getEstadoStr();
 
-		// inicializa o escritor do arquivo
+		// Inicializa o escritor do arquivo:
 		try {
-			// esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo
-			// o que já existe
+			// Esse construtor faz com que o arquivo seja aberto para escrita sobrescrevendo
+			// o que já existe:
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
 
 			writer.write(ControllerAPI.getInstance().getEstadoStr());
@@ -546,6 +554,10 @@ public class ModelAPI {
 	}
 
 	void entregaCartaAssassino(Jogador morto) {
+		/**
+		 * Funcao que entrega as cartas do jogador morto para o assassino (jogador
+		 * atual)
+		 */
 		jogo.entregaCartaAssassino(jAtual, morto);
 	}
 
@@ -556,6 +568,11 @@ public class ModelAPI {
 				return i;
 		}
 		return -1;
+	}
+
+	void exibeJogadorMorto(Jogador morto, Jogador assassino) {
+		// ViewAPI.getInstance().exibeJogadorMorto(color2int(morto.getCor()),
+		// color2int(assassino.getCor()));
 	}
 
 }

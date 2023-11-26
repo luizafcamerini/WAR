@@ -19,7 +19,7 @@ class SoundEffect {
 			// Abre o arquivo de áudio no clip
 			clip.open(audioInputStream);
 		} catch (Exception ex) {
-			System.out.println("Erro ao carregar arquivo de som.");
+			System.out.printf("Erro ao carregar arquivo de som '%s'\n",filename==null?"null":filename);
 			ex.printStackTrace();
 		}
 	}
@@ -30,6 +30,11 @@ class SoundEffect {
 
 		// Toca o som
 		clip.start();
+	}
+
+	public void stop(){
+		// Para o som
+		clip.stop();
 	}
 
 }

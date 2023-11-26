@@ -30,6 +30,12 @@ public class ViewAPI {
 	private GamePanel gP;
 	private InfoPainel iP;
 
+	private SoundEffect somAtaque = new SoundEffect("src/View/sounds/attack.wav");
+	private SoundEffect somJogadorMorto = new SoundEffect("src/View/sounds/damageMine.wav");
+	private SoundEffect somVitoria = new SoundEffect("src/View/sounds/victory.wav");
+	private SoundEffect somConquista = new SoundEffect("src/View/sounds/conquista.wav");
+	
+
 	private ViewAPI() {
 	}
 
@@ -188,7 +194,7 @@ public class ViewAPI {
 				// Território clicado é um defensor válido
 				else {
 					selecionado2 = territorio;
-					if (control.ataca(selecionado, selecionado2))
+					if (control.ataca(selecionado, selecionado2))			
 						etapa = 12;
 				}
 			}
@@ -369,6 +375,7 @@ public class ViewAPI {
 	}
 
 	private boolean exibeVencedor(String corVencedor) {
+		somVitoria.play();
 		JOptionPane.showMessageDialog(null, "O jogador " + corVencedor + " venceu!", "Fim de jogo!",
 				JOptionPane.INFORMATION_MESSAGE);
 		int resposta = JOptionPane.showConfirmDialog(null, "Jogar novamente?", "Continuar?", JOptionPane.YES_NO_OPTION,
@@ -380,6 +387,10 @@ public class ViewAPI {
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------------- */
+
+	public void exibeJogadorMorto(String corAssassino, String corMorto){
+		JOptionPane.showMessageDialog(null, "O jogador " + corMorto + "foi eliminado pelo jogador " + corAssassino + ".","Alerta do jogo!", JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	public void inicializaGameScreen() {
 		iP = new InfoPainel(10, 350, 200, 250);
@@ -418,12 +429,13 @@ public class ViewAPI {
 	}
 
 	public void ataca(String atacante, String defensor, int nAtaque, int nDefesa) {
+		/** Funcao que define que a tela de atque será exibida. */
+		// Define os dados de acordo com a quantidade de exercitos dos atacante e defensor:
 		dados = new int[2][];
 		dados[0] = new int[nAtaque];
 		dados[1] = new int[nDefesa];
 		for (int i = 0; i < nAtaque; i++)
 			dados[0][i] = 0;
-
 		for (int i = 0; i < nDefesa; i++)
 			dados[1][i] = 0;
 
@@ -432,11 +444,21 @@ public class ViewAPI {
 
 	public void resultadoAtaque(int[][] dados) {
 		this.dados = dados;
-		gP.resultadoAtaque();
-	}
+		// Conquistou o territorio:
+		if (model.getCor(selecionado) == model.getCor(selecionado2)) {
+			if(model.getQtdExercitos(selecionado2)==0){
+				somJogadorMorto.play();
+				exibeJogadorMorto(coresStr[model.getCorAtual()], coresStr[model.getCor(selecionado2)]);
+			}
+			gP.conquista();
+			somConquista.play();
+		}
+		else{
+			somAtaque.play();
+			gP.resultadoAtaque();
+		}
 
-	public void conquista() {
-		gP.conquista();
+
 	}
 
 	public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
