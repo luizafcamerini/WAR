@@ -124,7 +124,6 @@ class Jogador {
 
 	public void recebeCarta(Carta carta) {
 		/** Funcao que inclui uma carta no jogador. */
-		System.out.println("Jogador " + this.nome + " recebeu uma carta " + carta.getSimbolo());
 		cartas.add(carta);
 	}
 

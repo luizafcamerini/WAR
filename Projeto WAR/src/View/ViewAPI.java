@@ -29,6 +29,7 @@ public class ViewAPI {
 	private GameScreen gameScreen;
 	private GamePanel gP;
 	private InfoPainel iP;
+	private int corDefensor;
 
 	private SoundEffect somAtaque = new SoundEffect("src/View/sounds/attack.wav");
 	private SoundEffect somJogadorMorto = new SoundEffect("src/View/sounds/damageMine.wav");
@@ -194,6 +195,7 @@ public class ViewAPI {
 				// Território clicado é um defensor válido
 				else {
 					selecionado2 = territorio;
+					corDefensor = model.getCor(territorio);
 					if (control.ataca(selecionado, selecionado2))			
 						etapa = 12;
 				}
@@ -385,12 +387,19 @@ public class ViewAPI {
 		else
 			return false;
 	}
+	
+	private void exibeJogadorMorto(){
+		String nomeMorto = model.getNomeJogador(corDefensor);
+		String nomeAssassino = model.getNomeJogadorAtual();
+		String corMorto = coresStr[corDefensor];
+		String corAssassino = coresStr[corAtual];
+
+		String msg = String.format("%s (%s) eliminou %s (%s).",nomeAssassino,corAssassino,nomeMorto,corMorto);
+		JOptionPane.showMessageDialog(null, msg,"Alerta do jogo!", JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	/*----------------------------------------------------------------------------------------------------------------------- */
-
-	public void exibeJogadorMorto(String corAssassino, String corMorto){
-		JOptionPane.showMessageDialog(null, "O jogador " + corMorto + "foi eliminado pelo jogador " + corAssassino + ".","Alerta do jogo!", JOptionPane.INFORMATION_MESSAGE);
-	}
+	// Métodos de visibilidade public
 
 	public void inicializaGameScreen() {
 		iP = new InfoPainel(10, 350, 200, 250);
@@ -446,9 +455,9 @@ public class ViewAPI {
 		this.dados = dados;
 		// Conquistou o territorio:
 		if (model.getCor(selecionado) == model.getCor(selecionado2)) {
-			if(model.getQtdExercitos(selecionado2)==0){
+			if(model.getTerritorios(corDefensor).length==0){
 				somJogadorMorto.play();
-				exibeJogadorMorto(coresStr[model.getCorAtual()], coresStr[model.getCor(selecionado2)]);
+				exibeJogadorMorto();
 			}
 			gP.conquista();
 			somConquista.play();
