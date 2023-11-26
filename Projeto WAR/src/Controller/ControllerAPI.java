@@ -1,9 +1,7 @@
 package Controller;
 
-//import View.SoundEffect;
 import View.ViewAPI;
 import Model.ModelAPI;
-// import java.io.IOException;
 import java.util.Hashtable;
 
 public class ControllerAPI {
@@ -40,21 +38,6 @@ public class ControllerAPI {
 		instance.view = ViewAPI.getInstance();
 		continentes = model.getContinentes();
 
-		// model.adicionaJogador("LUIZA", 2);
-		// model.adicionaJogador("THOMAS", 5);
-		// model.adicionaJogador("JERONIMO", 4);
-		//
-		// model.inicializaJogo();
-
-		// tela de menu, com duas opcoes: comecar novo jogo, ou carregar um jogo ja
-		// existente
-
-		// String path = view.selecionaFile();
-		// String path = "src/gameState.txt";
-		// int load = model.loadGame(path);
-		// model.novoJogo(coresStr);
-		// se o load for -1, volta pra tela de menu
-		// se for 0, da um load em um txt ja existente
 		view.inicializaGameScreen();
 
 		etapa = 0;
@@ -66,8 +49,6 @@ public class ControllerAPI {
 		corAtual = model.getCorAtual();
 		if (corAtual == -1)
 			return;
-
-		// saveState(pathAuto);
 
 		if (DEBUG)
 			System.out.println(coresStr[corAtual]);
@@ -103,7 +84,6 @@ public class ControllerAPI {
 				return;
 			view.setEtapa(etapa, territorios, corAtual, 0);
 			etapa = 20;
-			// saveState(pathAuto);
 		}
 
 		// Deslocamento de exércitos
@@ -126,7 +106,6 @@ public class ControllerAPI {
 
 			view.setEtapa(etapa, territorios, corAtual, 0);
 			etapa = 30;
-			// saveState(pathAuto);
 		}
 
 		// Entrega de carta
@@ -137,15 +116,11 @@ public class ControllerAPI {
 			}
 			view.setEtapa(etapa, null, corAtual, 0);
 			etapa = 40;
-			// saveState(pathAuto);
-
-			// model.saveState(); // Salva o estado do jogo
 
 			if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
 				boolean continua = view.exibeVencedor();
 				if (continua) {
 					view.exibeNovoJogoNovamente();
-					// inicializa(); ainda não funciona
 				} else {
 					System.exit(0);
 				}
@@ -336,7 +311,6 @@ public class ControllerAPI {
 		proxEtapa();
 	}
 
-
 	public boolean podeTrocar(){
 		return (etapa == 0) && (iCont == -1);
 	}
@@ -357,7 +331,3 @@ public class ControllerAPI {
 		proxEtapa(); // Executa a etapa
 	}
 }
-
-// jogo.adicionaJogador(new Jogador(Cores.BRANCO, "LUIZA"));
-// jogo.adicionaJogador(new Jogador(Cores.VERMELHO, "THOMAS"));
-// jogo.adicionaJogador(new Jogador(Cores.VERDE, "JERONIMO"));

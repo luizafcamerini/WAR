@@ -115,12 +115,6 @@ public class ModelAPI {
 		return nome_cartas;
 	}
 
-	// public void inicializaJogo() {
-	// /** Funcao que inicia o jogo e passa para o proximo jogador. */
-	// jogo.inicializa();
-	// jAtual = jogo.getProxJogador();
-	// }
-
 	public String[] getTerritorios(int cor) {
 		/**
 		 * Funcao que retorna uma lista dos nomes dos territorios de um jogador dada a
@@ -448,8 +442,6 @@ public class ModelAPI {
 
 					jogo.adicionaJogador(jogadores[i]);
 
-					// jogo.adicionaCoringas();
-					// adicionaJogador(nomeJogador, corJogador); // ordinal retorna o indice do enum
 					if (DEBUG)
 						System.out.println("Adicionando jogador " + nomeJogador + " " + corJogador);
 

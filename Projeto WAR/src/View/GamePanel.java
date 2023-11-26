@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.font.*;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
@@ -73,6 +73,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 	private Botao[] bCartas;
 	private boolean[] cartasSelecionadas;
+
+	SoundEffect somAtaque = new SoundEffect("src/View/sounds/attack.wav");
 
 	private void configBotao(Botao b, int i2) {
 		b.setI2(i2);
@@ -228,10 +230,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				fora = true;
 				if (!manual) {
 					control.ataque(atacante, defensor);
-					repaint();
 				} else {
 					control.ataque(atacante, defensor, view.getListaDados());
 				}
+				somAtaque.play();
 			}
 
 			// Ação do botao "bAtaqueN"
@@ -920,6 +922,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		else
 			return false;
 	}
+
+	// public void exibeAssassino(String corAssassino, String corMorto){
+
+	// }
 
 	public void exibeTelaMenuInicial(Graphics g) {
 		if (!exibeMenuInicial)
