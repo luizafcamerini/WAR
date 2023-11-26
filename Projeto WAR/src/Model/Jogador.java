@@ -3,10 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 class Jogador {
-
-	// Territorios que pertencem ao jogador:
 	private ArrayList<Territorio> territorios = new ArrayList<Territorio>();
-	// Cartas que o jogador possui:
 	private ArrayList<Carta> cartas = new ArrayList<Carta>();
 	private String nome;
 	private Objetivo objetivo;
@@ -21,12 +18,7 @@ class Jogador {
 
 	public Carta[] getCartas() {
 		/** Funcao que retorna uma copia da lista de cartas de um jogador. */
-		Carta c[] = cartas.toArray(new Carta[cartas.size()]);
-		// for (Carta c1: c) {
-		// System.out.println(c1.getTerritorio().getNome());
-		// }
-		// return new ArrayList<Carta>(cartas);
-		return c;
+		return cartas.toArray(new Carta[cartas.size()]);
 	}
 
 	public String getNome() {
@@ -45,10 +37,13 @@ class Jogador {
 	}
 
 	public void setAssassino(Jogador assassino) {
-		/** Funcao que define o assassino de um jogador e entrega as cartas do morto para o assassino. */
+		/**
+		 * Funcao que define o assassino de um jogador e entrega as cartas do morto para
+		 * o assassino.
+		 */
 		this.assassino = assassino;
 		// Assassino pega as cartas do morto
-		if(cartas.size() > 0){
+		if (cartas.size() > 0) {
 			ModelAPI.getInstance().entregaCartaAssassino(this);
 		}
 	}
@@ -133,10 +128,9 @@ class Jogador {
 		cartas.add(carta);
 	}
 
-	public Carta removeCarta(int index){
+	public Carta removeCarta(int index) {
 		/** Funcao que retorna a carta removida das cartas do jogador. */
 		return cartas.remove(index);
 	}
-
 
 }

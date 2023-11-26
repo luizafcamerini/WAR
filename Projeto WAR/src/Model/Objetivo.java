@@ -6,54 +6,18 @@ abstract class Objetivo {
 	protected String imgName;
 	private static Objetivo[] lst;
 
-	abstract public boolean verifica(); /** Funcao que verifica se o objetivo foi cumprido. */
-
-	public static Objetivo setAlvo(Cores cor, Jogador alvo) {
-		/** Funcao que deinfe os alvos de um objetivo dada sua cor. */
-		int i=0;
-		switch (cor) {
-			case AZUL:
-				i = 0;
-				Objetivo1 o1 = (Objetivo1) lst[0];
-				o1.setJogadorAlvo(alvo);
-				break;
-			case AMARELO:
-				i = 1;
-				Objetivo2 o2 = (Objetivo2) lst[1];
-				o2.setJogadorAlvo(alvo);
-				break;
-			case VERMELHO:
-				i = 2;
-				Objetivo3 o3 = (Objetivo3) lst[2];
-				o3.setJogadorAlvo(alvo);
-				break;
-			case PRETO:
-				i = 3;
-				Objetivo4 o4 = (Objetivo4) lst[3];
-				o4.setJogadorAlvo(alvo);
-				break;
-			case BRANCO:
-				i = 4;
-				Objetivo5 o5 = (Objetivo5) lst[4];
-				o5.setJogadorAlvo(alvo);
-				break;
-			case VERDE:
-				i = 5;
-				Objetivo6 o6 = (Objetivo6) lst[5];
-				o6.setJogadorAlvo(alvo);
-				break;
-		}
-		return lst[i];
-	}
+	/** Funcao que verifica se o objetivo foi cumprido. */
+	abstract public boolean verifica();
 
 	public static Objetivo getObjetivo(int i) {
-		/** Funcao que retorna  */
+		/** Funcao que retorna */
 		return lst[i];
 	}
 
-	public static void criaObjetivos() {
+	private static void criaObjetivos() {
 		/** Funcao que cria uma lista com todos os objetivos. */
-		if (lst != null) return;
+		if (lst != null)
+			return;
 
 		lst = new Objetivo[14];
 		lst[0] = new Objetivo1();
@@ -89,14 +53,52 @@ abstract class Objetivo {
 
 	public static Baralho<Objetivo> montaBaralho() {
 		/** Funcao que cria um baralho de objetivos. */
-		if (lst == null){
+		if (lst == null) {
 			criaObjetivos();
 		}
 		Baralho<Objetivo> objetivos = new Baralho<Objetivo>();
-		for (int i = 6; i < 14; i++){
+		for (int i = 6; i < 14; i++) {
 			objetivos.adiciona(lst[i]);
 		}
 		return objetivos;
+	}
+
+	public static Objetivo setAlvo(Cores cor, Jogador alvo) {
+		/** Funcao que deinfe os alvos de um objetivo dada sua cor. */
+		int i = 0;
+		switch (cor) {
+			case AZUL:
+				i = 0;
+				Objetivo1 o1 = (Objetivo1) lst[0];
+				o1.setJogadorAlvo(alvo);
+				break;
+			case AMARELO:
+				i = 1;
+				Objetivo2 o2 = (Objetivo2) lst[1];
+				o2.setJogadorAlvo(alvo);
+				break;
+			case VERMELHO:
+				i = 2;
+				Objetivo3 o3 = (Objetivo3) lst[2];
+				o3.setJogadorAlvo(alvo);
+				break;
+			case PRETO:
+				i = 3;
+				Objetivo4 o4 = (Objetivo4) lst[3];
+				o4.setJogadorAlvo(alvo);
+				break;
+			case BRANCO:
+				i = 4;
+				Objetivo5 o5 = (Objetivo5) lst[4];
+				o5.setJogadorAlvo(alvo);
+				break;
+			case VERDE:
+				i = 5;
+				Objetivo6 o6 = (Objetivo6) lst[5];
+				o6.setJogadorAlvo(alvo);
+				break;
+		}
+		return lst[i];
 	}
 
 }

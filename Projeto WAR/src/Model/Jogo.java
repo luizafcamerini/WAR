@@ -2,7 +2,6 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
@@ -22,35 +21,16 @@ class Jogo {
 		objetivos = Objetivo.montaBaralho();
 	}
 
-	// public void iniciaJogo() {
-	// /** Funcao que representa o loop das rodadas do jogo, ate alguem vencer. */
-	// Jogador jAtual;
-	// while (true) { // rodada
-	// jAtual = getProxJogador();
-	// if (jAtual.verificaObjetivo())
-	// break; // Jogador vence o jogo
-
-	// Carta[] descartadas = jAtual.trocaCartas();
-	// int exeAd = 0;
-	// if (descartadas != null) {
-	// exeAd = trocaCartas(jAtual, descartadas);
-	// }
-	// jAtual.posicionaExe(exeAd);
-	// break; // break temporario
-	// }
-	// }
-
 	public void inicializa() {
 		/** Funcao que inicializa as distribuicoes do jogo. */
-		Collections.shuffle(jogadores);
+		Collections.shuffle(jogadores); // Sorteia ordem dos jogadores
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome()
 				+ " começa distribuindo as cartas.");
 
 		distribuiTerritorios(); // distribui as cartas com os territorios
-
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome() + " começa o jogo.");
 
-		// Volta as cartasd de territorios usadas para o monte:
+		// Volta as cartas de territorios usadas para o monte:
 		Baralho<Carta> aux = cartas;
 		cartas = cartasUsadas;
 		cartasUsadas = aux;
@@ -62,14 +42,6 @@ class Jogo {
 
 		// Distribui as cartas dos objetivos:
 		distribuiObjetivos();
-	}
-
-	public void continuaJogo(Jogador j) {
-		/**
-		 * Funcao que continua um jogo carregado por um txt. Usado em Model.loadGame()
-		 */
-		iterador = jogadores.indexOf(j);
-		cartas.embaralha();
 	}
 
 	public void adicionaJogador(Jogador j) {
@@ -85,16 +57,6 @@ class Jogo {
 		}
 	}
 
-	public Jogador getJogador(int i) {
-		/** Funcao que retorna o jogador de indice i. */
-		return jogadores.get(i);
-	}
-
-	public int getQtdJogadores() {
-		/** Funcao que retorna a quantidade de jogadores da partida. */
-		return jogadores.size();
-	}
-
 	public Jogador getProxJogador() {
 		/** Funcao que retorna o proximo jogador da partida. */
 		Jogador j = jogadores.get(iterador % jogadores.size());
@@ -103,11 +65,6 @@ class Jogo {
 			return getProxJogador();
 		}
 		return j;
-	}
-
-	public int getIterador() {
-		/** Funcao que retorna o iterador da lista de jogadores. */
-		return iterador;
 	}
 
 	public void exibeJogadores() {
@@ -178,7 +135,8 @@ class Jogo {
 	public int trocaCartas(Jogador j, Carta[] descartadas) {
 		/**
 		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
-		 * cartas e que acrescenta exercitos pela carta trocada com o territorio conquistado.
+		 * cartas e que acrescenta exercitos pela carta trocada com o territorio
+		 * conquistado.
 		 */
 		for (Carta c : descartadas) {
 			Territorio t = c.getTerritorio();
@@ -195,13 +153,6 @@ class Jogo {
 		}
 		contadorTroca++;
 		return exeAd;
-	}
-
-	public void adicionaCoringas() {
-		/** Funcao que adiciona coringas no baralho de cartas. */
-		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
-		cartas.adiciona(new Carta(null, Simbolos.CORINGA));
-		cartas.embaralha();
 	}
 
 	public String getEstadoStr() {
@@ -316,18 +267,17 @@ class Jogo {
 		/** Funcao que entrega as cartas do jogador morto para seu assassino. */
 		Baralho<Carta> tempBaralho = new Baralho<Carta>();
 		int count = assassino.getCartas().length;
-		
-		while (morto.getCartas().length > 0){
+
+		while (morto.getCartas().length > 0) {
 			tempBaralho.adiciona(morto.removeCarta(0));
 		}
 		tempBaralho.embaralha();
-		while(!tempBaralho.vazio()){
+		while (!tempBaralho.vazio()) {
 			Carta carta = tempBaralho.retira();
-			if (count < 5){
+			if (count < 5) {
 				assassino.recebeCarta(carta);
 				count++;
-			}
-			else
+			} else
 				cartasUsadas.adiciona(carta);
 		}
 	}

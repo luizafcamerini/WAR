@@ -1,19 +1,19 @@
 package Model;
 
-import Controller.ControllerAPI;
-import View.ObservadorIF;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import Controller.ControllerAPI;
+import Observer.ObservadorIF;
 
 public class ModelAPI {
 	// Flag que desativa o print no terminal:
 	private final boolean DEBUG = false;
+	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
+
 	private static ModelAPI instance;
+
 	private Jogo jogo = new Jogo();
 	private Jogador jAtual;
-	private int[][] listaDados;
-
-	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
 
 	private ModelAPI() {
 	}
@@ -24,15 +24,6 @@ public class ModelAPI {
 			instance = new ModelAPI();
 		}
 		return instance;
-	}
-
-	int color2int(Cores cor) {
-		/** Funcao que retorna o indice de uma cor na lista de cores. */
-		for (int i = 0; i < cores.length; i++) {
-			if (cores[i] == cor)
-				return i;
-		}
-		return -1;
 	}
 
 	public void adicionaJogador(String nome, int cor) {
@@ -90,7 +81,7 @@ public class ModelAPI {
 	}
 
 	public int getProxCor() {
-		/** Funcao que retorna a cor do proximo jogador. */
+		/** Funcao que passa a vez para o proximo jogador e retorna a cor dele. */
 		jAtual = jogo.getProxJogador();
 		return getCorAtual();
 	}
@@ -156,6 +147,7 @@ public class ModelAPI {
 		 */
 		Territorio atac = Territorio.getTerritorio(atacante);
 		Territorio def = Territorio.getTerritorio(defensor);
+		int[][] listaDados;
 		listaDados = atac.atacar(def);
 		return listaDados;
 	}
@@ -188,6 +180,37 @@ public class ModelAPI {
 			strTerritorios[i] = territorios[i].getNome();
 		}
 		return strTerritorios;
+	}
+
+	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
+		/** Funcao que verifica as condicoes para a troca das cartas selecionadas. */
+		Carta[] cartas = jAtual.getCartas();
+		Carta[] cartasRespectivas = new Carta[3];
+
+		int j = 0;
+		for (int i = 0; i < cartas.length; i++) {
+			if (cartasSelecionadas[i]) {
+				cartasRespectivas[j++] = cartas[i];
+			}
+		}
+		if (j != 3) {
+			if (DEBUG)
+				System.out.println("Quantidade de cartas selecionadas inválida!");
+			return false;
+		}
+		return Carta.verificaTroca(cartasRespectivas);
+	}
+
+	public int trocaCartas(boolean[] cartasSelecionadas) {
+		Carta[] cartasRespectivas = new Carta[3];
+
+		int j = 0;
+		for (int i = cartasSelecionadas.length - 1; i >= 0; i--) {
+			if (cartasSelecionadas[i]) {
+				cartasRespectivas[j++] = jAtual.removeCarta(i);
+			}
+		}
+		return jogo.trocaCartas(jAtual, cartasRespectivas);
 	}
 
 	public int getExeAdContinente(String continente) {
@@ -326,7 +349,6 @@ public class ModelAPI {
 
 	public int loadGame(String path) {
 		/** Funcao que carrega um jogo já existente através da leitura de um txt. */
-		// File file = new File("src/gameState.txt");
 		if (path == null) {
 			if (DEBUG)
 				System.out.println("Arquivo de salvamento não foi selecionado.");
@@ -365,8 +387,6 @@ public class ModelAPI {
 
 		try {
 			reader = new BufferedReader(new FileReader(file));
-			// reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),
-			// "UTF-8"));
 			String line;
 
 			if (DEBUG)
@@ -510,10 +530,8 @@ public class ModelAPI {
 
 			jAtual = jogo.getProxJogador();
 			if (DEBUG)
-				System.out.println("Inicializando jogo pelo jogador " + jAtual.getNome());
-			// jogo.continuaJogo(jAtual);
-			if (DEBUG)
-				System.out.println(jAtual.getNome());
+				System.out.printf("Inicializando jogo pelo jogador %s (%s)\n", jAtual.getNome(),
+						jAtual.getCor().toString());
 
 		} catch (IOException e) {
 			return -1;
@@ -526,62 +544,18 @@ public class ModelAPI {
 		return 0;
 
 	}
-	
-	private boolean verificaTroca(Carta[] cartas) {
-		/**
-		 * Funcao que verifica se as 3 cartas sao diferentes.
-		 */
-		Carta c1 = cartas[0];
-		Carta c2 = cartas[1];
-		Carta c3 = cartas[2];
 
-		if (c1.getSimbolo() == Simbolos.CORINGA || c2.getSimbolo() == Simbolos.CORINGA
-				|| c2.getSimbolo() == Simbolos.CORINGA) {
-			return true;
-		}
-		if (c1.getSimbolo() == c2.getSimbolo() && c1.getSimbolo() == c3.getSimbolo()) {
-			return true;
-		}
-		if (c1.getSimbolo() != c2.getSimbolo() && c1.getSimbolo() != c3.getSimbolo()
-				&& c2.getSimbolo() != c3.getSimbolo()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas){
-		/** Funcao que verifica as condicoes para a troca das cartas selecionadas. */
-		Carta[] cartas = jAtual.getCartas();
-		Carta[] cartasRespectivas = new Carta[3];
-
-		int j = 0;
-		for(int i=0; i<cartas.length; i++){
-			if(cartasSelecionadas[i]){
-				cartasRespectivas[j++] = cartas[i];
-			}
-		}
-		if (j!=3){
-			if (DEBUG)
-				System.out.println("Quantidade de cartas selecionadas inválida!");
-			return false;
-		}
-		return verificaTroca(cartasRespectivas);
-	}
-
-	public int trocaCartas(boolean[] cartasSelecionadas){
-		Carta[] cartasRespectivas = new Carta[3];
-
-		int j = 0;
-		for(int i = cartasSelecionadas.length - 1; i >= 0; i--){
-			if(cartasSelecionadas[i]){
-				cartasRespectivas[j++] = jAtual.removeCarta(i);
-			}
-		}
-		return jogo.trocaCartas(jAtual, cartasRespectivas);
-	}
-
-	void entregaCartaAssassino(Jogador morto){
+	void entregaCartaAssassino(Jogador morto) {
 		jogo.entregaCartaAssassino(jAtual, morto);
+	}
+
+	int color2int(Cores cor) {
+		/** Funcao que retorna o indice de uma cor na lista de cores. */
+		for (int i = 0; i < cores.length; i++) {
+			if (cores[i] == cor)
+				return i;
+		}
+		return -1;
 	}
 
 }

@@ -10,6 +10,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import Observer.ObservadoIF;
+import Observer.ObservadorIF;
+
 import java.awt.font.*;
 import java.awt.Font;
 
@@ -36,12 +40,12 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	// i2 = id do botao
 	// i3 = id do botao caso i2 nao seja unico
 	private int i1, i2, i3;
-	
+
 	// Lista de seus observadores:
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
 	public void addObservador(ObservadorIF o) {
-		/** Funcao que  */
+		/** Funcao que */
 		lst.add(o);
 	}
 
@@ -66,10 +70,10 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	{
-		cores = new Color[4];
+		cores = new Color[3];
 		cores[0] = Color.WHITE;
 		cores[1] = Color.GRAY;
-		cores[2] = Color.RED;
+		cores[2] = new Color(64, 64, 64);
 	}
 
 	public Botao(int _x, int _y, int _larg, int _alt, String _text) {
@@ -99,7 +103,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		i3 = _i3;
 	}
 
-	public void setColor(int i, Color color){
+	public void setColor(int i, Color color) {
 		cores[i] = color;
 	}
 
@@ -152,12 +156,9 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		clicavel = b;
 		if (!b) {
 			cor = 2;
-			// cor = 1;
-			// cores[0] = Color.GRAY;
 			estavaEm = false;
 		} else {
 			cor = 0;
-			// cores[0] = Color.WHITE;
 		}
 	}
 
@@ -196,12 +197,10 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 
 		if (dentro && !estavaEm) {
 			cor = 1;
-			// cores[0] = Color.GRAY;
 			i1 = 1;
 			notificaObservadores();
 			estavaEm = dentro;
 		} else if (!dentro && estavaEm) {
-			// cores[0] = Color.WHITE;
 			cor = 0;
 			i1 = 2;
 			notificaObservadores();
@@ -215,12 +214,10 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int dy = _y - y;
 
 		if (dx > 0 && dx < larg && dy > 0 && dy < alt) {
-			// cores[0] = Color.GRAY;
 			cor = 1;
 			estavaEm = true;
 		} else if (clicavel) {
 			cor = 0;
-			// cores[0] = Color.WHITE;
 			estavaEm = false;
 		}
 		return estavaEm;

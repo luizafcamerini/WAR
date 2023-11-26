@@ -3,12 +3,12 @@ package Model;
 class Objetivo4 extends Objetivo {
 	Jogador alvo;
 
-	protected Objetivo4(){
+	protected Objetivo4() {
 		descricao = "Destruir todos os exércitos PRETOS. Se você é quem possui os exércitos PRETOS ou se esses exércitos já foram destruídos por outro jogador, o seu objetivo passa a ser conquistar 24 territorios a sua escolha.";
 		imgName = "war_carta_objetivo4.png";
 	}
 
-	public void setJogadorAlvo(Jogador _alvo){
+	public void setJogadorAlvo(Jogador _alvo) {
 		alvo = _alvo;
 	}
 

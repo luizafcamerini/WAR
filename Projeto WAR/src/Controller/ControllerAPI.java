@@ -5,9 +5,14 @@ import Model.ModelAPI;
 import java.util.Hashtable;
 
 public class ControllerAPI {
+	private static Hashtable<String, Integer> qtdDeslocaveis;
+	private static Hashtable<String, Integer> qtdDeslocados;
+	private static ControllerAPI instance;
+
+	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 	private final String pathAuto = "src/autoSave.txt";
 	private final boolean DEBUG = false;
-	private static ControllerAPI instance;
+
 	private ModelAPI model;
 	private ViewAPI view;
 
@@ -15,22 +20,17 @@ public class ControllerAPI {
 	private int corAtual;
 	private int qtdExeAd;
 	private String[] continentes;
-	private int iCont = -1; 
+	private int iCont = -1;
 	private boolean conquista = false;
 
-	private static Hashtable<String, Integer> qtdDeslocaveis;
-	private static Hashtable<String, Integer> qtdDeslocados;
-
-	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
+	private ControllerAPI() {
+	}
 
 	public static ControllerAPI getInstance() {
 		if (instance == null) {
 			instance = new ControllerAPI();
 		}
 		return instance;
-	}
-
-	private ControllerAPI() {
 	}
 
 	public void inicializa() {
@@ -72,7 +72,7 @@ public class ControllerAPI {
 				qtdExeAd = model.getExeAd();
 				iCont = -1;
 			}
-			if (iCont == -1 && model.getCartasJogador().length == 5){
+			if (iCont == -1 && model.getCartasJogador().length == 5) {
 				view.obrigaTroca();
 			}
 			view.setEtapa(etapa, territorios, corAtual, qtdExeAd);
@@ -311,7 +311,7 @@ public class ControllerAPI {
 		proxEtapa();
 	}
 
-	public boolean podeTrocar(){
+	public boolean podeTrocar() {
 		return (etapa == 0) && (iCont == -1);
 	}
 
@@ -322,11 +322,11 @@ public class ControllerAPI {
 
 	}
 
-	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas){
+	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
 		return model.verificaTrocaCartas(cartasSelecionadas);
 	}
-	
-	public void confirmaTroca(boolean [] cartasSelecionadas){
+
+	public void confirmaTroca(boolean[] cartasSelecionadas) {
 		qtdExeAd += model.trocaCartas(cartasSelecionadas);
 		proxEtapa(); // Executa a etapa
 	}

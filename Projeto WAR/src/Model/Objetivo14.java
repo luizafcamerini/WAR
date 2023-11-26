@@ -1,7 +1,7 @@
 package Model;
 
 class Objetivo14 extends Objetivo {
-	
+
 	protected Objetivo14() {
 		descricao = "Conquistar 18 territorios com pelo menos 2 exércitos em cada";
 		imgName = "war_carta_objetivo14.png";
@@ -9,11 +9,11 @@ class Objetivo14 extends Objetivo {
 
 	public boolean verifica() {
 		int count = 0;
-		for(Territorio t: dono.getTerritorios()) {
+		for (Territorio t : dono.getTerritorios()) {
 			if (t.getQntdExercitos() >= 2)
 				count++;
 		}
-		if(count >= 18)
+		if (count >= 18)
 			return true;
 		return false;
 	}

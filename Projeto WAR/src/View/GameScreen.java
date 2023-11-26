@@ -7,8 +7,6 @@ class GameScreen extends JFrame {
 	private Container content;
 	private static final int ALTURA_TELA = 700;
 	private static final int LARGURA_TELA = 1200;
-	// private GamePanel gP;
-	// private InfoPainel iP;
 
 	public GameScreen(GamePanel gP) {
 

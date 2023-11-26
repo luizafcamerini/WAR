@@ -23,7 +23,6 @@ Romênia,1
 Polônia,1
 Arábia Saudita,10
 Espanha,1
-Brasil,11
 Argentina,2
 Nigéria,6
 ;
@@ -70,6 +69,7 @@ Calgary,1
 Alasca,1
 Letônia,1
 Reino Unido,1
-Venezuela,7
+Venezuela,6
 Peru,1
+Brasil,1
 ;

@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
-import View.ObservadoIF;
-import View.ObservadorIF;
+
+import Observer.ObservadoIF;
+import Observer.ObservadorIF;
 
 class Territorio implements ObservadoIF {
 	private static ArrayList<Carta> cartasTerritorio = new ArrayList<Carta>();
@@ -80,7 +81,7 @@ class Territorio implements ObservadoIF {
 		 * Funcao que troca o dono do territorio e a quantidade de exercitos do novo
 		 * dono.
 		 */
-		if (j == null){
+		if (j == null) {
 			dono = null;
 			qntdExercito = 1;
 			return;
@@ -90,7 +91,7 @@ class Territorio implements ObservadoIF {
 			donoAnterior.removeTerritorio(this);
 			if (donoAnterior.getQtdTerritorios() == 0)
 				donoAnterior.setAssassino(j);
-				//tranferir as cartas do morto para o assassino
+			// tranferir as cartas do morto para o assassino
 		}
 		dono = j;
 		j.addTerritorio(this);
@@ -136,7 +137,7 @@ class Territorio implements ObservadoIF {
 
 	}
 
-	public boolean verificarVizinhos(Territorio t) {
+	private boolean verificarVizinhos(Territorio t) {
 		/** Funcao que verifica se dois territorios sao vizinhos */
 		return vizinhos.contains(t);
 	}
@@ -161,10 +162,8 @@ class Territorio implements ObservadoIF {
 		for (int i = 0; i < minTam; i++) {
 			if (dadosAtaque[i] > dadosDefesa[i]) {
 				alvo.reduzExe(1);
-				// alvo.qntdExercito--;
 			} else {
 				this.reduzExe(1);
-				// this.qntdExercito--;
 			}
 		}
 
@@ -172,15 +171,16 @@ class Territorio implements ObservadoIF {
 		if (alvo.qntdExercito == 0) {
 			alvo.trocaDono(this.dono);
 			this.reduzExe(1);
-			// this.qntdExercito--;
 		}
 	}
 
 	public int[][] atacar(Territorio alvo) {
-		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda. Retorna uma matriz de dados. */
+		/**
+		 * Funcao em que um territorio ataca outro e faz com que o outro se defenda.
+		 * Retorna uma matriz de dados.
+		 */
 		int dadosAtaque[];
 		int dadosDefesa[];
-		// int listasDados[][] = {dadosAtaque,dadosDefesa};//new int[2][];
 		int listasDados[][] = new int[2][];
 		boolean condicoesAtaque = verificaCondicoesAtaque(alvo);
 
@@ -205,8 +205,6 @@ class Territorio implements ObservadoIF {
 			listasDados[1] = dadosDefesa;
 
 			this.atacar(alvo, listasDados);
-
-			// dadosDefesa = alvo.defender(dadosAtaque, this);
 		} else {
 			System.out.printf("Não foi possível atacar %s\n.", alvo.getNome());
 			return null;
@@ -220,22 +218,22 @@ class Territorio implements ObservadoIF {
 		Baralho<Carta> mapa = new Baralho<Carta>();
 		for (Carta carta : cartasTerritorio) {
 			mapa.adiciona(carta);
-			// if (carta.getTerritorio()!=null)
-			// System.out.println(carta.getTerritorio().getNome());
 		}
 		return mapa;
 	}
 
 	public static Territorio getTerritorio(String nome) {
+		/** Funcao que retorna um território pelo nome */
 		return territorios.get(nome);
 	}
 
 	public static Territorio[] getTerritorios() {
+		/** Funcao que retorna todos os territorios */
 		return territorios.values().toArray(new Territorio[territorios.size()]);
 	}
 
-	public static Carta getCarta(String nome){
-		for(int i =0;i<cartasTerritorio.size();i++){
+	public static Carta getCarta(String nome) {
+		for (int i = 0; i < cartasTerritorio.size(); i++) {
 			Carta c = cartasTerritorio.get(i);
 			if (c.getTerritorio().getNome().equals(nome))
 				return c;

@@ -5,6 +5,9 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import Observer.ObservadoIF;
+import Observer.ObservadorIF;
+
 /*
  * i2 = -2 // Fixo
  * 
@@ -20,12 +23,11 @@ import java.util.List;
  * 
  */
 
-
 public class InfoPainel implements ObservadoIF, ObservadorIF {
 	private String msg;
 	private int x, y, alt, larg;
 	private Botao botoes[];
-	private List<ObservadorIF> lst=new ArrayList<ObservadorIF>();
+	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 	private int i1, i3;
 
 	public InfoPainel(int _x, int _y, int largura, int altura) {
@@ -35,9 +37,9 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		alt = altura;
 		botoes = new Botao[4];
 		botoes[0] = new Botao(x + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4, "OBJETIVO");
-		botoes[1] = new Botao(x + (larg / 2) + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4,"CARTAS");
+		botoes[1] = new Botao(x + (larg / 2) + 5, y + alt / 2 + 2, (larg / 2) - 10, alt / 4 - 4, "CARTAS");
 		botoes[2] = new Botao(x + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4, "TABELAS");
-		botoes[3] = new Botao(x + (larg / 2) + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4,"PRÓX. ETAPA");
+		botoes[3] = new Botao(x + (larg / 2) + 5, y + 3 * alt / 4 + 2, (larg / 2) - 10, alt / 4 - 4, "PRÓX. ETAPA");
 
 		for (int i = 0; i < botoes.length; i++) {
 			botoes[i].addObservador(this);
@@ -45,10 +47,10 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		}
 
 	}
-	
+
 	public void atializaListeners(GamePanel gP) {
-		for(Botao b:botoes) {
-			
+		for (Botao b : botoes) {
+
 			gP.addMouseListener(b);
 			gP.addMouseMotionListener(b);
 		}
@@ -72,23 +74,27 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 
 	public void notify(ObservadoIF o) {
 		i1 = o.get(1);
-		
-		if(i1 == 0) {
+
+		if (i1 == 0) {
 			i3 = o.get(2);
-			// System.out.println("Botao clicado: " + Integer.toString(i3));
 		}
 
 		notificaObservadores();
-		
 	}
 
-	public void setInfo(String mensagem){
+	private void notificaObservadores() {
+		for (ObservadorIF o : lst) {
+			o.notify(this);
+		}
+	}
+
+	public void setInfo(String mensagem) {
 		msg = mensagem;
 		i1 = -1;
 		notificaObservadores();
 	}
 
-	public void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
+	private void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
 		if (text == null)
 			return;
 		FontMetrics m = g.getFontMetrics();
@@ -122,16 +128,8 @@ public class InfoPainel implements ObservadoIF, ObservadorIF {
 		g.setColor(Color.WHITE);
 		drawStringMultiLine(g, msg, 10, x + 5, y + 20);
 
-		for(Botao b:botoes)
+		for (Botao b : botoes)
 			b.draw(g);
 	}
-
-
-	private void notificaObservadores(){
-		for(ObservadorIF o: lst){
-			o.notify(this);
-		}
-	}
-	
 
 }

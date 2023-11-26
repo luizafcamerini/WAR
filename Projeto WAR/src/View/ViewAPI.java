@@ -2,17 +2,22 @@ package View;
 
 import java.awt.*;
 import java.io.File;
-
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import Model.ModelAPI;
 import Controller.ControllerAPI;
 
 public class ViewAPI {
+	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
+	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
 	private final boolean DEBUG = false;
+
 	private static ViewAPI instance;
+
 	private ControllerAPI control;
 	private ModelAPI model;
+
 	private int etapa;
 	private String[] territorios;
 	private String[] vizinhos;
@@ -21,18 +26,11 @@ public class ViewAPI {
 	private int corAtual;
 	private int qtdExe;
 	private int[][] dados;
+	private GameScreen gameScreen;
 	private GamePanel gP;
 	private InfoPainel iP;
 
-	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
-	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
-	private GameScreen gameScreen;
-
 	private ViewAPI() {
-	}
-
-	Color int2color(int i) {
-		return cores[i];
 	}
 
 	public static ViewAPI getInstance() {
@@ -45,156 +43,56 @@ public class ViewAPI {
 		return instance;
 	}
 
-	public void inicializaGameScreen() {
-		iP = new InfoPainel(10, 350, 200, 250);
+	/*----------------------------------------------------------------------------------------------------------------------- */
+	// Métodos com visibilidade no pacote
 
-		gP = new GamePanel(iP);
-		gP.setBackground(Color.BLACK);
-
-		iP.addObservador(gP);
-		iP.atializaListeners(gP);
-
-		gameScreen = new GameScreen(gP);
-		gameScreen.setVisible(true);
-
-		Territorio[] lst = Territorio.getTerritorios();
-		for (Territorio t : lst) {
-			model.registra(t.getNome(), t);
-			int n = model.getQtdExercitos(t.getNome());
-			t.setNum(n);
-
-			t.addObservador(gP);
-			gP.addMouseListener(t);
-			gP.addMouseMotionListener(t);
-		}
+	Color int2color(int i) {
+		return cores[i];
 	}
 
-	public void setDado(int iDado, int valor) {
-		if (dados != null) {
-			if (iDado < 3) { // Dado de ataque
-				if (dados[0].length > iDado)
-					dados[0][iDado] = valor;
-			} else { // Dado de defesa
-				if (dados[1].length > iDado - 3)
-					dados[1][iDado - 3] = valor;
-			}
-		}
-	}
-
-	public Color setViewColor(String territorio) {
+	Color getColor(String territorio) {
 		int i = model.getCor(territorio);
 		if (i == -1)
 			return null;
 		return cores[i];
 	}
 
-	public void ataca(String atacante, String defensor, int nAtaque, int nDefesa) {
-		dados = new int[2][];
-		dados[0] = new int[nAtaque];
-		dados[1] = new int[nDefesa];
-		for (int i = 0; i < nAtaque; i++)
-			dados[0][i] = 0;
+	String selecionaFile() {
+		/**
+		 * Funcao que retorna o path absoluto de salvamento do jogo por escolha do
+		 * usuário.
+		 */
+		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // cria um novo selecionador de arq
+		int returnValue = jfc.showOpenDialog(null); // abre a janela do selecionador e retorna se ele salvou ou não
+		String path;
 
-		for (int i = 0; i < nDefesa; i++)
-			dados[1][i] = 0;
-
-		gP.ataque(atacante, defensor);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			path = selectedFile.getAbsolutePath();
+			return path;
+		}
+		return null;
 	}
 
-	public void setDados(int dados[][]) {
-		this.dados = dados;
+	String salvaFile() {
+		/**
+		 * Funcao que retorna o path absoluto de salvamento do jogo por escolha do
+		 * usuário.
+		 */
+		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // cria um novo selecionador de arq
+		int returnValue = jfc.showSaveDialog(jfc); // abre a janela do selecionador e retorna se ele salvou ou não
+		String path;
+
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			// System.out.println(selectedFile.getAbsolutePath());
+			path = selectedFile.getAbsolutePath();
+			return path;
+		}
+		return null;
 	}
 
-	public void resultadoAtaque(int[][] dados) {
-		this.dados = dados;
-		gP.resultadoAtaque();
-	}
-
-	public void conquista() {
-		gP.conquista();
-	}
-
-	private String constroiMsg() {
-		String msg;
-		int corAtual = model.getCorAtual();
-		String cor = coresStr[corAtual];
-		String nomeJogador = model.getNomeJogadorAtual();
-
-		int etapa = (this.etapa / 10) * 10;
-
-		msg = String.format("Jogador: %s\nCor: %s\n", nomeJogador, cor);
-
-		// Posicionamento
-		if (etapa == 0) {
-			msg += String.format("Etapa:  Posicionamento de exércitos\n");
-
-			String cont = control.getContinenteAtual();
-			if (cont != null) {
-				msg += String.format("Continente: %s\n", cont);
-			}
-
-			msg += String.format("Qtd exércitos: %d", qtdExe);
-		}
-
-		// Ataque
-		else if (etapa == 10) {
-			msg += String.format("Etapa: Ataque\n");
-		}
-
-		// Deslocamento
-		else if (etapa == 20) {
-			msg += String.format("Etapa: Deslocamento");
-		}
-
-		// Recebimento de carta
-		else if (etapa == 30) {
-			msg += String.format("Etapa: Recebimento de carta");
-		}
-		return msg;
-	}
-
-	public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
-		// Torna não clicáveis os territórios anteriores
-		if (this.territorios != null) {
-			for (String nome : this.territorios) {
-				Territorio.getTerritorio(nome).setClicavel(false);
-			}
-		}
-
-		if (this.vizinhos != null) {
-			for (String nome : this.vizinhos) {
-				Territorio.getTerritorio(nome).setClicavel(false);
-			}
-		}
-
-		if (selecionado != null) {
-
-			Territorio t = Territorio.getTerritorio(selecionado);
-			t.setMarcado(false);
-			t.setClicavel(false);
-			selecionado = null;
-		}
-
-		if (selecionado2 != null) {
-			Territorio t = Territorio.getTerritorio(selecionado2);
-			t.setMarcado(false);
-			t.setClicavel(false);
-			selecionado2 = null;
-		}
-
-		this.territorios = territorios;
-		this.etapa = etapa;
-		this.corAtual = cor;
-		this.qtdExe = qtd;
-		if (this.territorios != null) {
-			for (String nome : territorios) {
-				Territorio.getTerritorio(nome).setClicavel(true);
-			}
-		}
-		iP.setInfo(constroiMsg());
-	}
-
-	public void click(String territorio) {
+	void click(String territorio) {
 		if (DEBUG)
 			System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
 		if (DEBUG)
@@ -323,7 +221,6 @@ public class ViewAPI {
 			// Deslocando exército para território conquistado
 			else {
 				control.movePosConquista(selecionado, selecionado2, territorio);
-				gP.conquista(model.getQtdExercitos(selecionado), model.getQtdExercitos(selecionado2));
 			}
 		}
 
@@ -427,6 +324,162 @@ public class ViewAPI {
 
 	}
 
+	/*----------------------------------------------------------------------------------------------------------------------- */
+
+	/*----------------------------------------------------------------------------------------------------------------------- */
+	// Métodos de visibilidade private
+
+	private String constroiMsg() {
+		String msg;
+		int corAtual = model.getCorAtual();
+		String cor = coresStr[corAtual];
+		String nomeJogador = model.getNomeJogadorAtual();
+
+		int etapa = (this.etapa / 10) * 10;
+
+		msg = String.format("Jogador: %s\nCor: %s\n", nomeJogador, cor);
+
+		// Posicionamento
+		if (etapa == 0) {
+			msg += String.format("Etapa:  Posicionamento de exércitos\n");
+
+			String cont = control.getContinenteAtual();
+			if (cont != null) {
+				msg += String.format("Continente: %s\n", cont);
+			}
+
+			msg += String.format("Qtd exércitos: %d", qtdExe);
+		}
+
+		// Ataque
+		else if (etapa == 10) {
+			msg += String.format("Etapa: Ataque\n");
+		}
+
+		// Deslocamento
+		else if (etapa == 20) {
+			msg += String.format("Etapa: Deslocamento");
+		}
+
+		// Recebimento de carta
+		else if (etapa == 30) {
+			msg += String.format("Etapa: Recebimento de carta");
+		}
+		return msg;
+	}
+
+	private boolean exibeVencedor(String corVencedor) {
+		JOptionPane.showMessageDialog(null, "O jogador " + corVencedor + " venceu!", "Fim de jogo!",
+				JOptionPane.INFORMATION_MESSAGE);
+		int resposta = JOptionPane.showConfirmDialog(null, "Jogar novamente?", "Continuar?", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
+		if (resposta == JOptionPane.YES_OPTION)
+			return true;
+		else
+			return false;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------------- */
+
+	public void inicializaGameScreen() {
+		iP = new InfoPainel(10, 350, 200, 250);
+
+		gP = new GamePanel(iP);
+		gP.setBackground(Color.BLACK);
+
+		iP.addObservador(gP);
+		iP.atializaListeners(gP);
+
+		gameScreen = new GameScreen(gP);
+		gameScreen.setVisible(true);
+
+		Territorio[] lst = Territorio.getTerritorios();
+		for (Territorio t : lst) {
+			model.registra(t.getNome(), t);
+			int n = model.getQtdExercitos(t.getNome());
+			t.setNum(n);
+
+			t.addObservador(gP);
+			gP.addMouseListener(t);
+			gP.addMouseMotionListener(t);
+		}
+	}
+
+	public void setDado(int iDado, int valor) {
+		if (dados != null) {
+			if (iDado < 3) { // Dado de ataque
+				if (dados[0].length > iDado)
+					dados[0][iDado] = valor;
+			} else { // Dado de defesa
+				if (dados[1].length > iDado - 3)
+					dados[1][iDado - 3] = valor;
+			}
+		}
+	}
+
+	public void ataca(String atacante, String defensor, int nAtaque, int nDefesa) {
+		dados = new int[2][];
+		dados[0] = new int[nAtaque];
+		dados[1] = new int[nDefesa];
+		for (int i = 0; i < nAtaque; i++)
+			dados[0][i] = 0;
+
+		for (int i = 0; i < nDefesa; i++)
+			dados[1][i] = 0;
+
+		gP.ataque(atacante, defensor);
+	}
+
+	public void resultadoAtaque(int[][] dados) {
+		this.dados = dados;
+		gP.resultadoAtaque();
+	}
+
+	public void conquista() {
+		gP.conquista();
+	}
+
+	public void setEtapa(int etapa, String[] territorios, int cor, int qtd) {
+		// Torna não clicáveis os territórios anteriores
+		if (this.territorios != null) {
+			for (String nome : this.territorios) {
+				Territorio.getTerritorio(nome).setClicavel(false);
+			}
+		}
+
+		if (this.vizinhos != null) {
+			for (String nome : this.vizinhos) {
+				Territorio.getTerritorio(nome).setClicavel(false);
+			}
+		}
+
+		if (selecionado != null) {
+
+			Territorio t = Territorio.getTerritorio(selecionado);
+			t.setMarcado(false);
+			t.setClicavel(false);
+			selecionado = null;
+		}
+
+		if (selecionado2 != null) {
+			Territorio t = Territorio.getTerritorio(selecionado2);
+			t.setMarcado(false);
+			t.setClicavel(false);
+			selecionado2 = null;
+		}
+
+		this.territorios = territorios;
+		this.etapa = etapa;
+		this.corAtual = cor;
+		this.qtdExe = qtd;
+		if (this.territorios != null) {
+			for (String nome : territorios) {
+				Territorio.getTerritorio(nome).setClicavel(true);
+			}
+		}
+		iP.setInfo(constroiMsg());
+	}
+
 	public int[][] getListaDados() {
 		return dados;
 	}
@@ -437,58 +490,23 @@ public class ViewAPI {
 
 		System.out.println("Jogador " + corVencedor + " venceu!");
 
-		if (gP.exibeVencedor(corVencedor))
+		if (exibeVencedor(corVencedor))
 			return true;
 		else
 			return false;
 	}
 
-	public String selecionaFile() {
-		/**
-		 * Funcao que retorna o path absoluto de salvamento do jogo por escolha do
-		 * usuário.
-		 */
-		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // cria um novo selecionador de arq
-		int returnValue = jfc.showOpenDialog(null); // abre a janela do selecionador e retorna se ele salvou ou não
-		String path;
-
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
-			path = selectedFile.getAbsolutePath();
-			return path;
-		}
-		return null;
-	}
-
-	public String salvaFile() {
-		/**
-		 * Funcao que retorna o path absoluto de salvamento do jogo por escolha do
-		 * usuário.
-		 */
-		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // cria um novo selecionador de arq
-		int returnValue = jfc.showSaveDialog(jfc); // abre a janela do selecionador e retorna se ele salvou ou não
-		String path;
-
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
-			// System.out.println(selectedFile.getAbsolutePath());
-			path = selectedFile.getAbsolutePath();
-			return path;
-		}
-		return null;
-	}
-
-	public void exibeNovoJogoNovamente(){
+	public void exibeNovoJogoNovamente() {
 		String nomes[] = new String[6];
-		for (int i = 0; i<6; i++){
-			if(model.getNomeJogador(i) != null){
+		for (int i = 0; i < 6; i++) {
+			if (model.getNomeJogador(i) != null) {
 				nomes[i] = model.getNomeJogador(i);
 			}
 		}
 		gP.exibeNovoJogoNovamente(nomes);
 	}
 
-	public void obrigaTroca(){
+	public void obrigaTroca() {
 		gP.obrigaTroca();
 	}
 

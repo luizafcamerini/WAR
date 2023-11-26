@@ -7,7 +7,6 @@ class Continente {
 	private static Hashtable<String, Continente> continentes = new Hashtable<String, Continente>();
 	private ArrayList<Territorio> territorios = new ArrayList<>();
 	private String nome;
-	// Numero de exercitos adicionais em relacao ao dominio total do continente:
 	private int numExeAdicionais;
 
 	public Continente(String nome, int nExe) {
@@ -18,11 +17,6 @@ class Continente {
 		this.nome = nome;
 		numExeAdicionais = nExe;
 		continentes.put(nome, this);
-	}
-
-	public static Continente getContinente(String nome) {
-		/** Funcao que retorna um continente pelo seu nome. */
-		return continentes.get(nome);
 	}
 
 	public String getNome() {
@@ -72,6 +66,11 @@ class Continente {
 		for (Territorio pais : this.territorios) {
 			System.out.println(pais.getNome());
 		}
+	}
+
+	public static Continente getContinente(String nome) {
+		/** Funcao que retorna um continente pelo seu nome. */
+		return continentes.get(nome);
 	}
 
 	public static Continente[] getContinentes() {

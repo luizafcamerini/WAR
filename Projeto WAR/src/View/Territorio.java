@@ -8,7 +8,6 @@
  * 
  */
 
-
 package View;
 
 import java.awt.*;
@@ -17,6 +16,9 @@ import java.util.Hashtable;
 import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.List;
+
+import Observer.ObservadoIF;
+import Observer.ObservadorIF;
 
 class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotionListener {
 	private static Hashtable<String, Territorio> territorios;
@@ -59,9 +61,9 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 
 		Color cor = ViewAPI.getInstance().int2color(c);
 		setCor(cor);
-		
+
 		i1 = -1;
-		
+
 		notificaObservadores();
 	}
 
@@ -85,32 +87,15 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		int red = this.cor.getRed();
 		int green = this.cor.getGreen();
 		int blue = this.cor.getBlue();
-		//
-		// // Converte RGB para HSB
-		// float[] hsb = Color.RGBtoHSB(red, green, blue, null);
-		//
-		// // Adiciona 0.5 (180 graus no círculo cromático) ao valor de Hue
-		// hsb[0] = (hsb[0] + 0.5f) % 1;
-
-		// // Converte HSB de volta para RGB
-		// cor3 = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
-
-		// cor3 = new Color(red,green,blue, 150);
 		cor3 = new Color(128, 128, 128, 128);
-
-//		red = 255 - this.cor.getRed();
-//		green = 255 - this.cor.getGreen();
-//		blue = 255 - this.cor.getBlue();
 
 		red = this.cor.getRed();
 		green = this.cor.getGreen();
 		blue = this.cor.getBlue();
-		
-		double luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
-		
-		cor2 = luminance > 0.5 ? Color.BLACK : Color.WHITE;
 
-//		cor2 = new Color(red, green, blue);
+		double luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+
+		cor2 = luminance > 0.5 ? Color.BLACK : Color.WHITE;
 
 		int d = 100;
 
@@ -134,7 +119,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	public void setMarcado(boolean b) {
 		if (marcado != b) {
 			marcado = b;
-			i1=-1;
+			i1 = -1;
 			notificaObservadores();
 		}
 	}
@@ -144,9 +129,6 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	}
 
 	public void setClicavel(boolean b) {
-		// if (!b && !clicavel) return;
-		// if (!b) oculto = false;
-		// System.out.printf("%s %d\n",nome,!b?1:0);
 		clicavel = b;
 	}
 
@@ -368,7 +350,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 					x = Integer.parseInt(strListTemp[1]);
 					y = Integer.parseInt(strListTemp[2]);
 					territorio = new Territorio(nome, x + 10, y);
-					Color c = api.setViewColor(nome);
+					Color c = api.getColor(nome);
 					territorio.setCor(c);
 
 					territorios.put(nome, territorio);
