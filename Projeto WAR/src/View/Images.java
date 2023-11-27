@@ -34,7 +34,11 @@ class Images {
 	}
 
 	public Image getImage(String chave) {
-		return imagensHashtable.get(chave);
+		Image img = imagensHashtable.get(chave);
+		if (img == null) {
+			System.out.printf("Erro ao encontrar imagem '%s'\n",chave);
+		}
+		return img;
 	}
 
 }

@@ -2,7 +2,7 @@ import Controller.ControllerAPI;
 
 public class Main {
     public static void main(String[] args) {
-        // Criação do Model, View e Controller
+        // Criação do Controller
         ControllerAPI controller = ControllerAPI.getInstance();
 
         // Inicialização da aplicação

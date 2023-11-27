@@ -22,6 +22,7 @@ public class ControllerAPI {
 	private String[] continentes;
 	private int iCont = -1;
 	private boolean conquista = false;
+	String territorios[] = null;
 
 	private ControllerAPI() {
 	}
@@ -59,8 +60,6 @@ public class ControllerAPI {
 		if (DEBUG)
 			System.out.println(coresStr[corAtual]);
 
-		String territorios[] = model.getTerritorios(corAtual);
-
 		if (DEBUG)
 			System.out.printf("Da etapa %d\n", etapa);
 
@@ -79,6 +78,12 @@ public class ControllerAPI {
 				qtdExeAd = model.getExeAd();
 				iCont = -1;
 			}
+			if (iCont != -1 && iCont < continentes.length) {
+				territorios = model.getTerritoriosContinente(continentes[iCont]);
+			} else {
+				territorios = model.getTerritorios(corAtual);
+			}
+
 			if (iCont == -1 && model.getCartasJogador().length == 5) {
 				view.obrigaTroca();
 			}
@@ -89,13 +94,14 @@ public class ControllerAPI {
 		else if (etapa == 10) {
 			if (qtdExeAd > 0)
 				return;
+			territorios = model.getTerritorios(corAtual);
 			view.setEtapa(etapa, territorios, corAtual, 0);
 			etapa = 20;
 		}
 
 		// Deslocamento de exércitos
 		else if (etapa == 20) {
-
+			territorios = model.getTerritorios(corAtual);
 			qtdDeslocaveis = new Hashtable<String, Integer>();
 			qtdDeslocados = new Hashtable<String, Integer>();
 			for (String nome : territorios) {
@@ -308,14 +314,12 @@ public class ControllerAPI {
 		iCont = Integer.parseInt(info[1]);
 		qtdExeAd = Integer.parseInt(info[2]);
 		conquista = (Integer.parseInt(info[3]) == 1);
-		if (DEBUG)
+		if (DEBUG) {
 			System.out.printf("Etapa: %d\n", etapa);
-		if (DEBUG)
 			System.out.printf("iCont: %d\n", iCont);
-		if (DEBUG)
 			System.out.printf("qtdExeAd: %d\n", qtdExeAd);
-		if (DEBUG)
 			System.out.printf("conquista: %s\n", conquista ? "true" : "false");
+		}
 	}
 
 	public void novoJogo(String[] nomes) {
@@ -352,15 +356,15 @@ public class ControllerAPI {
 		proxEtapa(); // Executa a etapa
 	}
 
-	private void verificaObjetivo(){
+	private void verificaObjetivo() {
 		if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
-				boolean continua = view.exibeVencedor();
-				if (continua) {
-					view.exibeNovoJogoNovamente();
-				} else {
-					System.exit(0);
-				}
+			boolean continua = view.exibeVencedor();
+			if (continua) {
+				view.exibeNovoJogoNovamente();
+			} else {
+				System.exit(0);
 			}
+		}
 	}
 
 }

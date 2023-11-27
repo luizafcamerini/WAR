@@ -7,7 +7,7 @@ import Observer.ObservadorIF;
 
 public class ModelAPI {
 	// Flag que desativa o print no terminal:
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
 
 	private static ModelAPI instance;
@@ -190,7 +190,7 @@ public class ModelAPI {
 		Carta[] cartasRespectivas = new Carta[3];
 
 		int j = 0;
-		for (int i = 0; i < cartas.length; i++) {
+		for (int i = 0; i < cartasSelecionadas.length; i++) {
 			if (cartasSelecionadas[i]) {
 				cartasRespectivas[j++] = cartas[i];
 			}

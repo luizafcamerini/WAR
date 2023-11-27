@@ -297,7 +297,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 					Austrália,975,555,war_carta_oc_australia.png
 					Perth,915,540,war_carta_oc_perth.png
 					Groelândia,395,40,war_carta_an_groelandia.png
-					Argentina,340,505,war_carta_as_argentina.png
+					Argentina,340,505,war_carta_asl_argentina.png
 					Vancouver,220,125,war_carta_an_vancouver.png
 					Cazaquistão,945,150,war_carta_as_cazaquistao.png
 					Itália,610,180,war_carta_eu_italia.png
@@ -309,9 +309,9 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 					Argélia,535,310,war_carta_af_argelia.png
 					Somalia,705,425,war_carta_af_somalia.png
 					Romênia,660,195,war_carta_eu_romenia.png
-					Letônia,750,130,war_carta_eu_letonia.png
+					Letônia,750,130,war_carta_as_letonia.png
 					Texas,230,195,war_carta_an_texas.png
-					Peru,300,435,war_carta_as_peru.png
+					Peru,300,435,war_carta_asl_peru.png
 					Suécia,610,80,war_carta_eu_suecia.png
 					Sibéria,995,75,war_carta_as_siberia.png
 					Coréia do Norte,970,245,war_carta_as_coreiadonorte.png
@@ -323,10 +323,10 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 					Califórnia,170,200,war_carta_an_california.png
 					Nova York,270,205,war_carta_an_novayork.png
 					Rússia,885,95,war_carta_as_russia.png
-					Estônia,770,80,war_carta_eu_estonia.png
+					Estônia,770,80,war_carta_as_estonia.png
 					Brasil,350,400,war_carta_asl_brasil.png
 					Turquia,825,185,war_carta_as_turquia.png
-					Iraque,770,280, war_carta_as_iraque.png
+					Iraque,770,280,war_carta_as_iraque.png
 					Irã,810,285,war_carta_as_ira.png
 									""";
 

@@ -1,79 +1,79 @@
-20,-1,0,1
-1,58
-Coréia do Sul,África do Sul,Sibéria,Alasca,Perth,Argentina,Groelândia,Bangladesh,Québec,Texas,Paquistão,Iraque,Turquia,Califórnia,Itália,Somalia,Cazaquistão,México,Reino Unido,Japão,Letônia,Índia,Peru,Nova Zelândia,Calgary,Romênia,China,Argélia,Venezuela,Jordânia,Ucrânia,Nova York,Angola,Estônia,Vancouver,CORINGA,CORINGA,Austrália,Indonésia,Espanha,Brasil,França,Polônia,Síria,Arábia Saudita,Nigéria,Rússia,Tailândia,Coréia do Norte,Mongolia,Irã,
+40,-1,0,0
+10,68
+Espanha,
+Nigéria,Letônia,Alasca,Jordânia,Calgary,França,Arábia Saudita,Austrália,Brasil,Coréia do Sul,Nova York,Argélia,Mongolia,Groelândia,CORINGA,Romênia,Egito,Venezuela,Itália,México,Índia,Japão,China,Québec,Ucrânia,Rússia,Irã,Argentina,Polônia,CORINGA,Paquistão,Nova Zelândia,Perth,Cazaquistão,Peru,Coréia do Norte,Tailândia,Iraque,Indonésia,Turquia,Vancouver,Suécia,Angola,Califórnia,Sibéria,África do Sul,Síria,Bangladesh,Reino Unido,
+Azul,VERDE,null
+13
 ,
-LUIZA,VERMELHO,null
-2
-Egito,
-Itália,1
-Índia,1
-Jordânia,1
-Síria,1
-Letônia,1
-Reino Unido,2
-Irã,1
-Japão,1
-França,2
-Espanha,1
-;
-JERONIMO,PRETO,null
-10
-,
-Austrália,1
-Arábia Saudita,1
-Romênia,1
-Paquistão,1
-Peru,1
-Califórnia,1
-Venezuela,1
-México,1
-;
-IVAN,AMARELO,null
-1
-Suécia,
 Polônia,1
-Estônia,1
-África do Sul,4
-Suécia,1
-Turquia,1
-China,1
-Perth,1
-Calgary,1
-Angola,1
+Nova York,1
+África do Sul,1
+Argélia,1
+França,1
+Brasil,13
+Somalia,1
 ;
-THOMAS,VERDE,null
+Amarelo,PRETO,null
+4
+,
+Vancouver,1
+Angola,11
+Califórnia,1
+;
+Branco,AZUL,null
+5
+Somalia,Estônia,Texas,
+Letônia,13
+Iraque,3
+Índia,4
+Indonésia,4
+Paquistão,8
+Venezuela,39
+Alasca,3
+Peru,15
+Perth,1
+Austrália,4
+Nova Zelândia,3
+Bangladesh,5
+Tailândia,3
+Irã,5
+Coréia do Sul,1
+China,19
+Estônia,10
+Turquia,24
+Cazaquistão,6
+Síria,1
+Jordânia,3
+Arábia Saudita,3
+Mongolia,1
+Coréia do Norte,1
+Japão,2
+Sibéria,3
+Rússia,1
+;
+Preto,VERMELHO,null
 14
 ,
-Sibéria,1
-Indonésia,1
-Nova York,2
-Ucrânia,1
-Argentina,5
-Nova Zelândia,1
-Mongolia,1
-Rússia,1
-Texas,1
-;
-PRETO,BRANCO,null
-3
-,
-Cazaquistão,1
-Tailândia,1
-Argélia,1
-Québec,1
-Alasca,1
-Egito,1
-Brasil,1
-;
-VERDE,AZUL,null
-6
-,
-Bangladesh,1
+Texas,8
+Ucrânia,5
 Groelândia,1
-Coréia do Norte,1
-Somalia,1
-Vancouver,5
+Romênia,1
+Québec,1
+Egito,1
+;
+Vermelho,BRANCO,null
+8
+,
+Argentina,11
+Suécia,1
+Calgary,1
+Itália,2
 Nigéria,1
-Coréia do Sul,1
-Iraque,1
+;
+Verde,AMARELO,null
+11
+,
+Espanha,1
+México,7
+Reino Unido,1
 ;

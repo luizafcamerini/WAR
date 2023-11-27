@@ -14,8 +14,6 @@ import Observer.ObservadorIF;
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final boolean DEBUG = false;
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
-	// private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO",
-	// "VERDE", "VERMELHO" };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
 	private final int I2_TEMP1 = 101; // get(2) do id do territorio temporario 1
 	private final int I2_TEMP2 = 102; // get(2) do id do territorio temporario 2
