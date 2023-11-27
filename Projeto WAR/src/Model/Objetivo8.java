@@ -3,7 +3,7 @@ package Model;
 class Objetivo8 extends Objetivo {
 
 	protected Objetivo8() {
-		descricao = "Conquistar na totalidade a Ásia e a África";
+		descricao = "Conquistar na totalidade a Ásia e a África.";
 		imgName = "war_carta_objetivo8.png";
 	}
 

@@ -93,7 +93,8 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		green = this.cor.getGreen();
 		blue = this.cor.getBlue();
 
-		double luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+		// double luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+		double luminance = (0.501 * red + 0.587 * green + 0.114 * blue) / 255;
 
 		cor2 = luminance > 0.5 ? Color.BLACK : Color.WHITE;
 
@@ -321,7 +322,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 					Ucrânia,680,170,war_carta_eu_ucrania.png
 					Califórnia,170,200,war_carta_an_california.png
 					Nova York,270,205,war_carta_an_novayork.png
-					Russia,885,95,war_carta_as_russia.png
+					Rússia,885,95,war_carta_as_russia.png
 					Estônia,770,80,war_carta_eu_estonia.png
 					Brasil,350,400,war_carta_asl_brasil.png
 					Turquia,825,185,war_carta_as_turquia.png

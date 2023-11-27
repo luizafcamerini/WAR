@@ -29,7 +29,7 @@ class Carta {
 		Carta c3 = cartas[2];
 
 		if (c1.getSimbolo() == Simbolos.CORINGA || c2.getSimbolo() == Simbolos.CORINGA
-				|| c2.getSimbolo() == Simbolos.CORINGA) {
+				|| c3.getSimbolo() == Simbolos.CORINGA) {
 			return true;
 		}
 		if (c1.getSimbolo() == c2.getSimbolo() && c1.getSimbolo() == c3.getSimbolo()) {

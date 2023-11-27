@@ -1,0 +1,57 @@
+Roteiro Video 4° iteracao
+
+1a
+    Inicializar um novo jogo,
+    1º Jogador:
+        Posicionar exércitos,
+        Atacar e conquistar 1 territorio,
+            Passar 1 exército para ele
+        Deslocar exércitos,
+        Conferir carta recebida,
+    2º Jogador:
+        Posicionar exércitos,
+        Atacar e conquistar 2 territorios,
+            Passar 3 exército para algum deles
+        Deslocar exércitos,
+        Conferir carta recebida,
+        Comentar que jogador recebe apenas 1 carta independente do número de territorios conquistado
+    3º Jogador:
+        Posicionar exércitos,
+        Pular etapas de ataque e deslocamento,
+        Conferir que não ocorreu recebimento de carta,
+
+
+1b 
+    i.  Conquistar, na totalidade, a África e a Ásia; Objetivo 8
+    
+
+    ii.  Conquistar  18  territórios  e  ocupar  cada  um  deles  com  pelo  menos  2  
+    exércitos; Objetivo 14
+
+
+    iii.  Conquistar 24 territórios à sua escolha; Objetivo 7
+    
+ 
+    iv.  Destruir totalmente os exércitos verdes; Objetivo 6
+
+
+    v.  Conquistar 24 territórios à sua escolha, como alternativa à destruição total 
+dos exércitos verde; Objetivo 6
+
+
+1c
+    . Término de uma partida pelo fechamento da janela do tabuleiro. 
+
+
+1d
+    . Salvamento e reinicialização de uma partida.
+
+
+
+2° Breve  apresentação  da  arquitetura  do  software,  incluindo  explicações  sobre  a 
+implementação dos padrões Singleton, Facade e Observer. Este item deve ser 
+apresentado com o projeto aberto no Eclipse e com a exibição do código das 
+classes que façam parte da explicação. 
+ 
+
+        

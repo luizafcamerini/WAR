@@ -4,7 +4,7 @@ class Objetivo5 extends Objetivo {
 	Jogador alvo;
 
 	protected Objetivo5() {
-		descricao = "Destruir todos os exércitos BRANCOS. Se você é quem possui os exércitos BRANCOS ou se esses exércitos já foram destruídos por outro jogador, o seu objetivo passa a ser conquistar 24 territorios a sua escolha.";
+		descricao = "Destruir todos os exércitos BRANCOS.\nSe você é quem possui os exércitos BRANCOS ou se esses exércitos já foram destruídos por outro jogador,\no seu objetivo passa a ser conquistar 24 territórios a sua escolha.";
 		imgName = "war_carta_objetivo5.png";
 	}
 

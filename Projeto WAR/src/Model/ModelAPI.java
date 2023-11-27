@@ -7,7 +7,7 @@ import Observer.ObservadorIF;
 
 public class ModelAPI {
 	// Flag que desativa o print no terminal:
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	private final Cores[] cores = { Cores.AMARELO, Cores.AZUL, Cores.BRANCO, Cores.PRETO, Cores.VERDE, Cores.VERMELHO };
 
 	private static ModelAPI instance;

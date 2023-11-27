@@ -1,6 +1,6 @@
 20,-1,0,0
 1,67
-Espanha,Venezuela,Calgary,Vancouver,CORINGA,Nova Zelândia,Cazaquistão,Suécia,Coréia do Sul,Russia,Somalia,Tailândia,Paquistão,Irã,Coréia do Norte,Texas,Brasil,Letônia,Nigéria,Jordânia,Ucrânia,Iraque,Estônia,Québec,Groelândia,Argentina,Japão,Peru,Indonésia,Nova York,Mongolia,Itália,Egito,Perth,Bangladesh,Índia,Turquia,Síria,Argélia,África do Sul,Angola,Polônia,Arábia Saudita,
+Espanha,Venezuela,Calgary,Vancouver,CORINGA,Nova Zelândia,Cazaquistão,Suécia,Coréia do Sul,Rússia,Somalia,Tailândia,Paquistão,Irã,Coréia do Norte,Texas,Brasil,Letônia,Nigéria,Jordânia,Ucrânia,Iraque,Estônia,Québec,Groelândia,Argentina,Japão,Peru,Indonésia,Nova York,Mongolia,Itália,Egito,Perth,Bangladesh,Índia,Turquia,Síria,Argélia,África do Sul,Angola,Polônia,Arábia Saudita,
 ,
 Coitado,BRANCO,null
 14
@@ -43,7 +43,7 @@ Estônia,1
 Perth,1
 Nova York,7
 Índia,1
-Russia,1
+Rússia,1
 Cazaquistão,1
 Suécia,9
 Iraque,1

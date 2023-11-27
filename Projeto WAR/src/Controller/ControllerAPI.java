@@ -123,16 +123,6 @@ public class ControllerAPI {
 			}
 			view.setEtapa(etapa, null, corAtual, 0);
 			etapa = 40;
-
-			if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
-				boolean continua = view.exibeVencedor();
-				if (continua) {
-					view.exibeNovoJogoNovamente();
-				} else {
-					System.exit(0);
-				}
-			}
-
 		}
 
 		// Passa a vez para o próximo jogador
@@ -143,6 +133,7 @@ public class ControllerAPI {
 		}
 
 		saveState(pathAuto);
+		verificaObjetivo();
 
 		if (DEBUG)
 			System.out.printf("Para a etapa %d\n", etapa);
@@ -173,6 +164,7 @@ public class ControllerAPI {
 			proxEtapa();
 		}
 		saveState(pathAuto);
+		verificaObjetivo();
 	}
 
 	public boolean ataca(String atacante, String defensor) {
@@ -206,6 +198,7 @@ public class ControllerAPI {
 
 		view.resultadoAtaque(dados);
 		saveState(pathAuto);
+		verificaObjetivo();
 	}
 
 	public void ataque(String atacante, String defensor, int[][] dados) {
@@ -219,6 +212,7 @@ public class ControllerAPI {
 		}
 		view.resultadoAtaque(dados);
 		saveState(pathAuto);
+		verificaObjetivo();
 	}
 
 	public void movePosConquista(String atacante, String defensor, String territorioClicado) {
@@ -233,10 +227,12 @@ public class ControllerAPI {
 			model.reduzExe(defensor, 1);
 			model.addExe(atacante, 1);
 			saveState(pathAuto);
+			verificaObjetivo();
 		} else if (defensor == territorioClicado && qtdDefensor < 3 && qtdAtacante > 1) {
 			model.reduzExe(atacante, 1);
 			model.addExe(defensor, 1);
 			saveState(pathAuto);
+			verificaObjetivo();
 		}
 	}
 
@@ -273,6 +269,7 @@ public class ControllerAPI {
 			qtdDeslocados.put(territorioDestino + "-" + territorioOrigem, -qtdDePara);
 		}
 		saveState(pathAuto);
+		verificaObjetivo();
 	}
 
 	public int getEtapa() {
@@ -354,4 +351,16 @@ public class ControllerAPI {
 		qtdExeAd += model.trocaCartas(cartasSelecionadas);
 		proxEtapa(); // Executa a etapa
 	}
+
+	private void verificaObjetivo(){
+		if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
+				boolean continua = view.exibeVencedor();
+				if (continua) {
+					view.exibeNovoJogoNovamente();
+				} else {
+					System.exit(0);
+				}
+			}
+	}
+
 }

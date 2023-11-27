@@ -1,10 +1,10 @@
 0,-1,6,0
 1,52
-Angola,Argélia,Argentina,Texas,França,Bangladesh,Arábia Saudita,Alasca,Tailândia,Nova Zelândia,Vancouver,Venezuela,Groelândia,Japão,Austrália,Jordânia,Iraque,Turquia,Irã,Coréia do Norte,Paquistão,Peru,Indonésia,Russia,Ucrânia,Califórnia,Espanha,Cazaquistão,CORINGA,Nova York,México,Québec,CORINGA,Letônia,Romênia,Polônia,China,Perth,Síria,Mongolia,Itália,Reino Unido,Egito,Nigéria,Sibéria,Suécia,Calgary,Brasil,Somalia,Índia,Coréia do Sul,Estônia,África do Sul,
+Angola,Argélia,Argentina,França,Texas,Bangladesh,Arábia Saudita,Jordânia,Iraque,Turquia,Irã,Coréia do Norte,Paquistão,Peru,Indonésia,Rússia,Ucrânia,Califórnia,Espanha,Cazaquistão,Nova York,México,Québec,CORINGA,Letônia,Romênia,Polônia,China,Perth,Síria,Mongolia,Itália,Reino Unido,Egito,Nigéria,Sibéria,Suécia,Calgary,Brasil,Somalia,Índia,Coréia do Sul,Estônia,África do Sul,
 ,
 LUIZA,VERMELHO,null
 12
-,
+Alasca,Tailândia,Groelândia,Japão,Austrália,
 Mongolia,1
 Somalia,1
 Espanha,1
@@ -55,14 +55,14 @@ Ucrânia,1
 ;
 THOMAS,PRETO,null
 7
-,
+Nova Zelândia,Vancouver,Venezuela,CORINGA,
 Groelândia,1
 Polônia,1
 Sibéria,1
 Angola,1
 Brasil,1
 Cazaquistão,1
-Russia,1
+Rússia,1
 Turquia,1
 África do Sul,1
 Paquistão,1

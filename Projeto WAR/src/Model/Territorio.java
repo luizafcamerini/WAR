@@ -280,21 +280,21 @@ class Territorio implements ObservadoIF {
 
 				Arábia Saudita,Ásia,circulo,Jordânia,Iraque,Somalia
 				Bangladesh,Ásia,circulo,Índia,Coréia do Sul,Tailândia,Indonésia
-				Cazaquistão,Ásia,circulo,Sibéria,Russia,Letônia,Turquia,China,Mongolia,Japão
+				Cazaquistão,Ásia,circulo,Sibéria,Rússia,Letônia,Turquia,China,Mongolia,Japão
 				China,Ásia,quadrado,Cazaquistão,Mongolia,Coréia do Norte,Coréia do Sul,Índia,Paquistão,Turquia
 				Coréia do Norte,Ásia,quadrado,Coréia do Sul,China,Japão
 				Coréia do Sul,Ásia,triangulo,China,Índia,Coréia do Norte,Tailândia,Bangladesh
-				Estônia,Ásia,circulo,Suécia,Letônia,Russia
+				Estônia,Ásia,circulo,Suécia,Letônia,Rússia
 				Índia,Ásia,triangulo,Paquistão,China,Coréia do Sul,Bangladesh,Indonésia
 				Irã,Ásia,quadrado,Iraque,Síria,Paquistão
 				Iraque,Ásia,triangulo,Arábia Saudita,Jordânia,Síria,Irã
 				Japão,Ásia,circulo,Coréia do Norte,Mongolia,Cazaquistão
 				Jordânia,Ásia,quadrado,Arábia Saudita,Iraque,Síria,Egito
-				Letônia,Ásia,quadrado,Estônia,Russia,Cazaquistão,Polônia,Ucrânia,Suécia,Turquia
+				Letônia,Ásia,quadrado,Estônia,Rússia,Cazaquistão,Polônia,Ucrânia,Suécia,Turquia
 				Mongolia,Ásia,triangulo,Cazaquistão,China,Japão
 				Paquistão,Ásia,circulo,Turquia,Síria,Irã,China,Índia
-				Russia,Ásia,triangulo,Estônia,Letônia,Cazaquistão,Sibéria
-				Sibéria,Ásia,quadrado,Alasca,Russia,Cazaquistão
+				Rússia,Ásia,triangulo,Estônia,Letônia,Cazaquistão,Sibéria
+				Sibéria,Ásia,quadrado,Alasca,Rússia,Cazaquistão
 				Síria,Ásia,quadrado,Jordânia,Iraque,Irã,Paquistão,Turquia
 				Tailândia,Ásia,triangulo,Bangladesh,Coréia do Sul
 				Turquia,Ásia,triangulo,Letônia,Cazaquistão,China,Paquistão,Síria,Ucrânia

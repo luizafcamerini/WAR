@@ -4,7 +4,7 @@ class Objetivo6 extends Objetivo {
 	Jogador alvo;
 
 	protected Objetivo6() {
-		descricao = "Destruir todos os exércitos VERDES. Se você é quem possui os exércitos VERDES ou se esses exércitos já foram destruídos por outro jogador, o seu objetivo passa a ser conquistar 24 territorios a sua escolha.";
+		descricao = "Destruir todos os exércitos VERDES.\nSe você é quem possui os exércitos VERDES ou se esses exércitos já foram destruídos por outro jogador,\no seu objetivo passa a ser conquistar 24 territórios a sua escolha.";
 		imgName = "war_carta_objetivo6.png";
 	}
 

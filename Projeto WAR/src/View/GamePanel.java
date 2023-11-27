@@ -14,7 +14,8 @@ import Observer.ObservadorIF;
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final boolean DEBUG = false;
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
-	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
+	// private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO",
+	// "VERDE", "VERMELHO" };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
 	private final int I2_TEMP1 = 101; // get(2) do id do territorio temporario 1
 	private final int I2_TEMP2 = 102; // get(2) do id do territorio temporario 2
@@ -134,7 +135,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAtaque = new Botao("ATACAR");
 		bAtaqueN = new Botao("ATACAR NOVAMENTE");
 		bSalvar = new Botao("SALVAR O JOGO");
-		bIniciar = new Botao("INICIAR JOGO");
+		bIniciar = new Botao("INICIAR NOVO JOGO");
 		bCarregar = new Botao("CARREGAR JOGO");
 		bCarregarAuto = new Botao("CONTINUAR ÚLTIMO JOGO");
 		bConfirmaNovoJogo = new Botao("CONFIRMAR");
@@ -260,10 +261,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			else if (i2 == I2_B_INICIAR) {
 				exibeMenuInicial = false;
 				exibeNovoJogo = true;
-				bConfirmaNovoJogo.setClivael(true);
 				if (janelaExibida) {
 					limpaJanela();
 				}
+				bConfirmaNovoJogo.setClivael(true);
 				fora = true;
 			}
 
@@ -362,8 +363,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				control.confirmaTroca(cartasSelecionadas);
 
 				// for (int i = 0; i < bCartas.length; i++) {
-				// 	cartasSelecionadas[i] = false;
-				// 	bCartas[i].setClivael(false);
+				// cartasSelecionadas[i] = false;
+				// bCartas[i].setClivael(false);
 				// }
 				limpaJanela();
 				obrigaExibeCartas = false;
@@ -549,8 +550,6 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		repaint();
 	}
 
-	
-
 	public void exibeNovoJogoNovamente(String[] nomes) {
 		for (int i = 0; i < tfNomes.length; i++) {
 			tfNomes[i].setText(nomes[i] != null ? nomes[i] : "");
@@ -662,6 +661,52 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int x = xc - (int) fonte.getStringBounds(text, frc).getWidth() / 2;
 		int y = yc - (int) fonte.getStringBounds(text, frc).getHeight() / 2;
 
+		g.setColor(Color.BLACK);
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				g.drawString(text, x + i, y + j);
+			}
+		}
+
+		g.setColor(Color.WHITE);
+		g.drawString(text, x, y);
+	}
+
+	private void drawStr(Graphics g, String text, int xc, int yc, Color corTexto, Color corBorda) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(fonte);
+		FontRenderContext frc = g2d.getFontRenderContext();
+
+		int x = xc - (int) fonte.getStringBounds(text, frc).getWidth() / 2;
+		int y = yc - (int) fonte.getStringBounds(text, frc).getHeight() / 2;
+
+		g.setColor(corBorda);
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				g.drawString(text, x + i, y + j);
+			}
+		}
+
+		g.setColor(corTexto);
+		g.drawString(text, x, y);
+	}
+
+	private void drawStr(Graphics g, String text, int xc, int yc, Font font) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(font);
+		FontRenderContext frc = g2d.getFontRenderContext();
+
+		int x = xc - (int) font.getStringBounds(text, frc).getWidth() / 2;
+		int y = yc - (int) font.getStringBounds(text, frc).getHeight() / 2;
+
+		g.setColor(Color.BLACK);
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				g.drawString(text, x + i, y + j);
+			}
+		}
+		g.setColor(Color.WHITE);
+
 		g.drawString(text, x, y);
 	}
 
@@ -747,12 +792,18 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bAuto.draw(g);
 		bAtaque.draw(g);
 
-		g2d.setColor(Color.WHITE);
+		int corA = model.getCor(atacante);
+		int corD = model.getCor(defensor);
+		Color corAtacante = cores[corA];
+		Color corDefensor = cores[corD];
+		String nomeAtacante = model.getNomeJogador(corA);
+		String nomeDefensor = model.getNomeJogador(corD);
 
-		drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante, model.getQtdExercitos(atacante), defensor,
-				model.getQtdExercitos(defensor)), x_centro, y_inferior - fAlt * 3);
-		drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length), x_centro,
-				y_inferior - fAlt * 2);
+		drawStr(g2d, String.format("%s (%d) %s", atacante, model.getQtdExercitos(atacante), nomeAtacante), x_centro,
+				y_inferior - fAlt * 4, corAtacante, Color.BLACK);
+		drawStr(g2d, "x", x_centro, y_inferior - fAlt * 3);
+		drawStr(g2d, String.format("%s (%d) %s", defensor, model.getQtdExercitos(defensor), nomeDefensor), x_centro,
+				y_inferior - fAlt * 2, corDefensor, Color.BLACK);
 
 	}
 
@@ -784,11 +835,31 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			bAtaqueN.draw(g);
 		}
 
-		g2d.setColor(Color.WHITE);
-		drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante, model.getQtdExercitos(atacante), defensor,
-				model.getQtdExercitos(defensor)), x_centro, y_inferior - fAlt * 3);
-		drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length), x_centro,
-				y_inferior - fAlt * 2);
+		int minDados = dados[0].length < dados[1].length ? dados[0].length : dados[1].length;
+
+		int perdaAtacante = 0;
+		int perdaDefensor = 0;
+		for (int i = 0; i < minDados; i++) {
+			if (dados[0][i] > dados[1][i])
+				perdaDefensor++;
+			else
+				perdaAtacante++;
+		}
+
+		drawStr(g2d, String.format("Atacante perdeu %d exército(s)", perdaAtacante), x_centro, y_inferior - fAlt * 4,
+				Color.RED,
+				Color.BLACK);
+
+		drawStr(g2d, String.format("Defensor perdeu %d exército(s)", perdaDefensor), x_centro,
+				y_inferior - fAlt * 5 / 2, Color.YELLOW, Color.BLACK);
+		// g2d.getFontMetrics().stringWidth(atacanteStr)
+
+		// drawStr(g2d, String.format("%s (%d) atacando %s (%d)", atacante,
+		// model.getQtdExercitos(atacante), defensor,
+		// model.getQtdExercitos(defensor)), x_centro, y_inferior - fAlt * 3);
+		// drawStr(g2d, String.format("%d X %d", dados[0].length, dados[1].length),
+		// x_centro,
+		// y_inferior - fAlt * 2);
 	}
 
 	private void exibeTelaConquista(Graphics g) {
@@ -839,8 +910,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		// conectar o nome das cartas com as imagens
 		for (int i = 0; i < nomesCartas.length; i++) {
 			imagemCarta = images.getImage(Territorio.getImgTerritorio(nomesCartas[i]));
-			System.out.println("CARTA " + nomesCartas[i]);
-			System.out.println("CARTA " + Territorio.getImgTerritorio(nomesCartas[i]));
+			if (DEBUG) {
+				System.out.println("CARTA " + nomesCartas[i]);
+				System.out.println("CARTA " + Territorio.getImgTerritorio(nomesCartas[i]));
+			}
 			g2d.drawImage(imagemCarta, x_centro + (i - 2) * marginLeft - imagemCarta.getWidth(null) / 2,
 					y_centro - imagemCarta.getHeight(null) / 2, null);
 
@@ -891,34 +964,34 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		Graphics2D g2d = (Graphics2D) g;
 		int objetivoNum = Integer.parseInt(model.getImgNameObjetivo().replaceAll("\\D+", ""));
 		Image imagemObjetivo = images.getImage(model.getImgNameObjetivo());
-
+		FontRenderContext frc = g2d.getFontRenderContext();
 		int x_centro = getWidth() / 2;
 		int y_centro = getHeight() / 2;
+		int fAlt = (int) fonte.getStringBounds("", frc).getHeight(); // altura da fonte
+		int y_superior = getHeight() * 15 / 100; // Altura da borda superior da tela
+		int y_inferior = getHeight() - y_superior; // Altura da borda inferior da tela
+		int pos_x = x_centro;
+		int pos_y = y_inferior - 3 * fAlt;
 
 		exibeJanela(g);
 		g2d.drawImage(imagemObjetivo, x_centro - imagemObjetivo.getWidth(null) / 2,
-				y_centro - imagemObjetivo.getHeight(null) / 2, null);
+				y_centro - imagemObjetivo.getHeight(null) / 2 - fAlt, null);
 
-		if (objetivoNum >= 1 && objetivoNum <= 7) { // Se o objetivo for de eliminar um jogador, exibe o restante de sua
-													// descrição
-			String[] descObjetivoCompleta = model.getDescricaoObjetivo().split("\\.", 2);
-			String[] descObjetivo = descObjetivoCompleta[1].split(",");
-			if (DEBUG)
-				System.out.println("***Objetivo: " + objetivoNum);
-			int pos_x = x_centro - imagemObjetivo.getWidth(null) * 3;
-			int pos_y = y_centro + imagemObjetivo.getHeight(null) / 2 + 40;
-			/*
-			 * Reduz o tamanho da fonte atual para desenhar a string depois volta para a
-			 * fonte q tava antes
-			 */
-			Font fonte_atual = g2d.getFont();
-			Font font_nova = fonte_atual.deriveFont(15f);
-			g2d.setFont(font_nova);
-			g2d.drawString(descObjetivo[0], pos_x, pos_y);
-			pos_y += 20;
-			g2d.drawString(descObjetivo[1], pos_x, pos_y);
-			g2d.setFont(fonte_atual);
+		String[] descObjetivo = model.getDescricaoObjetivo().split("\n");
+		if (DEBUG)
+			System.out.println("***Objetivo: " + objetivoNum);
+		/*
+		 * Reduz o tamanho da fonte atual para desenhar a string depois volta para a
+		 * fonte q tava antes
+		 */
+		Font fonte_atual = g2d.getFont();
+		Font font_nova = fonte_atual.deriveFont(18f);
+		// g2d.setFont(font_nova);
+		for (String obj : descObjetivo) {
+			drawStr(g2d, obj, pos_x, pos_y, font_nova);
+			pos_y += fAlt;
 		}
+		// g2d.setFont(fonte_atual);
 	}
 
 	private void exibeTelaMenuInicial(Graphics g) {
