@@ -28,7 +28,7 @@ public class ControllerAPI {
 	}
 
 	public static ControllerAPI getInstance() {
-		/** Funcao que retorna a unica instancia de ControllerAPI. */
+		/** Metodo que retorna a unica instancia de ControllerAPI. */
 		if (instance == null) {
 			instance = new ControllerAPI();
 		}
@@ -37,7 +37,7 @@ public class ControllerAPI {
 
 	public void inicializa() {
 		/**
-		 * Funcao que cria as instancias de ModelAPI, ViewAPI, inicializa a tela de jogo
+		 * Metodo que cria as instancias de ModelAPI, ViewAPI, inicializa a tela de jogo
 		 * e executa a primeira etapa.
 		 */
 		instance.model = ModelAPI.getInstance();
@@ -52,7 +52,7 @@ public class ControllerAPI {
 	}
 
 	public void proxEtapa() {
-		/** Funcao que executa/passa para a proxima etapa. */
+		/** Metodo que executa/passa para a proxima etapa. */
 		corAtual = model.getCorAtual();
 		if (corAtual == -1)
 			return;
@@ -146,12 +146,12 @@ public class ControllerAPI {
 	}
 
 	public void saveState(String path) {
-		/** Funcao que salva o jogo dado um path para o arquivo txt. */
+		/** Metodo que salva o jogo dado um path para o arquivo txt. */
 		model.saveState(path);
 	}
 
 	public String getContinenteAtual() {
-		/** Funcao que retorna o continente que o jogador atual posiciona exercitos. */
+		/** Metodo que retorna o continente que o jogador atual posiciona exercitos. */
 		if (iCont < 0)
 			return null;
 		return continentes[iCont];
@@ -159,7 +159,7 @@ public class ControllerAPI {
 
 	public void addExe(String territorio) {
 		/**
-		 * Funcao que incrementa exercitos em um territorio dado o seu nome e passa a
+		 * Metodo que incrementa exercitos em um territorio dado o seu nome e passa a
 		 * etapa.
 		 */
 		model.addExe(territorio, 1);
@@ -174,7 +174,7 @@ public class ControllerAPI {
 	}
 
 	public boolean ataca(String atacante, String defensor) {
-		/** Funcao que verifica se a tela de ataque será exibida. */
+		/** Metodo que verifica se a tela de ataque será exibida. */
 		if (!model.verificaCondicoesAtaque(atacante, defensor)) {
 			System.out.println("Não foi possível atacar");
 			return false;
@@ -193,7 +193,7 @@ public class ControllerAPI {
 	}
 
 	public void ataque(String atacante, String defensor) {
-		/** Funcao que realiza um ataque automatico. */
+		/** Metodo que realiza um ataque automatico. */
 		int[][] dados = model.ataque(atacante, defensor);
 		int corAtual = model.getCorAtual();
 
@@ -208,7 +208,7 @@ public class ControllerAPI {
 	}
 
 	public void ataque(String atacante, String defensor, int[][] dados) {
-		/** Funcao que realiza um ataque manual. */
+		/** Metodo que realiza um ataque manual. */
 		model.ataque(atacante, defensor, dados);
 		int corAtual = model.getCorAtual();
 
@@ -223,7 +223,7 @@ public class ControllerAPI {
 
 	public void movePosConquista(String atacante, String defensor, String territorioClicado) {
 		/**
-		 * Funcao que move um exercito por vez após a conquista de um territorio. Usada
+		 * Metodo que move um exercito por vez após a conquista de um territorio. Usada
 		 * na ViewAPI.
 		 */
 		int qtdAtacante = model.getQtdExercitos(atacante);
@@ -243,7 +243,7 @@ public class ControllerAPI {
 	}
 
 	public void desloca(String territorioOrigem, String territorioDestino) {
-		/** Funcao que realiza o deslocamento de exercitos. */
+		/** Metodo que realiza o deslocamento de exercitos. */
 		int qtdDePara = qtdDeslocados.get(territorioOrigem + "-" + territorioDestino);
 		int qtdDe = qtdDeslocaveis.get(territorioOrigem);
 		int qtdPara = qtdDeslocaveis.get(territorioDestino);
@@ -279,12 +279,12 @@ public class ControllerAPI {
 	}
 
 	public int getEtapa() {
-		/** Funcao que retorna a etapa do jogo. */
+		/** Metodo que retorna a etapa do jogo. */
 		return this.etapa;
 	}
 
 	public int loadGame(String path) {
-		/** Funcao que carrega o jogo dado um path do arquivo txt existente. */
+		/** Metodo que carrega o jogo dado um path do arquivo txt existente. */
 		int load = model.loadGame(path);
 		if (load == 0) {
 			qtdDeslocados = null;
@@ -299,7 +299,7 @@ public class ControllerAPI {
 	}
 
 	public int loadGameAuto() {
-		/** Funcao que carrega o jogo automaticamente. */
+		/** Metodo que carrega o jogo automaticamente. */
 		return loadGame(pathAuto);
 	}
 
@@ -323,7 +323,7 @@ public class ControllerAPI {
 	}
 
 	public void novoJogo(String[] nomes) {
-		/** Funcao que começa um novo jogo dados os nomes dos jogadores. */
+		/** Metodo que começa um novo jogo dados os nomes dos jogadores. */
 		model.novoJogo(nomes);
 		iCont = -1;
 		etapa = 0;
@@ -335,36 +335,37 @@ public class ControllerAPI {
 
 	public boolean podeTrocar() {
 		/**
-		 * Funcao que verifica se a etapa do jogo esta condizente com a troca de cartas.
+		 * Metodo que verifica se a etapa do jogo esta condizente com a troca de cartas.
 		 */
 		return (etapa == 0) && (iCont == -1);
 	}
 
-	public static void main(String[] args) {
-		ControllerAPI control = ControllerAPI.getInstance();
-		control.inicializa();
-	}
-
 	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
-		/** Funcao que verifica as condicoes de troca de cartas. */
+		/** Metodo que verifica as condicoes de troca de cartas. */
 		return model.verificaTrocaCartas(cartasSelecionadas);
 	}
 
 	public void confirmaTroca(boolean[] cartasSelecionadas) {
-		/** Funcao que confirma e executa a troca de cartas. */
+		/** Metodo que confirma e executa a troca de cartas. */
 		qtdExeAd += model.trocaCartas(cartasSelecionadas);
 		proxEtapa(); // Executa a etapa
 	}
 
 	private void verificaObjetivo() {
 		if (model.verificaObjetivo()) { // Verifica se o jogador atual venceu
-			boolean continua = view.exibeVencedor();
+			// boolean continua = view.exibeVencedor();
+			boolean continua = view.exibeVencedor(coresStr[corAtual]);
 			if (continua) {
 				view.exibeNovoJogoNovamente();
 			} else {
 				System.exit(0);
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+		ControllerAPI control = ControllerAPI.getInstance();
+		control.inicializa();
 	}
 
 }

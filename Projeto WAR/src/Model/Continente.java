@@ -20,25 +20,25 @@ class Continente {
 	}
 
 	public String getNome() {
-		/** Funcao que retorna o nome do continente */
+		/** Metodo que retorna o nome do continente */
 		return this.nome;
 	}
 
 	public Territorio[] getTerritorios() {
-		/** Funcao que retorna uma copia da lista de territorios de um continente. */
+		/** Metodo que retorna uma copia da lista de territorios de um continente. */
 		return territorios.toArray(new Territorio[territorios.size()]);
 	}
 
 	public int getNumExeAdicionais() {
 		/**
-		 * Funcao que retorna o numero de exercitos adicionais de um continente
+		 * Metodo que retorna o numero de exercitos adicionais de um continente
 		 * dominado.
 		 */
 		return this.numExeAdicionais;
 	}
 
 	public void addTerritorio(Territorio t) {
-		/** Funcao que adiciona um territorio em um continente. */
+		/** Metodo que adiciona um territorio em um continente. */
 		if (territorios.contains(t))
 			return;
 		territorios.add(t);
@@ -46,7 +46,7 @@ class Continente {
 
 	public boolean pertence(Jogador j) {
 		/**
-		 * Funcao que retorna se um jogador e dono de todos os paises de um continente.
+		 * Metodo que retorna se um jogador e dono de todos os paises de um continente.
 		 */
 		for (Territorio t : territorios) {
 			if (t.getDono() != j)
@@ -57,7 +57,7 @@ class Continente {
 
 	public void exibe() {
 		/**
-		 * Funcao que exibe os dados de um continente: nome, exercitos adicionais e seus
+		 * Metodo que exibe os dados de um continente: nome, exercitos adicionais e seus
 		 * paises.
 		 */
 		System.out.println("\n\nContinente: " + this.nome);
@@ -69,12 +69,12 @@ class Continente {
 	}
 
 	public static Continente getContinente(String nome) {
-		/** Funcao que retorna um continente pelo seu nome. */
+		/** Metodo que retorna um continente pelo seu nome. */
 		return continentes.get(nome);
 	}
 
 	public static Continente[] getContinentes() {
-		/** Funcao que retorna a lista de continentes a partir da hashtable. */
+		/** Metodo que retorna a lista de continentes a partir da hashtable. */
 		return continentes.values().toArray(new Continente[continentes.size()]);
 	}
 

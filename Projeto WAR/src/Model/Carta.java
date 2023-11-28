@@ -11,18 +11,18 @@ class Carta {
 	}
 
 	public Territorio getTerritorio() {
-		/** Funcao retorna o territorio de uma carta. */
+		/** Metodo retorna o territorio de uma carta. */
 		return ter;
 	}
 
 	public Simbolos getSimbolo() {
-		/** Funcao que retorna o simbolo de uma carta. */
+		/** Metodo que retorna o simbolo de uma carta. */
 		return simb;
 	}
 
 	static public boolean verificaTroca(Carta[] cartas) {
 		/**
-		 * Funcao que verifica se as 3 cartas sao diferentes.
+		 * Metodo que verifica se as 3 cartas sao diferentes.
 		 */
 		Carta c1 = cartas[0];
 		Carta c2 = cartas[1];

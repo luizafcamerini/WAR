@@ -33,50 +33,54 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	private String text;
 	private boolean clicavel = true;
 	private Color cores[];
-	private int cor = 0;
+	private int cor = 0; // Indice na lista de cores do botao.
 	private boolean estavaEm = false;
-
-	// i1 = Acao do mouse: clicou, entrou, saiu
-	// i2 = id do botao
-	// i3 = id do botao caso i2 nao seja unico
 	private int i1, i2, i3;
 
 	// Lista de seus observadores:
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
 	public void addObservador(ObservadorIF o) {
-		/** Funcao que */
+		/** Metodo que adiciona um observador. */
 		lst.add(o);
 	}
 
 	public void removeObservador(ObservadorIF o) {
+		/** Metodo que remove um observador. */
 		lst.remove(o);
 	}
 
 	public int get(int i) {
+		/**
+		 * Metodo que retorna o ID botao (1), acao do mouse (2) ou ID complementar do
+		 * botao (3).
+		 */
 		if (i == 1)
-			return i1; // retorna a acao do
+			return i1;
 		else if (i == 2)
-			return i2; // retorna o id do botao
+			return i2;
 		else if (i == 3)
-			return i3; // retorna o "id alternativo" do botao
+			return i3;
 		return 0;
 	}
 
 	private void notificaObservadores() {
+		/** Metodo que notifica todos os observadores da lista de observadores. */
 		for (ObservadorIF o : lst) {
 			o.notify(this);
 		}
 	}
 
 	{
+		/** Bloco estatico que define uma lista de cores a serem usadas. */
 		cores = new Color[3];
-		cores[0] = Color.WHITE;
-		cores[1] = Color.GRAY;
-		cores[2] = new Color(64, 64, 64);
+		cores[0] = Color.WHITE; // Cor do botao ativado.
+		cores[1] = Color.GRAY; // Cor do botao com o mouse o sobrepondo.
+		cores[2] = new Color(64, 64, 64); // Cor do botao desativado.
 	}
 
 	public Botao(int _x, int _y, int _larg, int _alt, String _text) {
+		/** Metodo que define posicao, tamanho e texto do botao. */
 		x = _x;
 		y = _y;
 		larg = _larg;
@@ -84,42 +88,46 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		text = _text;
 	}
 
-	public Botao(String _text) {
-		text = _text;
+	public Botao(String text) {
+		/** Metodo que define o texto do botao. */
+		this.text = text;
 	}
 
-	public void setBounds(int _x, int _y, int _larg, int _alt) {
-		x = _x;
-		y = _y;
-		larg = _larg;
-		alt = _alt;
+	public void setBounds(int x, int y, int larg, int alt) {
+		/** Metodo que define tamanho e podicao do botao. */
+		this.x = x;
+		this.y = y;
+		this.larg = larg;
+		this.alt = alt;
 	}
 
-	public void setI2(int _i2) {
-		i2 = _i2;
+	public void setI2(int i2) {
+		/** Metodo que define o ID do botao. */
+		this.i2 = i2;
 	}
 
-	public void setI3(int _i3) {
-		i3 = _i3;
+	public void setI3(int i3) {
+		/** Metodo que define o ID complementar do botao. */
+		this.i3 = i3;
 	}
 
 	public void setColor(int i, Color color) {
+		/** Metodo que define a cor do botao em um certo estado. */
 		cores[i] = color;
 	}
 
 	private void drawStr(Graphics g, String text, int x, int y) {
+		/** Metodo que escreve um texto em uma posicao. */
 		g.setColor(Color.BLACK);
-
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		x = x - metrics.stringWidth(text) / 2;
 		y = y - metrics.getHeight() / 2 + metrics.getAscent();
-
 		g.drawString(text, x, y);
 	}
 
 	public void draw(Graphics g) {
+		/** Metodo que desenha o botao. */
 		Graphics2D g2d = (Graphics2D) g;
-
 		Rectangle2D rect = new Rectangle2D.Double(x, y, larg, alt);
 		g2d.setColor(cores[cor]);
 		g2d.fill(rect);
@@ -127,13 +135,16 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public void setPos(Graphics g, int xc, int yc) {
+		/**
+		 * Metodo que define o tamanho e posicao do botao a partir de uma posicao
+		 * central.
+		 */
 		Graphics2D g2d = (Graphics2D) g;
 		FontRenderContext frc = g2d.getFontRenderContext();
 		Font font = g2d.getFont();
 		LineMetrics lm = font.getLineMetrics(text, frc);
 		int margemX = 5;
 		int margemY = 2;
-
 		alt = (int) lm.getHeight() + margemY * 2; // altura da fonte
 		larg = (int) font.getStringBounds(text, frc).getWidth() + margemX * 2; // largura
 		x = xc - larg / 2 - margemX;
@@ -141,11 +152,12 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public boolean estaEm(int _x, int _y) {
+		/** Metodo que retorna se o mouse esta/clicou em cima do botao. */
+		// Caso o botao nao esta clicavel, a acao é ignorada.
 		if (!clicavel)
 			return false;
 		int dx = _x - x;
 		int dy = _y - y;
-
 		if (dx > 0 && dx < larg && dy > 0 && dy < alt) {
 			return true;
 		}
@@ -153,6 +165,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public void setClivael(boolean b) {
+		/** Metodo que define se o botao e clicavel ou nao. */
 		clicavel = b;
 		if (!b) {
 			cor = 2;
@@ -163,6 +176,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		/** Metodo que notifica se o botao foi clicado. */
 		int x = e.getX();
 		int y = e.getY();
 		if (estaEm(x, y)) {
@@ -172,29 +186,28 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// System.out.println("Mouse Entered");
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// System.out.println("Mouse Exited");
 	}
 
 	public void mousePressed(MouseEvent e) {
-		// System.out.println("Mouse Pressed");
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// System.out.println("Mouse Released");
 	}
 
 	public void mouseDragged(MouseEvent e) {
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		/**
+		 * Metodo que muda as cores do botao em relacao a posicao do mouse dentro ou
+		 * fora.
+		 */
 		int x = e.getX();
 		int y = e.getY();
 		boolean dentro = estaEm(x, y);
-
 		if (dentro && !estavaEm) {
 			cor = 1;
 			i1 = 1;
@@ -209,10 +222,9 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public boolean atualiza(Graphics g, int _x, int _y) {
-		/** Funcao que retorna se o mouse esta em cima ou nao, e muda a cor. */
+		/** Metodo que retorna se o mouse esta em cima ou nao, e muda a cor. */
 		int dx = _x - x;
 		int dy = _y - y;
-
 		if (dx > 0 && dx < larg && dy > 0 && dy < alt) {
 			cor = 1;
 			estavaEm = true;

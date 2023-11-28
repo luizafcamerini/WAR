@@ -17,28 +17,28 @@ class Jogador {
 	}
 
 	public Carta[] getCartas() {
-		/** Funcao que retorna uma copia da lista de cartas de um jogador. */
+		/** Metodo que retorna uma copia da lista de cartas de um jogador. */
 		return cartas.toArray(new Carta[cartas.size()]);
 	}
 
 	public String getNome() {
-		/** Funcao que retorna o nome do jogador. */
+		/** Metodo que retorna o nome do jogador. */
 		return nome;
 	}
 
 	public Cores getCor() {
-		/** Funcao que retorna a cor do jogador. */
+		/** Metodo que retorna a cor do jogador. */
 		return cor;
 	}
 
 	public Jogador getAssassino() {
-		/** Funcao que retorna o assassino do jogador. */
+		/** Metodo que retorna o assassino do jogador. */
 		return assassino;
 	}
 
 	public void setAssassino(Jogador assassino) {
 		/**
-		 * Funcao que define o assassino de um jogador e entrega as cartas do morto para
+		 * Metodo que define o assassino de um jogador e entrega as cartas do morto para
 		 * o assassino.
 		 */
 		this.assassino = assassino;
@@ -49,49 +49,49 @@ class Jogador {
 	}
 
 	public void setObjetivo(Objetivo o) {
-		/** Funcao que define o objetivo de um jogador. */
+		/** Metodo que define o objetivo de um jogador. */
 		objetivo = o;
 		o.defineDono(this);
 	}
 
 	public String getDescricaoObjetivo() {
-		/** Funcao que retorna a descricao de um objetivo. */
+		/** Metodo que retorna a descricao de um objetivo. */
 		return objetivo.getDescricao();
 	}
 
 	public String getImgNameObjetivo() {
-		/** Funcao que retorna o nome da imagem do objetivo de um jogador. */
+		/** Metodo que retorna o nome da imagem do objetivo de um jogador. */
 		return objetivo.getImgName();
 	}
 
 	public boolean verificaObjetivo() {
-		/** Funcao que verifica o objetivo do jogador. */
+		/** Metodo que verifica o objetivo do jogador. */
 		return objetivo.verifica();
 	}
 
 	public Territorio[] getTerritorios() {
-		/** Funcao que retorna uma copia da lista de territorios de um jogador. */
+		/** Metodo que retorna uma copia da lista de territorios de um jogador. */
 		return territorios.toArray(new Territorio[territorios.size()]);
 	}
 
 	public int getQtdTerritorios() {
-		/** Funcao que retorna a quantidade de territorios de um jogador. */
+		/** Metodo que retorna a quantidade de territorios de um jogador. */
 		return this.territorios.size();
 	}
 
 	public void removeTerritorio(Territorio t) {
-		/** Funcao que remove um pais pertencente ao jogador. */
+		/** Metodo que remove um pais pertencente ao jogador. */
 		territorios.remove(t);
 	}
 
 	public void addTerritorio(Territorio pais) {
-		/** Funcao que adiciona um territorio na lista de um jogador */
+		/** Metodo que adiciona um territorio na lista de um jogador */
 		territorios.add(pais);
 	}
 
 	public void addTerritorio(Territorio pais, int numExe) {
 		/**
-		 * Funcao que adiciona um territorio na lista de um jogador e quantos exercitos
+		 * Metodo que adiciona um territorio na lista de um jogador e quantos exercitos
 		 * posicionar nele.
 		 */
 		territorios.add(pais);
@@ -100,7 +100,7 @@ class Jogador {
 
 	public int getExeAd() {
 		/**
-		 * Funcao que retorna o numero de exercitos adicionais em relacao a quantidade
+		 * Metodo que retorna o numero de exercitos adicionais em relacao a quantidade
 		 * de territorios do jogador
 		 */
 		int tam = this.territorios.size();
@@ -109,7 +109,7 @@ class Jogador {
 
 	public void posicionaExe(int numExeAd) {
 		/**
-		 * Funcao que posiciona os exercitos gerais e das cartas sequencialmente nos
+		 * Metodo que posiciona os exercitos gerais e das cartas sequencialmente nos
 		 * terrritorios dominados.
 		 */
 		int tam = this.territorios.size();
@@ -123,12 +123,12 @@ class Jogador {
 	}
 
 	public void recebeCarta(Carta carta) {
-		/** Funcao que inclui uma carta no jogador. */
+		/** Metodo que inclui uma carta no jogador. */
 		cartas.add(carta);
 	}
 
 	public Carta removeCarta(int index) {
-		/** Funcao que retorna a carta removida das cartas do jogador. */
+		/** Metodo que retorna a carta removida das cartas do jogador. */
 		return cartas.remove(index);
 	}
 

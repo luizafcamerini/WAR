@@ -22,7 +22,7 @@ class Jogo {
 	}
 
 	public void inicializa() {
-		/** Funcao que inicializa as distribuicoes do jogo. */
+		/** Metodo que inicializa as distribuicoes do jogo. */
 		Collections.shuffle(jogadores); // Sorteia ordem dos jogadores
 		System.out.println("O jogador " + jogadores.get(iterador % jogadores.size()).getNome()
 				+ " começa distribuindo as cartas.");
@@ -46,7 +46,7 @@ class Jogo {
 
 	public void adicionaJogador(Jogador j) {
 		/**
-		 * Funcao que adiciona os jogadores da partida na lista de jogadores e adiciona
+		 * Metodo que adiciona os jogadores da partida na lista de jogadores e adiciona
 		 * objetivos em relacao a cor destes jogadores.
 		 */
 		if (jogadores.size() < 6) {
@@ -58,7 +58,7 @@ class Jogo {
 	}
 
 	public Jogador getProxJogador() {
-		/** Funcao que retorna o proximo jogador da partida. */
+		/** Metodo que retorna o proximo jogador da partida. */
 		Jogador j = jogadores.get(iterador % jogadores.size());
 		iterador++;
 		if (j.getAssassino() != null) { // Jogador morto, então pula para o próximo
@@ -68,14 +68,14 @@ class Jogo {
 	}
 
 	public void exibeJogadores() {
-		/** Funcao que exibe os jogadores da partida. */
+		/** Metodo que exibe os jogadores da partida. */
 		for (Jogador j : jogadores) {
 			System.out.println(j.getNome() + " " + j.getCor());
 		}
 	}
 
 	public Jogador getJogadorCor(Cores cor) {
-		/** Funcao que retorna o jogador de uma dada cor. */
+		/** Metodo que retorna o jogador de uma dada cor. */
 		Jogador j;
 		for (int i = 0; i < jogadores.size(); i++) {
 			j = jogadores.get(i);
@@ -86,7 +86,7 @@ class Jogo {
 	}
 
 	private void distribuiTerritorios() {
-		/** Funcao que distribui as cartas e preenche o mapa com os exercitos. */
+		/** Metodo que distribui as cartas e preenche o mapa com os exercitos. */
 		cartas.embaralha();
 		Carta c;
 		Jogador j;
@@ -100,7 +100,7 @@ class Jogo {
 	}
 
 	private void distribuiObjetivos() {
-		/** Funcao que embaralha e distribui os objetivos para os jogadores. */
+		/** Metodo que embaralha e distribui os objetivos para os jogadores. */
 		objetivos.embaralha();
 		Jogador j;
 		for (int i = 0; i < jogadores.size(); i++) {
@@ -110,7 +110,7 @@ class Jogo {
 	}
 
 	public void entregaCarta(Jogador j) {
-		/** Funcao que entrega uma carta do baralho ao jogador atual. */
+		/** Metodo que entrega uma carta do baralho ao jogador atual. */
 		if (j.getCartas().length >= 5) {
 			System.out.println(
 					"Não foi possível entregar carta ao jogador " + j.getNome() + " pois ele já possui 5 cartas");
@@ -134,7 +134,7 @@ class Jogo {
 
 	public int trocaCartas(Jogador j, Carta[] descartadas) {
 		/**
-		 * Funcao que retorna a quantidade adicional de exercitos em relacao a troca de
+		 * Metodo que retorna a quantidade adicional de exercitos em relacao a troca de
 		 * cartas e que acrescenta exercitos pela carta trocada com o territorio
 		 * conquistado.
 		 */
@@ -157,7 +157,7 @@ class Jogo {
 	}
 
 	public String getEstadoStr() {
-		/** Funcao que salva o estado do jogo em uma string. */
+		/** Metodo que salva o estado do jogo em uma string. */
 		String estado = "";
 		Jogador jogador; // começa salvando pelo jogador da vez
 		String nomeJogador;
@@ -255,27 +255,27 @@ class Jogo {
 	}
 
 	public void setCartas(Baralho<Carta> baralho) {
-		/** Funcao que define o baralho de cartas. */
+		/** Metodo que define o baralho de cartas. */
 		cartas = baralho;
 	}
 
 	public void setCartasUsadas(Baralho<Carta> baralho) {
-		/** Funcao que define o baralho de cartas usadas. */
+		/** Metodo que define o baralho de cartas usadas. */
 		cartasUsadas = baralho;
 	}
 
 	public void setContadorTroca(int n) {
-		/** Funcao que define o contaador de troca de cartas. */
+		/** Metodo que define o contaador de troca de cartas. */
 		contadorTroca = n;
 	}
 
 	public void setIterador(int n) {
-		/** Funcao que define o iterador da lista de jogadores. */
+		/** Metodo que define o iterador da lista de jogadores. */
 		iterador = n;
 	}
 
 	public void entregaCartaAssassino(Jogador assassino, Jogador morto) {
-		/** Funcao que entrega as cartas do jogador morto para seu assassino. */
+		/** Metodo que entrega as cartas do jogador morto para seu assassino. */
 		Baralho<Carta> tempBaralho = new Baralho<Carta>();
 		int count = assassino.getCartas().length;
 

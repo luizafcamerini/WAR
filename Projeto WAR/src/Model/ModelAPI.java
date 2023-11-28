@@ -18,7 +18,7 @@ public class ModelAPI {
 	}
 
 	public static ModelAPI getInstance() {
-		/** Funcao que pega a unica instancia de ModelAPI. */
+		/** Metodo que pega a unica instancia de ModelAPI. */
 		if (instance == null) {
 			instance = new ModelAPI();
 		}
@@ -26,22 +26,19 @@ public class ModelAPI {
 	}
 
 	public void adicionaJogador(String nome, int cor) {
-		/** Funcao que cria um novo jogador e o adiciona no jogo. */
+		/** Metodo que cria um novo jogador e o adiciona no jogo. */
 		jogo.adicionaJogador(new Jogador(cores[cor], nome));
 	}
 
 	public int getQtdExercitos(String territorio) {
 		/**
-		 * Funcao que retorna a quantidade de exercitos em um territorio dado seu nome.
+		 * Metodo que retorna a quantidade de exercitos em um territorio dado seu nome.
 		 */
 		return Territorio.getTerritorio(territorio).getQntdExercitos();
 	}
 
 	public int getCor(String territorio) {
-		/**
-		 * Funcao que retorna o indice da cor do dono de um territorio na lista de
-		 * cores.
-		 */
+		/** Metodo que retorna o indice da cor do dono de um territorio. */
 		Jogador dono = Territorio.getTerritorio(territorio).getDono();
 		if (dono == null)
 			return -1;
@@ -54,7 +51,7 @@ public class ModelAPI {
 	}
 
 	public int getCorAtual() {
-		/** Funcao que retorna o indice da cor do jogador atual. */
+		/** Metodo que retorna o indice da cor do jogador atual. */
 		if (jAtual == null)
 			return -1;
 		Cores c = jAtual.getCor();
@@ -66,12 +63,12 @@ public class ModelAPI {
 	}
 
 	public String getNomeJogadorAtual() {
-		/** Funcao que retorna o nome do jogador atual. */
+		/** Metodo que retorna o nome do jogador atual. */
 		return jAtual.getNome();
 	}
 
 	public String getNomeJogador(int cor) {
-		/** Funcao que retorna o nome de um jogador dada sua cor. */
+		/** Metodo que retorna o nome de um jogador dada sua cor. */
 		if (jogo.getJogadorCor(cores[cor]) == null) {
 			return null;
 		}
@@ -79,19 +76,19 @@ public class ModelAPI {
 	}
 
 	public int getProxCor() {
-		/** Funcao que passa a vez para o proximo jogador e retorna a cor dele. */
+		/** Metodo que passa a vez para o proximo jogador e retorna a cor dele. */
 		jAtual = jogo.getProxJogador();
 		return getCorAtual();
 	}
 
 	public String[] getCartasJogador() {
-		/** Funcao que retorna o nome das cartas do jogador atual */
+		/** Metodo que retorna o nome das cartas do jogador atual */
 		return getCartasJogador(jAtual);
 	}
 
 	String[] getCartasJogador(Jogador jogador) {
 		/**
-		 * Funcao que retorna uma string com o nome das cartas de um jogador.
+		 * Metodo que retorna uma string com o nome das cartas de um jogador.
 		 * Sobrescrita usada no saveState().
 		 */
 		Carta[] cartas = jogador.getCartas();
@@ -106,7 +103,7 @@ public class ModelAPI {
 
 	public String[] getTerritorios(int cor) {
 		/**
-		 * Funcao que retorna uma lista dos nomes dos territorios de um jogador dada a
+		 * Metodo que retorna uma lista dos nomes dos territorios de um jogador dada a
 		 * sua cor.
 		 */
 		Jogador j = jogo.getJogadorCor(cores[cor]);
@@ -119,7 +116,7 @@ public class ModelAPI {
 	}
 
 	public String[] getVizinhos(String territorio) {
-		/** Funcao que retorna os nomes dos vizinhos de um dado territorio. */
+		/** Metodo que retorna os nomes dos vizinhos de um dado territorio. */
 		Territorio[] viz = Territorio.getTerritorio(territorio).getVizinhos();
 		String[] lst = new String[viz.length];
 		for (int i = 0; i < viz.length; i++) {
@@ -130,7 +127,7 @@ public class ModelAPI {
 
 	public boolean verificaCondicoesAtaque(String atacante, String defensor) {
 		/**
-		 * Funcao que verifica as condicoes de ataque dado os nomes dos atacante e
+		 * Metodo que verifica as condicoes de ataque dado os nomes dos atacante e
 		 * defensor.
 		 */
 		Territorio atac = Territorio.getTerritorio(atacante);
@@ -140,7 +137,7 @@ public class ModelAPI {
 
 	public int[][] ataque(String atacante, String defensor) {
 		/**
-		 * Funcao que retorna uma matriz dos dados de um ataque automativo. Usado no
+		 * Metodo que retorna uma matriz dos dados de um ataque automativo. Usado no
 		 * ControllerAPI.
 		 */
 		Territorio atac = Territorio.getTerritorio(atacante);
@@ -152,7 +149,7 @@ public class ModelAPI {
 
 	public void ataque(String atacante, String defensor, int[][] dados) {
 		/**
-		 * Funcao que recebe uma matriz dos dados de um ataque manual. Usado no
+		 * Metodo que recebe uma matriz dos dados de um ataque manual. Usado no
 		 * ControllerAPI.
 		 */
 		Territorio atac = Territorio.getTerritorio(atacante);
@@ -161,7 +158,7 @@ public class ModelAPI {
 	}
 
 	public String[] getContinentes() {
-		/** Funcao que retorna uma lista dos nomes dos continentes. */
+		/** Metodo que retorna uma lista dos nomes dos continentes. */
 		Continente[] conts = Continente.getContinentes();
 		String[] strConts = new String[conts.length];
 		for (int i = 0; i < conts.length; i++) {
@@ -171,7 +168,7 @@ public class ModelAPI {
 	}
 
 	public String[] getTerritoriosContinente(String continente) {
-		/** Funcao que retorna o nome dos territorios de um continente dado seu nome. */
+		/** Metodo que retorna o nome dos territorios de um continente dado seu nome. */
 		Continente cont = Continente.getContinente(continente);
 		Territorio[] territorios = cont.getTerritorios();
 		String[] strTerritorios = new String[territorios.length];
@@ -183,7 +180,7 @@ public class ModelAPI {
 
 	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
 		/**
-		 * Funcao que verifica as condicoes para a troca das cartas selecionadas. Usada
+		 * Metodo que verifica as condicoes para a troca das cartas selecionadas. Usada
 		 * no ControllerAPI.
 		 */
 		Carta[] cartas = jAtual.getCartas();
@@ -204,7 +201,7 @@ public class ModelAPI {
 	}
 
 	public int trocaCartas(boolean[] cartasSelecionadas) {
-		/** Funcao que realiza a troca de cartas. Usada no ControllerAPI. */
+		/** Metodo que realiza a troca de cartas. Usada no ControllerAPI. */
 		Carta[] cartasRespectivas = new Carta[3];
 
 		int j = 0;
@@ -218,7 +215,7 @@ public class ModelAPI {
 
 	public int getExeAdContinente(String continente) {
 		/**
-		 * Funcao que retorna a quantidade de exercitos adicionais de um continente caso
+		 * Metodo que retorna a quantidade de exercitos adicionais de um continente caso
 		 * o jogador atual seja seu dono.
 		 */
 		if (DEBUG)
@@ -234,37 +231,37 @@ public class ModelAPI {
 	}
 
 	public int getExeAd() {
-		/** Funcao que retorna a quantidade de exercitos adicionais do jogador atual. */
+		/** Metodo que retorna a quantidade de exercitos adicionais do jogador atual. */
 		return jAtual.getExeAd();
 	}
 
 	public void addExe(String territorio, int n) {
-		/** Funcao que acrescenta n exercitos em um territorio dado seu nome. */
+		/** Metodo que acrescenta n exercitos em um territorio dado seu nome. */
 		Territorio.getTerritorio(territorio).acrescentaExe(n);
 	}
 
 	public void reduzExe(String territorio, int n) {
-		/** Funcao que reduz n exercitos em um territorio dado seu nome. */
+		/** Metodo que reduz n exercitos em um territorio dado seu nome. */
 		Territorio.getTerritorio(territorio).reduzExe(n);
 	}
 
 	public void entregaCarta() {
-		/** Funcao que entrega uma carta ao jogador atual. */
+		/** Metodo que entrega uma carta ao jogador atual. */
 		jogo.entregaCarta(jAtual);
 	}
 
 	public String getImgNameObjetivo() {
-		/** Funcao que retorna o nome da imagem do objetivo do jogador atual. */
+		/** Metodo que retorna o nome da imagem do objetivo do jogador atual. */
 		return jAtual.getImgNameObjetivo();
 	}
 
 	public String getDescricaoObjetivo() {
-		/** Funcao que retorna a descricao do objetivo do jogador atual. */
+		/** Metodo que retorna a descricao do objetivo do jogador atual. */
 		return jAtual.getDescricaoObjetivo();
 	}
 
 	private int getIndiceCor(String cor) {
-		/** Funcao que retorna o indice da cor dada seu nome. Uasada no loadGame(). */
+		/** Metodo que retorna o indice da cor dada seu nome. Uasada no loadGame(). */
 		for (int i = 0; i < cores.length; i++) {
 			if (cores[i].name().equals(cor)) {
 				return i;
@@ -274,25 +271,25 @@ public class ModelAPI {
 	}
 
 	public boolean verificaObjetivo() {
-		/** Funcao que verifica o objetivo do jogador. */
+		/** Metodo que verifica o objetivo do jogador. */
 		return jAtual.verificaObjetivo();
 	}
 
 	public void registra(String territorio, ObservadorIF o) {
-		/** Funcao que registra o observador de um territorio dado seu nome. */
+		/** Metodo que registra o observador de um territorio dado seu nome. */
 		Territorio t = Territorio.getTerritorio(territorio);
 		t.addObservador(o);
 	}
 
 	public void desregistra(String territorio, ObservadorIF o) {
-		/** Funcao que desregistra um observador de um territorio dado seu nome. */
+		/** Metodo que desregistra um observador de um territorio dado seu nome. */
 		Territorio t = Territorio.getTerritorio(territorio);
 		t.removeObservador(o);
 	}
 
 	public void novoJogo(String[] nomes) {
 		/**
-		 * Funcao que comeca um novo jogo dados os nomes dos jogadores. Usada no
+		 * Metodo que comeca um novo jogo dados os nomes dos jogadores. Usada no
 		 * ControllerAPI.
 		 */
 		Territorio[] territorios = Territorio.getTerritorios();
@@ -312,7 +309,7 @@ public class ModelAPI {
 
 	public void saveState(String path) {
 		/**
-		 * Funcao que salva o estado do jogo em um arquivo txt. Usado no ControllerAPI.
+		 * Metodo que salva o estado do jogo em um arquivo txt. Usado no ControllerAPI.
 		 */
 		BufferedWriter writer = null;
 		File file = new File(path);
@@ -356,7 +353,7 @@ public class ModelAPI {
 	}
 
 	public int loadGame(String path) {
-		/** Funcao que carrega um jogo já existente através da leitura de um txt. */
+		/** Metodo que carrega um jogo já existente através da leitura de um txt. */
 		if (path == null) {
 			if (DEBUG)
 				System.out.println("Arquivo de salvamento não foi selecionado.");
@@ -555,14 +552,14 @@ public class ModelAPI {
 
 	void entregaCartaAssassino(Jogador morto) {
 		/**
-		 * Funcao que entrega as cartas do jogador morto para o assassino (jogador
+		 * Metodo que entrega as cartas do jogador morto para o assassino (jogador
 		 * atual)
 		 */
 		jogo.entregaCartaAssassino(jAtual, morto);
 	}
 
 	int color2int(Cores cor) {
-		/** Funcao que retorna o indice de uma cor na lista de cores. */
+		/** Metodo que retorna o indice de uma cor na lista de cores. */
 		for (int i = 0; i < cores.length; i++) {
 			if (cores[i] == cor)
 				return i;

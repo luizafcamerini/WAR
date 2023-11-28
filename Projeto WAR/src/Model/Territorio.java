@@ -51,34 +51,34 @@ class Territorio implements ObservadoIF {
 	}
 
 	public String getNome() {
-		/** Funcao que retorna o nome do territorio. */
+		/** Metodo que retorna o nome do territorio. */
 		return this.nome;
 	}
 
 	public Jogador getDono() {
-		/** Funcao que retorna o dono do territorio. */
+		/** Metodo que retorna o dono do territorio. */
 		return this.dono;
 	}
 
 	public void setDono(Jogador j) {
-		/** Funcao que define o dono do territorio. */
+		/** Metodo que define o dono do territorio. */
 		this.dono = j;
 	}
 
 	public void setQtdExercitos(int qtd) {
-		/** Funcao que define a quantidade de exercitos no territorio. */
+		/** Metodo que define a quantidade de exercitos no territorio. */
 		this.qntdExercito = qtd;
 		notificaObservadores();
 	}
 
 	public int getQntdExercitos() {
-		/** Funcao que retorna a quantidade de exercito no territorio. */
+		/** Metodo que retorna a quantidade de exercito no territorio. */
 		return this.qntdExercito;
 	}
 
 	public void trocaDono(Jogador j) {
 		/**
-		 * Funcao que troca o dono do territorio e a quantidade de exercitos do novo
+		 * Metodo que troca o dono do territorio e a quantidade de exercitos do novo
 		 * dono.
 		 */
 		if (j == null) {
@@ -101,19 +101,19 @@ class Territorio implements ObservadoIF {
 	}
 
 	public void acrescentaExe(int qtd) {
-		/** Funcao que acrescenta uma quantidade de exercitos em um territorio. */
+		/** Metodo que acrescenta uma quantidade de exercitos em um territorio. */
 		qntdExercito += qtd;
 		notificaObservadores();
 	}
 
 	public void reduzExe(int qtd) {
-		/** Funcao que decrescenta uma quantidade de exercitos em um territorio. */
+		/** Metodo que decrescenta uma quantidade de exercitos em um territorio. */
 		qntdExercito -= qtd;
 		notificaObservadores();
 	}
 
 	public Territorio[] getVizinhos() {
-		/** Funcao que retorna uma copia da lista de vizinhos de um territorio. */
+		/** Metodo que retorna uma copia da lista de vizinhos de um territorio. */
 		return vizinhos.toArray(new Territorio[vizinhos.size()]);
 	}
 
@@ -128,7 +128,7 @@ class Territorio implements ObservadoIF {
 
 	private void sorteiaDados(int[] lista) {
 		/**
-		 * Funcao que preenche uma lista de inteiros com inteiros aleatorios, de 1 a 6
+		 * Metodo que preenche uma lista de inteiros com inteiros aleatorios, de 1 a 6
 		 */
 		for (int i = 0; i < lista.length; i++) {
 			Random rand = new Random();
@@ -138,19 +138,19 @@ class Territorio implements ObservadoIF {
 	}
 
 	private boolean verificarVizinhos(Territorio t) {
-		/** Funcao que verifica se dois territorios sao vizinhos */
+		/** Metodo que verifica se dois territorios sao vizinhos */
 		return vizinhos.contains(t);
 	}
 
 	public boolean verificaCondicoesAtaque(Territorio alvo) {
-		/** Funcao que verifica as condicoes de ataque dado um territorio alvo. */
+		/** Metodo que verifica as condicoes de ataque dado um territorio alvo. */
 		return (this.verificarVizinhos(alvo)) &&
 				(this.dono != alvo.getDono()) &&
 				(this.qntdExercito > 1);
 	}
 
 	public void atacar(Territorio alvo, int[][] dados) {
-		/** Funcao em que um territorio ataca outro e faz com que o outro se defenda */
+		/** Metodo em que um territorio ataca outro e faz com que o outro se defenda */
 		int dadosAtaque[] = dados[0];
 		int dadosDefesa[] = dados[1];
 
@@ -176,7 +176,7 @@ class Territorio implements ObservadoIF {
 
 	public int[][] atacar(Territorio alvo) {
 		/**
-		 * Funcao em que um territorio ataca outro e faz com que o outro se defenda.
+		 * Metodo em que um territorio ataca outro e faz com que o outro se defenda.
 		 * Retorna uma matriz de dados.
 		 */
 		int dadosAtaque[];
@@ -214,7 +214,7 @@ class Territorio implements ObservadoIF {
 	}
 
 	public static Baralho<Carta> montaBaralho() {
-		/** Funcao que cria um baralho de cartas de territorios */
+		/** Metodo que cria um baralho de cartas de territorios */
 		Baralho<Carta> mapa = new Baralho<Carta>();
 		for (Carta carta : cartasTerritorio) {
 			mapa.adiciona(carta);
@@ -223,12 +223,12 @@ class Territorio implements ObservadoIF {
 	}
 
 	public static Territorio getTerritorio(String nome) {
-		/** Funcao que retorna um território pelo nome */
+		/** Metodo que retorna um território pelo nome */
 		return territorios.get(nome);
 	}
 
 	public static Territorio[] getTerritorios() {
-		/** Funcao que retorna todos os territorios */
+		/** Metodo que retorna todos os territorios */
 		return territorios.values().toArray(new Territorio[territorios.size()]);
 	}
 

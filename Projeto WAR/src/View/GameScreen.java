@@ -9,6 +9,7 @@ class GameScreen extends JFrame {
 	private static final int LARGURA_TELA = 1200;
 
 	public GameScreen(GamePanel gP) {
+		/** Construtor que cria a janela do jogo, a aprtir do GamePanel. */
 
 		setTitle("War");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

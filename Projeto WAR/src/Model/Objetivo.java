@@ -6,16 +6,16 @@ abstract class Objetivo {
 	protected String imgName;
 	private static Objetivo[] lst;
 
-	/** Funcao que verifica se o objetivo foi cumprido. */
+	/** Metodo que verifica se o objetivo foi cumprido. */
 	abstract public boolean verifica();
 
 	public static Objetivo getObjetivo(int i) {
-		/** Funcao que retorna */
+		/** Metodo que retorna */
 		return lst[i];
 	}
 
 	private static void criaObjetivos() {
-		/** Funcao que cria uma lista com todos os objetivos. */
+		/** Metodo que cria uma lista com todos os objetivos. */
 		if (lst != null)
 			return;
 
@@ -37,22 +37,22 @@ abstract class Objetivo {
 	}
 
 	public void defineDono(Jogador j) {
-		/** Funcao que define o dono do objetivo. */
+		/** Metodo que define o dono do objetivo. */
 		dono = j;
 	}
 
 	public String getDescricao() {
-		/** Funcao que retorna a descricao do objetivo. */
+		/** Metodo que retorna a descricao do objetivo. */
 		return descricao;
 	}
 
 	public String getImgName() {
-		/** Funcao que retorna o nome da imagem do objetivo. */
+		/** Metodo que retorna o nome da imagem do objetivo. */
 		return imgName;
 	}
 
 	public static Baralho<Objetivo> montaBaralho() {
-		/** Funcao que cria um baralho de objetivos. */
+		/** Metodo que cria um baralho de objetivos. */
 		if (lst == null) {
 			criaObjetivos();
 		}
@@ -64,7 +64,7 @@ abstract class Objetivo {
 	}
 
 	public static Objetivo setAlvo(Cores cor, Jogador alvo) {
-		/** Funcao que deinfe os alvos de um objetivo dada sua cor. */
+		/** Metodo que deinfe os alvos de um objetivo dada sua cor. */
 		int i = 0;
 		switch (cor) {
 			case AZUL:

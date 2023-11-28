@@ -1,0 +1,10 @@
+Integrantes do grupo:
+Luíza Ferreira Camerini 2120214
+Thomas de Mello Oliva 2011469
+
+O método main se encontra na classe ControllerAPI.java, do pacote src/Controller, linha 366.
+
+Link para os vídeos:
+https://drive.google.com/drive/folders/1WEZRvBi1v-t_3LV9Zv-Y4QzxRSM7hbTB?usp=sharing
+
+Caso tenha problemas de acesso, enviar um e-mail para: luizacamerini@hotmail.com
