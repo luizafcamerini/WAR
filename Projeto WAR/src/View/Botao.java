@@ -17,25 +17,21 @@ import Observer.ObservadorIF;
 import java.awt.font.*;
 import java.awt.Font;
 
-/*
- * acaoBotao = 0 // Mouse clicou no botao
- * acaoBotao = 1 // Mouse "entrou" no botao
- * acaoBotao = 2 // Mouse "saiu" no botao
- * 
- * idBotao = ID do botão
- * 
- * idComplementarBotao = ID do botão caso i2 não seja único
- * 
- */
-
 class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	private int x, y, alt, larg;
 	private String text;
 	private boolean clicavel = true;
 	private Color cores[];
-	private int cor = 0; // Indice na lista de cores do botao.
+	/** cores[0] = cor do botao ativado
+	 * cores[1] = cor do botao com o mouse em cima
+	 * cores[2] = cor do botao desativado
+	 */
+	private int cor = 0; // Indice na lista de cores do botao
 	private boolean estavaEm = false;
 	private int acaoBotao, idBotao, idComplementarBotao;
+	private final int CLICK_BOTAO = 0;
+	private final int ENTROU_BOTAO = 1;
+	private final int SAIU_BOTAO = 2;
 
 	// Lista de seus observadores:
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
@@ -52,7 +48,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 
 	public int get(int i) {
 		/**
-		 * Metodo que retorna o ID botao (1), acao do mouse (2) ou ID complementar do
+		 * Metodo que retorna a acao do botao (1), id do botao (2) ou ID complementar do
 		 * botao (3).
 		 */
 		if (i == 1)
@@ -74,9 +70,9 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	{
 		/** Bloco estatico que define uma lista de cores a serem usadas. */
 		cores = new Color[3];
-		cores[0] = Color.WHITE; // Cor do botao ativado.
-		cores[1] = Color.GRAY; // Cor do botao com o mouse o sobrepondo.
-		cores[2] = new Color(64, 64, 64); // Cor do botao desativado.
+		cores[0] = Color.WHITE;
+		cores[1] = Color.GRAY;
+		cores[2] = new Color(64, 64, 64);
 	}
 
 	public Botao(int _x, int _y, int _larg, int _alt, String _text) {
@@ -94,7 +90,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public void setBounds(int x, int y, int larg, int alt) {
-		/** Metodo que define tamanho e podicao do botao. */
+		/** Metodo que define tamanho e posicao do botao. */
 		this.x = x;
 		this.y = y;
 		this.larg = larg;
@@ -137,7 +133,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	public void setPos(Graphics g, int xc, int yc) {
 		/**
 		 * Metodo que define o tamanho e posicao do botao a partir de uma posicao
-		 * central.
+		 * central. O tamanho definido em setBounds() permanece o mesmo.
 		 */
 		Graphics2D g2d = (Graphics2D) g;
 		FontRenderContext frc = g2d.getFontRenderContext();
@@ -152,7 +148,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	}
 
 	public boolean estaEm(int _x, int _y) {
-		/** Metodo que retorna se o mouse esta/clicou em cima do botao. */
+		/** Metodo que retorna se o mouse esta em cima do botao. */
 		// Caso o botao nao esta clicavel, a acao é ignorada.
 		if (!clicavel)
 			return false;
@@ -180,7 +176,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 		if (estaEm(x, y)) {
-			acaoBotao = 0;
+			acaoBotao = CLICK_BOTAO;
 			notificaObservadores();
 		}
 	}
@@ -209,16 +205,34 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int y = e.getY();
 		boolean dentro = estaEm(x, y);
 		if (dentro && !estavaEm) {
+			if(idBotao==12){
+				// System.out.printf("%s %s\n",dentro?"true":"false",estavaEm?"true":"false");
+			}
 			cor = 1;
-			acaoBotao = 1;
+			acaoBotao = ENTROU_BOTAO;
 			notificaObservadores();
 			estavaEm = dentro;
+
+
 		} else if (!dentro && estavaEm) {
+			if(idBotao==12){
+				// System.out.printf("%s %s\n",dentro?"true":"false",estavaEm?"true":"false");
+			}
 			cor = 0;
-			acaoBotao = 2;
+			acaoBotao = SAIU_BOTAO;
 			notificaObservadores();
 			estavaEm = dentro;
+			
+
 		}
+
+
+		if(idBotao==12){
+			System.out.printf("%s do botao\n",dentro?"dentro":"fora");
+			System.out.printf("%s %s\n",dentro?"true":"false",estavaEm?"true":"false");
+		}
+
+
 	}
 
 	public boolean atualiza(Graphics g, int _x, int _y) {

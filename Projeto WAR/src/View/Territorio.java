@@ -1,13 +1,3 @@
-/*
- * idTerritorio = -1 // Padrão
- * 
- * acaoMouse = -1 // Território foi "alterado"
- * acaoMouse = 0 // Mouse clicou no territorio
- * acaoMouse = 1 // Mouse "entrou" no territorio
- * acaoMouse = 2 // Mouse "saiu" no territorio
- * 
- */
-
 package View;
 
 import java.awt.*;
@@ -15,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.font.FontRenderContext;
 import java.util.List;
 
 import Observer.ObservadoIF;
@@ -25,8 +16,9 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	private static Hashtable<String, String> imgTerritorios;
 
 	private String nome;
-	private int num = 0; // quantidade de exércitos neste território
+	private int num = 0; // Quantidade de exércitos neste território
 	private int x, y;
+	private int xName, yName;
 	private Color cor, cor2, cor3, cor4;
 	private Font font1, font2;
 	private int raio = 12;
@@ -34,12 +26,12 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	private boolean oculto = false;
 	private boolean clicavel = false;
 	
-	private int acaoMouse;
 	private int idTerritorio = -1;
-	private final int TERRITORIOALTERADO = -1;
-	private final int CLICKTERRITORIO = 0;
-	private final int ENTROUTERRITORIO = 1;
-	private final int SAIUTERRITORIO = 2;
+	private int acaoMouse;
+	private final int TERRITORIO_ALTERADO = -1;
+	private final int CLICK_TERRITORIO = 0;
+	private final int ENTROU_TERRITORIO = 1;
+	private final int SAIU_TERRITORIO = 2;
 
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
@@ -68,7 +60,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		Color cor = ViewAPI.getInstance().int2color(c);
 		setCor(cor);
 
-		acaoMouse = -1;
+		acaoMouse = TERRITORIO_ALTERADO;
 
 		notificaObservadores();
 	}
@@ -77,10 +69,12 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		this.idTerritorio = id;
 	}
 
-	public Territorio(String _nome, int _x, int _y) {
+	public Territorio(String _nome, int _x, int _y, int _xName, int _yName) {
 		nome = _nome;
 		x = _x;
 		y = _y;
+		xName = _xName;
+		yName = _yName;
 		font1 = new Font(null);
 		font2 = new Font("Arial", Font.BOLD, 14);
 	}
@@ -126,7 +120,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	public void setMarcado(boolean b) {
 		if (marcado != b) {
 			marcado = b;
-			acaoMouse = -1;
+			acaoMouse = TERRITORIO_ALTERADO;
 			notificaObservadores();
 		}
 	}
@@ -152,23 +146,21 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		Graphics2D g2d = (Graphics2D) g;
 		g.setFont(font1);
 		if (oculto && clicavel) {
-			g.setFont(font2);
-			g2d.setPaint(Color.WHITE);
-			String t = nome;
-			FontMetrics f = g.getFontMetrics();
-			double tw = f.getStringBounds(t, g).getWidth();
-			double th = f.getStringBounds(t, g).getHeight();
-			int __x = (int) (x - tw / 2);
-			int __y = (int) (y - th / 2 + f.getAscent());
-			// colocar a font como bold
+
+			Font fonte = font2;
+			g2d.setFont(fonte);
+			FontRenderContext frc = g2d.getFontRenderContext();
+			int x = xName - (int) fonte.getStringBounds(nome, frc).getWidth() / 2;
+			int y = yName - (int) fonte.getStringBounds(nome, frc).getHeight() / 2;
+
 			g.setColor(Color.BLACK);
 			for (int i = -2; i <= 2; i++) {
 				for (int j = -2; j <= 2; j++) {
-					g.drawString(t, __x + i, __y - 20 + j);
+					g.drawString(nome, x + i, y + j);
 				}
 			}
 			g.setColor(Color.WHITE);
-			g.drawString(t, __x, __y - 20);
+			g.drawString(nome,x,y);
 			g2d.setPaint(cor4);
 		} else {
 			g2d.setPaint(cor);
@@ -211,6 +203,24 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		g.drawString(txt, _x, _y);
 	}
 
+	public void draw_name(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		Font fonte = font2;
+		g2d.setFont(fonte);
+		FontRenderContext frc = g2d.getFontRenderContext();
+		int x = xName - (int) fonte.getStringBounds(nome, frc).getWidth() / 2;
+		int y = yName - (int) fonte.getStringBounds(nome, frc).getHeight() / 2;
+
+		g.setColor(Color.BLACK);
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				g.drawString(nome, x + i, y + j);
+			}
+		}
+		g.setColor(Color.WHITE);
+		g.drawString(nome,x,y);
+	}
+
 	public static Territorio getTerritorio(String nome) {
 		return territorios.get(nome);
 	}
@@ -232,7 +242,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		int x = e.getX();
 		int y = e.getY();
 		if (estaEm(x, y)) {
-			acaoMouse = 0;
+			acaoMouse = CLICK_TERRITORIO;
 			notificaObservadores();
 			// ViewAPI.getInstance().click(nome);
 		}
@@ -267,13 +277,13 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 			setOculto(true);
 			// System.out.print("Entrou\n");
 			mouseEntered(e);
-			acaoMouse = 1;
+			acaoMouse = ENTROU_TERRITORIO;
 			notificaObservadores();
 		} else if (!estaEm(x, y) && oculto) {
 			setOculto(false);
 			// System.out.print("Saiu\n");
 			mouseExited(e);
-			acaoMouse = 2;
+			acaoMouse = SAIU_TERRITORIO;
 			notificaObservadores();
 		}
 	}
@@ -283,57 +293,57 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 			territorios = new Hashtable<String, Territorio>();
 			imgTerritorios = new Hashtable<String, String>();
 			String txtTerritorios = """
-					Espanha,525,215,war_carta_eu_espanha.png
-					Polônia,660,140,war_carta_eu_polonia.png
-					Síria,760,225,war_carta_as_siria.png
-					Québec,350,125,war_carta_an_quebec.png
-					África do Sul,660,510,war_carta_af_africadosul.png
-					Paquistão,845,260,war_carta_as_paquistao.png
-					Alasca,150,75,war_carta_an_alasca.png
-					Indonésia,1000,445,war_carta_oc_indonesia.png
-					Índia,895,315,war_carta_as_india.png
-					Egito,650,330,war_carta_af_egito.png
-					Nova Zelândia,1035,590,war_carta_oc_novazelandia.png
-					Arábia Saudita,760,350,war_carta_as_arabiasaudita.png
-					Calgary,235,80,war_carta_an_calgary.png
-					China,895,230,war_carta_as_china.png
-					Jordânia,710,290,war_carta_as_jordania.png
-					Japão,1060,210,war_carta_as_japao.png
-					Nigéria,595,370,war_carta_af_nigeria.png
-					Austrália,975,555,war_carta_oc_australia.png
-					Perth,915,540,war_carta_oc_perth.png
-					Groelândia,395,40,war_carta_an_groelandia.png
-					Argentina,340,505,war_carta_asl_argentina.png
-					Vancouver,220,125,war_carta_an_vancouver.png
-					Cazaquistão,945,150,war_carta_as_cazaquistao.png
-					Itália,610,180,war_carta_eu_italia.png
-					França,560,185,war_carta_eu_franca.png
-					Angola,640,445,war_carta_af_angola.png
-					México,200,300,war_carta_an_mexico.png
-					Venezuela,260,370,war_carta_asl_venezuela.png
-					Mongolia,960,195,war_carta_as_mongolia.png
-					Argélia,535,310,war_carta_af_argelia.png
-					Somalia,705,425,war_carta_af_somalia.png
-					Romênia,660,195,war_carta_eu_romenia.png
-					Letônia,750,130,war_carta_as_letonia.png
-					Texas,230,195,war_carta_an_texas.png
-					Peru,300,435,war_carta_asl_peru.png
-					Suécia,610,80,war_carta_eu_suecia.png
-					Sibéria,995,75,war_carta_as_siberia.png
-					Coréia do Norte,970,245,war_carta_as_coreiadonorte.png
-					Coréia do Sul,970,275,war_carta_as_coreiadosul.png
-					Tailândia,1000,300,war_carta_as_tailandia.png
-					Bangladesh,950,320,war_carta_as_bangladesh.png
-					Reino Unido,545,130,war_carta_eu_reinounido.png
-					Ucrânia,680,170,war_carta_eu_ucrania.png
-					Califórnia,170,200,war_carta_an_california.png
-					Nova York,270,205,war_carta_an_novayork.png
-					Rússia,885,95,war_carta_as_russia.png
-					Estônia,770,80,war_carta_as_estonia.png
-					Brasil,350,400,war_carta_asl_brasil.png
-					Turquia,825,185,war_carta_as_turquia.png
-					Iraque,770,280,war_carta_as_iraque.png
-					Irã,810,285,war_carta_as_ira.png
+				Espanha,525,215,0,35,war_carta_eu_espanha.png
+				Polônia,660,140,0,-10,war_carta_eu_polonia.png
+				Síria,760,225,0,-10,war_carta_as_siria.png
+				Québec,350,125,0,-10,war_carta_an_quebec.png
+				África do Sul,660,510,0,-10,war_carta_af_africadosul.png
+				Paquistão,845,260,0,-10,war_carta_as_paquistao.png
+				Alasca,150,75,0,-10,war_carta_an_alasca.png
+				Indonésia,1000,445,0,-10,war_carta_oc_indonesia.png
+				Índia,895,315,0,-10,war_carta_as_india.png
+				Egito,650,330,0,-10,war_carta_af_egito.png
+				Nova Zelândia,1035,590,10,-10,war_carta_oc_novazelandia.png
+				Arábia Saudita,760,350,0,-10,war_carta_as_arabiasaudita.png
+				Calgary,235,80,0,-10,war_carta_an_calgary.png
+				China,895,230,0,-10,war_carta_as_china.png
+				Jordânia,710,290,0,-10,war_carta_as_jordania.png
+				Japão,1060,210,0,-10,war_carta_as_japao.png
+				Nigéria,595,370,0,-10,war_carta_af_nigeria.png
+				Austrália,975,555,0,-10,war_carta_oc_australia.png
+				Perth,915,540,0,-10,war_carta_oc_perth.png
+				Groelândia,395,40,0,-10,war_carta_an_groelandia.png
+				Argentina,340,505,0,-10,war_carta_asl_argentina.png
+				Vancouver,220,135,0,-10,war_carta_an_vancouver.png
+				Cazaquistão,945,150,0,-10,war_carta_as_cazaquistao.png
+				Itália,610,180,0,-10,war_carta_eu_italia.png
+				França,560,185,0,-10,war_carta_eu_franca.png
+				Angola,640,445,0,-10,war_carta_af_angola.png
+				México,200,300,0,-10,war_carta_an_mexico.png
+				Venezuela,260,370,0,-10,war_carta_asl_venezuela.png
+				Mongolia,960,195,0,-10,war_carta_as_mongolia.png
+				Argélia,535,310,0,-10,war_carta_af_argelia.png
+				Somalia,705,425,0,-10,war_carta_af_somalia.png
+				Romênia,660,195,0,35,war_carta_eu_romenia.png
+				Letônia,750,130,0,-10,war_carta_as_letonia.png
+				Texas,225,195,0,-10,war_carta_an_texas.png
+				Peru,300,435,0,-10,war_carta_asl_peru.png
+				Suécia,610,80,0,-10,war_carta_eu_suecia.png
+				Sibéria,995,75,0,-10,war_carta_as_siberia.png
+				Coréia do Norte,970,245,70,15,war_carta_as_coreiadonorte.png
+				Coréia do Sul,970,275,65,15,war_carta_as_coreiadosul.png
+				Tailândia,1000,300,50,15,war_carta_as_tailandia.png
+				Bangladesh,950,320,0,35,war_carta_as_bangladesh.png
+				Reino Unido,545,130,0,-10,war_carta_eu_reinounido.png
+				Ucrânia,680,170,40,15,war_carta_eu_ucrania.png
+				Califórnia,170,200,-10,-10,war_carta_an_california.png
+				Nova York,270,205,20,-10,war_carta_an_novayork.png
+				Rússia,885,95,0,-10,war_carta_as_russia.png
+				Estônia,770,80,0,-10,war_carta_as_estonia.png
+				Brasil,350,400,0,-10,war_carta_asl_brasil.png
+				Turquia,825,185,0,-10,war_carta_as_turquia.png
+				Iraque,770,280,0,-10,war_carta_as_iraque.png
+				Irã,810,285,0,-10,war_carta_as_ira.png
 									""";
 
 			String nome;
@@ -341,7 +351,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 
 			String[] linhasTerritorios = txtTerritorios.split("\n");
 			String[] strListTemp;
-			int x, y;
+			int x, y, xName, yName;
 
 			ViewAPI api = ViewAPI.getInstance();
 
@@ -351,17 +361,19 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 				// System.out.println(linha);
 
 				strListTemp = linha.split(",");
-				if (strListTemp.length == 4) { // Verifica que esta lendo uma linha com território
+				if (strListTemp.length == 6) { // Verifica que esta lendo uma linha com território
 					nome = strListTemp[0];
 					// System.out.println(nome);
 					x = Integer.parseInt(strListTemp[1]);
 					y = Integer.parseInt(strListTemp[2]);
-					territorio = new Territorio(nome, x + 10, y);
+					xName = x +10+ Integer.parseInt(strListTemp[3]);
+					yName = y + Integer.parseInt(strListTemp[4]);
+					territorio = new Territorio(nome, x + 10, y,xName,yName);
 					Color c = api.getColor(nome);
 					territorio.setCor(c);
 
 					territorios.put(nome, territorio);
-					imgTerritorios.put(nome, strListTemp[3]);
+					imgTerritorios.put(nome, strListTemp[5]);
 				}
 			}
 

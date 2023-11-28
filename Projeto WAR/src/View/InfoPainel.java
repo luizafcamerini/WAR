@@ -11,15 +11,15 @@ import Observer.ObservadorIF;
 /*
  * idObservador = ID do observador
  * 
- * i1 = -1 // ocorreu mundança na mensagem exibida
- * i1 = 0 // Mouse clicou em algum botao
- * i1 = 1 // Mouse "entrou" em algum botao
- * i1 = 2 // Mouse "saiu" de algum botao
+ * acaoMouse = -1 // ocorreu mundança na mensagem exibida
+ * acaoMouse = 0 // Mouse clicou em algum botao
+ * acaoMouse = 1 // Mouse "entrou" em algum botao
+ * acaoMouse = 2 // Mouse "saiu" de algum botao
  * 
- * i3 = 0 // Botao clicado foi o 0
- * i3 = 1 // Botao clicado foi o 1
- * i3 = 2 // Botao clicado foi o 2
- * i3 = 3 // Botao clicado foi o 3
+ * indexBotaoClicado = 0 // Botao clicado foi o 0
+ * indexBotaoClicado = 1 // Botao clicado foi o 1
+ * indexBotaoClicado = 2 // Botao clicado foi o 2
+ * indexBotaoClicado = 3 // Botao clicado foi o 3
  * 
  */
 
@@ -28,11 +28,16 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 	private int x, y, alt, larg;
 	private Botao botoes[];
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
-	private int i1, idObservador, i3;
+	private int acaoMouse, idObservador, indexBotaoClicado;
+	private final int MUDANCA_MSG = -1;
+	private final int CLICK_BOTAO = 0;
+	private final int ENTROU_BOTAO = 1;
+	private final int SAIU_BOTAO = 2;
 
-	public InfoPainel(int _x, int _y, int largura, int altura) {
-		x = _x;
-		y = _y;
+	public InfoPainel(int x, int y, int largura, int altura) {
+		/** Construtor que cria os botoes do InfoPanel e os configura. */
+		this.x = x;
+		this.y = y;
 		larg = largura;
 		alt = altura;
 		botoes = new Botao[4];
@@ -49,65 +54,72 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 
 	}
 
-	public void atializaListeners(GamePanel gP) {
+	public void atualizaListeners(GamePanel gP) {
+		/** Metodo que atualiza os listeners de acao dos mouses do InfoPanel. */
 		for (Botao b : botoes) {
-
 			gP.addMouseListener(b);
 			gP.addMouseMotionListener(b);
 		}
 	}
 
 	public void addObservador(ObservadorIF o) {
+		/** Metodo que adiciona um observador. */
 		lst.add(o);
 	}
 
 	public void removeObservador(ObservadorIF o) {
+		/** Metodo que remove um observador. */
 		lst.remove(o);
 	}
 
 	public int get(int i) {
+		/** Metodo que retorna acao do mouse ou observador ou botao clicado. */
 		if (i == 1)
-			return i1;
+			return acaoMouse;
 		else if (i == 2)
 			return idObservador;
 		else if (i == 3)
-			return i3;
+			return indexBotaoClicado;
 		return -2;
 	}
 
 	public void notify(ObservadoIF o) {
-		i1 = o.get(1);
-
-		if (i1 == 0) {
-			i3 = o.get(2);
+		/** Metodo que notifica se um botao foi clicado. */
+		acaoMouse = o.get(1);
+		if (acaoMouse == CLICK_BOTAO) {
+			indexBotaoClicado = o.get(2);
 		}
-
 		notificaObservadores();
 	}
 
 	private void notificaObservadores() {
+		/** Metodo que notifica seus observadores. */
 		for (ObservadorIF o : lst) {
 			o.notify(this);
 		}
 	}
 
 	public void setInfo(String mensagem) {
+		/** Metodo que muda a mensagem do InfoPainel. */
 		msg = mensagem;
-		i1 = -1;
+		acaoMouse = MUDANCA_MSG;
 		notificaObservadores();
 	}
 
 	public void setClivael(boolean b){
+		/** Metodo define se os botoes do InfoPainel estao clicaveis ou nao. */
 		for(Botao botao : botoes){
 			botao.setClivael(b);
 		}
 	}
 
 	public void setIDObservador(int idObservador) {
+		/** Metodo que define o id do observador. */
 		this.idObservador = idObservador;
 	}
 
 	private void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
+		/** Metodo que escreve o texto do InfoPainel com multiplas linhas. */
 		if (text == null)
 			return;
 		FontMetrics m = g.getFontMetrics();
@@ -132,6 +144,7 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 	}
 
 	public void draw(Graphics g) {
+		/** Metodo que desenha o InfoPainel. */
 		Graphics2D g2d = (Graphics2D) g;
 
 		Rectangle2D rt = new Rectangle2D.Double(x, y, larg, alt);

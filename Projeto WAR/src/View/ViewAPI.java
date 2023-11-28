@@ -382,7 +382,7 @@ public class ViewAPI {
 		gP.setBackground(Color.BLACK);
 
 		iP.addObservador(gP);
-		iP.atializaListeners(gP);
+		iP.atualizaListeners(gP);
 
 		gameScreen = new GameScreen(gP);
 		gameScreen.setVisible(true);

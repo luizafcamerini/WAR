@@ -10,7 +10,9 @@ import Observer.ObservadoIF;
 import Observer.ObservadorIF;
 
 class GamePanel extends JPanel implements MouseListener, ObservadorIF {
-	private final boolean DEBUG = false;
+	private final int ALTURA_TELA = 700;
+	private final int LARGURA_TELA = 1200;
+	private final boolean DEBUG = true;
 	private final Color[] cores = { Color.YELLOW, Color.BLUE, Color.WHITE, Color.BLACK, Color.GREEN, Color.RED };
 	private final int I2_TERRITORIO = -1; // get(2) do id dos territorios do mapa
 	private final int I2_TEMP1 = 101; // get(2) do id do territorio temporario 1
@@ -28,6 +30,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private final int I2_B_CARTAS = 10; // get(2) do id de botao das Cartas para a troca de cartas
 	private final int I2_B_CONFIRMA_TROCA = 11; // get(2) do id do botao de confirmacao da escolha para a troca de
 												// cartas
+	private final int I2_B_OLHO = 12;
+	private final int POS_OLHO_X = LARGURA_TELA - 65;
+	private final int POS_OLHO_Y = ALTURA_TELA - 125;
 	private final Font fonte = new Font("Arial", Font.PLAIN, 24);
 
 	private Territorio[] territorios;
@@ -49,6 +54,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private boolean exibeAtaque = false;
 	private boolean exibeResultadoAtaque = false;
 	private boolean exibeConquista = false;
+	private boolean olho_ativado = false;
 	private String atacante;
 	private String defensor;
 
@@ -69,9 +75,15 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	private Botao bCarregarAuto; // Carregar ultimo jogo
 	private Botao bConfirmaNovoJogo; // Confirmar novo jogo
 	private Botao bConfirmaTroca; // Confirmar troca de cartas
+	private Botao bAtivaOlho; // Ativa o olho para exibir os nomes de todos os territorios
 
 	private Botao[] bCartas; // Lista de botoes da troca de cartas (em cima das proprias cartas)
 	private boolean[] cartasSelecionadas; // Lista das cartas selecionadas (indice compativel com bCartas)
+
+
+	Image tabuleiro = images.getImage("war_tabuleiro2.png");
+	Image imgOlho = images.getImage("eye.png");
+	Image imgOlhoRiscado = images.getImage("eye-hide.png"); 
 
 	public GamePanel(InfoPainel iP) {
 		/** Construtor que cria e configura todos os componentes do GamePanel. */
@@ -129,8 +141,9 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bCarregarAuto = new Botao("CONTINUAR ÚLTIMO JOGO");
 		bConfirmaNovoJogo = new Botao("CONFIRMAR");
 		bConfirmaTroca = new Botao("CONFIRMAR");
+		bAtivaOlho = new Botao("");
 
-		//
+		
 		configBotao(bManual, I2_B_MANUAL);
 		configBotao(bAuto, I2_B_AUTO);
 		configBotao(bAtaque, I2_B_ATAQUE);
@@ -141,6 +154,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		configBotao(bCarregarAuto, I2_B_CARREGAR_AUTO);
 		configBotao(bConfirmaNovoJogo, I2_B_CONFIRMA_NOVO_JOGO);
 		configBotao(bConfirmaTroca, I2_B_CONFIRMA_TROCA);
+		configBotao(bAtivaOlho, I2_B_OLHO);
+
+
+		bAtivaOlho.setBounds(POS_OLHO_X, POS_OLHO_Y, 50, 50);
+		bAtivaOlho.setColor(0, new Color(0, 255, 0, 64));
+		bAtivaOlho.setColor(1, new Color(128, 0, 0, 64));
 
 		iP.setIDObservador(I2_INFOP);
 	}
@@ -368,6 +387,12 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 				obrigaExibeCartas = false;
 				fora = true;
 			}
+
+			// Ação do botão "bAtivaOlho"
+			else if (i2 == I2_B_OLHO) {
+				olho_ativado = !olho_ativado;
+				fora = false;
+			}
 		}
 
 		// Mouse "entrou" em algo
@@ -397,22 +422,32 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			yM = -1;
 		}
 
-		Image tabuleiro = images.getImage("war_tabuleiro2.png");
 		g.drawImage(tabuleiro, 0, 0, getWidth(), getHeight(), null);
 
 		for (Territorio t : territorios) {
 			t.draw(g);
+			if (olho_ativado)
+				t.draw_name(g);
 		}
 
 		iP.draw(g);
+
 		bSalvar.setPos(g, 110, 450);
 		if (bSalvar.atualiza(g, xM, yM)) {
 			fora = false;
 		}
 		bSalvar.draw(g);
 
+		if(bAtivaOlho.atualiza(g, POS_OLHO_X, POS_OLHO_Y)){
+			fora = false;
+		}
+		bAtivaOlho.draw(g);
+
 		g.setFont(fonte);
 
+		g.drawImage(olho_ativado ? imgOlhoRiscado : imgOlho, POS_OLHO_X, POS_OLHO_Y, 50, 50, null);
+
+		
 		// Desenha (ou nao) as janelas do jogo:
 		exibeTelaAtaque(g);
 		exibeTelaResultadoAtaque(g);
@@ -503,7 +538,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		int n, cor;
 
 		// Mostra territorio "temporário" do atacante
-		temp1 = new Territorio(atacante, x_centro - space, y_inferior - 50);
+		temp1 = new Territorio(atacante, x_centro - space, y_inferior - 50,0,-15);
 		n = view.getQtdExercitos(atacante);
 		temp1.setNum(n);
 		cor = view.getCor(atacante);
@@ -517,7 +552,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		addMouseMotionListener(temp1);
 
 		// Mostra territorio "temporário" do antigo defensor
-		temp2 = new Territorio(defensor, x_centro + space, y_inferior - 50);
+		temp2 = new Territorio(defensor, x_centro + space, y_inferior - 50, 0, -15);
 
 		n = view.getQtdExercitos(defensor);
 		temp2.setNum(n);
@@ -583,6 +618,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		 */
 		janelaExibida = true;
 		bSalvar.setClivael(false);
+		bAtivaOlho.setClivael(true);
 		iP.setClivael(false);
 
 		Graphics2D g2d = (Graphics2D) g;
@@ -626,6 +662,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bConfirmaTroca.setClivael(false);
 
 		bSalvar.setClivael(true);
+		bAtivaOlho.setClivael(true);
 		iP.setClivael(true);
 
 		if (exibeConquista) {
@@ -1071,6 +1108,24 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 
 		bConfirmaNovoJogo.draw(g);
+	}
+
+	private void exibeNomesTerritorios(){
+		if(olho_ativado){
+			for(Territorio t : territorios){
+				// t.setNomeVisivel(true);
+			}
+		}
+		else{
+			for(Territorio t : territorios){
+				// t.setNomeVisivel(false);
+			}
+		}
+	}
+
+	private void setOlhoAtivado(boolean b){
+		olho_ativado = b;
+		repaint();
 	}
 
 }
