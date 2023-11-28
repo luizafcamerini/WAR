@@ -947,23 +947,27 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	private void exibeTabelas(Graphics g) {
-		/** Metodo que  */
+		/** Metodo que exibe a janela que mostra as tabelas de bônus e de trocas */
 		if (!exibeTabelas)
 			return;
-		Graphics2D g2d = (Graphics2D) g;
-		Image imagemTabelaExe = images.getImage("war_tabela_troca.png");
-		Image imagemTabelaBonusCont = images.getImage("war_tabela_bonus_continente.png");
-		int larg = getWidth() * 80 / 100;
-		int x = getWidth() * 35 / 100;
-		int y = getHeight() * 40 / 100;
 
-		int pos_x_ini = x;
-		int pos_y_ini = y;
-		int marginLeft = larg / 5;
+		Graphics2D g2d = (Graphics2D) g;
+		Image imagemTabelaTroca = images.getImage("tabela_troca_cartas.png");
+		Image imagemTabelaBonus = images.getImage("tabela_bonus_continentes.png");
 		exibeJanela(g);
 
-		g2d.drawImage(imagemTabelaExe, pos_x_ini, pos_y_ini, null);
-		g2d.drawImage(imagemTabelaBonusCont, pos_x_ini + marginLeft, pos_y_ini, null);
+		int y_centro = getHeight() / 2;
+
+		int largImgTroca = getWidth() / 5;
+		int altImgTroca = largImgTroca * imagemTabelaTroca.getHeight(null) / imagemTabelaTroca.getWidth(null);
+
+		int largImgBonus = getWidth() / 5;
+		int altImgBonus = largImgBonus * imagemTabelaBonus.getHeight(null) / imagemTabelaBonus.getWidth(null);
+
+		g2d.drawImage(imagemTabelaTroca, getWidth() / 3 - largImgTroca / 2, y_centro - altImgTroca / 2, largImgTroca,
+				altImgTroca, null);
+		g2d.drawImage(imagemTabelaBonus, 2 * getWidth() / 3 - largImgBonus / 2, y_centro - altImgBonus / 2,
+				largImgBonus, altImgBonus, null);
 	}
 
 	private void exibeObjetivo(Graphics g) {
