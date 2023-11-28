@@ -10,7 +10,7 @@ public class ControllerAPI {
 	private static ControllerAPI instance;
 
 	private final String[] coresStr = { "AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "VERMELHO" };
-	private final String pathAuto = "src/autoSave.txt";
+	private final String pathAuto = "autoSave.txt";
 	private final boolean DEBUG = false;
 
 	private ModelAPI model;

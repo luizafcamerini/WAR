@@ -31,10 +31,10 @@ public class ViewAPI {
 	private InfoPainel iP;
 	private int corDefensor;
 
-	private SoundEffect somAtaque = new SoundEffect("src/View/sounds/attack.wav");
-	private SoundEffect somJogadorMorto = new SoundEffect("src/View/sounds/damageMine.wav");
-	private SoundEffect somVitoria = new SoundEffect("src/View/sounds/victory.wav");
-	private SoundEffect somConquista = new SoundEffect("src/View/sounds/conquista.wav");
+	private SoundEffect somAtaque = new SoundEffect("sounds/attack.wav");
+	private SoundEffect somJogadorMorto = new SoundEffect("sounds/damageMine.wav");
+	private SoundEffect somVitoria = new SoundEffect("sounds/victory.wav");
+	private SoundEffect somConquista = new SoundEffect("sounds/conquista.wav");
 
 	private ViewAPI() {
 	}

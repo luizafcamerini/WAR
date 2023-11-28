@@ -12,14 +12,14 @@ class Images {
 	private Hashtable<String, Image> imagensHashtable = new Hashtable<String, Image>();
 
 	private Images() {
-		File pasta = new File("src/View/images");
+		File pasta = new File("images");
 
 		File[] imagens = pasta.listFiles();
 
 		for (File imagem : imagens) {
 			try {
 				imagensHashtable.put(imagem.getName(), ImageIO.read(imagem));
-				// System.out.println(imagem.getName());
+				System.out.printf("Imagem '%s' carregada\n",imagem.getName());
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
