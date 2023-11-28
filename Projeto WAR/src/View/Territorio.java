@@ -1,10 +1,10 @@
 /*
- * i2 = -1 // Padrão
+ * idTerritorio = -1 // Padrão
  * 
- * i1 = -1 // Território foi "alterado"
- * i1 = 0 // Mouse clicou no territorio
- * i1 = 1 // Mouse "entrou" no territorio
- * i1 = 2 // Mouse "saiu" no territorio
+ * acaoMouse = -1 // Território foi "alterado"
+ * acaoMouse = 0 // Mouse clicou no territorio
+ * acaoMouse = 1 // Mouse "entrou" no territorio
+ * acaoMouse = 2 // Mouse "saiu" no territorio
  * 
  */
 
@@ -33,7 +33,13 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	private boolean marcado = false;
 	private boolean oculto = false;
 	private boolean clicavel = false;
-	private int i1, i2 = -1;
+	
+	private int acaoMouse;
+	private int idTerritorio = -1;
+	private final int TERRITORIOALTERADO = -1;
+	private final int CLICKTERRITORIO = 0;
+	private final int ENTROUTERRITORIO = 1;
+	private final int SAIUTERRITORIO = 2;
 
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
 
@@ -47,9 +53,9 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 
 	public int get(int i) {
 		if (i == 1)
-			return i1;
+			return acaoMouse;
 		else if (i == 2)
-			return i2;
+			return idTerritorio;
 		return -1;
 	}
 
@@ -62,13 +68,13 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		Color cor = ViewAPI.getInstance().int2color(c);
 		setCor(cor);
 
-		i1 = -1;
+		acaoMouse = -1;
 
 		notificaObservadores();
 	}
 
-	public void setI2(int _i2) {
-		i2 = _i2;
+	public void setIDTerritorio(int id) {
+		this.idTerritorio = id;
 	}
 
 	public Territorio(String _nome, int _x, int _y) {
@@ -120,7 +126,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 	public void setMarcado(boolean b) {
 		if (marcado != b) {
 			marcado = b;
-			i1 = -1;
+			acaoMouse = -1;
 			notificaObservadores();
 		}
 	}
@@ -226,7 +232,7 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 		int x = e.getX();
 		int y = e.getY();
 		if (estaEm(x, y)) {
-			i1 = 0;
+			acaoMouse = 0;
 			notificaObservadores();
 			// ViewAPI.getInstance().click(nome);
 		}
@@ -261,13 +267,13 @@ class Territorio implements ObservadoIF, ObservadorIF, MouseListener, MouseMotio
 			setOculto(true);
 			// System.out.print("Entrou\n");
 			mouseEntered(e);
-			i1 = 1;
+			acaoMouse = 1;
 			notificaObservadores();
 		} else if (!estaEm(x, y) && oculto) {
 			setOculto(false);
 			// System.out.print("Saiu\n");
 			mouseExited(e);
-			i1 = 2;
+			acaoMouse = 2;
 			notificaObservadores();
 		}
 	}

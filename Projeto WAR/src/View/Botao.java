@@ -101,12 +101,12 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		this.alt = alt;
 	}
 
-	public void setI2(int idBotao) {
+	public void setIDBotao(int idBotao) {
 		/** Metodo que define o ID do botao. */
 		this.idBotao = idBotao;
 	}
 
-	public void setI3(int idComplementarBotao) {
+	public void setIDComplementar(int idComplementarBotao) {
 		/** Metodo que define o ID complementar do botao. */
 		this.idComplementarBotao = idComplementarBotao;
 	}

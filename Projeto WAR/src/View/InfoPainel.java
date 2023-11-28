@@ -9,7 +9,7 @@ import Observer.ObservadoIF;
 import Observer.ObservadorIF;
 
 /*
- * i2 = ID do observador
+ * idObservador = ID do observador
  * 
  * i1 = -1 // ocorreu mundança na mensagem exibida
  * i1 = 0 // Mouse clicou em algum botao
@@ -28,7 +28,7 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 	private int x, y, alt, larg;
 	private Botao botoes[];
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
-	private int i1, i2, i3;
+	private int i1, idObservador, i3;
 
 	public InfoPainel(int _x, int _y, int largura, int altura) {
 		x = _x;
@@ -43,7 +43,7 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 
 		for (int i = 0; i < botoes.length; i++) {
 			botoes[i].addObservador(this);
-			botoes[i].setI2(i);
+			botoes[i].setIDBotao(i);
 			botoes[i].setClivael(false);
 		}
 
@@ -69,7 +69,7 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 		if (i == 1)
 			return i1;
 		else if (i == 2)
-			return i2;
+			return idObservador;
 		else if (i == 3)
 			return i3;
 		return -2;
@@ -103,8 +103,8 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 		}
 	}
 
-	public void setI2(int _i2) {
-		i2 = _i2;
+	public void setIDObservador(int idObservador) {
+		this.idObservador = idObservador;
 	}
 
 	private void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {

@@ -112,7 +112,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		for (int i = 0; i < bCartas.length; i++) {
 			bCartas[i] = new Botao("");
 			configBotao(bCartas[i], I2_B_CARTAS);
-			bCartas[i].setI3(i);
+			bCartas[i].setIDComplementar(i);
 			bCartas[i].setColor(0, new Color(0, 0, 0, 0));
 			bCartas[i].setColor(1, new Color(128, 128, 128, 64));
 			cartasSelecionadas[i] = false;
@@ -142,7 +142,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		configBotao(bConfirmaNovoJogo, I2_B_CONFIRMA_NOVO_JOGO);
 		configBotao(bConfirmaTroca, I2_B_CONFIRMA_TROCA);
 
-		iP.setI2(I2_INFOP);
+		iP.setIDObservador(I2_INFOP);
 	}
 
 	private void configBotao(Botao b, int i2) {
@@ -150,7 +150,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		 * Metodo que configura um botao com seu ID e como nao clicavel, adiciona um
 		 * observador, eventos de mouse.
 		 */
-		b.setI2(i2);
+		b.setIDBotao(i2);
 		b.addObservador(this);
 		addMouseListener(b);
 		addMouseMotionListener(b);
@@ -531,8 +531,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		addMouseListener(temp2);
 		addMouseMotionListener(temp2);
 
-		temp1.setI2(I2_TEMP1);
-		temp2.setI2(I2_TEMP2);
+		temp1.setIDTerritorio(I2_TEMP1);
+		temp2.setIDTerritorio(I2_TEMP2);
 	}
 
 	public void setExibeCartas(boolean b) {
@@ -1005,6 +1005,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 	}
 
 	private void exibeTelaMenuInicial(Graphics g) {
+		/** Metodo que exibe/desenha a tela de menu inicial. */
 		if (!exibeMenuInicial)
 			return;
 
