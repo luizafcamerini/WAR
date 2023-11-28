@@ -415,6 +415,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		}
 		bSalvar.draw(g);
 
+		g.setFont(fonte);
+
 		// Desenha (ou nao) as janelas do jogo:
 		exibeTelaAtaque(g);
 		exibeTelaResultadoAtaque(g);
@@ -603,9 +605,8 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		Image fundo = images.getImage("war_tabuleiro_fundo.png");
 		g.drawImage(fundo, x, y, larg, alt, null);
 
-		g2d.setFont(fonte);
-		g2d.setColor(Color.WHITE);
-		drawStr(g, "Clique em quase qualquer lugar para fechar.", getWidth() / 2, y + fAlt * 2);
+		if (!(exibeMenuInicial || exibeNovoJogo || obrigaExibeCartas))
+			drawStr(g, "Clique em quase qualquer lugar para fechar.", getWidth() / 2, y + fAlt * 2);
 
 	}
 
@@ -992,12 +993,10 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		 */
 		Font fonte_atual = g2d.getFont();
 		Font font_nova = fonte_atual.deriveFont(18f);
-		// g2d.setFont(font_nova);
 		for (String obj : descObjetivo) {
 			drawStr(g2d, obj, pos_x, pos_y, font_nova);
 			pos_y += fAlt;
 		}
-		// g2d.setFont(fonte_atual);
 	}
 
 	private void exibeTelaMenuInicial(Graphics g) {

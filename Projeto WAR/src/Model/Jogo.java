@@ -97,6 +97,7 @@ class Jogo {
 			cartasUsadas.adiciona(c);
 			iterador++;
 		}
+		iterador = iterador % jogadores.size();
 	}
 
 	private void distribuiObjetivos() {

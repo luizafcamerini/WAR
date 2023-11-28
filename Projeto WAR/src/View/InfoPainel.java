@@ -23,7 +23,7 @@ import Observer.ObservadorIF;
  * 
  */
 
-public class InfoPainel implements ObservadoIF, ObservadorIF {
+class InfoPainel implements ObservadoIF, ObservadorIF {
 	private String msg;
 	private int x, y, alt, larg;
 	private Botao botoes[];
