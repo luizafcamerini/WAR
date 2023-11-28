@@ -19,7 +19,7 @@ class Images {
 		for (File imagem : imagens) {
 			try {
 				imagensHashtable.put(imagem.getName(), ImageIO.read(imagem));
-				System.out.printf("Imagem '%s' carregada\n",imagem.getName());
+				// System.out.printf("Imagem '%s' carregada\n",imagem.getName());
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}

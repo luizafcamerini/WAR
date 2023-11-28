@@ -6,6 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import Model.ModelAPI;
+import Observer.ObservadorIF;
 import Controller.ControllerAPI;
 
 public class ViewAPI {
@@ -519,65 +520,115 @@ public class ViewAPI {
 	}
 
 	/****** Conexao com o controller ******/
-	public void proxEtapa() {
+	void proxEtapa() {
 		/** Metodo que executa/passa para a proxima etapa. */
 		control.proxEtapa();
 	}
 
-	public void ataque(String atacante, String defensor) {
+	void ataque(String atacante, String defensor) {
 		/** Metodo que realiza um ataque automatico. */
 		control.ataque(atacante, defensor);
 	}
 
-	public void ataque(String atacante, String defensor, int[][] dados) {
+	void ataque(String atacante, String defensor, int[][] dados) {
 		/** Metodo que realiza um ataque manual. */
 		control.ataque(atacante, defensor, dados);
 	}
 
-	public boolean ataca(String atacante, String defensor) {
+	boolean ataca(String atacante, String defensor) {
 		/** Metodo que verifica se a tela de ataque será exibida. */
 		return control.ataca(atacante, defensor);
 	}
 
-	public int getEtapa() {
+	int getEtapa() {
 		/** Metodo que retorna a etapa do jogo. */
 		return control.getEtapa();
 	}
 
-	public void saveState(String path) {
+	void saveState(String path) {
 		/** Metodo que salva o jogo dado um path para o arquivo txt. */
 		control.saveState(path);
 	}
 
-	public int loadGame(String path) {
+	int loadGame(String path) {
 		/** Metodo que carrega o jogo dado um path do arquivo txt existente. */
 		return control.loadGame(path);
 	}
 
-	public int loadGameAuto() {
+	int loadGameAuto() {
 		/** Metodo que carrega o jogo automaticamente. */
 		return control.loadGameAuto();
 	}
 
-	public void novoJogo(String[] nomes) {
+	void novoJogo(String[] nomes) {
 		/** Metodo que começa um novo jogo dados os nomes dos jogadores. */
 		control.novoJogo(nomes);
 	}
 
-	public void confirmaTroca(boolean[] cartasSelecionadas) {
+	void confirmaTroca(boolean[] cartasSelecionadas) {
 		/** Metodo que confirma e executa a troca de cartas. */
 		control.confirmaTroca(cartasSelecionadas);
 	}
 
-	public boolean podeTrocar() {
+	boolean podeTrocar() {
 		/**
 		 * Metodo que verifica se a etapa do jogo esta condizente com a troca de cartas.
 		 */
 		return control.podeTrocar();
 	}
-
-	public int getExeAdCartas(){
+	/********* Conexão com o model *********/
+	int getExeAdCartas(){
 		return model.getExeAdCartas();
+	}
+
+	boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
+		/** Metodo que verifica se a troca de cartas é valida. */
+		return model.verificaTrocaCartas(cartasSelecionadas);
+	}
+
+	int getCor(String territorio){
+		/** Metodo que retorna o indice da cor do dono de um territorio. */
+		return model.getCor(territorio);
+	}
+
+	int getQtdExercitos(String territorio){
+		/** Metodo que retorna a quantidade de exercitos de um territorio. Dado seu nome*/
+		return model.getQtdExercitos(territorio);
+	}
+
+	void registra(String territorio, ObservadorIF o){
+		/** Metodo que registra um observador dado um territorio e um observador. */
+		model.registra(territorio, o);
+	}
+
+	void desregistra(String territorio, ObservadorIF o){
+		/** Metodo que desregistra um observador dado um territorio e um observador. */
+		model.desregistra(territorio, o);
+	}
+
+	String getNomeJogador(int cor) {
+		/** Metodo que retorna o nome de um jogador dado sua cor. */
+		return model.getNomeJogador(cor);
+	}
+
+	String[] getCartasJogador() {
+		/** Metodo que retorna as cartas de um jogador. */
+		return model.getCartasJogador();
+	}
+
+	int getCorAtual() {
+		/** Metodo que retorna a cor do jogador atual. */
+		return model.getCorAtual();
+	}
+
+	String getImgNameObjetivo() {
+		/** Metodo que retorna o nome da imagem do objetivo. */
+		return model.getImgNameObjetivo();
+	}
+
+	String getDescricaoObjetivo() {
+		/** Metodo que retorna a descricao do objetivo. */
+		return model.getDescricaoObjetivo();
 	}
 
 }

@@ -18,13 +18,13 @@ import java.awt.font.*;
 import java.awt.Font;
 
 /*
- * i2 = ID do botão
+ * acaoBotao = 0 // Mouse clicou no botao
+ * acaoBotao = 1 // Mouse "entrou" no botao
+ * acaoBotao = 2 // Mouse "saiu" no botao
  * 
- * i1 = 0 // Mouse clicou no botao
- * i1 = 1 // Mouse "entrou" no botao
- * i1 = 2 // Mouse "saiu" no botao
+ * idBotao = ID do botão
  * 
- * i3 = ID do botão caso i2 não seja único
+ * idComplementarBotao = ID do botão caso i2 não seja único
  * 
  */
 
@@ -35,7 +35,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	private Color cores[];
 	private int cor = 0; // Indice na lista de cores do botao.
 	private boolean estavaEm = false;
-	private int i1, i2, i3;
+	private int acaoBotao, idBotao, idComplementarBotao;
 
 	// Lista de seus observadores:
 	private List<ObservadorIF> lst = new ArrayList<ObservadorIF>();
@@ -56,11 +56,11 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		 * botao (3).
 		 */
 		if (i == 1)
-			return i1;
+			return acaoBotao;
 		else if (i == 2)
-			return i2;
+			return idBotao;
 		else if (i == 3)
-			return i3;
+			return idComplementarBotao;
 		return 0;
 	}
 
@@ -101,14 +101,14 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		this.alt = alt;
 	}
 
-	public void setI2(int i2) {
+	public void setI2(int idBotao) {
 		/** Metodo que define o ID do botao. */
-		this.i2 = i2;
+		this.idBotao = idBotao;
 	}
 
-	public void setI3(int i3) {
+	public void setI3(int idComplementarBotao) {
 		/** Metodo que define o ID complementar do botao. */
-		this.i3 = i3;
+		this.idComplementarBotao = idComplementarBotao;
 	}
 
 	public void setColor(int i, Color color) {
@@ -180,7 +180,7 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 		if (estaEm(x, y)) {
-			i1 = 0;
+			acaoBotao = 0;
 			notificaObservadores();
 		}
 	}
@@ -210,12 +210,12 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		boolean dentro = estaEm(x, y);
 		if (dentro && !estavaEm) {
 			cor = 1;
-			i1 = 1;
+			acaoBotao = 1;
 			notificaObservadores();
 			estavaEm = dentro;
 		} else if (!dentro && estavaEm) {
 			cor = 0;
-			i1 = 2;
+			acaoBotao = 2;
 			notificaObservadores();
 			estavaEm = dentro;
 		}
