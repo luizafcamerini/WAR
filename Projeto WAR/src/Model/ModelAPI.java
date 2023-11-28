@@ -550,6 +550,11 @@ public class ModelAPI {
 
 	}
 
+	public int getExeAdCartas(){
+		/** Metodo que retorna a quantidade adicional de exercitos em relacao ao contador de troca */
+		return jogo.getExeAdCartas();
+	}
+
 	void entregaCartaAssassino(Jogador morto) {
 		/**
 		 * Metodo que entrega as cartas do jogador morto para o assassino (jogador
@@ -572,4 +577,5 @@ public class ModelAPI {
 		// color2int(assassino.getCor()));
 	}
 
+	
 }

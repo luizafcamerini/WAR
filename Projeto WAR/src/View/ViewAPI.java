@@ -576,4 +576,8 @@ public class ViewAPI {
 		return control.podeTrocar();
 	}
 
+	public int getExeAdCartas(){
+		return model.getExeAdCartas();
+	}
+
 }

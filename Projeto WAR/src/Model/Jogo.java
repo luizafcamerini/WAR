@@ -147,13 +147,19 @@ class Jogo {
 		}
 
 		// Calcula os exercitos adicionais pelo contador de troca:
+		int exeAd = getExeAdCartas();
+		contadorTroca++;
+		return exeAd;
+	}
+
+	public int getExeAdCartas(){
+		/** Metodo que retorna a quantidade adicional de exercitos em relacao ao contador de troca */
 		int exeAd;
 		if (contadorTroca < 6) {
 			exeAd = 2 + 2 * contadorTroca;
 		} else {
 			exeAd = 5 * (contadorTroca - 3);
 		}
-		contadorTroca++;
 		return exeAd;
 	}
 

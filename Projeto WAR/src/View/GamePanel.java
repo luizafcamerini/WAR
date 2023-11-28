@@ -936,7 +936,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 			}
 		}
 
-		drawStr(g, String.format("Próxima troca receberá %d exércitos.",2), x_centro, y_inferior - 2*fAlt);
+		drawStr(g, String.format("Próxima troca receberá %d exércitos.",view.getExeAdCartas()), x_centro, y_inferior - 2*fAlt);
 
 		if (view.podeTrocar()) {
 			bConfirmaTroca.setPos(g2d, x_centro, y_inferior - fAlt);
