@@ -2,7 +2,7 @@
 1,6
 Arábia Saudita,Angola,Alasca,Austrália,Índia,França,Nova Zelândia,China,Romênia,Texas,CORINGA,Perth,Argélia,Japão,Tailândia,Polônia,Coréia do Sul,Suécia,Ucrânia,Rússia,Espanha,Calgary,Bangladesh,Venezuela,Somalia,Irã,Brasil,Québec,Argentina,Califórnia,Peru,Nova York,Cazaquistão,Letônia,Indonésia,Jordânia,Nigéria,Mongolia,Síria,Coréia do Norte,México,Iraque,Estônia,Paquistão,CORINGA,Turquia,África do Sul,Itália,Sibéria,Egito,Reino Unido,Groelândia,Vancouver,
 ,
-THOMAS,PRETO,null
+LUIZA,VERMELHO,null
 2
 ,
 Itália,1
@@ -17,7 +17,7 @@ Mongolia,1
 Reino Unido,1
 Arábia Saudita,1
 ;
-LUIZA,VERMELHO,null
+THOMAS,PRETO,null
 7
 ,
 Alasca,1
