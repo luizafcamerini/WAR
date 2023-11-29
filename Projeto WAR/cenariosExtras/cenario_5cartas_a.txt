@@ -1,4 +1,4 @@
-0,-1,6,0
+0,-1,0,0
 1,52
 Angola,Argélia,Argentina,França,Texas,Bangladesh,Arábia Saudita,Jordânia,Iraque,Turquia,Irã,Coréia do Norte,Paquistão,Peru,Indonésia,Rússia,Ucrânia,Califórnia,Espanha,Cazaquistão,Nova York,México,Québec,CORINGA,Letônia,Romênia,Polônia,China,Perth,Síria,Mongolia,Itália,Reino Unido,Egito,Nigéria,Sibéria,Suécia,Calgary,Brasil,Somalia,Índia,Coréia do Sul,Estônia,África do Sul,
 ,
@@ -10,15 +10,11 @@ Somalia,1
 Espanha,1
 Califórnia,1
 França,1
-Reino Unido,1
-Suécia,1
 Estônia,1
 Tailândia,1
-Romênia,1
+Indonésia,1
 Jordânia,1
 Itália,1
-Ucrânia,1
-Polônia,1
 Argentina,1
 Argélia,1
 Iraque,1
@@ -28,6 +24,7 @@ IVAN,AMARELO,null
 ,
 Venezuela,1
 Nova Zelândia,1
+Romênia,1
 Coréia do Norte,1
 China,1
 Bangladesh,1
@@ -51,13 +48,16 @@ Vancouver,1
 Índia,1
 Québec,1
 Peru,1
+Reino Unido,1
 Arábia Saudita,1
 Calgary,1
+Ucrânia,1
 ;
 THOMAS,PRETO,null
 7
 Nova Zelândia,Vancouver,Venezuela,CORINGA,
 Groelândia,1
+Polônia,1
 Sibéria,1
 Angola,1
 Brasil,1
@@ -66,5 +66,6 @@ Rússia,1
 Turquia,1
 África do Sul,1
 Paquistão,1
+Suécia,1
 Alasca,1
 ;

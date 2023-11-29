@@ -101,7 +101,10 @@ public class ViewAPI {
 	}
 
 	void click(String territorio) {
-		/** Metodo que trata os click com relacao as etapas do jogo, dado um nome do territorio clicado. */
+		/**
+		 * Metodo que trata os click com relacao as etapas do jogo, dado um nome do
+		 * territorio clicado.
+		 */
 		if (DEBUG)
 			System.out.printf("input = %s\n", territorio == null ? "null" : territorio);
 		if (DEBUG)
@@ -439,8 +442,7 @@ public class ViewAPI {
 			}
 			gP.conquista();
 			somConquista.play();
-		}
-		else {
+		} else {
 			somAtaque.play();
 			gP.resultadoAtaque();
 		}
@@ -576,8 +578,9 @@ public class ViewAPI {
 		 */
 		return control.podeTrocar();
 	}
+
 	/********* Conexão com o model *********/
-	int getExeAdCartas(){
+	int getExeAdCartas() {
 		return model.getExeAdCartas();
 	}
 
@@ -586,22 +589,24 @@ public class ViewAPI {
 		return model.verificaTrocaCartas(cartasSelecionadas);
 	}
 
-	int getCor(String territorio){
+	int getCor(String territorio) {
 		/** Metodo que retorna o indice da cor do dono de um territorio. */
 		return model.getCor(territorio);
 	}
 
-	int getQtdExercitos(String territorio){
-		/** Metodo que retorna a quantidade de exercitos de um territorio. Dado seu nome*/
+	int getQtdExercitos(String territorio) {
+		/**
+		 * Metodo que retorna a quantidade de exercitos de um territorio. Dado seu nome
+		 */
 		return model.getQtdExercitos(territorio);
 	}
 
-	void registra(String territorio, ObservadorIF o){
+	void registra(String territorio, ObservadorIF o) {
 		/** Metodo que registra um observador dado um territorio e um observador. */
 		model.registra(territorio, o);
 	}
 
-	void desregistra(String territorio, ObservadorIF o){
+	void desregistra(String territorio, ObservadorIF o) {
 		/** Metodo que desregistra um observador dado um territorio e um observador. */
 		model.desregistra(territorio, o);
 	}

@@ -41,20 +41,20 @@ public class ContinenteTest {
 	}
 
 	@Test(timeout = TIMEOUT)
-    public void testPertence() {
-        Jogador jogador1 = new Jogador(Cores.VERMELHO, "Thomas");
-        Jogador jogador2 = new Jogador(Cores.BRANCO, "Luiza");
-        Territorio territorio1 = new Territorio("TerraSemLei1");
-        Territorio territorio2 = new Territorio("TerraSemLei2");
-        Continente continente = new Continente("Antártida", 2);
-        continente.addTerritorio(territorio1);
-        continente.addTerritorio(territorio2);
-        territorio1.trocaDono(jogador1);
-        territorio2.trocaDono(jogador2);
-        assertFalse(continente.pertence(jogador1));
-        territorio2.trocaDono(jogador1);
-        assertTrue(continente.pertence(jogador1));
-        territorio2.trocaDono(jogador2);
-        assertFalse(continente.pertence(jogador1));
-    }
+	public void testPertence() {
+		Jogador jogador1 = new Jogador(Cores.VERMELHO, "Thomas");
+		Jogador jogador2 = new Jogador(Cores.BRANCO, "Luiza");
+		Territorio territorio1 = new Territorio("TerraSemLei1");
+		Territorio territorio2 = new Territorio("TerraSemLei2");
+		Continente continente = new Continente("Antártida", 2);
+		continente.addTerritorio(territorio1);
+		continente.addTerritorio(territorio2);
+		territorio1.trocaDono(jogador1);
+		territorio2.trocaDono(jogador2);
+		assertFalse(continente.pertence(jogador1));
+		territorio2.trocaDono(jogador1);
+		assertTrue(continente.pertence(jogador1));
+		territorio2.trocaDono(jogador2);
+		assertFalse(continente.pertence(jogador1));
+	}
 }

@@ -23,22 +23,35 @@ Roteiro Video 4° iteracao
 
 1b 
     i.  Conquistar, na totalidade, a África e a Ásia; Objetivo 8
+        cenario_asia_africa.txt - "LUIZA" (VERMELHO)
     
 
     ii.  Conquistar  18  territórios  e  ocupar  cada  um  deles  com  pelo  menos  2  
-    exércitos; Objetivo 14 (falta terminar)
-    Dica: Deixar para realizar a conquista do objetivo durante o deslocamento
-
+    exércitos; Objetivo 14
+        cenario_18_territorios.txt - "IVAN" (AMARELO)
+            Opção 1: Conquistar durante a etapa de ataque
+            Opção 2: Deixar para realizar a conquista do objetivo durante o deslocamento
 
     iii.  Conquistar 24 territórios à sua escolha; Objetivo 7
+        cenario_24_territorios.txt - "THOMAS" (PRETO)
     
- 
     iv.  Destruir totalmente os exércitos verdes; Objetivo 6
-
+        cenario_destruir_verdes.txt - "IVAN" (AMARELO)
 
     v.  Conquistar 24 territórios à sua escolha, como alternativa à destruição total 
 dos exércitos verde; Objetivo 6
+        cenario_destruir_verdes_24_a.txt - "JERONIMO" (VERDE)
+        cenario_destruir_verdes_24_b.txt - "LUIZA" (VERMEHO)
+        cenario_destruir_verdes_24_c.txt - "LUIZA" (VERMEHO)
+            Observação, verificar o recebimento de cartas do oponente eliminado.
 
+
+Cenários extras:
+    cenario_5cartas_a.txt
+        Após cada troca, observar o aumento da quantidade de exércitos da troca seguinte
+    cenario_5cartas_b.txt
+        Após cada troca, observar o aumento da quantidade de exércitos da troca seguinte
+        
 
 1c
     . Término de uma partida pelo fechamento da janela do tabuleiro. 

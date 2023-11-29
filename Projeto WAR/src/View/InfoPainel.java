@@ -31,8 +31,6 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 	private int acaoMouse, idObservador, indexBotaoClicado;
 	private final int MUDANCA_MSG = -1;
 	private final int CLICK_BOTAO = 0;
-	private final int ENTROU_BOTAO = 1;
-	private final int SAIU_BOTAO = 2;
 
 	public InfoPainel(int x, int y, int largura, int altura) {
 		/** Construtor que cria os botoes do InfoPanel e os configura. */
@@ -106,9 +104,9 @@ class InfoPainel implements ObservadoIF, ObservadorIF {
 		notificaObservadores();
 	}
 
-	public void setClivael(boolean b){
+	public void setClivael(boolean b) {
 		/** Metodo define se os botoes do InfoPainel estao clicaveis ou nao. */
-		for(Botao botao : botoes){
+		for (Botao botao : botoes) {
 			botao.setClivael(b);
 		}
 	}

@@ -1,9 +1,9 @@
-0,-1,6,0
-1,52
+0,-1,0,0
+1,6
 Angola,Argélia,Argentina,Texas,França,Bangladesh,Arábia Saudita,Alasca,Tailândia,Nova Zelândia,Vancouver,Venezuela,Groelândia,Japão,Austrália,Jordânia,Iraque,Turquia,Irã,Coréia do Norte,Paquistão,Peru,Indonésia,Rússia,Ucrânia,Califórnia,Espanha,Cazaquistão,CORINGA,Nova York,México,Québec,CORINGA,Letônia,Romênia,Polônia,China,Perth,Síria,Mongolia,Itália,Reino Unido,Egito,Nigéria,Sibéria,Suécia,Calgary,Brasil,Somalia,Índia,Coréia do Sul,Estônia,África do Sul,
 ,
 LUIZA,VERMELHO,null
-12
+2
 ,
 Mongolia,1
 Somalia,1
@@ -12,32 +12,36 @@ Califórnia,1
 Jordânia,1
 Itália,1
 Argentina,1
+Coréia do Norte,1
 Argélia,1
 Iraque,1
 ;
 IVAN,AMARELO,null
-2
+14
 ,
-Venezuela,1
-Nova Zelândia,1
-Romênia,1
-Coréia do Norte,1
+Venezuela,2
+Romênia,3
+Nova Zelândia,4
+Angola,5
+França,2
+Estônia,3
+Tailândia,1
 China,1
 Bangladesh,1
 Coréia do Sul,1
-Irã,1
+Irã,2
 Egito,1
-Texas,1
-Síria,1
-Letônia,1
-Perth,1
+Texas,3
+Síria,2
+Austrália,1
+Letônia,2
 ;
 JERONIMO,VERDE,null
-14
+13
 ,
 Nova York,1
 Nigéria,1
-Austrália,1
+Perth,2
 México,1
 Japão,1
 Vancouver,1
@@ -55,10 +59,6 @@ THOMAS,PRETO,null
 Groelândia,1
 Polônia,1
 Sibéria,1
-Angola,1
-França,1
-Estônia,1
-Tailândia,1
 Indonésia,1
 Brasil,1
 Cazaquistão,1

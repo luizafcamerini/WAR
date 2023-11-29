@@ -564,6 +564,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 
 		temp1.setIDTerritorio(I2_TEMP1);
 		temp2.setIDTerritorio(I2_TEMP2);
+		repaint();
 	}
 
 	public void setExibeCartas(boolean b) {
