@@ -340,11 +340,6 @@ public class ControllerAPI {
 		return (etapa == 0) && (iCont == -1);
 	}
 
-	public boolean verificaTrocaCartas(boolean[] cartasSelecionadas) {
-		/** Metodo que verifica as condicoes de troca de cartas. */
-		return model.verificaTrocaCartas(cartasSelecionadas);
-	}
-
 	public void confirmaTroca(boolean[] cartasSelecionadas) {
 		/** Metodo que confirma e executa a troca de cartas. */
 		qtdExeAd += model.trocaCartas(cartasSelecionadas);

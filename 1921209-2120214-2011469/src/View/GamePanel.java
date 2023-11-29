@@ -331,7 +331,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 					}
 					if (count >= 3) {
 						view.novoJogo(nomes);
-						// bConfirmaNovoJogo.setClivael(false);
+						bConfirmaNovoJogo.setClivael(false);
 						exibeNovoJogo = false;
 						limpaJanela();
 						inicio = false;
@@ -655,7 +655,7 @@ class GamePanel extends JPanel implements MouseListener, ObservadorIF {
 		bIniciar.setClivael(false);
 		bCarregar.setClivael(false);
 		bCarregarAuto.setClivael(false);
-		bConfirmaNovoJogo.setClivael(false);
+		// bConfirmaNovoJogo.setClivael(false);
 		bConfirmaTroca.setClivael(false);
 
 		bSalvar.setClivael(true);
