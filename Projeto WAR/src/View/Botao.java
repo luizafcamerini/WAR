@@ -22,7 +22,8 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 	private String text;
 	private boolean clicavel = true;
 	private Color cores[];
-	/** cores[0] = cor do botao ativado
+	/**
+	 * cores[0] = cor do botao ativado
 	 * cores[1] = cor do botao com o mouse em cima
 	 * cores[2] = cor do botao desativado
 	 */
@@ -205,38 +206,24 @@ class Botao implements ObservadoIF, MouseListener, MouseMotionListener {
 		int y = e.getY();
 		boolean dentro = estaEm(x, y);
 		if (dentro && !estavaEm) {
-			if(idBotao==12){
-				// System.out.printf("%s %s\n",dentro?"true":"false",estavaEm?"true":"false");
-			}
 			cor = 1;
 			acaoBotao = ENTROU_BOTAO;
 			notificaObservadores();
 			estavaEm = dentro;
 
-
 		} else if (!dentro && estavaEm) {
-			if(idBotao==12){
-				// System.out.printf("%s %s\n",dentro?"true":"false",estavaEm?"true":"false");
-			}
 			cor = 0;
 			acaoBotao = SAIU_BOTAO;
 			notificaObservadores();
 			estavaEm = dentro;
-			
-
 		}
-
-
-		if(idBotao==12){
-			System.out.printf("%s do botao\n",dentro?"dentro":"fora");
-			System.out.printf("%s %s\n",dentro?"true":"false",estavaEm?"true":"false");
-		}
-
-
 	}
 
 	public boolean atualiza(Graphics g, int _x, int _y) {
-		/** Metodo que retorna se o mouse esta em cima ou nao, e muda a cor. */
+		/**
+		 * Metodo que recebe as coordenadas da posição do mouse, atualiza a cor do botão
+		 * e retorna se o mouse está em cima ou nao.
+		 */
 		int dx = _x - x;
 		int dy = _y - y;
 		if (dx > 0 && dx < larg && dy > 0 && dy < alt) {

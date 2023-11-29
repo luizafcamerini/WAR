@@ -1,17 +1,17 @@
-0,-1,10,0
-2,53
+0,-1,6,0
+1,53
 Angola,Argélia,Argentina,França,Texas,Bangladesh,Arábia Saudita,Jordânia,Iraque,Turquia,Irã,Coréia do Norte,Paquistão,Peru,Indonésia,Rússia,Ucrânia,Califórnia,Espanha,Cazaquistão,Nova York,México,Québec,CORINGA,Letônia,Romênia,Polônia,China,Perth,Síria,Mongolia,Itália,Reino Unido,Egito,Nigéria,Sibéria,Suécia,Calgary,Brasil,Somalia,Índia,Coréia do Sul,Estônia,
-Austrália,Tailândia,Alasca,
+,
 LUIZA,VERMELHO,null
 12
-Groelândia,Japão,
+Alasca,Tailândia,Groelândia,Japão,Austrália,
 Mongolia,1
 Somalia,1
 Espanha,1
 Califórnia,1
 França,1
 Estônia,1
-Tailândia,3
+Tailândia,1
 Indonésia,1
 Jordânia,1
 Itália,1
@@ -32,7 +32,7 @@ Coréia do Sul,1
 Irã,1
 Egito,1
 Texas,1
-Síria,1
+Letônia,1
 Perth,1
 ;
 JERONIMO,VERDE,null
@@ -67,5 +67,5 @@ Turquia,6
 Paquistão,1
 Suécia,1
 Alasca,1
-Letônia,1
+Síria,1
 ;
