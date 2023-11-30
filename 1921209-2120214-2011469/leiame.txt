@@ -3,7 +3,7 @@ Luíza Ferreira Camerini 2120214
 Thomas de Mello Oliva 2011469
 Jerônimo Augusto Soares 1921209
 
-O método main se encontra na classe ControllerAPI.java, do pacote src/Controller, linha 366.
+O método main em Main.java no pacote default.
 
 Link para os vídeos:
 https://drive.google.com/drive/folders/1WEZRvBi1v-t_3LV9Zv-Y4QzxRSM7hbTB?usp=sharing
